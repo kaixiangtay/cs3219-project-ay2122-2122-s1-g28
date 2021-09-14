@@ -1,0 +1,45 @@
+.paperStyle {
+    padding: 10%;
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+
+.textWidth {
+    width:100%;
+}
+
+.rowGap {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.buttonGap {
+    margin-top: 2%;
+}
+
+.loginButton {
+    color: #FFFFFF;
+    background-color: #D288A2;
+    height: 50px;
+    width:100%;
+}
+
+.loginButton:hover {
+    background-color: #D288A2;
+    opacity: 80%;
+}
+
+.signUpButton {
+    color: #415A77;
+    background-color: #FFFFFF;
+    height: 50px;
+    width:100%;
+}
+
+.signUpButton:hover {
+    background-color: #FFFFFF;
+    opacity: 80%;
+}
+
+
+
