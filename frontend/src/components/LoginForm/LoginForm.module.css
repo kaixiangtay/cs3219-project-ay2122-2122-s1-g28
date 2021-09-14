@@ -14,31 +14,31 @@
 }
 
 .buttonGap {
-    margin-top: 2%;
+    margin-top: 2% !important;
 }
 
 .loginButton {
-    color: #FFFFFF;
-    background-color: #D288A2;
-    height: 50px;
-    width:100%;
+    color: #FFFFFF !important;
+    background-color: #D288A2 !important;
+    height: 50px !important;
+    width:100% !important;
 }
 
 .loginButton:hover {
-    background-color: #D288A2;
-    opacity: 80%;
+    background-color: #D288A2 !important;
+    opacity: 80% !important;
 }
 
 .signUpButton {
-    color: #415A77;
-    background-color: #FFFFFF;
-    height: 50px;
-    width:100%;
+    color: #415A77 !important;
+    background-color: #FFFFFF !important;
+    height: 50px !important;
+    width:100% !important;
 }
 
 .signUpButton:hover {
-    background-color: #FFFFFF;
-    opacity: 80%;
+    background-color: #FFFFFF !important;
+    opacity: 80% !important;
 }
 
 
