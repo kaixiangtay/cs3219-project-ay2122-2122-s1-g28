@@ -1,2 +1,8 @@
-# cs3219-project-ay2122-2122-s1-g28
-cs3219-project-ay2122-2122-s1-g28 created by GitHub Classroom
+# NUSociaLife
+NUSociaLife is a social media platform for NUS students to meet new friends and communicate with one another.
+
+## Features: 
+- Match with new friends by interest
+- Real time chat
+- Real time video call
+- Forum
