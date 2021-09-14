@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 
 //Components
 import LoginForm from '../../components/LoginForm/LoginForm.js';
+import Navbar from '../../components/Navbar/Navbar.js';
 
 //CSS
 import styles from './Login.module.css';
@@ -17,6 +18,7 @@ import RandomScribble from '../../resources/RandomScribble.png';
 function Login() {
     return (
         <div>
+            <Navbar/>
             <Container>
                 <Grid container 
                     alignItems="center"
