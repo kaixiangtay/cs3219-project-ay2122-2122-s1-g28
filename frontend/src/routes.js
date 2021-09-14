@@ -2,7 +2,7 @@
 import { Route, Switch } from "react-router-dom";
 
 // Import pages 
-import Login from "./pages/Login";
+import Login from './pages/Login/Login.js';
 
 const Routes = () => {
   return (
