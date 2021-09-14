@@ -21,7 +21,7 @@ function LoginForm() {
                     </Grid>
                     <Grid>
                         <h3>Password:</h3>
-                        <TextField variant="outlined" className={styles.textWidth}/>
+                        <TextField variant="outlined" type="password" className={styles.textWidth}/>
                     </Grid>
                     <Grid className={styles.rowGap}>
                         <Button variant="contained" className={`${styles.buttonGap} ${styles.loginButton}`}>
