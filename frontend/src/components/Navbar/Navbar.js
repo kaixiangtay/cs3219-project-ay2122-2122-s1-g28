@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 //Material-ui
 import AppBar from '@material-ui/core/AppBar';
@@ -18,6 +18,7 @@ import styles from './Navbar.module.css';
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Navbar_Icon.png';
 
 function Navbar() {
+    const [selection, setSelection] = useState('Match')
 
     const navItems = [
         {
@@ -42,12 +43,12 @@ function Navbar() {
         <AppBar position="static" className={styles.navColor}>
             <Container>
             <Toolbar>
-                <IconButton color="inherit">
+                <IconButton color='inherit'>
                     <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo} className={styles.logo}/>
                 </IconButton> 
                 <div className={styles.nav}>
                     {navItems.map((item) => (
-                        <IconButton color="inherit">
+                        <IconButton color='inherit' className={selection === item.title ? styles.selected : null} onClick={() => setSelection(item.title)}>
                             <div className={styles.navIcon}>
                                 <FontAwesomeIcon icon={item.icon} />
                                 <h6 className={styles.titleSpacing}>{item.title}</h6>
