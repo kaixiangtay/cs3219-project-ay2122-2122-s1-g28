@@ -18,7 +18,8 @@ function Login() {
     return (
         <div>
             <Container>
-                <Grid container 
+                <Grid 
+                    container 
                     alignItems="center"
                     justifyContent="center"
                     className={styles.verticalCenter}
