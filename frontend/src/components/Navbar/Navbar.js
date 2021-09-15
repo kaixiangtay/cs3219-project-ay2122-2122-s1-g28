@@ -48,7 +48,7 @@ function Navbar() {
                 </IconButton> 
                 <div className={styles.nav}>
                     {navItems.map((item) => (
-                        <IconButton color='inherit' className={selection === item.title ? styles.selected : null} onClick={() => setSelection(item.title)}>
+                        <IconButton key={item.title} color='inherit' className={selection === item.title ? styles.selected : null} onClick={() => setSelection(item.title)}>
                             <div className={styles.navIcon}>
                                 <FontAwesomeIcon icon={item.icon} />
                                 <h6 className={styles.titleSpacing}>{item.title}</h6>
