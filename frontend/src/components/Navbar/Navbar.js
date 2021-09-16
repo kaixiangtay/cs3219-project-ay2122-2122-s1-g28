@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 
 //FontAwesome
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { faCommentAlt, faUserCircle } from '@fortawesome/free-regular-svg-icons';
 

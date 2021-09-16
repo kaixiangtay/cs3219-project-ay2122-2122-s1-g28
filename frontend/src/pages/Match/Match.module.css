@@ -1,0 +1,20 @@
+.allFont {
+    color: #FFFFFF;
+}
+
+.buttonGroup {
+    text-align: center;
+    padding: 5%;
+}
+
+.matchAnyone {
+    color: #FFFFFF !important;
+    background-color: #D288A2 !important;
+    width: 250px;
+}
+
+.matchByInterest {
+    color: #FFFFFF !important;
+    background-color: #FEAB4F !important;
+    width: 250px;
+}

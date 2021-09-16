@@ -1,0 +1,16 @@
+.div {
+    border: solid #FFFFFF;
+    border-radius: 25px;
+    padding: 5%;
+    text-align:center;
+}
+
+.button {
+    background-color: #FFFFFF !important;
+    margin: 1% !important;
+}
+
+.button:hover {
+    background-color: #F9AB55 !important;
+    margin: 1% !important;
+}
