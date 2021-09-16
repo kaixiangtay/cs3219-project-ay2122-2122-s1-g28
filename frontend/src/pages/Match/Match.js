@@ -33,6 +33,7 @@ function Match() {
                     container 
                     spacing={2} 
                     alignItems='center'
+                    justifyContent='center'
                 >
                     <Grid item md={4}>
                         <MatchInterest title={'Gender'} items={gender}/>
@@ -49,25 +50,9 @@ function Match() {
                     <Grid item md={6}>
                         <MatchInterest title={'Faculty'} items={faculty}/>
                     </Grid>
-                    <Grid 
-                        container 
-                        item 
-                        md={12} 
-                        direction='column' 
-                        spacing={3}
-                        className={styles.buttonGroup} 
-                    >
-                        <Grid item>
-                            <Button variant="contained" className={styles.matchAnyone}>
-                                Match Anyone
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" className={styles.matchByInterest}>
-                                Match by interest
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    <Button variant="contained" className={styles.matchButton}>
+                        Match
+                    </Button>
                 </Grid>
             </Container>
         </div>

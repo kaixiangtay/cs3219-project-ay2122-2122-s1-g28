@@ -1,16 +1,17 @@
 .div {
     border: solid #FFFFFF;
     border-radius: 25px;
-    padding: 5%;
+    padding-bottom: 5%;
     text-align:center;
 }
 
-.button {
+.buttonUnselected {
     background-color: #FFFFFF !important;
     margin: 1% !important;
 }
 
-.button:hover {
+.buttonSelected {
+    color: #FFFFFF !important;
     background-color: #F9AB55 !important;
     margin: 1% !important;
 }
