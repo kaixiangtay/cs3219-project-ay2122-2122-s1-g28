@@ -1,5 +1,5 @@
-const { registerUserValidator } = require('../validators/userValidator')
-const { validationResult } = require('express-validator')
+const { resultsValidator, registerUserValidator } = require('../validators/userValidator')
+const { validationResult, check } = require('express-validator')
 let User = require("../models/userModel");
 
 exports.index = function (req, res) {
