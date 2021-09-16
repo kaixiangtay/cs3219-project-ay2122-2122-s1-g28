@@ -23,7 +23,7 @@ function Navbar() {
     const navItems = [
         {
             icon: faUserFriends,
-            title: 'Match'
+            title: 'Find Friends'
         },
         {
             icon: faCommentAlt,
@@ -47,14 +47,16 @@ function Navbar() {
                     <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo} className={styles.logo}/>
                 </IconButton> 
                 <div className={styles.nav}>
-                    {navItems.map((item) => (
-                        <IconButton key={item.title} color='inherit' className={selection === item.title ? styles.selected : null} onClick={() => setSelection(item.title)}>
-                            <div className={styles.navIcon}>
-                                <FontAwesomeIcon icon={item.icon} />
-                                <h6 className={styles.titleSpacing}>{item.title}</h6>
-                            </div>
-                        </IconButton>
-                    ))}
+                    {
+                        navItems.map((item) => (
+                            <IconButton key={item.title} color='inherit' className={selection === item.title ? styles.selected : null} onClick={() => setSelection(item.title)}>
+                                <div className={styles.navIcon}>
+                                    <FontAwesomeIcon icon={item.icon} />
+                                    <h6 className={styles.titleSpacing}>{item.title}</h6>
+                                </div>
+                            </IconButton>
+                        ))
+                    }
                 </div>
             </Toolbar>
             </Container>

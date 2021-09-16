@@ -16,17 +16,17 @@ import MatchInterest from '../../components/MatchInterest/MatchInterest.js';
 import PageTitle from '../../components/PageTitle/PageTitle.js';
 
 //CSS
-import styles from './Match.module.css';
+import styles from './FindFriends.module.css';
 
-function Match() {
+function FindFriends() {
+    const [loading, setLoading] = useState(false);
+
     //Match Interests
     const gender = ['Male', 'Female'];
     const sport = ['Running', 'Basketball', 'Soccer', 'Badminton', 'Swimming', 'Squash', 'Volleyball', 'Floorball', 'Table Tennis', 'Frisbee', 'Handball', 'Tennis'];
     const art = ['Photography', 'Videography', 'Drawing', 'Painting'];
     const music = ['Pop', 'Jazz', 'Rock', 'EDM', 'Lofi', 'Disco'];
     const faculty = ['Engineering', 'Computing', 'Science', 'Business', 'Law', 'Dentistry', 'Music', 'Medicine', 'Design & Environment', 'Arts & Social Science'];
-
-    const [loading, setLoading] = useState(false);
 
     const handleMatch = () => {
         if (loading) {
@@ -45,7 +45,7 @@ function Match() {
                 justifyContent='center'
             >
                 <Grid item md={12} className={styles.centerText}>
-                    <PageTitle title={'Match'} icon={faUserFriends}/>
+                    <PageTitle title={'Find Friends'} icon={faUserFriends}/>
                     <h2>We are finding a new friend for you, give us some time!</h2>
                     <CircularProgress color="inherit" className={styles.spinner} size={300}/>
                 </Grid>
@@ -66,7 +66,7 @@ function Match() {
                 justifyContent='center'
             >
                 <Grid item md={12} className={styles.centerText}>
-                    <PageTitle title={'Match'} icon={faUserFriends}/>
+                    <PageTitle title={'Find Friends'} icon={faUserFriends}/>
                     <h2>Choose your match requirements:</h2>
                 </Grid>
                 <Grid item md={4}>
@@ -104,4 +104,4 @@ function Match() {
     )
 }
 
-export default Match;
+export default FindFriends;
