@@ -25,7 +25,7 @@ function MatchInterest({title, items}) {
             </Grid>
             {
                 items.map((item) => (
-                    <Button variant="contained" className={selection.includes(item) ? styles.buttonSelected : styles.buttonUnselected} onClick={() => handleSelection(item)}>
+                    <Button key={item} variant="contained" className={selection.includes(item) ? styles.buttonSelected : styles.buttonUnselected} onClick={() => handleSelection(item)}>
                         {item}
                     </Button>
                 ))

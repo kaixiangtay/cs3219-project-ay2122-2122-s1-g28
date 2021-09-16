@@ -2,9 +2,24 @@
     color: #FFFFFF;
 }
 
+.centerText {
+    text-align: center;
+}
+
 .matchButton {
     color: #FFFFFF !important;
     background-color: #D288A2 !important;
     width: 250px;
     margin: 3% !important;
+}
+
+.cancelMatchButton {
+    color: #FFFFFF !important;
+    background-color: #FF5252 !important;
+    width: 250px;
+    margin: 3% !important;
+}
+
+.spinner {
+    margin: 5%;
 }
