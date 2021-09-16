@@ -7,7 +7,21 @@ var UserSchema = mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
+    required: true,
   },
+  password: {
+    type: String,
+  },
+  status: {
+    type: String,
+    default: "Pending",
+  },
+  dateCreated: {
+    type: Date,
+    default: Date.now(),
+  },
+
 });
 
 var User = mongoose.model("User", UserSchema);

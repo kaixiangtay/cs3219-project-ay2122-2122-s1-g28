@@ -1,4 +1,5 @@
 var router = require('express').Router();
+var userController = require('../controllers/userController');
 
 router.get('/', function (req, res) {
     res.json({
@@ -7,16 +8,14 @@ router.get('/', function (req, res) {
     });
 });
 
-var userController = require('../controllers/userController')
-
 router.route('/users')
     .get(userController.index)
-    .post(userController.new)
+    .post(userController.registerUser)
 
 router.route('/users/:user_id')
-    .get(userController.view)
-    .put(userController.update)
-    .delete(userController.delete)
+    .get(userController.viewAllUsers)
+    .put(userController.updateUser)
+    .delete(userController.deleteUser)
 
 module.exports = router; 
 
