@@ -4,6 +4,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
 
 //FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
@@ -50,9 +51,14 @@ function Match() {
                     <Grid item md={6}>
                         <MatchInterest title={'Faculty'} items={faculty}/>
                     </Grid>
-                    <Button variant="contained" className={styles.matchButton}>
-                        Match
-                    </Button>
+                    <Tooltip 
+                        title={<h2>Note: You will be matched with anyone if no interest is selected.</h2>}
+                        className={null}
+                    >
+                        <Button variant="contained" className={styles.matchButton}>
+                            Match
+                        </Button>
+                    </Tooltip>
                 </Grid>
             </Container>
         </div>
