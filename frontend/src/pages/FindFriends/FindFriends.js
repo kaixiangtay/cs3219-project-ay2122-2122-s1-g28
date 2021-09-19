@@ -15,18 +15,20 @@ import Navbar from '../../components/Navbar/Navbar.js';
 import MatchInterest from '../../components/MatchInterest/MatchInterest.js';
 import PageTitle from '../../components/PageTitle/PageTitle.js';
 
+//Constants 
+import {
+    gender,
+    sports,
+    art,
+    music,
+    faculty
+} from '../../constants/FindFriendsConstants'
+
 //CSS
 import styles from './FindFriends.module.css';
 
 function FindFriends() {
     const [loading, setLoading] = useState(false);
-
-    //Match Interests
-    const gender = ['Male', 'Female'];
-    const sport = ['Running', 'Basketball', 'Soccer', 'Badminton', 'Swimming', 'Squash', 'Volleyball', 'Floorball', 'Table Tennis', 'Frisbee', 'Handball', 'Tennis'];
-    const art = ['Photography', 'Videography', 'Drawing', 'Painting'];
-    const music = ['Pop', 'Jazz', 'Rock', 'EDM', 'Lofi', 'Disco'];
-    const faculty = ['Engineering', 'Computing', 'Science', 'Business', 'Law', 'Dentistry', 'Music', 'Medicine', 'Design & Environment', 'Arts & Social Science'];
 
     const handleMatch = () => {
         if (loading) {
@@ -79,7 +81,7 @@ function FindFriends() {
                     <MatchInterest title={'Music'} items={music}/>
                 </Grid>
                 <Grid item md={6}>
-                    <MatchInterest title={'Sport'} items={sport}/>
+                    <MatchInterest title={'Sports'} items={sports}/>
                 </Grid>
                 <Grid item md={6}>
                     <MatchInterest title={'Faculty'} items={faculty}/>
