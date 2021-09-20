@@ -1,5 +1,5 @@
 // Match Interests 
-export const gender= ['Male', 'Female']
+export const gender = ['Male', 'Female']
 
 export const sports = ['Running', 'Basketball', 'Soccer', 'Badminton', 'Swimming', 'Squash', 'Volleyball', 'Floorball', 'Table Tennis', 'Frisbee', 'Handball', 'Tennis'];
 
