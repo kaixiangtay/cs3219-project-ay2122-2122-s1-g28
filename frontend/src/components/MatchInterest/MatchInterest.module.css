@@ -1,0 +1,17 @@
+.div {
+    border: solid #FFFFFF;
+    border-radius: 25px;
+    padding-bottom: 5%;
+    text-align:center;
+}
+
+.buttonUnselected {
+    background-color: #FFFFFF !important;
+    margin: 1% !important;
+}
+
+.buttonSelected {
+    color: #FFFFFF !important;
+    background-color: #F9AB55 !important;
+    margin: 1% !important;
+}

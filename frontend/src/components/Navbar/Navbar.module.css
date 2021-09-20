@@ -1,0 +1,28 @@
+.navColor {
+    background-color: #1B263B!important;
+}
+
+.nav {
+    position:absolute;
+    right: 0%;
+}
+
+.navIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titleSpacing {
+    padding: 0px;
+    margin: 0px;
+    font-size: small;
+}
+
+.selected {
+    text-decoration: underline!important;
+}
+
+.logo {
+    height: 100%;
+}
