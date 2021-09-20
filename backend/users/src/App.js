@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+const { port } = require('./config/config')
 const Router = require("./routes/userRoutes")
 
 const app = express();
@@ -22,8 +23,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Setup server port
-var port = process.env.PORT || 3000;
+// // Setup server port
+// var port = process.env.PORT;
 
 app.listen(port, err => {
 	if (err) {
