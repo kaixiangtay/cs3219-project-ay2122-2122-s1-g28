@@ -10,6 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 //Components
+import Chat from '../../components/Chat/Chat.js';
 import Navbar from '../../components/Navbar/Navbar.js';
 import MatchInterest from '../../components/MatchInterest/MatchInterest.js';
 import PageTitle from '../../components/PageTitle/PageTitle.js';
@@ -21,24 +22,23 @@ import {
     SPORT,
     ART,
     MUSIC,
-    FACULTY
+    FACULTY,
+    UNMATCHED,
+    LOADING,
+    MATCHED
 } from '../../constants/FindFriendsConstants'
 
 //CSS
 import styles from './FindFriends.module.css';
 
 function FindFriends() {
-    const [loading, setLoading] = useState(false);
+    const [matchState, setMatchState] = useState(UNMATCHED);
 
-    const handleMatch = () => {
-        if (loading) {
-            setLoading(false);
-        } else {
-            setLoading(true);
-        }
+    const handleMatchState = (state) => {
+        setMatchState(state)
     }
-    
-    const matchJsx = (
+
+    const findFriendsJsx = (
         <Container className={styles.allFont}>
             <Grid 
                 container 
@@ -60,7 +60,7 @@ function FindFriends() {
                     <MatchInterest title={'Music'} items={MUSIC}/>
                 </Grid>
                 <Grid item md={6}>
-                    <MatchInterest title={'Sports'} items={SPORT}/>
+                    <MatchInterest title={'Sport'} items={SPORT}/>
                 </Grid>
                 <Grid item md={6}>
                     <MatchInterest title={'Faculty'} items={FACULTY}/>
@@ -69,7 +69,7 @@ function FindFriends() {
                     title={<h2>Note: You will be matched with anyone if no interest is selected.</h2>}
                     className={null}
                 >
-                    <Button variant="contained" className={styles.matchButton} onClick={() => handleMatch()}>
+                    <Button variant="contained" className={styles.matchButton} onClick={() => handleMatchState(LOADING)}>
                         Match
                     </Button>
                 </Tooltip>
@@ -80,7 +80,15 @@ function FindFriends() {
     return (
         <div>
             <Navbar/>
-            {loading ? <SearchMatch setLoading={setLoading}/> : matchJsx}
+            {   
+                matchState === UNMATCHED 
+                    ? findFriendsJsx
+                    : matchState === LOADING 
+                        ? <SearchMatch handleMatchState={handleMatchState}/>
+                        : matchState === MATCHED
+                            ? <Chat handleMatchState={handleMatchState}/>
+                            : null
+            }
         </div>
     )
 }

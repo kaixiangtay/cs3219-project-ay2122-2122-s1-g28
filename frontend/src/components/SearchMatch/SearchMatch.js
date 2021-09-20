@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 //Material-ui
 import Button from '@material-ui/core/Button';
@@ -12,10 +12,21 @@ import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 //Components
 import PageTitle from '../PageTitle/PageTitle.js';
 
+//Constants 
+import { UNMATCHED, MATCHED } from '../../constants/FindFriendsConstants'
+
 //CSS
 import styles from './SearchMatch.module.css';
 
-function SearchMatch({ setLoading }) {
+function SearchMatch({ handleMatchState }) {
+
+    //Simulate successful matching of user after 3s for testing purpose
+    useEffect(() => {
+        setTimeout(() => {
+            handleMatchState(MATCHED)
+        }, 3000);
+    }, [handleMatchState])
+
     return (
         <Container className={styles.allFont}>
             <Grid 
@@ -29,7 +40,7 @@ function SearchMatch({ setLoading }) {
                     <h2>We are finding a new friend for you, give us some time!</h2>
                     <CircularProgress color="inherit" className={styles.spinner} size={300}/>
                 </Grid>
-                <Button variant="contained" className={styles.cancelMatchButton} onClick={() => setLoading(false)}>
+                <Button variant="contained" className={styles.cancelMatchButton} onClick={() => handleMatchState(UNMATCHED)}>
                     Cancel Matching
                 </Button>
             </Grid>
