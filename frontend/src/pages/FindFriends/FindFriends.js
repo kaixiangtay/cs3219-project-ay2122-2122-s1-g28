@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 
 //Material-ui
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -14,14 +13,15 @@ import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import Navbar from '../../components/Navbar/Navbar.js';
 import MatchInterest from '../../components/MatchInterest/MatchInterest.js';
 import PageTitle from '../../components/PageTitle/PageTitle.js';
+import SearchMatch from '../../components/SearchMatch/SearchMatch.js';
 
 //Constants 
 import {
-    gender,
-    sports,
-    art,
-    music,
-    faculty
+    GENDER,
+    SPORT,
+    ART,
+    MUSIC,
+    FACULTY
 } from '../../constants/FindFriendsConstants'
 
 //CSS
@@ -38,27 +38,6 @@ function FindFriends() {
         }
     }
     
-    const loadingJsx = (
-        <Container className={styles.allFont}>
-            <Grid 
-                container 
-                spacing={2} 
-                alignItems='center'
-                justifyContent='center'
-            >
-                <Grid item md={12} className={styles.centerText}>
-                    <PageTitle title={'Find Friends'} icon={faUserFriends}/>
-                    <h2>We are finding a new friend for you, give us some time!</h2>
-                    <CircularProgress color="inherit" className={styles.spinner} size={300}/>
-                </Grid>
-                <Button variant="contained" className={styles.cancelMatchButton} onClick={() => handleMatch()}>
-                    Cancel Matching
-                </Button>
-            </Grid>
-            
-        </Container>
-    );
-    
     const matchJsx = (
         <Container className={styles.allFont}>
             <Grid 
@@ -72,19 +51,19 @@ function FindFriends() {
                     <h2>Choose your match requirements:</h2>
                 </Grid>
                 <Grid item md={4}>
-                    <MatchInterest title={'Gender'} items={gender}/>
+                    <MatchInterest title={'Gender'} items={GENDER}/>
                 </Grid>
                 <Grid item md={4}>
-                    <MatchInterest title={'Art'} items={art}/>
+                    <MatchInterest title={'Art'} items={ART}/>
                 </Grid>
                 <Grid md={4}>
-                    <MatchInterest title={'Music'} items={music}/>
+                    <MatchInterest title={'Music'} items={MUSIC}/>
                 </Grid>
                 <Grid item md={6}>
-                    <MatchInterest title={'Sports'} items={sports}/>
+                    <MatchInterest title={'Sports'} items={SPORT}/>
                 </Grid>
                 <Grid item md={6}>
-                    <MatchInterest title={'Faculty'} items={faculty}/>
+                    <MatchInterest title={'Faculty'} items={FACULTY}/>
                 </Grid>
                 <Tooltip 
                     title={<h2>Note: You will be matched with anyone if no interest is selected.</h2>}
@@ -101,7 +80,7 @@ function FindFriends() {
     return (
         <div>
             <Navbar/>
-            {loading ? loadingJsx : matchJsx}
+            {loading ? <SearchMatch setLoading={setLoading}/> : matchJsx}
         </div>
     )
 }
