@@ -41,10 +41,12 @@ function Chat({ handleMatchState }) {
                     </Grid>
                     <Grid item md={9} className={styles.chat}>
                         <Paper elevation={3}>
-                            <TextField label="Type your message here" variant="standard"/>
-                            <Button variant="contained" className={styles.sendButton} onClick={null}>
-                                Send
-                            </Button>
+                            <div>
+                                <TextField label="Type your message here" variant="standard"/>
+                                <Button variant="contained" className={styles.sendButton} onClick={null}>
+                                    Send
+                                </Button>
+                            </div>
                         </Paper>
                     </Grid>
                     <Grid direction='column' item md={3} className={`${styles.centerText} ${styles.video}`}>

@@ -18,7 +18,7 @@ import styles from './Navbar.module.css';
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Navbar_Icon.png';
 
 function Navbar() {
-    const [selection, setSelection] = useState('Match')
+    const [selection, setSelection] = useState('Find Friends')
 
     const navItems = [
         {
