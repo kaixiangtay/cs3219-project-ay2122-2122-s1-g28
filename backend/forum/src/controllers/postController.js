@@ -1,5 +1,4 @@
 const {resultsPostValidator, addPostValidator} = require("../validators/postValidator");
-const {resultsCommentValidator, addCommentValidator} = require("../validators/commentValidator");
 const { validationResult, check } = require("express-validator");
 let Post = require("../models/postModel");
 let Comment = require("../models/commentModel");
@@ -96,75 +95,21 @@ exports.deletePost = function (req, res) {
 					error: "Post not found!",
 				});
 			} else {
-                Comment.deleteMany({post_id: req.params.post_id}) //deletes all comments associated with the post
-				if (err) res.send({ err });
-				res.status(200).json({
-					status: "Success",
-					message: "Post deleted",
-				});
+                Comment.deleteMany({post_id: req.params.post_id}, function (err, comment) {
+                    if (comment == null) {
+                        res.status(404).json({
+                            error: "Comment in post not found!",
+                        });
+                        return;
+                    }
+                    if (err) res.send({ err });
+                    res.status(200).json({
+                        status: "Success",
+                        message: "Post deleted",
+                    });
+                });//deletes all comments associated with the post
 			}
 		}
 	);
 };
 
-exports.viewPostComments = function async(req, res) {
-	Post.findById({ _id: req.params.post_id })
-		.populate("comments")
-		.then((post, err) => {
-			if (post == null) {
-				res.status(404).json({
-					error: "Comments are not found!",
-				});
-				return;
-			}
-			if (err) res.send(err);
-            if (post.comments.length == 0) {
-                res.status(404).json({
-                    message: "There are no comments in this post",
-                });
-            } else {
-			res.status(200).json({
-				message: "Comment details loading..",
-				data: post.comments,
-			});
-        }
-		});
-};
-
-exports.createComment = [
-	addCommentValidator(),
-	(req, res) => {
-        console.log('here')
-		var comment = new Comment();
-		comment.userName = req.body.userName;
-		comment.userId = req.body.userId;
-		comment.content = req.body.content;
-        const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			return res.status(404).json(errors.array());
-		}
-
-		Post.findById(req.params.post_id, function (err, post) {
-			if (post == null) {
-				res.status(404).json({
-					error: "Post not found!",
-				});
-				return;
-			}
-			if (err) res.send(err);
-			comment.post = post;
-			console.log("newComment", comment);
-			comment.save();
-			post.comments.push(comment);
-			// save the post and check for errors
-			post.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					message: "Comment is created!",
-					data: post,
-				});
-			});
-		});
-	},
-];

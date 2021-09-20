@@ -19,8 +19,8 @@ router.route('/posts/:post_id')
     .delete(postController.deletePost)
 
 router.route('/posts/:post_id/comments')
-    .get(postController.viewPostComments)
-    .post(postController.createComment)
+    .get(commentController.viewPostComments)
+    .post(commentController.createComment)
 
 router.route('/posts/:post_id/:comment_id')
     .get(commentController.viewComment)
