@@ -42,7 +42,7 @@ function ChatMessage({ messages, setMessages }) {
                     }
                 </List>
             </Paper>
-            <Paper className={styles.messageInputSection}>
+            <Paper className={`${styles.messageInputSection}`}>
                 <input 
                     autoFocus 
                     value={inputText} 

@@ -1,10 +1,7 @@
-.centerText {
-    text-align: center;
-}
-
 .messageInputSection {
     background-color: #415A77 !important;
     padding: 2% !important;
+    text-align: center !important;
 }
 
 .chatContainer {
