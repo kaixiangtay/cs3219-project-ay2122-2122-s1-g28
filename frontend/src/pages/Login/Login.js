@@ -7,12 +7,12 @@ import Grid from '@material-ui/core/Grid';
 //Components
 import LoginForm from '../../components/LoginForm/LoginForm.js';
 
-//CSS
-import styles from './Login.module.css';
-
 //Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Login_Logo.png';
 import RandomScribble from '../../resources/RandomScribble.png';
+
+//CSS
+import styles from './Login.module.css';
 
 function Login() {
     return (
