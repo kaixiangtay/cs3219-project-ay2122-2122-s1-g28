@@ -56,7 +56,7 @@ function FindFriends() {
                 <Grid item md={4}>
                     <MatchInterest title={'Art'} items={ART}/>
                 </Grid>
-                <Grid md={4}>
+                <Grid item md={4}>
                     <MatchInterest title={'Music'} items={MUSIC}/>
                 </Grid>
                 <Grid item md={6}>

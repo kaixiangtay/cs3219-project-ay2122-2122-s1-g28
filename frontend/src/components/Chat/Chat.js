@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 //Material-ui
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 
 //FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
 //Components
+import ChatMessage from '../ChatMessage/ChatMessage.js';
 import PageTitle from '../PageTitle/PageTitle.js';
 
 //Constants 
@@ -23,9 +22,40 @@ import Profile from '../../resources/Profile.png';
 import styles from './Chat.module.css';
 
 function Chat({ handleMatchState }) {
+
+    //Hardcoded values for testing before syncing with backend
     const matchInfo = {
         name: 'John'
     }
+
+    const textMessages = [
+        { 
+            party: 'You',
+            message: 'Hi there this is a test hahahaha!Hi there this is a test hahahaha!'
+        },
+        { 
+            party: 'John',
+            message: 'Yooo thanks for the message man!!! hehehe!'
+        },
+        { 
+            party: 'You',
+            message: 'Hi there this is a test hahahaha!'
+        },
+        { 
+            party: 'John',
+            message: 'Yooo thanks for the message man!!! hehehe!'
+        },
+        { 
+            party: 'You',
+            message: 'Hi there this is a test hahahaha!'
+        },
+        { 
+            party: 'John',
+            message: 'Yooo thanks for the message man!!! hehehe!'
+        }
+    ]
+    //Remove state when backend sync up completes
+    const [messages, setMessages] = useState(textMessages)
 
     return (
         <Container className={styles.allFont}>
@@ -40,14 +70,7 @@ function Chat({ handleMatchState }) {
                         <h2>You have matched with {matchInfo.name}!</h2>
                     </Grid>
                     <Grid item md={9} className={styles.chat}>
-                        <Paper elevation={3}>
-                            <div>
-                                <TextField label="Type your message here" variant="standard"/>
-                                <Button variant="contained" className={styles.sendButton} onClick={null}>
-                                    Send
-                                </Button>
-                            </div>
-                        </Paper>
+                        <ChatMessage messages={messages} setMessages={setMessages}/>
                     </Grid>
                     <Grid direction='column' item md={3} className={`${styles.centerText} ${styles.video}`}>
                         <Grid>

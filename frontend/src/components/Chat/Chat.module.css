@@ -32,15 +32,6 @@
     padding: 2%
 }
 
-.sendButton {
-    color: #FFFFFF !important;
-    background-color: #0277BD !important;
-}
-
-.sendText {
-    width: 100%;
-}
-
 .profileImage {
     width: 250px;
     height: 250px;
