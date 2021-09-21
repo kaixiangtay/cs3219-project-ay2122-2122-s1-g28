@@ -20,6 +20,13 @@ function ChatMessage({ messages, setMessages }) {
         }
     }
 
+    const handleSendKeypress = (e) => {
+        //Triggers when ENTER key is pressed
+        if (e.which === 13) {
+            sendMessage();
+        }
+    };
+
     return (
         <div>
             <Paper elevation={3} className={styles.chatContainer}>
@@ -36,7 +43,13 @@ function ChatMessage({ messages, setMessages }) {
                 </List>
             </Paper>
             <Paper className={styles.messageInputSection}>
-                <input className={styles.sendText} value={inputText} onChange={(e) => setInputText(e.target.value)}/>
+                <input 
+                    autoFocus 
+                    value={inputText} 
+                    onKeyPress={handleSendKeypress} 
+                    onChange={(e) => setInputText(e.target.value)} 
+                    className={styles.sendText}
+                />
                 <Button variant="contained" className={styles.sendButton} onClick={() => sendMessage()}>
                     Send
                 </Button>

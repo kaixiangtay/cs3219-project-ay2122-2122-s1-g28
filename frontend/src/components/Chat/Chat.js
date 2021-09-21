@@ -31,7 +31,7 @@ function Chat({ handleMatchState }) {
     const textMessages = [
         { 
             party: 'You',
-            message: 'Hi there this is a test hahahaha!Hi there this is a test hahahaha!'
+            message: 'Hi there this is a test hahahaha!'
         },
         { 
             party: 'John',
