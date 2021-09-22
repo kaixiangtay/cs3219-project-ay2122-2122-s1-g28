@@ -1,0 +1,17 @@
+.paper {
+    text-align: center;
+    width: 80%;
+    padding: 8%;
+}
+
+.profile {
+    height: 150px;
+    border-radius: 50%;
+}
+
+.returnLoginButton {
+    color: #ffffff !important;
+    background-color: #d288A2 !important;
+    height: 50px !important;
+    width: 20% !important;
+}

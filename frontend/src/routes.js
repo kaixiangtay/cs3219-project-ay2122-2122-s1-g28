@@ -10,7 +10,7 @@ const Routes = () => {
     <Switch>
       {/* Use <ProtectedRoute> for paths after login  */}
       <Route path="/findfriends" component={FindFriends} />
-      <Route path="/" component={Login} />
+      <Route exact path="/" component={Login} />
     </Switch>
   )
 }
