@@ -11,12 +11,10 @@ import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 //Components
 import ChatMessage from '../ChatMessage/ChatMessage.js';
 import PageTitle from '../PageTitle/PageTitle.js';
+import VideoPlayer from '../VideoPlayer/VideoPlayer.js';
 
 //Constants 
-import { UNMATCHED } from '../../constants/FindFriendsConstants'
-
-//Resources
-import Profile from '../../resources/Profile.png';
+import { UNMATCHED } from '../../constants/FindFriendsConstants';
 
 //CSS
 import styles from './Chat.module.css';
@@ -69,16 +67,13 @@ function Chat({ handleMatchState }) {
                     <Grid item md={12} className={styles.centerText}>
                         <h2>You have matched with {matchInfo.name}!</h2>
                     </Grid>
-                    <Grid item md={9} className={styles.chat}>
+                    <Grid item md={9} className={styles.chatSection}>
                         <ChatMessage messages={messages} setMessages={setMessages}/>
                     </Grid>
-                    <Grid direction='column' item md={3} className={`${styles.centerText} ${styles.video}`}>
+                    <Grid direction='column' item md={3} className={`${styles.centerText} ${styles.videoSection}`}>
                         <Grid>
-                            <img alt='Profile1' src={Profile} className={styles.profileImage}/>
+                            <VideoPlayer/>
                         </Grid>
-                        <Grid>
-                            <img alt='Profile2' src={Profile} className={styles.profileImage}/>
-                        </Grid> 
                         <Grid>
                             <Button variant="contained" className={styles.unmatchButton} onClick={() => handleMatchState(UNMATCHED)}>
                                 Unmatch

@@ -24,15 +24,10 @@
     margin: 3% !important;
 }
 
-.chat {
+.chatSection {
     padding: 2%;
 }
 
-.video {
+.videoSection {
     padding: 2%
-}
-
-.profileImage {
-    width: 250px;
-    height: 250px;
 }
