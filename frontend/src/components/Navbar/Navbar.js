@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
+//Settings
+import React, { useEffect, useState } from 'react';
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 //Material-ui
-import AppBar from '@material-ui/core/AppBar';
-import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
+import { 
+    AppBar, 
+    Container, 
+    IconButton, 
+    Toolbar 
+} from '@material-ui/core';
 
 //FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,9 +22,12 @@ import styles from './Navbar.module.css';
 //Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Navbar_Icon.png';
 
-function Navbar() {
-    const [selection, setSelection] = useState('Find Friends')
+//Actions
+import { logoutUser } from '../../actions';
 
+function Navbar(props) {
+    const { handleLogoutRequest } = props; 
+    const [selection, setSelection] = useState('Find Friends')
     const navItems = [
         {
             icon: faUserFriends,
@@ -39,6 +47,13 @@ function Navbar() {
         },
     ];
 
+    // Handle logout request
+    useEffect(() => { 
+        if (selection === 'Logout') { 
+            handleLogoutRequest(); 
+        }
+    }); 
+
     return (
         <AppBar position="static" className={styles.navColor}>
             <Container>
@@ -49,10 +64,19 @@ function Navbar() {
                 <div className={styles.nav}>
                     {
                         navItems.map((item) => (
-                            <IconButton key={item.title} color='inherit' className={selection === item.title ? styles.selected : null} onClick={() => setSelection(item.title)}>
+                            <IconButton 
+                                key={item.title} 
+                                color='inherit' 
+                                className={selection === item.title 
+                                    ? styles.selected 
+                                    : null
+                                } 
+                                onClick={() => setSelection(item.title)}>
                                 <div className={styles.navIcon}>
                                     <FontAwesomeIcon icon={item.icon} />
-                                    <h6 className={styles.titleSpacing}>{item.title}</h6>
+                                    <h6 className={styles.titleSpacing}>
+                                        {item.title}
+                                    </h6>
                                 </div>
                             </IconButton>
                         ))
@@ -64,4 +88,16 @@ function Navbar() {
     )
 }
 
-export default Navbar;
+function mapStateToProps() { 
+ return {};
+}
+
+function mapDispatchToProps(dispatch, props) { 
+    return {
+        handleLogoutRequest: () => dispatch(logoutUser(props))
+    };
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default withRouter(withConnect(Navbar));
