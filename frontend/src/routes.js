@@ -1,16 +1,27 @@
 // Import settings 
-import { Route, Switch } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 // Import pages 
-import Login from './pages/Login/Login.js';
+import Login from './pages/Login/Login.js'
+import Signup from './pages/Signup/Signup.js'
 import FindFriends from './pages/FindFriends/FindFriends.js';
 
 const Routes = () => {
   return (
     <Switch>
       {/* Use <ProtectedRoute> for paths after login  */}
+      <Route
+        exact
+        path="/"
+        render={() => {
+          return (
+            <Redirect to="/login" /> 
+          )
+        }}
+      />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
       <Route path="/findfriends" component={FindFriends} />
-      <Route exact path="/" component={Login} />
     </Switch>
   )
 }

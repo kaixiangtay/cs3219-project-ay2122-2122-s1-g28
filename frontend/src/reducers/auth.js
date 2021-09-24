@@ -2,7 +2,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE
-} from "../actions/";
+} from "../actions/auth";
 
 const defaultState = {
   loginLoading: false, 
@@ -34,7 +34,7 @@ export default function authReducer(state = defaultState, action) {
         ...state,
         loginLoading: false,
         loginSuccess: false,
-        loginError: true
+        loginFailure: true
       };
     default:
       return state;

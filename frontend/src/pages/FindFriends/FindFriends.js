@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+//Settings
+import React, { useState } from 'react';
 
 //Material-ui
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Tooltip from '@material-ui/core/Tooltip';
+import { 
+    Button, 
+    Container, 
+    Grid, 
+    Tooltip 
+} from '@material-ui/core';
 
 //FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
