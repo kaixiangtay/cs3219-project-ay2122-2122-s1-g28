@@ -4,11 +4,13 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 // Import Material-ui
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
+import { 
+    Button,
+    Container, 
+    Grid, 
+    Paper, 
+    TextField 
+ } from '@material-ui/core';
 
 // Import CSS
 import styles from './LoginForm.module.css';
@@ -17,12 +19,16 @@ import styles from './LoginForm.module.css';
 import { loginUser } from '../../actions/auth'
 
 function LoginForm(props) {
-    const { loginSuccess, submitLoginRequest } = props; 
+    const { loginSuccess, submitLoginRequest, onSignup } = props; 
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
 
     const handleSubmit = () => {
         submitLoginRequest(email, password);
+    };
+
+    const handleSignup = () => {
+        onSignup(true)
     };
 
     if (loginSuccess) { 
@@ -34,7 +40,7 @@ function LoginForm(props) {
                 >
                     <form noValidate autoComplete="off">
                         <Grid>
-                            <h3>NUS Email:</h3>
+                            <h3 className={styles.inputLabel}>NUS Email:</h3>
                             <TextField 
                                 variant="outlined" 
                                 className={styles.textWidth}
@@ -42,7 +48,7 @@ function LoginForm(props) {
                             />
                         </Grid>
                         <Grid>
-                            <h3>Password:</h3>
+                            <h3 className={styles.inputLabel}>Password:</h3>
                             <TextField 
                                 variant="outlined" 
                                 type="password" 
@@ -53,12 +59,20 @@ function LoginForm(props) {
                         <Grid className={styles.rowGap}>
                             <Button 
                                 variant="contained" 
-                                className={`${styles.buttonGap} ${styles.loginButton}`}
+                                className={
+                                    `${styles.loginButtonGap} 
+                                    ${styles.loginButton}`}
                                 onClick={handleSubmit}
                             >
                                 Login
                             </Button>
-                            <Button variant="contained" className={`${styles.buttonGap} ${styles.signUpButton}`}>
+                            <Button 
+                                variant="contained" 
+                                className={
+                                    `${styles.signupButtonGap} 
+                                    ${styles.signUpButton}`}
+                                onClick={handleSignup}
+                            >
                                 Sign Up
                             </Button>
                         </Grid>
@@ -78,7 +92,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, props) { 
     return {
-        submitLoginRequest: (email, password) => dispatch(loginUser(email, password))
+        submitLoginRequest: (email, password) => dispatch(loginUser(email,password))
     };
 }
 

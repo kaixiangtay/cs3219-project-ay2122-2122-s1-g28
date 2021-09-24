@@ -1,6 +1,6 @@
 .paperStyle {
-  padding-top: 4%;
-  padding-bottom: 11%;
+  padding-top: 2%;
+  padding-bottom: 5%;
   padding-left: 6%;
   padding-right: 6%;
 }
@@ -14,17 +14,22 @@
   padding-bottom: 3%;
 }
 
+.header {
+  text-align: center;
+  margin-bottom: 3%;
+}
+
 .inputLabel {
   margin-bottom: 1%;
 }
 
-.loginButtonGap {
+.createAccountButtonGap {
   margin-top: 2% !important;
 }
 
-.loginButton {
+.createAccountButton {
   color: #ffffff !important;
-  background-color: #d288a2 !important;
+  background-color: #f9ab55 !important;
   height: 50px !important;
   width: 100% !important;
 }
@@ -34,19 +39,19 @@
   opacity: 80% !important;
 }
 
-.signupButtonGap {
+.returnButtonGap {
   margin-top: 4% !important;
   margin-bottom: 2% !important;
 }
 
-.signUpButton {
+.returnButton {
   color: #415a77 !important;
   background-color: #ffffff !important;
   height: 50px !important;
-  width: 100% !important;
+  width: auto !important;
 }
 
-.signUpButton:hover {
+.returnButton:hover {
   background-color: #ffffff !important;
   opacity: 80% !important;
 }
