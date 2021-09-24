@@ -18,12 +18,6 @@ import RandomScribble from '../../resources/RandomScribble.png';
 import styles from './Login.module.css';
 
 function Login(props) {
-    const handleSignup = (isSignup) => { 
-        if (isSignup) { 
-            props.history.push('/signup')
-        }
-    };
-    
   return (
     <div>
       <Container>
@@ -37,7 +31,7 @@ function Login(props) {
             <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo}/>
           </Grid>
           <Grid item md={6} xs ={12} sm={12}>
-            <LoginForm onSignup={handleSignup}/>
+            <LoginForm/>
           </Grid>
         </Grid>
       </Container>

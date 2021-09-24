@@ -40,7 +40,7 @@ export default function authReducer(state = defaultState, action) {
         ...state,
         loginLoading: false,
         loginSuccess: false,
-        loginError: true
+        loginFailure: true
       };
     case LOGOUT_REQUEST:
       return {
