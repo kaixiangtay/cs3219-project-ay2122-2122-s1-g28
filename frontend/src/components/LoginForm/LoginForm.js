@@ -1,7 +1,8 @@
 // Import settings
-import { React, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Import Material-ui
 import { 
@@ -24,11 +25,22 @@ function LoginForm(props) {
     const [password, setPassword] = useState(''); 
 
     const handleSubmit = () => {
-        submitLoginRequest(email, password);
+        // Ensure all inputs are present before submitting
+        if (!email) {
+            toast.error("Please input an email address.", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        } else if (!password) { 
+            toast.error("Please input a password.", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        } else {
+            submitLoginRequest(email, password);
+        }
     };
 
     if (loginSuccess) { 
-        return <Redirect to='/findfriends' />
+        return <Redirect to='/findfriends'/>
     } else {
         return (
             <Container>
@@ -40,7 +52,9 @@ function LoginForm(props) {
                             <TextField 
                                 variant="outlined" 
                                 className={styles.textWidth}
-                                onChange={email => setEmail(email)}
+                                onChange={event => { 
+                                    setEmail(event.target.value)
+                                }}
                             />
                         </Grid>
                         <Grid>
@@ -49,7 +63,9 @@ function LoginForm(props) {
                                 variant="outlined" 
                                 type="password" 
                                 className={styles.textWidth}
-                                onChange={password => setPassword(password)}
+                                onChange={event => { 
+                                    setPassword(event.target.value)
+                                }}
                             />
                         </Grid>
                         <Grid className={styles.rowGap}>

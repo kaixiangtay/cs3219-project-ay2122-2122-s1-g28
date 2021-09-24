@@ -43,6 +43,9 @@ const logoutSuccess = (props) => {
 }; 
 
 const logoutFailure = () => { 
+  toast.error("Unable to logout. Please try again!", {
+    position: toast.POSITION.TOP_RIGHT
+  });
   return { 
     type: LOGOUT_FAILURE
   };
