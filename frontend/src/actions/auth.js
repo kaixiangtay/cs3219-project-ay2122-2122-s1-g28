@@ -26,6 +26,7 @@ const loginFailure = () => {
   };
 };
 
+// Handle user login 
 export const loginUser = (email, password) => dispatch => {
   const requestUrl = ``;
   let userData = { email, password };

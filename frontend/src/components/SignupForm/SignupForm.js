@@ -1,6 +1,7 @@
 // Import settings
-import { React } from 'react';
+import React, { useState } from 'react';
 import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 // Import Material-ui
 import { 
@@ -14,12 +15,23 @@ import {
 // Import CSS
 import styles from './SignupForm.module.css';
 
-function SignupForm(props) {
-    const { onLogin } = props; 
+// Import actions
+import { signupUser } from '../../actions/signup';
 
-    const handleLogin = () => {
-        onLogin(true)
-    };
+function SignupForm(props) {
+    const { submitSignupRequest } = props; 
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState(''); 
+    const [password, setPassword] = useState(''); 
+
+    const handleSubmit = () => {
+        let userData = { 
+            email, 
+            username,
+            password 
+        };
+        submitSignupRequest(userData);
+    }; 
 
     return (
         <Container>
@@ -31,6 +43,7 @@ function SignupForm(props) {
                         <TextField 
                             variant="outlined" 
                             className={styles.textWidth}
+                            onChange={email => setEmail(email)}
                         />
                     </Grid>
                     <Grid>
@@ -38,6 +51,7 @@ function SignupForm(props) {
                         <TextField 
                             variant="outlined" 
                             className={styles.textWidth}
+                            onChange={username => setUsername(username)}
                         />
                     </Grid>
                     <Grid>
@@ -46,6 +60,7 @@ function SignupForm(props) {
                             variant="outlined" 
                             type="password" 
                             className={styles.textWidth}
+                            onChange={password => setPassword(password)}
                         />
                     </Grid>
                     <Grid className={styles.rowGap}>
@@ -54,6 +69,7 @@ function SignupForm(props) {
                             className={
                                 `${styles.createAccountButtonGap} 
                                 ${styles.createAccountButton}`}
+                            onClick={handleSubmit}
                         >
                             Create Account
                         </Button>
@@ -61,8 +77,10 @@ function SignupForm(props) {
                             variant="contained" 
                             className={
                                 `${styles.returnButtonGap} 
-                                ${styles.returnButton}`}
-                            onClick={handleLogin}
+                                ${styles.returnButton}`
+                            }
+                            component={Link}
+                            to="/login"
                         >
                             Go Back to Login
                         </Button>
@@ -79,9 +97,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch, props) { 
-    return {};
+    return {
+        submitSignupRequest: userData => dispatch(signupUser(userData, props))
+    };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default withConnect(SignupForm);
+export default withRouter(withConnect(SignupForm));
