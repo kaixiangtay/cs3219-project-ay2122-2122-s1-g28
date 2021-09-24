@@ -1,7 +1,7 @@
 // Import settings
 import { React, useState } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 // Import Material-ui
 import { 
@@ -19,16 +19,12 @@ import styles from './LoginForm.module.css';
 import { loginUser } from '../../actions/auth'
 
 function LoginForm(props) {
-    const { loginSuccess, submitLoginRequest, onSignup } = props; 
+    const { loginSuccess, submitLoginRequest } = props;
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
 
     const handleSubmit = () => {
         submitLoginRequest(email, password);
-    };
-
-    const handleSignup = () => {
-        onSignup(true)
     };
 
     if (loginSuccess) { 
@@ -70,8 +66,10 @@ function LoginForm(props) {
                                 variant="contained" 
                                 className={
                                     `${styles.signupButtonGap} 
-                                    ${styles.signUpButton}`}
-                                onClick={handleSignup}
+                                    ${styles.signUpButton}`
+                                }
+                                component={Link}
+                                to="/signup"
                             >
                                 Sign Up
                             </Button>
