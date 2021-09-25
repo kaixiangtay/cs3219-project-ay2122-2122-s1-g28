@@ -31,7 +31,6 @@ exports.viewPostComments = function async(req, res) {
 exports.createComment = [
 	addCommentValidator(),
 	(req, res) => {
-        console.log('here')
 		var comment = new Comment();
 		comment.userName = req.body.userName;
 		comment.userId = req.body.userId;
