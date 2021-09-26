@@ -86,7 +86,6 @@ function Navbar(props) {
                                     ? styles.selected 
                                     : null
                                 }
-                                // onClick={() => setSelection(item.title)}>
                                 onClick={() => handleSelection(item.title)}
                             >
                                 <div className={styles.navIcon}>
