@@ -1,14 +1,20 @@
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  LOGIN_FAILURE
+  LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE
 } from "../actions/auth";
 
 const defaultState = {
   loginLoading: false, 
   loginSuccess: false,
   loginFailure: false, 
-  // isAuthenticated: false, 
+  // isAuthenticated: false,
+  logoutLoading: false, 
+  logoutSuccess: false, 
+  logoutFailure: false,  
   user: {}
 };
 
@@ -35,6 +41,22 @@ export default function authReducer(state = defaultState, action) {
         loginLoading: false,
         loginSuccess: false,
         loginFailure: true
+      };
+    case LOGOUT_REQUEST:
+      return {
+        ...state,
+        logoutLoading: true,
+        logoutSuccess: false,
+        logoutFailure: false
+      };
+    case LOGOUT_SUCCESS:
+      return defaultState;
+    case LOGOUT_FAILURE:
+      return {
+        ...state,
+        logoutLoading: false,
+        logoutSuccess: false,
+        logoutFailure: true
       };
     default:
       return state;

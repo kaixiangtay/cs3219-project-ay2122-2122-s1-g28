@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Import Material-ui
 import { 
@@ -30,7 +31,23 @@ function SignupForm(props) {
             username,
             password 
         };
-        submitSignupRequest(userData);
+
+        // Ensure all inputs are present before submitting
+        if (!userData.email) {
+            toast.error("Please input an email address.", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        } else if (!userData.username) { 
+            toast.error("Please input a username.", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        } else if (!userData.password) { 
+            toast.error("Please input a password.", {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        } else {
+            submitSignupRequest(userData);
+        }
     }; 
 
     return (
@@ -41,26 +58,35 @@ function SignupForm(props) {
                     <Grid>
                         <h3 className={styles.inputLabel}>NUS Email:</h3>
                         <TextField 
+                            required
                             variant="outlined" 
                             className={styles.textWidth}
-                            onChange={email => setEmail(email)}
+                            onChange={event => { 
+                                setEmail(event.target.value)
+                            }}
                         />
                     </Grid>
                     <Grid>
                         <h3 className={styles.inputLabel}>Username:</h3>
                         <TextField 
+                            required
                             variant="outlined" 
                             className={styles.textWidth}
-                            onChange={username => setUsername(username)}
+                            onChange={event => { 
+                                setUsername(event.target.value)
+                            }}
                         />
                     </Grid>
                     <Grid>
                         <h3 className={styles.inputLabel}>Password:</h3>
                         <TextField 
+                            required
                             variant="outlined" 
                             type="password" 
                             className={styles.textWidth}
-                            onChange={password => setPassword(password)}
+                            onChange={event => { 
+                                setPassword(event.target.value)
+                            }}
                         />
                     </Grid>
                     <Grid className={styles.rowGap}>
