@@ -147,7 +147,7 @@ exports.loginUser = [userFieldsValidator(), (req, res) => {
 			} else {
 				res.status(400).json({ error: "Invalid Password!" });
 			}
-		
+		}
 	});
 }
 ];
