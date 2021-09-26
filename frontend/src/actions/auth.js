@@ -36,6 +36,9 @@ const logoutRequest = () => {
 }; 
 
 const logoutSuccess = (props) => {
+  toast.success("Successfully logout!", {
+    position: toast.POSITION.TOP_RIGHT
+  });
   props.history.push('/login');
   return { 
     type: LOGOUT_SUCCESS

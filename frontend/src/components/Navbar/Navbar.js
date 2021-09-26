@@ -36,7 +36,6 @@ function Navbar(props) {
         {
             icon: faCommentAlt,
             title: 'Forum',
-            // path:'/forum'
         },
         {
             icon: faUserCircle,
@@ -48,6 +47,21 @@ function Navbar(props) {
             title: 'Logout'
         },
     ];
+    const handleSelection = (title) => { 
+        setSelection(title);
+
+        if (title === 'Logout') { 
+            handleLogoutRequest(); 
+        } else if (title === 'Forum') { 
+            // props.history.push('/forum');
+        } else if (title === 'Profile') { 
+            props.history.push('/profile');
+        } else if (title === 'Find Friends') {
+            props.history.push('/findfriends');
+        } else {
+            return; 
+        }
+    }; 
 
     // Handle logout request
     useEffect(() => { 
@@ -72,7 +86,8 @@ function Navbar(props) {
                                     ? styles.selected 
                                     : null
                                 }
-                                onClick={() => setSelection(item.title)}>
+                                onClick={() => handleSelection(item.title)}
+                            >
                                 <div className={styles.navIcon}>
                                     <FontAwesomeIcon icon={item.icon} />
                                     <h6 className={styles.titleSpacing}>
