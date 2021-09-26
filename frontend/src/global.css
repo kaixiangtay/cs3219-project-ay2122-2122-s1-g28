@@ -1,0 +1,37 @@
+:root {
+    /* COLOURS */
+    --MIDBLUE: #415A77;
+    --DARKBLUE: #1B263B;
+    --PINK: #D288A2;
+    --GREEN: #00C853;
+    --RED: #FF5252;
+    --ORANGE: #F9AB55;
+    --WHITE: #FFFFFF;
+}
+
+/* Alignment */
+.empty-navbar-gap {
+    margin-top: 10%;
+}
+
+.center-text {
+    text-align: center;
+}
+
+/* Buttons */
+.green-button {
+    color: var(--WHITE) !important;
+    background-color: var(--GREEN) !important;
+    width: 250px !important;
+    margin: 3% !important;
+}
+
+.red-button {
+    color: var(--RED) !important;
+    background-color: var(--GREEN) !important;
+    width: 250px !important;
+    margin: 3% !important;
+}
+
+
+

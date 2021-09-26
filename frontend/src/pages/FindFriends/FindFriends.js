@@ -49,7 +49,7 @@ function FindFriends() {
                 alignItems='center'
                 justifyContent='center'
             >
-                <Grid item md={12} className={styles.centerText}>
+                <Grid item md={12} className="center-text">
                     <PageTitle title={'Find Friends'} icon={faUserFriends}/>
                     <h2>Choose your match requirements:</h2>
                 </Grid>
@@ -72,7 +72,7 @@ function FindFriends() {
                     title={<h2>Note: You will be matched with anyone if no interest is selected.</h2>}
                     className={null}
                 >
-                    <Button variant="contained" className={styles.matchButton} onClick={() => handleMatchState(LOADING)}>
+                    <Button variant="contained" className="green-button" onClick={() => handleMatchState(LOADING)}>
                         Match
                     </Button>
                 </Tooltip>
