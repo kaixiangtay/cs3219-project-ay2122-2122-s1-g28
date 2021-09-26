@@ -1,44 +1,9 @@
-.header {
-  color: #ffffff;
-  margin-bottom: 1%;
-}
-
-.inputRow {
-  display: flex;
-  flex-direction: column;
-  margin-left: 2%;
-}
-
-.inputHeader {
-  color: #ffffff;
-  margin-bottom: 1%;
-}
-
 .inputBox {
-  background-color: #e0e1dd;
-}
-
-.passwordContainer {
-  margin-top: 7%;
+  background-color: var(--WHITE);
+  width: 80%;
 }
 
 .buttonContainer {
-  direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 6%;
-  margin-bottom: 10%;
-}
-
-.deleteButton {
-  color: #ffffff !important;
-  background-color: #dc143c !important;
-  width: 40%;
-}
-
-.saveButton {
-  color: #ffffff !important;
-  background-color: #39c16c !important;
-  width: 40%;
-  margin-left: 10% !important;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }

@@ -1,22 +1,38 @@
 // Import Settings
 import React from 'react';
 
+//Material-ui
+import { Container, Grid } from '@material-ui/core';
+
+//FontAwesome
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+
 // Import Components
 import Navbar from '../../components/Navbar/Navbar.js';
+import PageTitle from '../../components/PageTitle/PageTitle.js';
 import ProfileForm from '../../components/ProfileForm/ProfileForm.js';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture.js';
-
-// Import CSS 
-import styles from './Profile.module.css'; 
 
 function Profile() { 
   return (
     <div>
       <Navbar/> 
-      <div className={styles.container}>
-        <ProfilePicture/>
-        <ProfileForm/>
-      </div>
+      <Container>
+        <Grid item md={12} className="center-text">
+            <PageTitle title={'Profile'} icon={faUserCircle}/>
+        </Grid>
+        <Grid 
+          container 
+          spacing={2} 
+        >
+          <Grid item md={4}>
+            <ProfilePicture/>
+          </Grid>
+          <Grid item md={8}>
+            <ProfileForm/>
+          </Grid>
+        </Grid>
+      </Container>
     </div>
   )
 }

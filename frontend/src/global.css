@@ -2,6 +2,7 @@
     /* COLOURS */
     --MIDBLUE: #415A77;
     --DARKBLUE: #1B263B;
+    --LIGHTBLUE: #03A9F4;
     --PINK: #D288A2;
     --GREEN: #00C853;
     --RED: #FF5252;
@@ -18,6 +19,11 @@
     text-align: center;
 }
 
+/* Font Settings */
+.primary-font {
+    color: var(--WHITE);
+}
+
 /* Buttons */
 .green-button {
     color: var(--WHITE) !important;
@@ -27,8 +33,15 @@
 }
 
 .red-button {
-    color: var(--RED) !important;
-    background-color: var(--GREEN) !important;
+    color: var(--WHITE) !important;
+    background-color: var(--RED) !important;
+    width: 250px !important;
+    margin: 3% !important;
+}
+
+.blue-button {
+    color: var(--WHITE) !important;
+    background-color: var(--LIGHTBLUE) !important;
     width: 250px !important;
     margin: 3% !important;
 }

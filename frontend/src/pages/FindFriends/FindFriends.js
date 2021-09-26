@@ -31,9 +31,6 @@ import {
     MATCHED
 } from '../../constants/FindFriendsConstants'
 
-//CSS
-import styles from './FindFriends.module.css';
-
 function FindFriends() {
     const [matchState, setMatchState] = useState(UNMATCHED);
 
@@ -42,7 +39,7 @@ function FindFriends() {
     }
 
     const findFriendsJsx = (
-        <Container className={styles.allFont}>
+        <Container className="primary-font">
             <Grid 
                 container 
                 spacing={2} 
