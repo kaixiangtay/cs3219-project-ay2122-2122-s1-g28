@@ -2,8 +2,9 @@
 import { Route, Redirect, Switch } from "react-router-dom";
 
 // Import pages 
-import Login from './pages/Login/Login.js'
-import Signup from './pages/Signup/Signup.js'
+import Login from './pages/Login/Login.js';
+import Signup from './pages/Signup/Signup.js';
+import Profile from'./pages/Profile/Profile.js';
 import FindFriends from './pages/FindFriends/FindFriends.js';
 
 const Routes = () => {
@@ -21,6 +22,7 @@ const Routes = () => {
       />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route path="/profile" component={Profile} />
       <Route path="/findfriends" component={FindFriends} />
     </Switch>
   )

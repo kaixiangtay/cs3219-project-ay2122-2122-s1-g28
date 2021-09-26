@@ -6,7 +6,6 @@ import { withRouter } from "react-router-dom";
 //Material-ui
 import { 
     AppBar, 
-    Container, 
     IconButton, 
     Toolbar 
 } from '@material-ui/core';
@@ -31,15 +30,18 @@ function Navbar(props) {
     const navItems = [
         {
             icon: faUserFriends,
-            title: 'Find Friends'
+            title: 'Find Friends',
+            // path: '/findfriends'
         },
         {
             icon: faCommentAlt,
-            title: 'Forum'
+            title: 'Forum',
+            // path:'/forum'
         },
         {
             icon: faUserCircle,
-            title: 'Profile'
+            title: 'Profile',
+            // path: '/profile'
         },
         {
             icon: faSignOutAlt,
@@ -56,7 +58,6 @@ function Navbar(props) {
 
     return (
         <AppBar position="static" className={styles.navColor}>
-            <Container>
             <Toolbar>
                 <IconButton color='inherit'>
                     <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo} className={styles.logo}/>
@@ -70,7 +71,7 @@ function Navbar(props) {
                                 className={selection === item.title 
                                     ? styles.selected 
                                     : null
-                                } 
+                                }
                                 onClick={() => setSelection(item.title)}>
                                 <div className={styles.navIcon}>
                                     <FontAwesomeIcon icon={item.icon} />
@@ -83,7 +84,6 @@ function Navbar(props) {
                     }
                 </div>
             </Toolbar>
-            </Container>
         </AppBar>     
     )
 }

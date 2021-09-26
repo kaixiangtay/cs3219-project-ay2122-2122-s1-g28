@@ -1,33 +1,33 @@
 .allFont {
-    color: #FFFFFF;
+  color: #ffffff;
 }
 
 .centerText {
-    text-align: center;
+  text-align: center;
 }
 
 .parentGrid {
-    background-color: #53718A;
+  background-color: #53718a;
 }
 
 .matchButton {
-    color: #FFFFFF !important;
-    background-color: #D288A2 !important;
-    width: 250px;
-    margin: 3% !important;
+  color: #ffffff !important;
+  background-color: #d288a2 !important;
+  width: 250px;
+  margin: 3% !important;
 }
 
 .unmatchButton {
-    color: #FFFFFF !important;
-    background-color: #FF5252 !important;
-    width: 250px;
-    margin: 3% !important;
+  color: #ffffff !important;
+  background-color: #dc143c !important;
+  width: 250px;
+  margin: 3% !important;
 }
 
 .chatSection {
-    padding: 2%;
+  padding: 2%;
 }
 
 .videoSection {
-    padding: 2%
+  padding: 2%;
 }
