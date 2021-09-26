@@ -1,9 +1,7 @@
-const { registerUserValidator } = require('../validators/userValidator')
+const { userFieldsValidator } = require('../validators/userValidator')
 const { validationResult} = require('express-validator')
 const bcrypt = require("bcrypt");
 let User = require("../models/userModel");
-
-
 
 
 exports.index = function (req, res) {
@@ -23,7 +21,7 @@ exports.index = function (req, res) {
 };
 
 exports.registerUser = [
-	registerUserValidator(),
+	userFieldsValidator(),
 	(req, res) => { 
 
 		const errors = validationResult(req);
@@ -130,12 +128,19 @@ exports.deleteUser = function (req, res) {
 };
 
 
-exports.loginUser = (req, res) => {
+exports.loginUser = [userFieldsValidator(), (req, res) => {
+	const errors = validationResult(req);
+	
+		if (!errors.isEmpty()) {
+		  return res.status(404).json(errors.array());
+		}
+		
 	User.findOne(req.params.email, function (err, user) {
 		if (user == null) {
             res.status(404).json({ error: "Invalid email!" });
         } else {
 			const body = req.body;
+			// compare user password with hashed password in database
 			const validPassword = bcrypt.compareSync(body.password, user.password);
 
 			if (validPassword) {
@@ -145,4 +150,5 @@ exports.loginUser = (req, res) => {
 			}
 		}
 	});
-};
+}
+];

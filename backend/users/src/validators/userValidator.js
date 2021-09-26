@@ -1,6 +1,6 @@
 const { check } = require('express-validator')
 
-exports.registerUserValidator = () => {
+exports.userFieldsValidator = () => {
     return [
         check('name').notEmpty().withMessage("Name is a compulsory field"),
         check('email').notEmpty().withMessage("Email is a compulsory field"),
