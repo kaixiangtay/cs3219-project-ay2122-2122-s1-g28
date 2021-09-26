@@ -34,8 +34,9 @@ exports.registerUser = [
 		
 		user.name = req.body.name;
 		user.email = req.body.email;
-		const saltRounds = 10;
 
+		// Use salting technique to generate a more secure hash
+		const saltRounds = 10;
 		// Hash the user password
 		user.password = bcrypt.hashSync(req.body.password, saltRounds);
 
