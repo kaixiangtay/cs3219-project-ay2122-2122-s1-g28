@@ -135,14 +135,6 @@ exports.loginUser = [userFieldsValidator(), (req, res) => {
 	  }	
 		
 	User.findOne(req.params.email, function (err, user) {
-		// const email = "johndoe@u.nus.edu"
-		// var domain = email.substring(email.lastIndexOf("@") + 1);
-		// console.log(domain)
-		// const {email} = req.params.email
-		// console.log(email)
-		// // console.log(req.params.email)
-		// // var domain = req.params.email.substring(req.params.email.lastIndexOf("@") +1);
-		// // console.log(domain)
 		if (user == null) {
             res.status(404).json({ error: "Invalid email!" });
         } else {
@@ -155,7 +147,7 @@ exports.loginUser = [userFieldsValidator(), (req, res) => {
 			} else {
 				res.status(400).json({ error: "Invalid Password!" });
 			}
-		}
+		
 	});
 }
 ];
