@@ -1,7 +1,7 @@
 //Settings
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 //Material-ui
 import { 
