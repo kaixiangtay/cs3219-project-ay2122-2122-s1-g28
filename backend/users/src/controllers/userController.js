@@ -30,8 +30,7 @@ exports.registerUser = [
 		  return res.status(404).json(errors.array());
 		}
 		
-		var user = new User();
-		
+		var user = new User();	
 		user.name = req.body.name;
 		user.email = req.body.email;
 
@@ -39,7 +38,6 @@ exports.registerUser = [
 		const saltRounds = 10;
 		// Hash the user password
 		user.password = bcrypt.hashSync(req.body.password, saltRounds);
-
 
 		user.save(function (err) {
 			if (err) {
@@ -132,9 +130,9 @@ exports.deleteUser = function (req, res) {
 exports.loginUser = [userFieldsValidator(), (req, res) => {
 	const errors = validationResult(req);
 	
-		if (!errors.isEmpty()) {
-		  return res.status(404).json(errors.array());
-		}
+	if (!errors.isEmpty()) {
+		return res.status(404).json(errors.array());
+	  }	
 		
 	User.findOne(req.params.email, function (err, user) {
 		if (user == null) {
