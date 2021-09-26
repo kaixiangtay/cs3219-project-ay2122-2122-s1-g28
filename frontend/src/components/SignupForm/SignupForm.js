@@ -115,7 +115,6 @@ function SignupForm(props) {
             </Paper>
         </Container>
     )
-    
 }
 
 function mapStateToProps(state) { 
