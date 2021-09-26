@@ -1,43 +1,43 @@
 .messageInputSection {
-    background-color: #415A77 !important;
-    padding: 2% !important;
-    text-align: center !important;
+  background-color: #415a77 !important;
+  padding: 2% !important;
+  text-align: center !important;
 }
 
 .chatContainer {
-    min-height: 60vh;
-    max-height: 60vh;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column-reverse;
+  min-height: 60vh;
+  max-height: 60vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .sendText {
-    height: 25px;
-    width: 80%;
-    border-radius: 10px;
+  height: 25px;
+  width: 80%;
+  border-radius: 10px;
 }
 
 .sendButton {
-    color: #FFFFFF !important;
-    background-color: #0277BD !important;
-    border-radius: 10px !important;
+  color: #ffffff !important;
+  background-color: #0277bd !important;
+  border-radius: 10px !important;
 }
 
 .senderText {
-    background-color: #E7E7E7;
-    padding: 1%;
+  background-color: #e7e7e7;
+  padding: 1%;
 }
 
 .receiverText {
-    color: #FFFFFF;
-    background-color: #2FC753;
-    padding: 1%;
-    margin-left: auto; 
+  color: #ffffff;
+  background-color: #39c16c;
+  padding: 1%;
+  margin-left: auto;
 }
 
 .textBubble {
-    border-radius: 10px;
-    min-height: 25px;
-    max-width: 50%;
+  border-radius: 10px;
+  min-height: 25px;
+  max-width: 50%;
 }

@@ -5,13 +5,13 @@ import { Redirect, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // Import Material-ui
-import { 
+import {
     Button,
-    Container, 
-    Grid, 
-    Paper, 
-    TextField 
- } from '@material-ui/core';
+    Container,
+    Grid,
+    Paper,
+    TextField
+} from '@material-ui/core';
 
 // Import CSS
 import styles from './LoginForm.module.css';
@@ -21,8 +21,8 @@ import { loginUser } from '../../actions/auth'
 
 function LoginForm(props) {
     const { loginSuccess, submitLoginRequest } = props;
-    const [email, setEmail] = useState(''); 
-    const [password, setPassword] = useState(''); 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = () => {
         // Ensure all inputs are present before submitting
@@ -30,7 +30,7 @@ function LoginForm(props) {
             toast.error("Please input an email address.", {
                 position: toast.POSITION.TOP_RIGHT
             });
-        } else if (!password) { 
+        } else if (!password) {
             toast.error("Please input a password.", {
                 position: toast.POSITION.TOP_RIGHT
             });
@@ -39,38 +39,37 @@ function LoginForm(props) {
         }
     };
 
-    if (loginSuccess) { 
-        return <Redirect to='/findfriends'/>
+    if (loginSuccess) {
+        return <Redirect to='/findfriends' />
     } else {
         return (
             <Container>
-                <Paper elevation={5} className={styles.paperStyle} 
-                >
+                <Paper elevation={5} className={styles.paperStyle}>
                     <form noValidate autoComplete="off">
                         <Grid>
                             <h3 className={styles.inputLabel}>NUS Email:</h3>
-                            <TextField 
-                                variant="outlined" 
+                            <TextField
+                                variant="outlined"
                                 className={styles.textWidth}
-                                onChange={event => { 
+                                onChange={event => {
                                     setEmail(event.target.value)
                                 }}
                             />
                         </Grid>
                         <Grid>
                             <h3 className={styles.inputLabel}>Password:</h3>
-                            <TextField 
-                                variant="outlined" 
-                                type="password" 
+                            <TextField
+                                variant="outlined"
+                                type="password"
                                 className={styles.textWidth}
-                                onChange={event => { 
+                                onChange={event => {
                                     setPassword(event.target.value)
                                 }}
                             />
                         </Grid>
                         <Grid className={styles.rowGap}>
-                            <Button 
-                                variant="contained" 
+                            <Button
+                                variant="contained"
                                 className={
                                     `${styles.loginButtonGap} 
                                     ${styles.loginButton}`}
@@ -78,8 +77,8 @@ function LoginForm(props) {
                             >
                                 Login
                             </Button>
-                            <Button 
-                                variant="contained" 
+                            <Button
+                                variant="contained"
                                 className={
                                     `${styles.signupButtonGap} 
                                     ${styles.signUpButton}`
@@ -98,15 +97,15 @@ function LoginForm(props) {
     }
 }
 
-function mapStateToProps(state) { 
+function mapStateToProps(state) {
     return {
         loginSuccess: state.auth.loginSuccess
     };
 }
 
-function mapDispatchToProps(dispatch, props) { 
+function mapDispatchToProps(dispatch, props) {
     return {
-        submitLoginRequest: (email, password) => dispatch(loginUser(email,password))
+        submitLoginRequest: (email, password) => dispatch(loginUser(email, password))
     };
 }
 
