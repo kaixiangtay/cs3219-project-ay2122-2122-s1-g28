@@ -8,12 +8,14 @@ router.get('/', function (req, res) {
     });
 });
 
+router.route('/login')
+    .post(userController.loginUser)
 router.route('/users')
     .get(userController.index)
     .post(userController.registerUser)
 
 router.route('/users/:user_id')
-    .get(userController.viewAllUsers)
+    .get(userController.viewUser)
     .put(userController.updateUser)
     .delete(userController.deleteUser)
 
