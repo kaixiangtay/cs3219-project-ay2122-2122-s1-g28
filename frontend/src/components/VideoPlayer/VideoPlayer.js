@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
+// Import Settings
+import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 
-//FontAwesome
+// Import FontAwesome
 import { faVideo, faVideoSlash, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-//Resources (Simulate Video, remove when implementing socket.io)
+// Import Resources (Simulate Video, remove when implementing socket.io)
 import Profile from '../../resources/Profile.png';
 import NUSociaLife_Login_logo from '../../resources/NUSociaLife_Login_Logo.png';
 
-//CSS
+// Import CSS
 import styles from './VideoPlayer.module.css';
 
 function VideoPlayer() {

@@ -1,27 +1,5 @@
-.allFont {
-  color: #ffffff;
-}
-
-.centerText {
-  text-align: center;
-}
-
 .parentGrid {
   background-color: #53718a;
-}
-
-.matchButton {
-  color: #ffffff !important;
-  background-color: #d288a2 !important;
-  width: 250px;
-  margin: 3% !important;
-}
-
-.unmatchButton {
-  color: #ffffff !important;
-  background-color: #dc143c !important;
-  width: 250px;
-  margin: 3% !important;
 }
 
 .chatSection {

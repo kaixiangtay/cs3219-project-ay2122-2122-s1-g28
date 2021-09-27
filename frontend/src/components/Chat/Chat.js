@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
+// Import Settings
+import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
-//Components
+// Import Components
 import ChatMessage from '../ChatMessage/ChatMessage.js';
 import PageTitle from '../PageTitle/PageTitle.js';
 import VideoPlayer from '../VideoPlayer/VideoPlayer.js';
 
-//Constants 
+// Import Constants 
 import { UNMATCHED } from '../../constants/FindFriendsConstants';
 
-//CSS
+// Import CSS
 import styles from './Chat.module.css';
 
 function Chat({ handleMatchState }) {
@@ -56,26 +57,26 @@ function Chat({ handleMatchState }) {
     const [messages, setMessages] = useState(textMessages)
 
     return (
-        <Container className={styles.allFont}>
+        <Container className="primary-font">
             <Grid 
                 spacing={2} 
             >
-                <Grid item md={12} className={styles.centerText}>
+                <Grid item md={12} className="center-text">
                     <PageTitle title={'Find Friends'} icon={faUserFriends}/>
                 </Grid>
                 <Grid container item md={12} className={styles.parentGrid}>
-                    <Grid item md={12} className={styles.centerText}>
+                    <Grid item md={12} className="center-text">
                         <h2>You have matched with {matchInfo.name}!</h2>
                     </Grid>
                     <Grid item md={9} className={styles.chatSection}>
                         <ChatMessage messages={messages} setMessages={setMessages}/>
                     </Grid>
-                    <Grid direction='column' item md={3} className={`${styles.centerText} ${styles.videoSection}`}>
+                    <Grid direction='column' item md={3} className={`center-text ${styles.videoSection}`}>
                         <Grid>
                             <VideoPlayer/>
                         </Grid>
                         <Grid>
-                            <Button variant="contained" className={styles.unmatchButton} onClick={() => handleMatchState(UNMATCHED)}>
+                            <Button variant="contained" className="red-button" onClick={() => handleMatchState(UNMATCHED)}>
                                 Unmatch
                             </Button>
                         </Grid> 

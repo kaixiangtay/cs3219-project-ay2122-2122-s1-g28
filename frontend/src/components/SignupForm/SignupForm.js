@@ -16,7 +16,7 @@ import {
 // Import CSS
 import styles from './SignupForm.module.css';
 
-// Import actions
+// Import Actions
 import { signupUser } from '../../actions/signup';
 
 function SignupForm(props) {

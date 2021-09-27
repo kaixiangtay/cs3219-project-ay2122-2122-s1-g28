@@ -15,65 +15,58 @@ import styles from './ProfileForm.module.css';
 
 function ProfileForm() {
   return (
-    <Container>
-      <Grid>
-        <h2 className={styles.header}>ACCOUNT INFROMATION</h2>
-        <div className={styles.inputRow}>
-          <h3 className={styles.inputHeader}>Email</h3>
+    <Container className="primary-font">
+      <Grid container 
+            spacing={1} 
+            alignItems='center'
+            justifyContent='center'
+      >
+        <Grid item md={12}>
+          <h2>Account Information</h2>
+          <h3>Email</h3>
           <TextField
             required 
             variant="outlined"
             size="small"
             className={styles.inputBox}
           />
-        </div>
-        <div className={styles.inputRow}>
-          <h3 className={styles.inputHeader}>Username</h3>
+        </Grid>
+        <Grid item md={12}>
+          <h3>Username</h3>
           <TextField
             required 
             variant="outlined"
             size="small"
             className={styles.inputBox}
           />
-        </div>
-      </Grid>
-      <Grid className={styles.passwordContainer}>
-        <h2 className={styles.header}>PASSWORD MANAGEMENT</h2>
-        <div className={styles.inputRow}>
-          <h3 className={styles.inputHeader}>Current Password</h3>
+        </Grid>
+        <Grid item md={12}>
+          <h2>Change Password</h2>
+          <h3>Current Password</h3>
           <TextField
             required 
             variant="outlined"
             size="small"
             className={styles.inputBox}
           />
-        </div>
-        <div className={styles.inputRow}>
-          <h3 className={styles.inputHeader}>New Password</h3>
+        </Grid>
+        <Grid item md={12}>
+          <h3>New Password</h3>
           <TextField
             required 
             variant="outlined"
             size="small"
             className={styles.inputBox}
           />
-        </div>
-        <div className={styles.inputRow}>
-          <h3 className={styles.inputHeader}>Confirm Password</h3>
-          <TextField
-            required 
-            variant="outlined"
-            size="small"
-            className={styles.inputBox}
-          />
-        </div>
-      </Grid>
-      <Grid container className={styles.buttonContainer}>
-        <Button className={styles.deleteButton}>
-          Delete Account
-        </Button>
-        <Button className={styles.saveButton}>
-          Save Changes
-        </Button>
+        </Grid>
+        <Grid item md={12} className={styles.buttonContainer}>
+          <Button className="red-button">
+            Delete Account
+          </Button>
+          <Button className="green-button">
+            Save Changes
+          </Button>
+        </Grid>
       </Grid>
     </Container>
   )
