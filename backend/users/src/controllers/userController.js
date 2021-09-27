@@ -1,5 +1,5 @@
-const { userRegisterValidator, userLoginValidator, userPasswordValidator, userExistence} = require('../validators/userValidator')
-const { check, validationResult} = require('express-validator')
+const { userRegisterValidator, userLoginValidator, userPasswordValidator} = require('../validators/userValidator')
+const { validationResult } = require('express-validator')
 const bcrypt = require("bcrypt");
 let User = require("../models/userModel");
 
@@ -106,7 +106,7 @@ exports.updateUser = [
 			const saltRounds = 10;
 			// Hash the user password
 			user.password = bcrypt.hashSync(req.body.password, saltRounds);
-			
+
 			// save the user and check for errors
 			user.save(function (err) {
 				res.status(200).json({
