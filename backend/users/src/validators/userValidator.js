@@ -1,4 +1,5 @@
 const { check } = require('express-validator')
+const User = require('../models/userModel')
 
 
 exports.userNameValidator = () => {
@@ -25,6 +26,14 @@ exports.userPasswordValidator = () => {
     return [
         check('password').notEmpty().withMessage("Password is a compulsory field"),
         check('password').isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
+    ]
+}
+
+exports.userExistence = () => {
+    return [
+        check('_id')
+        .exists()
+        .withMessage("No user found")
     ]
 }
 

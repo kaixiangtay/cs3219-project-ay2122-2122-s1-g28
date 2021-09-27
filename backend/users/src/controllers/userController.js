@@ -1,5 +1,5 @@
-const { userRegisterValidator, userLoginValidator } = require('../validators/userValidator')
-const { validationResult} = require('express-validator')
+const { userRegisterValidator, userLoginValidator, userPasswordValidator, userExistence} = require('../validators/userValidator')
+const { check, validationResult} = require('express-validator')
 const bcrypt = require("bcrypt");
 let User = require("../models/userModel");
 
@@ -83,9 +83,45 @@ exports.registerUser = [
 // 	}
 // };
 
+
+exports.updateUser = [
+	userPasswordValidator(),
+	(req, res) => { 
+
+		User.findById(req.params.user_id, function (err, user) {
+			if (!user) {
+				res.status(404).json({
+					error: "User not found!",
+				});
+				return;
+			}
+
+			const errors = validationResult(req);
+	
+			if (!errors.isEmpty()) {
+			return res.status(404).json(errors.array());
+			}
+	
+			// Use salting technique to generate a more secure hash
+			const saltRounds = 10;
+			// Hash the user password
+			user.password = bcrypt.hashSync(req.body.password, saltRounds);
+			
+			// save the user and check for errors
+			user.save(function (err) {
+				res.status(200).json({
+					message: "User Info updated",
+					data: user,
+				});
+			});
+		});
+		
+	}
+  ];
+
 exports.viewUser = function (req, res) {
 	User.findById(req.params.user_id, function (err, user) {
-		if (user == null) {
+		if (!user) {
             res.status(404).json({ error: "User not found!" });
         } else {
 			res.status(200).json({
@@ -93,27 +129,6 @@ exports.viewUser = function (req, res) {
 				data: user,
 			});
 		}
-	});
-};
-
-exports.updateUser = function (req, res) {
-	User.findById(req.params.user_id, function (err, user) {
-        if (user == null) {
-            res.status(404).json({
-                error: "User not found!",
-            });
-            return;
-        }
-		user.name = req.body.name ? req.body.name : user.name;
-		user.email = req.body.email ? req.body.email : user.email;
-		user.password = req.body.password ? req.body.password : user.password;
-		// save the user and check for errors
-		user.save(function (err) {
-			res.status(200).json({
-				message: "User Info updated",
-				data: user,
-			});
-		});
 	});
 };
 
