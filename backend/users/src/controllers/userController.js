@@ -1,4 +1,4 @@
-const { userFieldsValidator } = require('../validators/userValidator')
+const { userRegisterValidator, userLoginValidator } = require('../validators/userValidator')
 const { validationResult} = require('express-validator')
 const bcrypt = require("bcrypt");
 let User = require("../models/userModel");
@@ -21,7 +21,7 @@ exports.index = function (req, res) {
 };
 
 exports.registerUser = [
-	userFieldsValidator(),
+	userRegisterValidator(),
 	(req, res) => { 
 
 		const errors = validationResult(req);
@@ -136,7 +136,7 @@ exports.deleteUser = function (req, res) {
 };
 
 
-exports.loginUser = [userFieldsValidator(), (req, res) => {
+exports.loginUser = [userLoginValidator(), (req, res) => {
 	const errors = validationResult(req);
 	
 	if (!errors.isEmpty()) {
