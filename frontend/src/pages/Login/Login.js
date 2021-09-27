@@ -1,20 +1,17 @@
-//Settings
+// Import Settings
 import React from 'react';
 
-//Material-ui
-import { 
-    Container,
-    Grid 
- } from '@material-ui/core';
+// Import Material-ui
+import { Container, Grid } from '@material-ui/core';
 
-//Components
+// Import Components
 import LoginForm from '../../components/LoginForm/LoginForm.js';
 
-//Resources
+// Import Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Login_Logo.png';
 import RandomScribble from '../../resources/RandomScribble.png';
 
-//CSS
+// Import CSS
 import styles from './Login.module.css';
 
 function Login(props) {
@@ -25,7 +22,7 @@ function Login(props) {
           container 
           alignItems="center"
           justifyContent="center"
-          className={styles.verticalCenter}
+          className="empty-navbar-gap"
         >
           <Grid item md={6}>
             <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo}/>

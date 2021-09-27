@@ -1,5 +1,5 @@
 .messageInputSection {
-  background-color: #415a77 !important;
+  background-color: var(--MIDBLUE) !important;
   padding: 2% !important;
   text-align: center !important;
 }
@@ -19,19 +19,19 @@
 }
 
 .sendButton {
-  color: #ffffff !important;
-  background-color: #0277bd !important;
+  color: var(--WHITE) !important;
+  background-color: var(--DEEPBLUE) !important;
   border-radius: 10px !important;
 }
 
 .senderText {
-  background-color: #e7e7e7;
+  background-color: var(--GREY);
   padding: 1%;
 }
 
 .receiverText {
-  color: #ffffff;
-  background-color: #39c16c;
+  color: var(--WHITE);
+  background-color: var(--DEEPGREEN);
   padding: 1%;
   margin-left: auto;
 }

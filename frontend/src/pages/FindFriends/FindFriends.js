@@ -1,7 +1,7 @@
-//Settings
+// Import Settings
 import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import { 
     Button, 
     Container, 
@@ -9,17 +9,17 @@ import {
     Tooltip 
 } from '@material-ui/core';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
-//Components
+// Import Components
 import Chat from '../../components/Chat/Chat.js';
 import Navbar from '../../components/Navbar/Navbar.js';
 import MatchInterest from '../../components/MatchInterest/MatchInterest.js';
 import PageTitle from '../../components/PageTitle/PageTitle.js';
 import SearchMatch from '../../components/SearchMatch/SearchMatch.js';
 
-//Constants 
+// Import Constants 
 import {
     GENDER,
     SPORT,
@@ -31,9 +31,6 @@ import {
     MATCHED
 } from '../../constants/FindFriendsConstants'
 
-//CSS
-import styles from './FindFriends.module.css';
-
 function FindFriends() {
     const [matchState, setMatchState] = useState(UNMATCHED);
 
@@ -42,14 +39,14 @@ function FindFriends() {
     }
 
     const findFriendsJsx = (
-        <Container className={styles.allFont}>
+        <Container className="primary-font">
             <Grid 
                 container 
                 spacing={2} 
                 alignItems='center'
                 justifyContent='center'
             >
-                <Grid item md={12} className={styles.centerText}>
+                <Grid item md={12} className="center-text">
                     <PageTitle title={'Find Friends'} icon={faUserFriends}/>
                     <h2>Choose your match requirements:</h2>
                 </Grid>
@@ -72,7 +69,7 @@ function FindFriends() {
                     title={<h2>Note: You will be matched with anyone if no interest is selected.</h2>}
                     className={null}
                 >
-                    <Button variant="contained" className={styles.matchButton} onClick={() => handleMatchState(LOADING)}>
+                    <Button variant="contained" className="green-button" onClick={() => handleMatchState(LOADING)}>
                         Match
                     </Button>
                 </Tooltip>

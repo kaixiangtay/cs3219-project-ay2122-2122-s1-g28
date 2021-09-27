@@ -1,21 +1,22 @@
-import React, {useEffect} from 'react';
+// Import Settings
+import React, { useEffect } from 'react';
 
-//Material-ui
+// Import Material-ui
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
-//Components
+// Import Components
 import PageTitle from '../PageTitle/PageTitle.js';
 
-//Constants 
+// Import Constants 
 import { UNMATCHED, MATCHED } from '../../constants/FindFriendsConstants'
 
-//CSS
+// Import CSS
 import styles from './SearchMatch.module.css';
 
 function SearchMatch({ handleMatchState }) {
@@ -28,19 +29,19 @@ function SearchMatch({ handleMatchState }) {
     }, [handleMatchState])
 
     return (
-        <Container className={styles.allFont}>
+        <Container className="primary-font">
             <Grid 
                 container 
                 spacing={2} 
                 alignItems='center'
                 justifyContent='center'
             >
-                <Grid item md={12} className={styles.centerText}>
+                <Grid item md={12} className="center-text">
                     <PageTitle title={'Find Friends'} icon={faUserFriends}/>
                     <h2>We are finding a new friend for you, give us some time!</h2>
                     <CircularProgress color="inherit" className={styles.spinner} size={300}/>
                 </Grid>
-                <Button variant="contained" className={styles.cancelMatchButton} onClick={() => handleMatchState(UNMATCHED)}>
+                <Button variant="contained" className="red-button" onClick={() => handleMatchState(UNMATCHED)}>
                     Cancel Matching
                 </Button>
             </Grid>

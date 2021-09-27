@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+// Import Settings
+import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-//Resources (Remove when sync up with backend)
+// Import Resources (Remove when sync up with backend)
 import profile from '../../resources/Profile.png';
 
-//CSS
+// Import CSS
 import styles from './VerifyEmail.module.css';
 
 function VerifyEmail() {

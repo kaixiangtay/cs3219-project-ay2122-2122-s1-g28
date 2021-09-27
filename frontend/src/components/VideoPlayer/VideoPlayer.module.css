@@ -4,15 +4,9 @@
 }
 
 .videoSettingButton {
-    background-color: #ffffff !important;
+    background-color: var(--WHITE) !important;
     width: 50px !important;
     height: 50px !important;
     margin-left: 2% !important;
     margin-right: 2% !important;
-}
-
-.videoSettingButton:hover {
-    background-color: #ffffff !important;
-    width: 50px !important;
-    height: 50px !important;
 }
