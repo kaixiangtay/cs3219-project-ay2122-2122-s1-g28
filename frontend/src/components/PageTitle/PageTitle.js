@@ -1,9 +1,10 @@
+// Import Settings
 import React from 'react';
 
-//Material-ui
+// Import Material-ui
 import Grid from '@material-ui/core/Grid';
 
-//FontAwesome
+// Import FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function PageTitle({title, icon}) {

@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
+// Import Settings
+import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
-//Components
+// Import Components
 import ChatMessage from '../ChatMessage/ChatMessage.js';
 import PageTitle from '../PageTitle/PageTitle.js';
 import VideoPlayer from '../VideoPlayer/VideoPlayer.js';
 
-//Constants 
+// Import Constants 
 import { UNMATCHED } from '../../constants/FindFriendsConstants';
 
-//CSS
+// Import CSS
 import styles from './Chat.module.css';
 
 function Chat({ handleMatchState }) {

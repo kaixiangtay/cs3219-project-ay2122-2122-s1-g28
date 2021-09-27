@@ -1,10 +1,10 @@
 // Import Settings
 import React from 'react';
 
-//Material-ui
+// Import Material-ui
 import { Container, Grid } from '@material-ui/core';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 
 // Import Components

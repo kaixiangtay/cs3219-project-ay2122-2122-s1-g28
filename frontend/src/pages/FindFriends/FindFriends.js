@@ -1,7 +1,7 @@
-//Settings
+// Import Settings
 import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import { 
     Button, 
     Container, 
@@ -9,17 +9,17 @@ import {
     Tooltip 
 } from '@material-ui/core';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
-//Components
+// Import Components
 import Chat from '../../components/Chat/Chat.js';
 import Navbar from '../../components/Navbar/Navbar.js';
 import MatchInterest from '../../components/MatchInterest/MatchInterest.js';
 import PageTitle from '../../components/PageTitle/PageTitle.js';
 import SearchMatch from '../../components/SearchMatch/SearchMatch.js';
 
-//Constants 
+// Import Constants 
 import {
     GENDER,
     SPORT,

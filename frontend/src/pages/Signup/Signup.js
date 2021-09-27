@@ -1,20 +1,17 @@
-//Settings
+// Import Settings
 import React from 'react';
 
-//Material-ui
-import { 
-    Container,
-    Grid 
- } from '@material-ui/core';
+// Import Material-ui
+import { Container, Grid } from '@material-ui/core';
 
-//Components
+// Import Components
 import SignupForm from '../../components/SignupForm/SignupForm.js';
 
-//Resources
+// Import Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Login_Logo.png';
 import RandomScribble from '../../resources/RandomScribble.png';
 
-//CSS
+// Import CSS
 import styles from './Signup.module.css';
 
 function Signup(props) { 

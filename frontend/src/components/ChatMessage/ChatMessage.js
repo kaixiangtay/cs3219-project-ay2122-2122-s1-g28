@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+// Import Settings
+import React, { useState } from 'react';
 
-//Material-ui
+// Import Material-ui
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
 
-//CSS
+// Import CSS
 import styles from './ChatMessage.module.css';
 
 function ChatMessage({ messages, setMessages }) {

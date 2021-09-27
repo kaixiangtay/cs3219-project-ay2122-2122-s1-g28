@@ -1,27 +1,27 @@
-//Settings
+// Import Settings
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-//Material-ui
+// Import Material-ui
 import { 
     AppBar, 
     IconButton, 
     Toolbar 
 } from '@material-ui/core';
 
-//FontAwesome
+// Import FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { faCommentAlt, faUserCircle } from '@fortawesome/free-regular-svg-icons';
 
-//CSS
+// Import CSS
 import styles from './Navbar.module.css';
 
-//Resources
+// Import Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Navbar_Icon.png';
 
-//Actions
+// Import Actions
 import { logoutUser } from '../../actions';
 
 function Navbar(props) {

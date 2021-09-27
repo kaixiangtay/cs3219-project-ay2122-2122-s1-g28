@@ -1,21 +1,22 @@
-import React, {useEffect} from 'react';
+// Import Settings
+import React, { useEffect } from 'react';
 
-//Material-ui
+// Import Material-ui
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-//FontAwesome
+// Import FontAwesome
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 
-//Components
+// Import Components
 import PageTitle from '../PageTitle/PageTitle.js';
 
-//Constants 
+// Import Constants 
 import { UNMATCHED, MATCHED } from '../../constants/FindFriendsConstants'
 
-//CSS
+// Import CSS
 import styles from './SearchMatch.module.css';
 
 function SearchMatch({ handleMatchState }) {
