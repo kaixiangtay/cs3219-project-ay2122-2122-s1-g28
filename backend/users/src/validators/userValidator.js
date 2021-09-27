@@ -1,6 +1,4 @@
 const { check } = require('express-validator')
-const User = require('../models/userModel')
-
 
 exports.userNameValidator = () => {
     return [
@@ -11,14 +9,18 @@ exports.userNameValidator = () => {
 exports.userEmailValidator = () => {
     return [
     check('email').notEmpty().withMessage("Email is a compulsory field"),
-    check('email').contains("@u.nus.edu").custom(value => {
+    
+    check('email')
+    .contains("@u.nus.edu")
+    .custom(value => {
         const domain = value.substring(value.lastIndexOf("@") + 1)
         if (domain === "u.nus.edu") {
             return true
         } else {
             return false
         }
-    }).withMessage("Email should be in the form of @u.nus.edu"),
+    })
+    .withMessage("Email should be in the form of @u.nus.edu"),
     ]
 }
 
@@ -26,14 +28,6 @@ exports.userPasswordValidator = () => {
     return [
         check('password').notEmpty().withMessage("Password is a compulsory field"),
         check('password').isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
-    ]
-}
-
-exports.userExistence = () => {
-    return [
-        check('_id')
-        .exists()
-        .withMessage("No user found")
     ]
 }
 
