@@ -30,25 +30,34 @@ exports.registerUser = [
 		  return res.status(404).json(errors.array());
 		}
 		
-		var user = new User();	
-		user.name = req.body.name;
-		user.email = req.body.email;
-
-		// Use salting technique to generate a more secure hash
-		const saltRounds = 10;
-		// Hash the user password
-		user.password = bcrypt.hashSync(req.body.password, saltRounds);
-
-		user.save(function (err) {
-			if (err) {
-				res.status(404).json(err);
-			} else {
-				res.status(200).json({
-					message: "New user created!",
-					data: user,
+		User.findOne({email:req.body.email}).then( user => {
+			if(user){
+				return res.status(404).json({
+					status: "error",
+					message: "Email exists",
 				});
-			}
-		});
+			} else {
+				var user = new User();	
+				user.name = req.body.name;
+				user.email = req.body.email;
+
+				// Use salting technique to generate a more secure hash
+				const saltRounds = 10;
+				// Hash the user password
+				user.password = bcrypt.hashSync(req.body.password, saltRounds);
+
+				user.save(function (err) {
+					if (err) {
+						res.status(404).json(err);
+					} else {
+						res.status(200).json({
+							message: "New user created!",
+							data: user,
+						});
+					}
+				});
+					}
+		})	
 	}
   ];
 
@@ -134,11 +143,12 @@ exports.loginUser = [userFieldsValidator(), (req, res) => {
 		return res.status(404).json(errors.array());
 	  }	
 		
-	User.findOne(req.params.email, function (err, user) {
-		if (user == null) {
-            res.status(404).json({ error: "Invalid email!" });
+	  User.findOne({email:req.body.email}).then(user => {
+		if (!user) {
+            res.status(404).json({ error: "Email cannot be found!" });
         } else {
 			const body = req.body;
+			
 			// compare user password with hashed password in database
 			const validPassword = bcrypt.compareSync(body.password, user.password);
 
