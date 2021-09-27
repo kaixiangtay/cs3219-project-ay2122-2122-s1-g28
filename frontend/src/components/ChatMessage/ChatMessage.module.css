@@ -1,0 +1,43 @@
+.messageInputSection {
+  background-color: var(--MIDBLUE) !important;
+  padding: 2% !important;
+  text-align: center !important;
+}
+
+.chatContainer {
+  min-height: 60vh;
+  max-height: 60vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.sendText {
+  height: 25px;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.sendButton {
+  color: var(--WHITE) !important;
+  background-color: var(--DEEPBLUE) !important;
+  border-radius: 10px !important;
+}
+
+.senderText {
+  background-color: var(--GREY);
+  padding: 1%;
+}
+
+.receiverText {
+  color: var(--WHITE);
+  background-color: var(--DEEPGREEN);
+  padding: 1%;
+  margin-left: auto;
+}
+
+.textBubble {
+  border-radius: 10px;
+  min-height: 25px;
+  max-width: 50%;
+}

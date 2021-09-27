@@ -1,0 +1,11 @@
+.image {
+  height: 240px !important;
+  width: 240px !important;
+  margin: auto;
+}
+
+.editPictureButton {
+  margin-top: 5% !important;
+  color: var(--WHITE) !important;
+  background-color: #03a9f4 !important;
+}

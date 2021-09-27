@@ -1,0 +1,57 @@
+.paperStyle {
+  padding-top: 2%;
+  padding-bottom: 5%;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+.textWidth {
+  width: 100%;
+}
+
+.rowGap {
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3%;
+}
+
+.inputLabel {
+  margin-bottom: 1%;
+}
+
+.createAccountButtonGap {
+  margin-top: 2% !important;
+}
+
+.createAccountButton {
+  color: #ffffff !important;
+  background-color: #f9ab55 !important;
+  height: 50px !important;
+  width: 100% !important;
+}
+
+.loginButton:hover {
+  background-color: #d288a2 !important;
+  opacity: 80% !important;
+}
+
+.returnButtonGap {
+  margin-top: 4% !important;
+  margin-bottom: 2% !important;
+}
+
+.returnButton {
+  color: #415a77 !important;
+  background-color: #ffffff !important;
+  height: 50px !important;
+  width: auto !important;
+}
+
+.returnButton:hover {
+  background-color: #ffffff !important;
+  opacity: 80% !important;
+}

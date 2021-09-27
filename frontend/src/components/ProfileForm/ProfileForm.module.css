@@ -1,0 +1,9 @@
+.inputBox {
+  background-color: var(--WHITE);
+  width: 80%;
+}
+
+.buttonContainer {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}

@@ -1,45 +1,52 @@
 .paperStyle {
-    padding: 10%;
-    padding-top: 15%;
-    padding-bottom: 15%;
+  padding-top: 4%;
+  padding-bottom: 11%;
+  padding-left: 6%;
+  padding-right: 6%;
 }
 
 .textWidth {
-    width:100%;
+  width: 100%;
 }
 
 .rowGap {
-    padding-top: 3%;
-    padding-bottom: 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
 }
 
-.buttonGap {
-    margin-top: 2% !important;
+.inputLabel {
+  margin-bottom: 1%;
+}
+
+.loginButtonGap {
+  margin-top: 2% !important;
 }
 
 .loginButton {
-    color: #FFFFFF !important;
-    background-color: #D288A2 !important;
-    height: 50px !important;
-    width:100% !important;
+  color: #ffffff !important;
+  background-color: #d288a2 !important;
+  height: 50px !important;
+  width: 100% !important;
 }
 
 .loginButton:hover {
-    background-color: #D288A2 !important;
-    opacity: 80% !important;
+  background-color: #d288a2 !important;
+  opacity: 80% !important;
+}
+
+.signupButtonGap {
+  margin-top: 4% !important;
+  margin-bottom: 2% !important;
 }
 
 .signUpButton {
-    color: #415A77 !important;
-    background-color: #FFFFFF !important;
-    height: 50px !important;
-    width:100% !important;
+  color: #415a77 !important;
+  background-color: #ffffff !important;
+  height: 50px !important;
+  width: 100% !important;
 }
 
 .signUpButton:hover {
-    background-color: #FFFFFF !important;
-    opacity: 80% !important;
+  background-color: #ffffff !important;
+  opacity: 80% !important;
 }
-
-
-

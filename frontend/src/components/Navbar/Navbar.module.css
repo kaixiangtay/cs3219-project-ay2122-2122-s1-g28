@@ -1,28 +1,29 @@
 .navColor {
-    background-color: #1B263B!important;
+  background-color: var(--DARKBLUE) !important;
 }
 
 .nav {
-    position:absolute;
-    right: 0%;
+  position: absolute;
+  right: 2%;
 }
 
 .navIcon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .titleSpacing {
-    padding: 0px;
-    margin: 0px;
-    font-size: small;
+  padding: 0px;
+  margin: 0px;
+  font-size: small;
 }
 
 .selected {
-    text-decoration: underline!important;
+  text-decoration: underline !important;
+  text-underline-offset: 50%;
 }
 
 .logo {
-    height: 100%;
+  height: 55px;
 }
