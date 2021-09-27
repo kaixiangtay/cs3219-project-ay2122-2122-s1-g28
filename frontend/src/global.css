@@ -1,12 +1,17 @@
 :root {
-    /* COLOURS */
+    /* Colour Theme */
     --MIDBLUE: #415A77;
     --DARKBLUE: #1B263B;
     --LIGHTBLUE: #03A9F4;
+    /* Button colours */
     --PINK: #D288A2;
     --GREEN: #00C853;
     --RED: #FF5252;
     --ORANGE: #F9AB55;
+    --DEEPBLUE: #0277BD;
+    /* Text message */
+    --GREY: #e7e7e7;
+    --DEEPGREEN: #39c16c;
     --WHITE: #FFFFFF;
 }
 

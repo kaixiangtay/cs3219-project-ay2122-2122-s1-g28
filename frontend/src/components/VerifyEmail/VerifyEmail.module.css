@@ -10,8 +10,8 @@
 }
 
 .returnLoginButton {
-    color: #ffffff !important;
-    background-color: #d288A2 !important;
+    color: var(--WHITE) !important;
+    background-color: var(--PINK) !important;
     height: 50px !important;
     width: 20% !important;
 }

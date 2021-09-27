@@ -33,7 +33,7 @@ function ChatMessage({ messages, setMessages }) {
                 <List>
                     {
                         messages.map((message) => (
-                            <ListItem className={styles.test}>
+                            <ListItem>
                                 <div className={message.party === 'You' ? `${styles.textBubble} ${styles.receiverText}` : `${styles.textBubble} ${styles.senderText}`}>
                                     {message.message}
                                 </div>

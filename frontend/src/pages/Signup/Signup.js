@@ -25,7 +25,7 @@ function Signup(props) {
           container 
           alignItems="center"
           justifyContent="center"
-          className={styles.verticalCenter}
+          className="empty-navbar-gap"
         >
           <Grid item md={6}>
             <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo}/>
