@@ -8,16 +8,16 @@ import {
  } from '@material-ui/core';
 
 //Components
-import LoginForm from '../../components/LoginForm/LoginForm.js';
+import SignupForm from '../../components/SignupForm/SignupForm.js';
 
 //Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Login_Logo.png';
 import RandomScribble from '../../resources/RandomScribble.png';
 
 //CSS
-import styles from './Login.module.css';
+import styles from './Signup.module.css';
 
-function Login(props) {
+function Signup(props) { 
   return (
     <div>
       <Container>
@@ -31,7 +31,7 @@ function Login(props) {
             <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo}/>
           </Grid>
           <Grid item md={6} xs ={12} sm={12}>
-            <LoginForm/>
+            <SignupForm/>
           </Grid>
         </Grid>
       </Container>
@@ -46,4 +46,4 @@ function Login(props) {
   )
 }
 
-export default Login;
+export default Signup;

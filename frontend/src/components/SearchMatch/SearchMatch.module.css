@@ -8,7 +8,7 @@
 
 .matchButton {
   color: #ffffff !important;
-  background-color: #39c16c !important;
+  background-color: #d288a2 !important;
   width: 250px;
   margin: 3% !important;
 }
@@ -18,4 +18,8 @@
   background-color: #dc143c !important;
   width: 250px;
   margin: 3% !important;
+}
+
+.spinner {
+  margin: 5%;
 }

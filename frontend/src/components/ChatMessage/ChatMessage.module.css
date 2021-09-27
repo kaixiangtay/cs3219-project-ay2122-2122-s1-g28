@@ -1,0 +1,43 @@
+.messageInputSection {
+  background-color: #415a77 !important;
+  padding: 2% !important;
+  text-align: center !important;
+}
+
+.chatContainer {
+  min-height: 60vh;
+  max-height: 60vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.sendText {
+  height: 25px;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.sendButton {
+  color: #ffffff !important;
+  background-color: #0277bd !important;
+  border-radius: 10px !important;
+}
+
+.senderText {
+  background-color: #e7e7e7;
+  padding: 1%;
+}
+
+.receiverText {
+  color: #ffffff;
+  background-color: #39c16c;
+  padding: 1%;
+  margin-left: auto;
+}
+
+.textBubble {
+  border-radius: 10px;
+  min-height: 25px;
+  max-width: 50%;
+}

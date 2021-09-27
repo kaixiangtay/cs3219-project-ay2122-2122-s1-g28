@@ -6,16 +6,28 @@
   text-align: center;
 }
 
+.parentGrid {
+  background-color: #53718a;
+}
+
 .matchButton {
   color: #ffffff !important;
-  background-color: #39c16c !important;
+  background-color: #d288a2 !important;
   width: 250px;
   margin: 3% !important;
 }
 
-.cancelMatchButton {
+.unmatchButton {
   color: #ffffff !important;
   background-color: #dc143c !important;
   width: 250px;
   margin: 3% !important;
+}
+
+.chatSection {
+  padding: 2%;
+}
+
+.videoSection {
+  padding: 2%;
 }
