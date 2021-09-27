@@ -8,8 +8,6 @@ const dbname = "UserDatabase"; //database name for users
 
 mongoose.Promise = global.Promise;
 
-// const connectionURL = "mongodb+srv://user:users123@cluster0.xfyg0.mongodb.net/UserDatabase?retryWrites=true&w=majority";
-
 const connection = mongoose.connect(endpoint,   {
     useNewUrlParser: true,
     useUnifiedTopology: true
