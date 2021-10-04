@@ -8,15 +8,22 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/login')
+router.route('/api/users/login')
     .post(userController.loginUser)
-router.route('/users')
-    .get(userController.index)
+
+router.route('/api/users/signup')
     .post(userController.registerUser)
 
-router.route('/users/:user_id')
+router.route('/api/users')
+    .get(userController.index)
+
+router.route('/api/users/:user_id')
     .get(userController.viewUser)
-    .put(userController.updateUser)
+
+router.route('/api/users/update/:user_id')
+    .patch(userController.updateUser)
+
+router.route('/api/users/delete/:user_id')
     .delete(userController.deleteUser)
 
 module.exports = router; 
