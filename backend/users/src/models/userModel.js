@@ -17,6 +17,10 @@ var UserSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  token: {
+    type: String,
+    required: true,
+  },
   dateCreated: {
     type: Date,
     default: Date.now(),
