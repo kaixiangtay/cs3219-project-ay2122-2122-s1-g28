@@ -16,6 +16,7 @@ jobs:
   deploy:
     env:
         amplifyVersion: 'latest'
+        amplifyEnv: dev
     runs-on: ubuntu-latest
     
     strategy:
@@ -44,7 +45,7 @@ jobs:
           project_dir: './frontend'
           amplify_cli_version: ${{ env.amplifyVersion }}
           amplify_command: configure
-          amplify_env: prod
+          amplify_env: ${{ env.amplifyEnv }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -57,7 +58,7 @@ jobs:
           project_dir: './frontend'
           amplify_cli_version: ${{ env.amplifyVersion }}
           amplify_command: publish
-          amplify_env: prod
+          amplify_env: ${{ env.amplifyEnv }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
