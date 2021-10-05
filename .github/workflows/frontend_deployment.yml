@@ -2,18 +2,21 @@ name: Frontend Deployment (AWS Amplify)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ frontend-amplifyCD ] #master
   pull_request:
-    branches: [ master ]
+    branches: [ frontend-amplifyCD ] #master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+  
+defaults:
+  run:
+    working-directory: frontend
 jobs:
   deploy:
-    runs-on: ubuntu-latest
     env:
-      working-directory: ./frontend
+        amplifyVersion: 'latest'
+    runs-on: ubuntu-latest
     
     strategy:
       matrix:
@@ -28,12 +31,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: 'package-lock.json'
+          
+      # Install node_modules dependencies for frontend
+      - name: install frontend dependencies
+        run: npm install
       
       # Set up and linking to AWS Amplify
       - name: configure amplify
         uses: ambientlight/amplify-cli-action@0.3.0
         with:
+          amplify_cli_version: ${{ env.amplifyVersion }}
           amplify_command: configure
           amplify_env: prod
         env:
@@ -41,14 +49,11 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
       
-      # Install node_modules dependencies for frontend
-      - name: install frontend dependencies
-        run: npm install
-      
       # Deployment to Amplify
       - name: deploy to amplify
         uses: ambientlight/amplify-cli-action@0.3.0
         with:
+          amplify_cli_version: ${{ env.amplifyVersion }}
           amplify_command: publish
           amplify_env: prod
         env:
