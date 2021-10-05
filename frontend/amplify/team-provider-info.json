@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-nusocialife-dev-170959-authRole",
-      "UnauthRoleArn": "arn:aws:iam::081744254661:role/amplify-nusocialife-dev-170959-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::081744254661:role/amplify-nusocialife-dev-170959-authRole",
+      "AuthRoleName": "amplify-nusocialife-dev-172030-authRole",
+      "UnauthRoleArn": "arn:aws:iam::150649193172:role/amplify-nusocialife-dev-172030-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::150649193172:role/amplify-nusocialife-dev-172030-authRole",
       "Region": "ap-southeast-1",
-      "DeploymentBucketName": "amplify-nusocialife-dev-170959-deployment",
-      "UnauthRoleName": "amplify-nusocialife-dev-170959-unauthRole",
-      "StackName": "amplify-nusocialife-dev-170959",
-      "StackId": "arn:aws:cloudformation:ap-southeast-1:081744254661:stack/amplify-nusocialife-dev-170959/06c66f30-25bc-11ec-ba53-0a83db3f8ba8",
-      "AmplifyAppId": "d1z0bpxi5fc9e6"
+      "DeploymentBucketName": "amplify-nusocialife-dev-172030-deployment",
+      "UnauthRoleName": "amplify-nusocialife-dev-172030-unauthRole",
+      "StackName": "amplify-nusocialife-dev-172030",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:150649193172:stack/amplify-nusocialife-dev-172030/7e5acf90-25bd-11ec-aa19-065b6182bb48",
+      "AmplifyAppId": "d1fkto0ctyxhmy"
     }
   }
 }
