@@ -12,10 +12,14 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
+    "googleapis": "^88.2.0",
     "mongoose": "^6.0.5",
+    "nodemailer": "^6.6.5",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
   }
 }
