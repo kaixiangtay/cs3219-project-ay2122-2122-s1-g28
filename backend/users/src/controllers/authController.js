@@ -29,7 +29,7 @@ exports.createAccessToken = (userEmail) => {
 }
 
 exports.resetPasswordToken = (userEmail) => {
-    // Create account sign up JWT token (valid for 15 mins)
+    // Create account password reset JWT token (valid for 15 mins)
     const token = jwt.sign(
         { email: userEmail },
         RESET_PASSWORD_TOKEN_KEY,
