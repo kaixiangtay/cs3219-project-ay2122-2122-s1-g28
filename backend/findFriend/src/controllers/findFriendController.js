@@ -48,7 +48,7 @@ exports.randomMatch = function (req, res) {
                 if (match !== null) {
                     user['matchUserId'] = match['userId']; 
                     user.save(); 
-                    
+
                     res.status(200).json({
                         message: "New match found!",
                         matchId: matchId,
