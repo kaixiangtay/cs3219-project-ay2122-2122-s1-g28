@@ -20,6 +20,18 @@ router.route('/api/users')
 router.route('/api/users/:user_id')
     .get(userController.viewUser)
 
+router.route('/api/users/verifyAccount/:token')
+    .get(userController.verifyUser)
+
+router.route('/api/users/resendActivationEmail')
+    .post(userController.resendActivationEmail)
+
+router.route('/api/users/resetPassword')
+    .post(userController.sendResetPasswordEmail)
+
+router.route('/api/users/resetPassword/:token')
+    .patch(userController.resetPassword)
+
 router.route('/api/users/update/:user_id')
     .patch(userController.updateUser)
 
