@@ -2,7 +2,8 @@ const { userRegisterValidator, userLoginValidator, userPasswordValidator} = requ
 const { validationResult } = require('express-validator')
 const bcrypt = require("bcrypt");
 let User = require("../models/userModel");
-
+const mailer = require("../services/mailer");
+const { EMAIL } = require('../config/config');
 
 exports.index = function (req, res) {
 	User.get(function (err, users) {
@@ -37,10 +38,11 @@ exports.registerUser = [
 					message: "Email exists",
 				});
 			} else {
-				var user = new User();	
+				var user = new User();
+
 				user.name = req.body.name;
 				user.email = req.body.email;
-
+				console.log(user._id)
 				// Use salting technique to generate a more secure hash
 				const saltRounds = 10;
 				// Hash the user password
@@ -50,10 +52,19 @@ exports.registerUser = [
 					if (err) {
 						res.status(404).json(err);
 					} else {
+						mailer.sendEmail({
+							from: EMAIL,
+							to: user.email,
+							subject: "NUSociaLife Account Verification",
+							html: '<b>Pls verify your account by clicking the link: <a href="http://google.com">http://google.com</a></b>',		
+						  });
+
 						res.status(200).json({
 							message: "New user created!",
 							data: user,
 						});
+
+
 					}
 				});
 					}
