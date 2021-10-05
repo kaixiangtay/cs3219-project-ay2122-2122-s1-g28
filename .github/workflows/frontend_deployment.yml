@@ -24,7 +24,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -41,6 +41,7 @@ jobs:
       - name: configure amplify
         uses: ambientlight/amplify-cli-action@0.3.0
         with:
+          project_dir: './frontend'
           amplify_cli_version: ${{ env.amplifyVersion }}
           amplify_command: configure
           amplify_env: prod
@@ -53,6 +54,7 @@ jobs:
       - name: deploy to amplify
         uses: ambientlight/amplify-cli-action@0.3.0
         with:
+          project_dir: './frontend'
           amplify_cli_version: ${{ env.amplifyVersion }}
           amplify_command: publish
           amplify_env: prod
