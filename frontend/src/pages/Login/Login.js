@@ -1,5 +1,9 @@
 // Import Settings
-import React from 'react';
+import React, { useEffect } from 'react';
+
+// Import Redux
+import { signupReset } from '../../actions/signup';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-ui
 import { Container, Grid } from '@material-ui/core';
@@ -14,7 +18,14 @@ import RandomScribble from '../../resources/RandomScribble.png';
 // Import CSS
 import styles from './Login.module.css';
 
-function Login(props) {
+function Login() {
+  const signup = useSelector(state => state.signup);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(signupReset());
+  }, [dispatch, signup])
+
   return (
     <div>
       <Container>

@@ -1,49 +1,65 @@
 import { toast } from "react-toastify";
 
-export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
-export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+// Import constants
+import { 
+  SUCCESS, 
+  FAILURE, 
+  RESET,
+  VERIFIED
+} from '../constants/ReduxConstants.js';
 
-const signupSuccess = (props) => {
-  // Go to login page upon successful signup 
-  props.history.push('/login'); 
+export const signupSuccess = (email) => {
   return {
-    type: SIGNUP_SUCCESS
+    type: SUCCESS,
+    payload: email
   };
 };
 
-const signupFailure = () => {
-  toast.error("Error signing up. Please try again!", {
-    position: toast.POSITION.TOP_RIGHT
-  });
+export const signupFailure = (err) => {
+  for(var i = 0; i < err.length; i++) {
+    toast.error(err[i].msg, {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  }
+
   return {
-    type: SIGNUP_FAILURE
+    type: FAILURE
+  };
+};
+
+export const signupReset = () => {
+  return {
+    type: RESET
+  };
+};
+
+export const signupVerified = () => {
+  return {
+    type: VERIFIED
   };
 };
 
 // Handle user sign up 
-export const signupUser = (userData, props) => dispatch => {
-  const newUserData = {
-    email: userData.email, 
-    username: userData.username,
-    password: userData.password 
-  }; 
-  const requestUrl = ``;
+export const handleSignUpApi = (_name, _email, _password) => dispatch => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/signup`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/x-www-form-urlencoded"
     },
-    body: JSON.stringify(newUserData)
-  })
-    .then(response => {
-      if (response.status === 200) { 
-        dispatch(signupSuccess(props));
-      } else {
-        dispatch(signupFailure()); 
-      }
+    body: new URLSearchParams({
+      name: _name,
+      email: _email,
+      password: _password
     })
-    .catch(() => {
-      dispatch(signupFailure());
-    });
+  }).then(response => {
+    if (response.ok) { 
+      dispatch(signupSuccess(_email));
+    } else {
+      response.json().then(res => dispatch(signupFailure(res)));
+    }
+  }).catch((err) => {
+    err.json().then(res => dispatch(signupFailure(res)));
+  });
 };
