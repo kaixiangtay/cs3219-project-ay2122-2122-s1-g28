@@ -1,8 +1,10 @@
 // Import settings
 import React, { useState } from 'react';
-import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+
+// Import Redux
+import { handleSignUpApi } from '../../actions/signup';
+import { useDispatch } from 'react-redux';
 
 // Import Material-ui
 import { 
@@ -16,40 +18,17 @@ import {
 // Import CSS
 import styles from './SignupForm.module.css';
 
-// Import Actions
-import { signupUser } from '../../actions/signup';
-
-function SignupForm(props) {
-    const { submitSignupRequest } = props; 
+function SignupForm() {
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState(''); 
+    const [name, setName] = useState(''); 
     const [password, setPassword] = useState(''); 
 
-    const handleSubmit = () => {
-        let userData = { 
-            email, 
-            username,
-            password 
-        };
+    const dispatch = useDispatch();
 
-        // Ensure all inputs are present before submitting
-        if (!userData.email) {
-            toast.error("Please input an email address.", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else if (!userData.username) { 
-            toast.error("Please input a username.", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else if (!userData.password) { 
-            toast.error("Please input a password.", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else {
-            submitSignupRequest(userData);
-        }
-    }; 
-
+    const handleSignUp = () => {
+        dispatch(handleSignUpApi(name, email, password));
+    };
+    
     return (
         <Container>
             <Paper elevation={5} className={styles.paperStyle}>
@@ -67,13 +46,13 @@ function SignupForm(props) {
                         />
                     </Grid>
                     <Grid>
-                        <h3 className={styles.inputLabel}>Username:</h3>
+                        <h3 className={styles.inputLabel}>Name:</h3>
                         <TextField 
                             required
                             variant="outlined" 
                             className={styles.textWidth}
                             onChange={event => { 
-                                setUsername(event.target.value)
+                                setName(event.target.value)
                             }}
                         />
                     </Grid>
@@ -95,7 +74,7 @@ function SignupForm(props) {
                             className={
                                 `${styles.createAccountButtonGap} 
                                 ${styles.createAccountButton}`}
-                            onClick={handleSubmit}
+                            onClick={handleSignUp}
                         >
                             Create Account
                         </Button>
@@ -117,16 +96,4 @@ function SignupForm(props) {
     )
 }
 
-function mapStateToProps(state) { 
-    return {};
-}
-
-function mapDispatchToProps(dispatch, props) { 
-    return {
-        submitSignupRequest: userData => dispatch(signupUser(userData, props))
-    };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default withRouter(withConnect(SignupForm));
+export default SignupForm;

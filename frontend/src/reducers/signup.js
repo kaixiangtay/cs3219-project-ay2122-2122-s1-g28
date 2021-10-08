@@ -1,28 +1,55 @@
-import {
-  SIGNUP_SUCCESS,
-  SIGNUP_FAILURE
-} from "../actions/signup";
+//Import constants
+import { 
+  SUCCESS, 
+  FAILURE, 
+  RESET,
+  VERIFIED
+} from '../constants/ReduxConstants.js';
 
 const defaultState = {
-  signupSuccess: false,
-  signupFailure: false, 
+  success: false,
+  failure: false,
+  verified: false,
+  email: ''
 };
 
-export default function signupReducer(state = defaultState, action) {
+function signupReducer(state = defaultState, action) {
   switch (action.type) {
-    case SIGNUP_SUCCESS:
+    case SUCCESS:
       return {
         ...state,
-        signupSuccess: true, 
-        signupFailure: false
+        success: true, 
+        failure: false,
+        verified: false,
+        email: action.payload
       };
-    case SIGNUP_FAILURE:
+    case FAILURE:
       return {
         ...state,
-        signupSuccess: false,
-        signupFailure: true
+        success: false,
+        failure: true,
+        verified: false,
+        email: ''
+      };
+    case RESET:
+      return {
+        ...state,
+        success: false,
+        failure: false,
+        verified: false,
+        email: ''
+      };
+    case VERIFIED:
+      return {
+        ...state,
+        success: false,
+        failure: false,
+        verified: true,
+        email: ''
       };
     default:
       return state;
   }
 };
+
+export default signupReducer;

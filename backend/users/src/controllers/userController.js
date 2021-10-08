@@ -6,18 +6,17 @@ const mailer = require("../services/mailer");
 const { validationResult } = require('express-validator')
 const { userRegisterValidator, userLoginValidator, userPasswordValidator} = require('../validators/userValidator')
 
-
 exports.index = function (req, res) {
 	User.get(function (err, users) {
 		if (err) {
 			return res.status(404).json({
 				status: "error",
-				message: "No Users in database found",
+				msg: "No Users in database found",
 			});
 		} else {
 			res.status(200).json({
 				status: "success",
-				message: "Users retrieved successfully",
+				msg: "Users retrieved successfully",
 				data: users,
 			});
 		}	
@@ -35,10 +34,10 @@ exports.registerUser = [
 		} else {
 			User.findOne({email:req.body.email}).then( user => {
 				if (user) {
-					return res.status(404).json({
+					return res.status(404).json([{
 						status: "error",
-						message: "Email exists",
-					});
+						msg: "Email already exists!",
+					}]);
 				} else {
 					var user = new User();
 	
@@ -59,7 +58,7 @@ exports.registerUser = [
 							});
 	
 							res.status(200).json({
-								message: "New user created!",
+								msg: "New user created!",
 								data: user,
 							});
 						}
@@ -88,7 +87,7 @@ exports.resendActivationEmail = function (req, res) {
 				});
 
 				res.status(200).json({
-					message: "New account sign up email link sent!",
+					msg: "New account sign up email link sent!",
 				});
 			}
 		});
@@ -108,7 +107,7 @@ exports.verifyUser = function (req, res) {
 				// save the user and check for errors
 				user.save(function (err) {
 					res.status(200).json({
-						message: "User successfully verified!",
+						msg: "User successfully verified!",
 						data: user,
 					});
 				});
@@ -137,14 +136,13 @@ exports.sendResetPasswordEmail = function (req, res) {
 				});
 
 				res.status(200).json({
-					message: "Reset password email link sent!",
+					msg: "Reset password email link sent!",
 					data: user
 				});
 			}
 		});
 	});
 }
-
 
 // Reset password when user not logged in to account (will use the same if password link expires)
 exports.resetPassword = function (req, res) { 
@@ -167,7 +165,7 @@ exports.resetPassword = function (req, res) {
 			// save the user and check for errors
 			user.save(function (err) {
 				res.status(200).json({
-					message: "User password has successfully been reset!",
+					msg: "User password has successfully been reset!",
 					data: user,
 				});
 			});
@@ -200,7 +198,7 @@ exports.updateUser = [
 			// save the user and check for errors
 			user.save(function (err) {
 				res.status(200).json({
-					message: "User Info updated",
+					msg: "User Info updated",
 					data: user,
 				});
 			});
@@ -215,7 +213,7 @@ exports.viewUser = function (req, res) {
             res.status(404).json({ error: "User not found!" });
         } else {
 			res.status(200).json({
-				message: "User details loading..",
+				msg: "User details loading..",
 				data: user,
 			});
 		}
@@ -229,7 +227,7 @@ exports.deleteUser = function (req, res) {
 		} else {
 			res.status(200).json({
 				status: "Success",
-				message: "User deleted",
+				msg: "User deleted",
 			});
 		}
 	});
@@ -255,7 +253,7 @@ exports.loginUser = [userLoginValidator(), (req, res) => {
 					// Allow token access for a day
 					user.token = authController.createLoginToken(user.email);
 
-					res.status(200).json({ message: "Login successful!" });
+					res.status(200).json({ msg: "Login successful!" });
 				} else {
 					res.status(400).json({ error: "Invalid Password!" });
 				}
