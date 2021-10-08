@@ -34,10 +34,10 @@ exports.registerUser = [
 		} else {
 			User.findOne({email:req.body.email}).then( user => {
 				if (user) {
-					return res.status(404).json({
+					return res.status(404).json([{
 						status: "error",
 						msg: "Email already exists!",
-					});
+					}]);
 				} else {
 					var user = new User();
 	

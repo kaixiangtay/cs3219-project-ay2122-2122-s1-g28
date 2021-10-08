@@ -1,6 +1,7 @@
 import {
   SIGNUP_SUCCESS,
-  SIGNUP_FAILURE
+  SIGNUP_FAILURE,
+  RESET_STATE
 } from "../actions/signup";
 
 const defaultState = {
@@ -21,6 +22,12 @@ function signupReducer(state = defaultState, action) {
         ...state,
         signupSuccess: false,
         signupFailure: true
+      };
+    case RESET_STATE:
+      return {
+        ...state,
+        signupSuccess: false,
+        signupFailure: false
       };
     default:
       return state;

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from "react-router-dom";
 
 // Import Redux
-import { signupUser } from '../../actions/signup';
+import { signupClear, signupUser } from '../../actions/signup';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-ui
@@ -35,8 +35,9 @@ function SignupForm() {
     useEffect(() => {
         if(signup.signupSuccess) {
             history.push("/login");
+            dispatch(signupClear())
         }
-    }, [history, signup])
+    }, [dispatch, history, signup])
 
     return (
         <Container>

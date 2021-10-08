@@ -2,10 +2,17 @@ import { toast } from "react-toastify";
 
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
+export const RESET_STATE = "RESET_STATE";
 
 export const signupSuccess = () => {
   return {
     type: SIGNUP_SUCCESS
+  };
+};
+
+export const signupClear = () => {
+  return {
+    type: RESET_STATE
   };
 };
 
