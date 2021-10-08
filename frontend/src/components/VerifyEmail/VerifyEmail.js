@@ -1,5 +1,9 @@
 // Import Settings
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from "react-router-dom";
+
+// Import Redux
+import { useSelector } from 'react-redux';
 
 // Import Material-ui
 import Button from '@material-ui/core/Button';
@@ -14,8 +18,7 @@ import profile from '../../resources/Profile.png';
 import styles from './VerifyEmail.module.css';
 
 function VerifyEmail() {
-    //Change implementation when sync up with frontend sign up
-    const [verified, setVerified] = useState(false);
+    const signup = useSelector(state => state.signup);
 
     const unverifiedJsx = (
         <Grid 
@@ -32,11 +35,17 @@ function VerifyEmail() {
             <Grid item md={12}>
                 <p>Please check your email for verification instructions.</p>
                 <p>We have sent a verification email to:</p>
-                {'xxx@u.nus.edu'}
+                {signup.email}
                 <p>Didn’t receive the email? <a href='/verifyemail'>Resend Email</a></p>
             </Grid>
             <Grid item md={12}>
-                <Button variant="contained" color="primary" className={styles.returnLoginButton}>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    className={styles.returnLoginButton}
+                    component={Link}
+                    to="/login"
+                >
                     Return to Login
                 </Button>
             </Grid>
@@ -71,7 +80,7 @@ function VerifyEmail() {
                 className={styles.paper}
             >
                 {
-                    verified 
+                    signup.verified 
                         ? verifiedJsx
                         : unverifiedJsx
                 }

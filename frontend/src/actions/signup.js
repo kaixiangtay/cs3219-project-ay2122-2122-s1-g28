@@ -1,18 +1,17 @@
 import { toast } from "react-toastify";
 
-export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
-export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
-export const RESET_STATE = "RESET_STATE";
+// Import constants
+import { 
+  SUCCESS, 
+  FAILURE, 
+  RESET,
+  VERIFIED
+} from '../constants/ReduxConstants.js';
 
-export const signupSuccess = () => {
+export const signupSuccess = (email) => {
   return {
-    type: SIGNUP_SUCCESS
-  };
-};
-
-export const signupClear = () => {
-  return {
-    type: RESET_STATE
+    type: SUCCESS,
+    payload: email
   };
 };
 
@@ -24,12 +23,24 @@ export const signupFailure = (err) => {
   }
 
   return {
-    type: SIGNUP_FAILURE
+    type: FAILURE
+  };
+};
+
+export const signupReset = () => {
+  return {
+    type: RESET
+  };
+};
+
+export const signupVerified = () => {
+  return {
+    type: VERIFIED
   };
 };
 
 // Handle user sign up 
-export const signupUser = (_name, _email, _password) => dispatch => {
+export const handleSignUpApi = (_name, _email, _password) => dispatch => {
   const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/signup`;
 
   fetch(requestUrl, {
@@ -44,7 +55,7 @@ export const signupUser = (_name, _email, _password) => dispatch => {
     })
   }).then(response => {
     if (response.ok) { 
-      dispatch(signupSuccess());
+      dispatch(signupSuccess(_email));
     } else {
       response.json().then(res => dispatch(signupFailure(res)));
     }

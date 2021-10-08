@@ -1,10 +1,10 @@
 // Import settings
-import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 // Import Redux
-import { signupClear, signupUser } from '../../actions/signup';
-import { useSelector, useDispatch } from 'react-redux';
+import { handleSignUpApi } from '../../actions/signup';
+import { useDispatch } from 'react-redux';
 
 // Import Material-ui
 import { 
@@ -19,26 +19,16 @@ import {
 import styles from './SignupForm.module.css';
 
 function SignupForm() {
-    const [email, setEmail] = useState(' ');
-    const [name, setName] = useState(' '); 
-    const [password, setPassword] = useState(' '); 
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState(''); 
+    const [password, setPassword] = useState(''); 
 
-    let history = useHistory(); 
-
-    const signup = useSelector(state => state.signup);
     const dispatch = useDispatch();
 
     const handleSignUp = () => {
-        dispatch(signupUser(name, email, password));
+        dispatch(handleSignUpApi(name, email, password));
     };
-
-    useEffect(() => {
-        if(signup.signupSuccess) {
-            history.push("/login");
-            dispatch(signupClear())
-        }
-    }, [dispatch, history, signup])
-
+    
     return (
         <Container>
             <Paper elevation={5} className={styles.paperStyle}>
