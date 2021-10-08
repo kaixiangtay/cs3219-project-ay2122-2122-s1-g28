@@ -1,8 +1,10 @@
 // Import settings
-import React, { useState } from 'react';
-import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useHistory, Link } from "react-router-dom";
+
+// Import Redux
+import { signupUser } from '../../actions/signup';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-ui
 import { 
@@ -16,39 +18,25 @@ import {
 // Import CSS
 import styles from './SignupForm.module.css';
 
-// Import Actions
-import { signupUser } from '../../actions/signup';
+function SignupForm() {
+    const [email, setEmail] = useState(' ');
+    const [name, setName] = useState(' '); 
+    const [password, setPassword] = useState(' '); 
 
-function SignupForm(props) {
-    const { submitSignupRequest } = props; 
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState(''); 
-    const [password, setPassword] = useState(''); 
+    let history = useHistory(); 
 
-    const handleSubmit = () => {
-        let userData = { 
-            email, 
-            name,
-            password 
-        };
+    const signup = useSelector(state => state.signup);
+    const dispatch = useDispatch();
 
-        // Ensure all inputs are present before submitting
-        if (!userData.email) {
-            toast.error("Please input an email address.", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else if (!userData.name) { 
-            toast.error("Please input a name.", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else if (!userData.password) { 
-            toast.error("Please input a password.", {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        } else {
-            submitSignupRequest(userData);
+    const handleSignUp = () => {
+        dispatch(signupUser(name, email, password));
+    };
+
+    useEffect(() => {
+        if(signup.signupSuccess) {
+            history.push("/login");
         }
-    }; 
+    }, [history, signup])
 
     return (
         <Container>
@@ -95,7 +83,7 @@ function SignupForm(props) {
                             className={
                                 `${styles.createAccountButtonGap} 
                                 ${styles.createAccountButton}`}
-                            onClick={handleSubmit}
+                            onClick={handleSignUp}
                         >
                             Create Account
                         </Button>
@@ -117,16 +105,4 @@ function SignupForm(props) {
     )
 }
 
-function mapStateToProps(state) { 
-    return {};
-}
-
-function mapDispatchToProps(dispatch, props) { 
-    return {
-        submitSignupRequest: userData => dispatch(signupUser(userData, props))
-    };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default withRouter(withConnect(SignupForm));
+export default SignupForm;

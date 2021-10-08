@@ -5,10 +5,10 @@ import {
 
 const defaultState = {
   signupSuccess: false,
-  signupFailure: false, 
+  signupFailure: false
 };
 
-export default function signupReducer(state = defaultState, action) {
+function signupReducer(state = defaultState, action) {
   switch (action.type) {
     case SIGNUP_SUCCESS:
       return {
@@ -26,3 +26,5 @@ export default function signupReducer(state = defaultState, action) {
       return state;
   }
 };
+
+export default signupReducer;
