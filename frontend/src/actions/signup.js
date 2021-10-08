@@ -23,18 +23,22 @@ const signupFailure = () => {
 // Handle user sign up 
 export const signupUser = (userData, props) => dispatch => {
   const newUserData = {
+    name: userData.name,
     email: userData.email, 
-    username: userData.username,
     password: userData.password 
   }; 
-  const requestUrl = ``;
+  const requestUrl = `${process.env.API_URL}/api/users/signup`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": `${process.env.API_CONTENT_TYPE}`
     },
-    body: JSON.stringify(newUserData)
+    body: new URLSearchParams({
+      name: newUserData.name,
+      email: newUserData.email,
+      password: newUserData.password
+    })
   })
     .then(response => {
       if (response.status === 200) { 

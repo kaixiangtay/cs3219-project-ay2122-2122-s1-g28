@@ -22,13 +22,13 @@ import { signupUser } from '../../actions/signup';
 function SignupForm(props) {
     const { submitSignupRequest } = props; 
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState(''); 
+    const [name, setName] = useState(''); 
     const [password, setPassword] = useState(''); 
 
     const handleSubmit = () => {
         let userData = { 
             email, 
-            username,
+            name,
             password 
         };
 
@@ -37,8 +37,8 @@ function SignupForm(props) {
             toast.error("Please input an email address.", {
                 position: toast.POSITION.TOP_RIGHT
             });
-        } else if (!userData.username) { 
-            toast.error("Please input a username.", {
+        } else if (!userData.name) { 
+            toast.error("Please input a name.", {
                 position: toast.POSITION.TOP_RIGHT
             });
         } else if (!userData.password) { 
@@ -67,13 +67,13 @@ function SignupForm(props) {
                         />
                     </Grid>
                     <Grid>
-                        <h3 className={styles.inputLabel}>Username:</h3>
+                        <h3 className={styles.inputLabel}>Name:</h3>
                         <TextField 
                             required
                             variant="outlined" 
                             className={styles.textWidth}
                             onChange={event => { 
-                                setUsername(event.target.value)
+                                setName(event.target.value)
                             }}
                         />
                     </Grid>
