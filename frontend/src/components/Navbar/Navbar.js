@@ -1,7 +1,10 @@
 // Import Settings
-import React, { useEffect, useState } from 'react';
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
+
+// Import Redux
+import { handleNavigation } from '../../actions/navigation';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-ui
 import { 
@@ -18,57 +21,54 @@ import { faCommentAlt, faUserCircle } from '@fortawesome/free-regular-svg-icons'
 // Import CSS
 import styles from './Navbar.module.css';
 
+// Import constants
+import { 
+    FINDFRIENDS, 
+    FORUM, 
+    PROFILE,
+    LOGOUT
+} from '../../constants/ReduxConstants.js';
+
 // Import Resources
 import NUSociaLifeLogo from '../../resources/NUSociaLife_Navbar_Icon.png';
 
 // Import Actions
-import { logoutUser } from '../../actions';
+// import { logoutUser } from '../../actions';
 
-function Navbar(props) {
-    const { handleLogoutRequest } = props; 
-    const [selection, setSelection] = useState('Find Friends')
+function Navbar() {
+    const navigation = useSelector(state => state.navigation);
+    const dispatch = useDispatch();
+
+    const handleSelection = (selection) => { 
+        dispatch(handleNavigation(selection));
+    };
+
     const navItems = [
         {
             icon: faUserFriends,
             title: 'Find Friends',
-            // path: '/findfriends'
+            selection: FINDFRIENDS,
+            link: '/findfriends'
         },
         {
             icon: faCommentAlt,
             title: 'Forum',
+            selection: FORUM,
+            link: '/forum'
         },
         {
             icon: faUserCircle,
             title: 'Profile',
-            // path: '/profile'
+            selection: PROFILE,
+            link: '/profile'
         },
         {
             icon: faSignOutAlt,
-            title: 'Logout'
+            title: 'Logout',
+            selection: LOGOUT,
+            link: '/login'
         },
     ];
-    const handleSelection = (title) => { 
-        setSelection(title);
-
-        if (title === 'Logout') { 
-            handleLogoutRequest(); 
-        } else if (title === 'Forum') { 
-            // props.history.push('/forum');
-        } else if (title === 'Profile') { 
-            props.history.push('/profile');
-        } else if (title === 'Find Friends') {
-            props.history.push('/findfriends');
-        } else {
-            return; 
-        }
-    }; 
-
-    // Handle logout request
-    useEffect(() => { 
-        if (selection === 'Logout') { 
-            handleLogoutRequest(); 
-        }
-    }); 
 
     return (
         <AppBar position="static" className={styles.navColor}>
@@ -82,11 +82,13 @@ function Navbar(props) {
                             <IconButton 
                                 key={item.title} 
                                 color='inherit' 
-                                className={selection === item.title 
+                                className={navigation.selection === item.selection 
                                     ? styles.selected 
                                     : null
                                 }
-                                onClick={() => handleSelection(item.title)}
+                                component={Link}
+                                to={item.link}
+                                onClick={() => handleSelection(item.selection)}
                             >
                                 <div className={styles.navIcon}>
                                     <FontAwesomeIcon icon={item.icon} />
@@ -103,16 +105,4 @@ function Navbar(props) {
     )
 }
 
-function mapStateToProps() { 
- return {};
-}
-
-function mapDispatchToProps(dispatch, props) { 
-    return {
-        handleLogoutRequest: () => dispatch(logoutUser(props))
-    };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-
-export default withRouter(withConnect(Navbar));
+export default Navbar;
