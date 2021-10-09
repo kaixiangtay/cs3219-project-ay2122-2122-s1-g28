@@ -1,6 +1,6 @@
 // Import Settings
-import React, { useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
 
 // Import Redux
 import { handleNavigation } from '../../actions/navigation';
@@ -36,55 +36,39 @@ import NUSociaLifeLogo from '../../resources/NUSociaLife_Navbar_Icon.png';
 // import { logoutUser } from '../../actions';
 
 function Navbar() {
-    const history = useHistory();
     const navigation = useSelector(state => state.navigation);
     const dispatch = useDispatch();
 
-    const handleSelection = (location) => { 
-        dispatch(handleNavigation(location));
+    const handleSelection = (selection) => { 
+        dispatch(handleNavigation(selection));
     };
 
     const navItems = [
         {
             icon: faUserFriends,
             title: 'Find Friends',
-            location: FINDFRIENDS
+            selection: FINDFRIENDS,
+            link: '/findfriends'
         },
         {
             icon: faCommentAlt,
             title: 'Forum',
-            location: FORUM
+            selection: FORUM,
+            link: '/forum'
         },
         {
             icon: faUserCircle,
             title: 'Profile',
-            location: PROFILE
+            selection: PROFILE,
+            link: '/profile'
         },
         {
             icon: faSignOutAlt,
             title: 'Logout',
-            location: LOGOUT
+            selection: LOGOUT,
+            link: '/login'
         },
     ];
-
-    useEffect(() => {
-        switch(navigation.selection) {
-            case FINDFRIENDS:
-                history.push('/findfriends');
-                break;
-            case FORUM:
-                history.push('/forum');
-                break;
-            case PROFILE:
-                history.push('/profile');
-                break;
-            case LOGOUT:
-                history.push('/login');
-                break;
-            default:
-                history.push('/findfriends');
-        }
-    }, [history, navigation])
 
     return (
         <AppBar position="static" className={styles.navColor}>
@@ -98,11 +82,13 @@ function Navbar() {
                             <IconButton 
                                 key={item.title} 
                                 color='inherit' 
-                                className={navigation.selection === item.location 
+                                className={navigation.selection === item.selection 
                                     ? styles.selected 
                                     : null
                                 }
-                                onClick={() => handleSelection(item.location)}
+                                component={Link}
+                                to={item.link}
+                                onClick={() => handleSelection(item.selection)}
                             >
                                 <div className={styles.navIcon}>
                                     <FontAwesomeIcon icon={item.icon} />
