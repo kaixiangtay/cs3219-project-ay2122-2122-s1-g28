@@ -12,8 +12,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-// Import Resources (Remove when sync up with backend)
-import profile from '../../resources/Profile.png';
+// Import Resources
+import logo from '../../resources/NUSociaLife_Black_Logo.png';
 
 // Import CSS
 import styles from './VerifyEmail.module.css';
@@ -40,10 +40,10 @@ function VerifyEmail() {
             justifyContent="center"
         >
             <Grid item md={12}>
-                <h2>Verify your Email Address</h2>
+                <img alt='logo' src={logo} className={styles.logo}/>
             </Grid>
             <Grid item md={12}>
-                <img alt='profile' src={profile} className={styles.profile}/>
+                <h2>Verify your Email Address</h2>
             </Grid>
             <Grid item md={12}>
                 <p>Please check your email for verification instructions.</p>
@@ -72,10 +72,10 @@ function VerifyEmail() {
             justifyContent="center"
         >
             <Grid item md={12}>
-                <h2>Your Email has been verified.</h2>
+                <img alt='logo' src={logo} className={styles.logo}/>
             </Grid>
             <Grid item md={12}>
-                <img alt='profile' src={profile} className={styles.profile}/>
+                <h2>Your Email has been verified.</h2>
             </Grid>
             <Grid item md={12}>
                 <Button 
@@ -92,7 +92,7 @@ function VerifyEmail() {
     );
     
     return (
-        <Container>
+        <Container className='empty-navbar-gap'>
             <Paper 
                 elevation={3} 
                 variant="outlined" 
