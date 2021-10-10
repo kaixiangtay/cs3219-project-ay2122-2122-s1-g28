@@ -1,29 +1,29 @@
 import { toast } from "react-toastify";
 
 // Import constants
-import { 
-  SUCCESS, 
-  FAILURE, 
+import {
+  SUCCESS,
+  FAILURE,
   RESET,
-  VERIFIED
-} from '../constants/ReduxConstants.js';
+  VERIFIED,
+} from "../constants/ReduxConstants.js";
 
 const signupSuccess = (email) => {
   return {
     type: SUCCESS,
-    payload: email
+    payload: email,
   };
 };
 
 const signupFailure = (err) => {
-  for(var i = 0; i < err.length; i++) {
+  for (var i = 0; i < err.length; i++) {
     toast.error(err[i].msg, {
-      position: toast.POSITION.TOP_RIGHT
+      position: toast.POSITION.TOP_RIGHT,
     });
   }
 
   return {
-    type: FAILURE
+    type: FAILURE,
   };
 };
 
@@ -32,64 +32,68 @@ const verifyEmail = (_email, _status) => {
     type: VERIFIED,
     payload: {
       email: _email,
-      verified: _status
-    }
+      verified: _status,
+    },
   };
 };
 
 // Clear all signup state
 export const signupReset = () => {
   return {
-    type: RESET
+    type: RESET,
   };
 };
 
-// Handle user sign up 
-export const handleUserSignUp = (_name, _email, _password) => dispatch => {
+// Handle user sign up
+export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/signup`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
       name: _name,
       email: _email,
-      password: _password
+      password: _password,
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        dispatch(signupSuccess(_email));
+      } else {
+        response.json().then((res) => dispatch(signupFailure(res)));
+      }
     })
-  }).then(response => {
-    if (response.ok) { 
-      dispatch(signupSuccess(_email));
-    } else {
-      response.json().then(res => dispatch(signupFailure(res)));
-    }
-  }).catch((err) => {
-    dispatch(signupFailure(err));
-  });
+    .catch((err) => {
+      dispatch(signupFailure(err));
+    });
 };
 
 //Verify email
-export const handleEmailVerification = (_token) => dispatch => {
+export const handleEmailVerification = (_token) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL}/api/XXXXX`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
-      token: _token
+      token: _token,
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((res) => dispatch(verifyEmail(res.email, true)));
+      } else {
+        response.json().then((res) => dispatch(verifyEmail(res.email, false)));
+      }
     })
-  }).then(response => {
-    if (response.ok) { 
-      response.json().then(res => dispatch(verifyEmail(res.email, true)));
-    } else {
-      response.json().then(res => dispatch(verifyEmail(res.email, false)));
-    }
-  }).catch((err) => {
-    alert(err);
-  });
+    .catch((err) => {
+      alert(err);
+    });
 };
 
 //Resend email verification
@@ -105,7 +109,7 @@ export const handleEmailVerification = (_token) => dispatch => {
 //       token: _token
 //     })
 //   }).then(response => {
-//     if (response.ok) { 
+//     if (response.ok) {
 //       response.json().then(res => dispatch(verifyEmail(res.email, true)));
 //     } else {
 //       response.json().then(res => dispatch(verifyEmail(res.email, false)));
