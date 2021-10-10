@@ -1,5 +1,5 @@
 // config.js
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
@@ -12,4 +12,5 @@ module.exports = {
   OAUTH_URL: process.env.OAUTH_URL,
   ACCESS_TOKEN_KEY: process.env.ACCESS_TOKEN_KEY,
   RESET_PASSWORD_TOKEN_KEY: process.env.RESET_PASSWORD_TOKEN_KEY,
-}
+  FRONTEND_URL: process.env.FRONTEND_URL,
+};
