@@ -4,18 +4,18 @@ import {
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
-  LOGOUT_FAILURE
+  LOGOUT_FAILURE,
 } from "../actions/auth";
 
 const defaultState = {
-  loginLoading: false, 
+  loginLoading: false,
   loginSuccess: false,
-  loginFailure: false, 
+  loginFailure: false,
   // isAuthenticated: false,
-  logoutLoading: false, 
-  logoutSuccess: false, 
-  logoutFailure: false,  
-  user: {}
+  logoutLoading: false,
+  logoutSuccess: false,
+  logoutFailure: false,
+  user: {},
 };
 
 export default function authReducer(state = defaultState, action) {
@@ -25,29 +25,29 @@ export default function authReducer(state = defaultState, action) {
         ...state,
         loginLoading: true,
         loginFailure: false,
-        loginSuccess: false
+        loginSuccess: false,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         loginLoading: false,
         loginSuccess: true, // Can replace with isAuthenticated after setting up authentication
-        loginFailure: false, 
-        user: action.user
+        loginFailure: false,
+        user: action.user,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         loginLoading: false,
         loginSuccess: false,
-        loginFailure: true
+        loginFailure: true,
       };
     case LOGOUT_REQUEST:
       return {
         ...state,
         logoutLoading: true,
         logoutSuccess: false,
-        logoutFailure: false
+        logoutFailure: false,
       };
     case LOGOUT_SUCCESS:
       return defaultState;
@@ -56,9 +56,9 @@ export default function authReducer(state = defaultState, action) {
         ...state,
         logoutLoading: false,
         logoutSuccess: false,
-        logoutFailure: true
+        logoutFailure: true,
       };
     default:
       return state;
   }
-};
+}

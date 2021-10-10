@@ -1,16 +1,16 @@
 //Import constants
-import { 
-  SUCCESS, 
-  FAILURE, 
+import {
+  SUCCESS,
+  FAILURE,
+  VERIFIED,
   RESET,
-  VERIFIED
-} from '../constants/ReduxConstants.js';
+} from "../constants/ReduxConstants.js";
 
 const defaultState = {
   success: false,
   failure: false,
   verified: false,
-  email: ''
+  email: "",
 };
 
 function signupReducer(state = defaultState, action) {
@@ -18,10 +18,10 @@ function signupReducer(state = defaultState, action) {
     case SUCCESS:
       return {
         ...state,
-        success: true, 
+        success: true,
         failure: false,
         verified: false,
-        email: action.payload
+        email: action.payload,
       };
     case FAILURE:
       return {
@@ -29,7 +29,15 @@ function signupReducer(state = defaultState, action) {
         success: false,
         failure: true,
         verified: false,
-        email: ''
+        email: "",
+      };
+    case VERIFIED:
+      return {
+        ...state,
+        success: false,
+        failure: false,
+        verified: action.payload,
+        email: state.email,
       };
     case RESET:
       return {
@@ -37,19 +45,11 @@ function signupReducer(state = defaultState, action) {
         success: false,
         failure: false,
         verified: false,
-        email: ''
-      };
-    case VERIFIED:
-      return {
-        ...state,
-        success: false,
-        failure: false,
-        verified: true,
-        email: ''
+        email: "",
       };
     default:
       return state;
   }
-};
+}
 
 export default signupReducer;
