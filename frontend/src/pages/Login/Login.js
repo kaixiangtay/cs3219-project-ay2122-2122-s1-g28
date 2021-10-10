@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 
 // Import Redux
 import { signupReset } from '../../actions/signup';
+import { navigationReset } from '../../actions/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-ui
@@ -20,11 +21,13 @@ import styles from './Login.module.css';
 
 function Login() {
   const signup = useSelector(state => state.signup);
+  const navigation = useSelector(state => state.navigation);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(signupReset());
-  }, [dispatch, signup])
+    dispatch(navigationReset())
+  }, [dispatch, signup, navigation])
 
   return (
     <div>
