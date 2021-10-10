@@ -20,8 +20,8 @@ router.route('/api/users')
 router.route('/api/users/:user_id')
     .get(userController.viewUser)
 
-router.route('/api/users/verifyAccount/:token')
-    .get(userController.verifyUser)
+router.route('/api/users/verify-email/:token')
+    .get(userController.verifyUserEmail)
 
 router.route('/api/users/resendActivationEmail')
     .post(userController.resendActivationEmail)
