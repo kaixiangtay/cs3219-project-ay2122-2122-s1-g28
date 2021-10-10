@@ -96,25 +96,23 @@ export const handleEmailVerification = (_token) => (dispatch) => {
     });
 };
 
-//Resend email verification
-// export const handleResendEmailVerification = (_token) => dispatch => {
-//   const requestUrl = `${process.env.REACT_APP_API_URL}/api/XXXXX`;
+// Resend email verification
+export const handleResendEmailVerification = (_email) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/resendActivationEmail`;
 
-//   fetch(requestUrl, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded"
-//     },
-//     body: new URLSearchParams({
-//       token: _token
-//     })
-//   }).then(response => {
-//     if (response.ok) {
-//       response.json().then(res => dispatch(verifyEmail(res.email, true)));
-//     } else {
-//       response.json().then(res => dispatch(verifyEmail(res.email, false)));
-//     }
-//   }).catch((err) => {
-//     err.json().then(res => dispatch(verifyEmail(res.email, false)));
-//   });
-// };
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      email: _email,
+    }),
+  })
+    .then((response) => {
+      response.json().then((res) => console.log(res));
+    })
+    .catch((err) => {
+      err.json().then((res) => console.log(res));
+    });
+};

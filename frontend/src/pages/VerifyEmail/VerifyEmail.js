@@ -3,7 +3,10 @@ import React, { useEffect } from "react";
 import { Link, useParams, Redirect } from "react-router-dom";
 
 // Import Redux
-import { handleEmailVerification } from "../../actions/signup";
+import {
+  handleEmailVerification,
+  handleResendEmailVerification,
+} from "../../actions/signup";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -46,7 +49,13 @@ function VerifyEmail() {
         <p>We have sent a verification email to:</p>
         {signup.email}
         <p>
-          Didn’t receive the email? <a href="/verifyemail">Resend Email</a>
+          Didn’t receive the email?{" "}
+          <a
+            href=""
+            onClick={() => handleResendEmailVerification(signup.email)}
+          >
+            Resend Email
+          </a>
         </p>
       </Grid>
       <Grid item md={12}>
