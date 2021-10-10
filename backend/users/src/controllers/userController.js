@@ -54,7 +54,7 @@ exports.registerUser = [
 								from: EMAIL,
 								to: user.email,
 								subject: "NUSociaLife Account Verification",	
-								html: '<p>Click <a href="http://localhost:' + port +'/api/users/verifyAccount/' + user.token + '">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>'	
+								html: '<p>Click <a href="http://localhost:' + port +'/api/users/verify-email/' + user.token + '">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>'	
 							});
 	
 							res.status(200).json({
@@ -94,7 +94,7 @@ exports.resendActivationEmail = function (req, res) {
 	});
 }
 
-exports.verifyUser = function (req, res) {
+exports.verifyUserEmail = function (req, res) {
 	User.findOne({token:req.params.token}, function (err, user) {
 		if (!user) {
             res.status(404).json({ error: "Invalid Verification Link!" });
@@ -107,7 +107,7 @@ exports.verifyUser = function (req, res) {
 				// save the user and check for errors
 				user.save(function (err) {
 					res.status(200).json({
-						msg: "User successfully verified!",
+						msg: "Your email has been verified",
 						data: user,
 					});
 				});
