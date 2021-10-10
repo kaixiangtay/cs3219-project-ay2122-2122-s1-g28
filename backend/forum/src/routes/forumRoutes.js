@@ -24,7 +24,7 @@ router.route('/posts/:post_id/comments')
 
 router.route('/posts/:post_id/:comment_id')
     .get(commentController.viewComment)
-    .put(commentController.updateComment)
+    .patch(commentController.updateComment)
     .delete(commentController.deleteComment)
 
 module.exports = router; 
