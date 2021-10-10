@@ -1,9 +1,10 @@
 // Import Settings
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Link, useParams, Redirect } from "react-router-dom";
 
 // Import Redux
-import { useSelector } from 'react-redux';
+import { handleEmailVerification } from '../../actions/signup';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Import Material-ui
 import Button from '@material-ui/core/Button';
@@ -18,7 +19,19 @@ import profile from '../../resources/Profile.png';
 import styles from './VerifyEmail.module.css';
 
 function VerifyEmail() {
+    const { token } = useParams();
+
     const signup = useSelector(state => state.signup);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(handleEmailVerification(token));
+
+        //Redirect to login page if user not intending to access verify email page
+        if(!signup.email) {
+            return <Redirect to='/login' />
+        }
+    }, [dispatch, token, signup])
 
     const unverifiedJsx = (
         <Grid 
@@ -42,9 +55,9 @@ function VerifyEmail() {
                 <Button 
                     variant="contained" 
                     color="primary" 
-                    className={styles.returnLoginButton}
                     component={Link}
                     to="/login"
+                    className={styles.returnLoginButton}
                 >
                     Return to Login
                 </Button>
@@ -65,7 +78,13 @@ function VerifyEmail() {
                 <img alt='profile' src={profile} className={styles.profile}/>
             </Grid>
             <Grid item md={12}>
-                <Button variant="contained" color="primary" className={styles.returnLoginButton}>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    component={Link}
+                    to="/login"
+                    className={styles.returnLoginButton}
+                >
                     Return to Login
                 </Button>
             </Grid>

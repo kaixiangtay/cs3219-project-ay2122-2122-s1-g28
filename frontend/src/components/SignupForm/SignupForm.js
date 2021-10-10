@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 // Import Redux
-import { handleSignUpApi } from '../../actions/signup';
+import { handleUserSignUp } from '../../actions/signup';
 import { useDispatch } from 'react-redux';
 
 // Import Material-ui
@@ -26,7 +26,7 @@ function SignupForm() {
     const dispatch = useDispatch();
 
     const handleSignUp = () => {
-        dispatch(handleSignUpApi(name, email, password));
+        dispatch(handleUserSignUp(name, email, password));
     };
     
     return (

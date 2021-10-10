@@ -6,6 +6,7 @@ import Login from './pages/Login/Login.js';
 import Signup from './pages/Signup/Signup.js';
 import Profile from'./pages/Profile/Profile.js';
 import FindFriends from './pages/FindFriends/FindFriends.js';
+import VerifyEmail from './pages/VerifyEmail/VerifyEmail.js';
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
       />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route path="/verify-email/:token" component={VerifyEmail} />
       <Route path="/profile" component={Profile} />
       <Route path="/findfriends" component={FindFriends} />
     </Switch>

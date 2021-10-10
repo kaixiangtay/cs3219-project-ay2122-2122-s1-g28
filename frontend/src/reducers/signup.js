@@ -2,8 +2,8 @@
 import { 
   SUCCESS, 
   FAILURE, 
-  RESET,
-  VERIFIED
+  VERIFIED,
+  RESET
 } from '../constants/ReduxConstants.js';
 
 const defaultState = {
@@ -31,20 +31,20 @@ function signupReducer(state = defaultState, action) {
         verified: false,
         email: ''
       };
+    case VERIFIED:
+      return {
+        ...state,
+        success: false,
+        failure: false,
+        verified: action.payload,
+        email: state.email
+      };
     case RESET:
       return {
         ...state,
         success: false,
         failure: false,
         verified: false,
-        email: ''
-      };
-    case VERIFIED:
-      return {
-        ...state,
-        success: false,
-        failure: false,
-        verified: true,
         email: ''
       };
     default:
