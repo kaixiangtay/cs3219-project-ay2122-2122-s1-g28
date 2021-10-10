@@ -26,12 +26,12 @@ function VerifyEmail() {
 
     useEffect(() => {
         dispatch(handleEmailVerification(token));
-
-        //Redirect to login page if user not intending to access verify email page
-        if(!signup.email) {
-            return <Redirect to='/login' />
-        }
     }, [dispatch, token, signup])
+
+    //Redirect to login page if user not intending to access verify email page
+    if(!signup.success) {
+        return <Redirect to='/login' />
+    }
 
     const unverifiedJsx = (
         <Grid 

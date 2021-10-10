@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import { useHistory } from 'react-router-dom';
 
 // Import constants
 import { 
@@ -38,6 +37,7 @@ const verifyEmail = (_email, _status) => {
   };
 };
 
+// Clear all signup state
 export const signupReset = () => {
   return {
     type: RESET
@@ -61,14 +61,11 @@ export const handleUserSignUp = (_name, _email, _password) => dispatch => {
   }).then(response => {
     if (response.ok) { 
       dispatch(signupSuccess(_email));
-      // Route to verify email page
-      let history = useHistory();
-      history.push("/verify-email");
     } else {
       response.json().then(res => dispatch(signupFailure(res)));
     }
   }).catch((err) => {
-    err.json().then(res => dispatch(signupFailure(res)));
+    dispatch(signupFailure(err));
   });
 };
 
@@ -91,7 +88,7 @@ export const handleEmailVerification = (_token) => dispatch => {
       response.json().then(res => dispatch(verifyEmail(res.email, false)));
     }
   }).catch((err) => {
-    err.json().then(res => dispatch(verifyEmail(res.email, false)));
+    alert(err);
   });
 };
 

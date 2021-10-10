@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 // Import Redux
 import { signupReset } from '../../actions/signup';
 import { navigationReset } from '../../actions/navigation';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // Import Material-ui
 import { Container, Grid } from '@material-ui/core';
@@ -20,14 +20,12 @@ import RandomScribble from '../../resources/RandomScribble.png';
 import styles from './Login.module.css';
 
 function Login() {
-  const signup = useSelector(state => state.signup);
-  const navigation = useSelector(state => state.navigation);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(signupReset());
     dispatch(navigationReset())
-  }, [dispatch, signup, navigation])
+  }, [dispatch])
 
   return (
     <div>

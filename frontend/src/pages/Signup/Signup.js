@@ -1,5 +1,9 @@
 // Import Settings
 import React from 'react';
+import { Redirect } from "react-router-dom";
+
+// Import Redux
+import { useSelector } from 'react-redux';
 
 // Import Material-ui
 import { Container, Grid } from '@material-ui/core';
@@ -14,7 +18,14 @@ import RandomScribble from '../../resources/RandomScribble.png';
 // Import CSS
 import styles from './Signup.module.css';
 
-function Signup() {   
+function Signup() {
+  
+  const signup = useSelector(state => state.signup);
+
+  if(signup.success) {
+    return <Redirect to='/verify-email' />
+  }
+
   return (
     <div>
       <div>
