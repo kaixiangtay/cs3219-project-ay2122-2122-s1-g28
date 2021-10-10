@@ -2159,6 +2159,324 @@
 					"body": "{\n    \"status\": \"Success\",\n    \"message\": \"User deleted\"\n}"
 				}
 			]
+		},
+		{
+			"name": "VerifyEmail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"verify-email",
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "VerifyEmail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"verify-email",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "449"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1c1-l8ZGn15x5oa9+BrclzJeZ9BLUVg\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Oct 2021 16:42:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"Your email has been verified\",\n    \"data\": {\n        \"_id\": \"6163157a314fc66e6426c9d6\",\n        \"status\": \"Approved\",\n        \"dateCreated\": \"2021-10-10T16:31:12.996Z\",\n        \"name\": \"Kai Xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$bfcK5/cUpPIRetgt9nYKEu5sIcDK0LMzkbHTTFfUseGWuJF8RI7JC\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Resend Activation Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "e0407217@u.nus.edu",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/resendActivationEmail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"resendActivationEmail"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Resend Activation Email",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "e0407217@u.nus.edu",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/resendActivationEmail",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"resendActivationEmail"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2e-l7ANrBtcmMN7YJ22kxbCao8WcEc\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Oct 2021 16:45:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"New account sign up email link sent!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Reset Password Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "e0407217@u.nus.edu",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/resetPassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"resetPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "12345ABCdhcb!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"resetPassword",
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Reset Password",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "12345ABCdhcb!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"resetPassword",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "463"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1cf-eud8Soi71YcEmWyd7OrZeyfpsLI\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Oct 2021 16:59:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"User password has successfully been reset!\",\n    \"data\": {\n        \"_id\": \"61631916314fc66e6426c9e7\",\n        \"status\": \"Approved\",\n        \"dateCreated\": \"2021-10-10T16:31:12.996Z\",\n        \"name\": \"Kai Xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$xvfEzWSDvdZYLPBgpHTEEu69xL.eiH20USSHntZbkQjP6yq3QSby6\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
 		}
 	]
 }
