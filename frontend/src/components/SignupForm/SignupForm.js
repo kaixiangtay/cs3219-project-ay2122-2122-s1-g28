@@ -19,10 +19,6 @@ function SignupForm() {
 
   const dispatch = useDispatch();
 
-  const handleSignUp = () => {
-    dispatch(handleUserSignUp(name, email, password));
-  };
-
   return (
     <Container>
       <Paper elevation={5} className={styles.paperStyle}>
@@ -65,9 +61,8 @@ function SignupForm() {
           <Grid className={styles.rowGap}>
             <Button
               variant="contained"
-              className={`${styles.createAccountButtonGap} 
-                                ${styles.createAccountButton}`}
-              onClick={handleSignUp}
+              className={`${styles.createAccountButtonGap} ${styles.createAccountButton}`}
+              onClick={() => dispatch(handleUserSignUp(name, email, password))}
             >
               Create Account
             </Button>

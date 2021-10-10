@@ -38,10 +38,6 @@ function Navbar() {
   const navigation = useSelector((state) => state.navigation);
   const dispatch = useDispatch();
 
-  const handleSelection = (selection) => {
-    dispatch(handleNavigation(selection));
-  };
-
   const navItems = [
     {
       icon: faUserFriends,
@@ -89,7 +85,7 @@ function Navbar() {
               }
               component={Link}
               to={item.link}
-              onClick={() => handleSelection(item.selection)}
+              onClick={() => dispatch(handleNavigation(item.selection))}
             >
               <div className={styles.navIcon}>
                 <FontAwesomeIcon icon={item.icon} />

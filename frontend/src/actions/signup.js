@@ -73,7 +73,7 @@ export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {
 
 //Verify email
 export const handleEmailVerification = (_token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/XXXXX`;
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/verifyAccount/${_token}`;
 
   fetch(requestUrl, {
     method: "POST",
