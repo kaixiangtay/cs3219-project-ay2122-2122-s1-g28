@@ -1,6 +1,6 @@
 // Import Settings
 import React, { useEffect } from "react";
-import { Link, useParams, Redirect } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // Import Redux
 import {
@@ -28,13 +28,10 @@ function VerifyEmail() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(handleEmailVerification(token));
-  }, [dispatch, token, signup]);
-
-  //Redirect to login page if user not intending to access verify email page
-  if (!signup.success) {
-    return <Redirect to="/login" />;
-  }
+    if (token) {
+      dispatch(handleEmailVerification(token));
+    }
+  }, [dispatch, token]);
 
   const unverifiedJsx = (
     <Grid container alignItems="center" justifyContent="center">

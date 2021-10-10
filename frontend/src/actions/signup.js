@@ -73,16 +73,13 @@ export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {
 
 //Verify email
 export const handleEmailVerification = (_token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/verifyAccount/${_token}`;
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/verifyEmail/${_token}`;
 
   fetch(requestUrl, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: new URLSearchParams({
-      token: _token,
-    }),
   })
     .then((response) => {
       if (response.ok) {

@@ -22,8 +22,8 @@ const Routes = () => {
       />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
-      <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/verify-email/:token" component={VerifyEmail} />
+      <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/profile" component={Profile} />
       <Route path="/findfriends" component={FindFriends} />
     </Switch>
