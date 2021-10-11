@@ -8,6 +8,8 @@ import Signup from "./pages/Signup/Signup.js";
 import Profile from "./pages/Profile/Profile.js";
 import FindFriends from "./pages/FindFriends/FindFriends.js";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail.js";
+import Forum from "./pages/Forum/Forum.js";
+import ForumTopic from "./components/ForumTopic/ForumTopic.js";
 
 const Routes = () => {
   return (
@@ -26,6 +28,8 @@ const Routes = () => {
       <Route path="/verify-email" component={VerifyEmail} />
       <Route path="/profile" component={Profile} />
       <Route path="/findfriends" component={FindFriends} />
+      <Route exact path="/forum" component={Forum} />
+      <Route exact path="/forum/:topic" component={ForumTopic} />
     </Switch>
   );
 };
