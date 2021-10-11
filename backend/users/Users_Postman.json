@@ -1,0 +1,2482 @@
+{
+	"info": {
+		"_postman_id": "9ae8a1fb-ef1c-49b6-b941-640ba362de35",
+		"name": "Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save new User (All Empty fields)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new User (All Empty fields)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "602"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"25a-TpSoWSRPQ/2XCaqgYvDsDrAfONA\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:40:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"value\": \"\",\n        \"msg\": \"Name is a compulsory field\",\n        \"param\": \"name\",\n        \"location\": \"body\"\n    },\n    {\n        \"value\": \"\",\n        \"msg\": \"Email is a compulsory field\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"value\": \"\",\n        \"msg\": \"Invalid value\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"value\": \"\",\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"value\": \"\",\n        \"msg\": \"Password is a compulsory field\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    },\n    {\n        \"value\": \"\",\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Save new user (No email and password)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (No email and password)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "John Doe",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "466"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1d2-mcg8SEcXUuxiPLDEgIkFTlqG/xk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:42:10 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"msg\": \"Email is a compulsory field\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Invalid value\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Password is a compulsory field\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Save new user (No password)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (No password)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "John Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "272"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"110-bnCjrl5o37fVbWFAkrHJ85tclgo\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:45:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"value\": \"\",\n        \"msg\": \"Password is a compulsory field\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    },\n    {\n        \"value\": \"\",\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Save new user (Invalid email domain)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup?name=John Doe&email=johndoe@gmail.com&password=johnDoe@123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "John Doe"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "johnDoe@123"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (Invalid email domain)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup?name=John Doe&email=johndoe@gmail.com&password=johnDoe@123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "John Doe"
+								},
+								{
+									"key": "email",
+									"value": "johndoe@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "johnDoe@123"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "203"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"cb-z3k1ut1LsJrVrISu2+8nlH0CGaU\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:47:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"value\": \"johndoe@gmail.com\",\n        \"msg\": \"Invalid value\",\n        \"param\": \"email\",\n        \"location\": \"query\"\n    },\n    {\n        \"value\": \"johndoe@gmail.com\",\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"query\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Save new user (Strict email domain check)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup?name=John Doe&email=johndoe@u.nus.edujfhwfner&password=johnDoe@123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "John Doe"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edujfhwfner"
+						},
+						{
+							"key": "password",
+							"value": "johnDoe@123"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (Strict email domain check)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup?name=John Doe&email=johndoe@u.nus.edujfhwfner&password=johnDoe@123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "John Doe"
+								},
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edujfhwfner"
+								},
+								{
+									"key": "password",
+									"value": "johnDoe@123"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "124"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"7c-OVD0SF/4Zf+buJt2QFqIkWAxf/Y\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:50:16 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"value\": \"johndoe@u.nus.edujfhwfner\",\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"query\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Save new user (Weak password)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345hello!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (Weak password)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "John Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345hello!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "194"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c2-E4GGw6OA1hP2GmbnAyEKJYjqGOA\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:48:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"value\": \"12345hello!\",\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Save new user (Successful)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "johnDoe@123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (Successful)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "John Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "johnDoe@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "261"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"105-f9ZfVVzevnbxTDTq9ZVMgaeXEPU\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:51:45 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"New user created!\",\n    \"data\": {\n        \"status\": \"Pending\",\n        \"dateCreated\": \"2021-09-27T02:36:38.289Z\",\n        \"_id\": \"615131c0bc54213911ca22f7\",\n        \"name\": \"John Doe\",\n        \"email\": \"johndoe@u.nus.edu\",\n        \"password\": \"$2b$10$r.ojbPMx4OhwqVgXW0Md.u4g61u.unCZrosTlEOsGK37OVmeaV/Ii\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Save new user (Email already exists)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "johnDoe@1234!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Save new user (Email already exists)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "John Doe",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "johnDoe@1234!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "43"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2b-ZL9RnB2AVf6gdvpsYLfucENQAok\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:00:58 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Email exists\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "293"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"125-RpnRs0J5omg+seHOKTM9veRadVg\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:52:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Users retrieved successfully\",\n    \"data\": [\n        {\n            \"_id\": \"615131c0bc54213911ca22f7\",\n            \"status\": \"Pending\",\n            \"dateCreated\": \"2021-09-27T02:36:38.289Z\",\n            \"name\": \"John Doe\",\n            \"email\": \"johndoe@u.nus.edu\",\n            \"password\": \"$2b$10$r.ojbPMx4OhwqVgXW0Md.u4g61u.unCZrosTlEOsGK37OVmeaV/Ii\",\n            \"__v\": 0\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get a single user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/615131c0bc54213911ca22f7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"615131c0bc54213911ca22f7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get a single user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/615131c0bc54213911ca22f7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"615131c0bc54213911ca22f7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "266"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"10a-/5HOGi0uRBLSA/9dq2TGgU38ZYI\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:53:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User details loading..\",\n    \"data\": {\n        \"_id\": \"615131c0bc54213911ca22f7\",\n        \"status\": \"Pending\",\n        \"dateCreated\": \"2021-09-27T02:36:38.289Z\",\n        \"name\": \"John Doe\",\n        \"email\": \"johndoe@u.nus.edu\",\n        \"password\": \"$2b$10$r.ojbPMx4OhwqVgXW0Md.u4g61u.unCZrosTlEOsGK37OVmeaV/Ii\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get a single user (Invalid user ID)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/ffrefer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"ffrefer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get a single user (Invalid user ID)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/ffrefer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"ffrefer"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "27"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1b-ssOHxb5UEu+bgok0jboO8v/aI4s\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:55:25 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"User not found!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login existing user (Empty fields)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login existing user (Empty fields)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "466"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1d2-mcg8SEcXUuxiPLDEgIkFTlqG/xk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:58:30 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"msg\": \"Email is a compulsory field\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Invalid value\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Password is a compulsory field\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Login existing user (Successful)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "johnDoe@123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login existing user (Successful)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "johnDoe@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "31"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 02:57:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Login successful!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login existing user (Invalid Email)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "mary@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345@Hello",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login existing user (Invalid Email)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "mary@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345@Hello",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"22-vlJnlGuwYWn5Ly3prdI4Em7hq2Y\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:02:37 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Email cannot be found!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update User password(No password field)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/update/615131c0bc54213911ca22f7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"update",
+						"615131c0bc54213911ca22f7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update User password(No password field)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/update/615131c0bc54213911ca22f7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"update",
+								"615131c0bc54213911ca22f7"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "250"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"fa-8x0Hnd8/AQTTzU66LwVfV7tKXE8\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:46:53 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"msg\": \"Password is a compulsory field\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Update User password (Invalid User ID)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/update/615131c0bc54213911ca22f7efwf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"update",
+						"615131c0bc54213911ca22f7efwf"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update User password (Invalid User ID)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/update/615131c0bc54213911ca22f7efwf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"update",
+								"615131c0bc54213911ca22f7efwf"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "27"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1b-ssOHxb5UEu+bgok0jboO8v/aI4s\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:47:53 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"User not found!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update User password (Successful Change password)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "hello@JohnDoe123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/update/615131c0bc54213911ca22f7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"update",
+						"615131c0bc54213911ca22f7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update User password(Successful Change password)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "hello@JohnDoe123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/update/615131c0bc54213911ca22f7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"update",
+								"615131c0bc54213911ca22f7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "261"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"105-poooFkZxvOX3grDAlRaxGLqXXRw\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:17:42 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User Info updated\",\n    \"data\": {\n        \"_id\": \"615131c0bc54213911ca22f7\",\n        \"status\": \"Pending\",\n        \"dateCreated\": \"2021-09-27T02:36:38.289Z\",\n        \"name\": \"John Doe\",\n        \"email\": \"johndoe@u.nus.edu\",\n        \"password\": \"$2b$10$Qgf2g3Mt9m4igQEH3e/0auLCfCKUDs4eCtYKw5GWMMdh5nRhMXUke\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Login new password (Successful)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "hello@JohnDoe123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login new password (Successful)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "hello@JohnDoe123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "31"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1f-krdIA923AkdfMW3j9P5BmzlcbIs\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:10:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Login successful!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login old password (Failure)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "johndoe@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "johnDoe@123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login old password (Failure)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "johndoe@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "johnDoe@123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1d-iFDOfJ/b30y0ynCNU1fz1Y/AdVY\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:50:32 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Invalid Password!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete User (Invalid User ID)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/delete/12345",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"delete",
+						"12345"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete User (Invalid User ID)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/delete/12345",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"delete",
+								"12345"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "27"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1b-ssOHxb5UEu+bgok0jboO8v/aI4s\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:51:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"User not found!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete User (Successful)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/delete/615131c0bc54213911ca22f7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"delete",
+						"615131c0bc54213911ca22f7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete User (Successful)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/delete/615131c0bc54213911ca22f7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"delete",
+								"615131c0bc54213911ca22f7"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "45"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2d-w1Gnbc8PS58QiUBKTjmlzA6SbAw\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 27 Sep 2021 03:52:21 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"Success\",\n    \"message\": \"User deleted\"\n}"
+				}
+			]
+		},
+		{
+			"name": "VerifyEmail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/users/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"verify-email",
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "VerifyEmail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/users/verify-email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"verify-email",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "449"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1c1-l8ZGn15x5oa9+BrclzJeZ9BLUVg\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Oct 2021 16:42:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"Your email has been verified\",\n    \"data\": {\n        \"_id\": \"6163157a314fc66e6426c9d6\",\n        \"status\": \"Approved\",\n        \"dateCreated\": \"2021-10-10T16:31:12.996Z\",\n        \"name\": \"Kai Xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$bfcK5/cUpPIRetgt9nYKEu5sIcDK0LMzkbHTTFfUseGWuJF8RI7JC\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4MzUxNCwiZXhwIjoxNjMzODg0NDE0fQ.E6Ib_m8e4NBNjRdhoBd7v4z-BDh8HJT0O_mjzctHw10\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Resend Activation Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "e0407217@u.nus.edu",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/resendActivationEmail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"resendActivationEmail"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Resend Activation Email",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "e0407217@u.nus.edu",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/resendActivationEmail",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"resendActivationEmail"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2e-l7ANrBtcmMN7YJ22kxbCao8WcEc\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Oct 2021 16:45:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"New account sign up email link sent!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Reset Password Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "e0407217@u.nus.edu",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/resetPassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"resetPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "12345ABCdhcb!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"resetPassword",
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Reset Password",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "12345ABCdhcb!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"resetPassword",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "463"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1cf-eud8Soi71YcEmWyd7OrZeyfpsLI\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Oct 2021 16:59:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"msg\": \"User password has successfully been reset!\",\n    \"data\": {\n        \"_id\": \"61631916314fc66e6426c9e7\",\n        \"status\": \"Approved\",\n        \"dateCreated\": \"2021-10-10T16:31:12.996Z\",\n        \"name\": \"Kai Xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$xvfEzWSDvdZYLPBgpHTEEu69xL.eiH20USSHntZbkQjP6yq3QSby6\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		}
+	]
+}

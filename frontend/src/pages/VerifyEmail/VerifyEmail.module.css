@@ -1,0 +1,16 @@
+.paper {
+  text-align: center;
+  width: 80%;
+  padding: 8%;
+}
+
+.logo {
+  height: 150px;
+}
+
+.returnLoginButton {
+  color: var(--WHITE) !important;
+  background-color: var(--PINK) !important;
+  height: 50px !important;
+  width: 20% !important;
+}

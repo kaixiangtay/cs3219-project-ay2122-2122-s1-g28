@@ -1,40 +1,37 @@
 // Import Settings
-import React from 'react';
+import React from "react";
 
 // Import Material-ui
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid } from "@material-ui/core";
 
 // Import FontAwesome
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 // Import Components
-import Navbar from '../../components/Navbar/Navbar.js';
-import PageTitle from '../../components/PageTitle/PageTitle.js';
-import ProfileForm from '../../components/ProfileForm/ProfileForm.js';
-import ProfilePicture from '../../components/ProfilePicture/ProfilePicture.js';
+import Navbar from "../../components/Navbar/Navbar.js";
+import PageTitle from "../../components/PageTitle/PageTitle.js";
+import ProfileForm from "../../components/ProfileForm/ProfileForm.js";
+import ProfilePicture from "../../components/ProfilePicture/ProfilePicture.js";
 
-function Profile() { 
+function Profile() {
   return (
     <div>
-      <Navbar/> 
+      <Navbar />
       <Container>
         <Grid item md={12} className="center-text">
-            <PageTitle title={'Profile'} icon={faUserCircle}/>
+          <PageTitle title={"Profile"} icon={faUserCircle} />
         </Grid>
-        <Grid 
-          container 
-          spacing={2} 
-        >
+        <Grid container spacing={2}>
           <Grid item md={4}>
-            <ProfilePicture/>
+            <ProfilePicture />
           </Grid>
           <Grid item md={8}>
-            <ProfileForm/>
+            <ProfileForm />
           </Grid>
         </Grid>
       </Container>
     </div>
-  )
+  );
 }
 
-export default Profile; 
+export default Profile;
