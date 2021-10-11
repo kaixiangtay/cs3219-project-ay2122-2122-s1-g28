@@ -1,46 +1,58 @@
 // Import Settings
-import React from 'react';
+import React, { useEffect } from "react";
+
+// Import Redux
+import { signupReset } from "../../actions/signup";
+import { navigationReset } from "../../actions/navigation";
+import { useDispatch } from "react-redux";
 
 // Import Material-ui
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid } from "@material-ui/core";
 
 // Import Components
-import LoginForm from '../../components/LoginForm/LoginForm.js';
+import LoginForm from "../../components/LoginForm/LoginForm.js";
 
 // Import Resources
-import NUSociaLifeLogo from '../../resources/NUSociaLife_Login_Logo.png';
-import RandomScribble from '../../resources/RandomScribble.png';
+import NUSociaLifeLogo from "../../resources/NUSociaLife_Login_Logo.png";
+import RandomScribble from "../../resources/RandomScribble.png";
 
 // Import CSS
-import styles from './Login.module.css';
+import styles from "./Login.module.css";
 
-function Login(props) {
+function Login() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(signupReset());
+    dispatch(navigationReset());
+  }, [dispatch]);
+
   return (
     <div>
       <Container>
-        <Grid 
-          container 
+        <Grid
+          container
           alignItems="center"
           justifyContent="center"
           className="empty-navbar-gap"
         >
           <Grid item md={6}>
-            <img alt='NUSociaLifeLogo' src={NUSociaLifeLogo}/>
+            <img alt="NUSociaLifeLogo" src={NUSociaLifeLogo} />
           </Grid>
-          <Grid item md={6} xs ={12} sm={12}>
-            <LoginForm/>
+          <Grid item md={6} xs={12} sm={12}>
+            <LoginForm />
           </Grid>
         </Grid>
       </Container>
       <Grid item md={12}>
-        <img 
-          alt='RandomScribble' 
-          src={RandomScribble} 
+        <img
+          alt="RandomScribble"
+          src={RandomScribble}
           className={styles.randomScribble}
         />
       </Grid>
     </div>
-  )
+  );
 }
 
 export default Login;

@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-nusocialife-dev-180042-authRole",
+            "UnauthRoleArn": "arn:aws:iam::081744254661:role/amplify-nusocialife-dev-180042-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::081744254661:role/amplify-nusocialife-dev-180042-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-nusocialife-dev-180042-deployment",
+            "UnauthRoleName": "amplify-nusocialife-dev-180042-unauthRole",
+            "StackName": "amplify-nusocialife-dev-180042",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:081744254661:stack/amplify-nusocialife-dev-180042/1d1aaa60-25c3-11ec-80e3-0289fff813e0",
+            "AmplifyAppId": "d2g3oo9bo8ih8h"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d2g3oo9bo8ih8h",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}
