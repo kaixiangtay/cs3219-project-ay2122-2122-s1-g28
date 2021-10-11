@@ -1,32 +1,24 @@
 // Import Settings
-import React from 'react';
-import { Redirect } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
 // Import Material-ui
-import { 
-  Button
-} from '@material-ui/core';
+import { Button } from "@material-ui/core";
 
 // Import CSS
-import styles from './ForumGroup.module.css';
+import styles from "./ForumGroup.module.css";
 
-function ForumGroup(props) { 
-  const { title } = props; 
-  
-  const handleOnClick = () => { 
-    const path = '/forum/' + title; 
-    console.log('path: ', path)
-    return <Redirect to={path}/>
-  }; 
+function ForumGroup(props) {
+  const { topic } = props;
+  const path = "/forum/" + topic;
 
   return (
-      <Button 
-        className={styles.button}
-        onClick={handleOnClick}
-      >
-        {title}
+    <div>
+      <Button className={styles.button} component={Link} to={path}>
+        {topic}
       </Button>
-  )
+    </div>
+  );
 }
 
-export default ForumGroup; 
+export default ForumGroup;
