@@ -1,7 +1,7 @@
 // React
-import App from './App';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import App from "./App";
+import React from "react";
+import ReactDOM from "react-dom";
 
 // Redux
 import configureStore from "./configureStore";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // CSS
-import './index.css';
+import "./index.css";
 
 import * as serviceWorker from "./serviceWorker";
 
@@ -24,12 +24,10 @@ const store = configureStore();
 ReactDOM.render(
   <Provider store={store.store}>
     <PersistGate loading={null} persistor={store.persistor}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <App />
     </PersistGate>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 serviceWorker.unregister();
