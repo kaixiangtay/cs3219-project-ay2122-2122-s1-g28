@@ -13,7 +13,7 @@ import styles from './ProfilePicture.module.css';
 
 function ProfilePicture() { 
   return (
-    <Grid direction='column'>
+    <Grid >
       <Grid>
         <Avatar className={styles.image}/>
       </Grid>

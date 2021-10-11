@@ -1,55 +1,52 @@
 :root {
-    /* Colour Theme */
-    --MIDBLUE: #415A77;
-    --DARKBLUE: #1B263B;
-    --LIGHTBLUE: #03A9F4;
-    /* Button colours */
-    --PINK: #D288A2;
-    --GREEN: #00C853;
-    --RED: #FF5252;
-    --ORANGE: #F9AB55;
-    --DEEPBLUE: #0277BD;
-    /* Text message */
-    --GREY: #e7e7e7;
-    --DEEPGREEN: #39c16c;
-    --WHITE: #FFFFFF;
+  /* Colour Theme */
+  --MIDBLUE: #415a77;
+  --DARKBLUE: #1b263b;
+  --LIGHTBLUE: #03a9f4;
+  /* Button colours */
+  --PINK: #d288a2;
+  --GREEN: #00c853;
+  --RED: #ff5252;
+  --ORANGE: #f9ab55;
+  --DEEPBLUE: #0277bd;
+  /* Text message */
+  --GREY: #e7e7e7;
+  --DEEPGREEN: #39c16c;
+  --WHITE: #ffffff;
 }
 
 /* Alignment */
 .empty-navbar-gap {
-    margin-top: 10%;
+  margin-top: 10%;
 }
 
 .center-text {
-    text-align: center;
+  text-align: center;
 }
 
 /* Font Settings */
 .primary-font {
-    color: var(--WHITE);
+  color: var(--WHITE);
 }
 
 /* Buttons */
 .green-button {
-    color: var(--WHITE) !important;
-    background-color: var(--GREEN) !important;
-    width: 250px !important;
-    margin: 3% !important;
+  color: var(--WHITE) !important;
+  background-color: var(--GREEN) !important;
+  width: 250px !important;
+  margin: 3% !important;
 }
 
 .red-button {
-    color: var(--WHITE) !important;
-    background-color: var(--RED) !important;
-    width: 250px !important;
-    margin: 3% !important;
+  color: var(--WHITE) !important;
+  background-color: var(--RED) !important;
+  width: 250px !important;
+  margin: 3% !important;
 }
 
 .blue-button {
-    color: var(--WHITE) !important;
-    background-color: var(--LIGHTBLUE) !important;
-    width: 250px !important;
-    margin: 3% !important;
+  color: var(--WHITE) !important;
+  background-color: var(--LIGHTBLUE) !important;
+  width: 250px !important;
+  margin: 3% !important;
 }
-
-
-
