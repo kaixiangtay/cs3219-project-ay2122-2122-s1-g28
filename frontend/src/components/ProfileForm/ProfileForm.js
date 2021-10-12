@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 // import Redux
 import { handleRetrieveProfileInformation } from "../../actions/auth";
-// import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import { Button, Container, Grid, TextField } from "@material-ui/core";
@@ -17,12 +17,13 @@ function ProfileForm() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  //const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    handleRetrieveProfileInformation("61653498d37604ad124a721d");
-    setEmail(""); //auth.user.email
-    setName(""); //auth.user.name
+    dispatch(handleRetrieveProfileInformation("61653498d37604ad124a721d")); //Hardcode _id for now
+    setEmail(auth.user.email);
+    setName(auth.user.name);
     setCurrentPassword("");
     setNewPassword("");
   }, []);

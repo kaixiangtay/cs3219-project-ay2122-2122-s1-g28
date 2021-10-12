@@ -1,11 +1,16 @@
 import { toast } from "react-toastify";
 
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILURE = "LOGIN_FAILURE";
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
+// Import Constants
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
+  PROFILE_RETRIEVE_SUCCESS,
+  PROFILE_RETRIEVE_FAILURE,
+} from "../constants/ReduxConstants";
 
 const loginRequest = () => {
   return {
@@ -53,6 +58,22 @@ const logoutFailure = () => {
   };
 };
 
+const profileRetrieveSuccess = (_payload) => {
+  return {
+    type: PROFILE_RETRIEVE_SUCCESS,
+    payload: _payload.data,
+  };
+};
+
+const profileRetrieveFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: PROFILE_RETRIEVE_FAILURE,
+  };
+};
+
 // Handle user login
 export const loginUser = (email, password) => (dispatch) => {
   const requestUrl = ``;
@@ -91,7 +112,7 @@ export const logoutUser = () => (dispatch) => {
 };
 
 // Handle retrieve Profile Information
-export const handleRetrieveProfileInformation = (_id) => {
+export const handleRetrieveProfileInformation = (_id) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/${_id}`;
 
   fetch(requestUrl, {
@@ -101,9 +122,13 @@ export const handleRetrieveProfileInformation = (_id) => {
     },
   })
     .then((response) => {
-      response.json().then((res) => console.log(res));
+      if (response.ok) {
+        response.json().then((res) => dispatch(profileRetrieveSuccess(res)));
+      } else {
+        response.json().then((res) => dispatch(profileRetrieveFailure(res)));
+      }
     })
     .catch((err) => {
-      err.json().then((res) => console.log(res));
+      alert(err);
     });
 };
