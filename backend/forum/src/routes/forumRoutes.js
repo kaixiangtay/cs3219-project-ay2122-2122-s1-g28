@@ -18,6 +18,18 @@ router.route('/api/posts/:post_id')
     .put(postController.updatePost)
     .delete(postController.deletePost)
 
+router.route('/api/sortPostByAscVotes')
+    .get(postController.sortPostByAscVotes)
+
+router.route('/api/sortPostByDescVotes')
+    .get(postController.sortPostByDescVotes)
+
+router.route('/api/sortPostByAscDate')
+    .get(postController.sortPostByAscDate) 
+
+router.route('/api/sortPostByDescDate')
+    .get(postController.sortPostByDescDate) 
+
 router.route('/api/posts/:post_id/comments')
     .get(commentController.viewPostComments)
     .post(commentController.createComment)
