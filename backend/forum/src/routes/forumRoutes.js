@@ -18,6 +18,15 @@ router.route('/api/posts/:post_id')
     .put(postController.updatePost)
     .delete(postController.deletePost)
 
+router.route('/api/posts/:post_id/comments')
+    .get(commentController.viewPostComments)
+    .post(commentController.createComment)
+
+router.route('/api/posts/:post_id/:comment_id')
+    .get(commentController.viewComment)
+    .patch(commentController.updateComment)
+    .delete(commentController.deleteComment)
+
 router.route('/api/sortPostByAscVotes')
     .get(postController.sortPostByAscVotes)
 
@@ -30,14 +39,6 @@ router.route('/api/sortPostByAscDate')
 router.route('/api/sortPostByDescDate')
     .get(postController.sortPostByDescDate) 
 
-router.route('/api/posts/:post_id/comments')
-    .get(commentController.viewPostComments)
-    .post(commentController.createComment)
-
-router.route('/api/posts/:post_id/:comment_id')
-    .get(commentController.viewComment)
-    .patch(commentController.updateComment)
-    .delete(commentController.deleteComment)
 
 module.exports = router; 
 
