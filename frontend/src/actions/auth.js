@@ -35,11 +35,10 @@ const logoutRequest = () => {
   };
 };
 
-const logoutSuccess = (props) => {
+const logoutSuccess = () => {
   toast.success("Successfully logout!", {
     position: toast.POSITION.TOP_RIGHT,
   });
-  props.history.push("/login");
   return {
     type: LOGOUT_SUCCESS,
   };
@@ -81,12 +80,30 @@ export const loginUser = (email, password) => (dispatch) => {
     });
 };
 
-export const logoutUser = (props) => (dispatch) => {
+export const logoutUser = () => (dispatch) => {
   dispatch(logoutRequest());
   try {
     //Remove auth token here, if successful, dispatch logoutSuccess
-    dispatch(logoutSuccess(props));
+    dispatch(logoutSuccess());
   } catch (err) {
     dispatch(logoutFailure());
   }
+};
+
+// Handle retrieve Profile Information
+export const handleRetrieveProfileInformation = (_id) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/${_id}`;
+
+  fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      response.json().then((res) => console.log(res));
+    })
+    .catch((err) => {
+      err.json().then((res) => console.log(res));
+    });
 };
