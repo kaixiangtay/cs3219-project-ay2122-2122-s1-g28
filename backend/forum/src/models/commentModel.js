@@ -14,6 +14,10 @@ var CommentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  votes: {
+    type: Number,
+    default: 0,
+  },
   postId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'
