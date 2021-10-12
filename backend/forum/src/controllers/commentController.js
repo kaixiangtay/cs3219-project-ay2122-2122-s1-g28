@@ -92,6 +92,7 @@ exports.updateComment = function (req, res) {
         }
 		if (err) res.send(err);
 		comment.content = req.body.content ? req.body.content : comment.content;
+		comment.votes = req.body.votes ? req.body.votes : comment.votes;
 		// save the comment and check for errors
 		comment.save(function (err) {
 			if (err) res.json(err);
@@ -135,4 +136,52 @@ exports.deleteComment = function (req, res) {
 			}
 		}
 	);
+};
+
+exports.sortCommentsByAscVotes = function async(req, res) {
+	Post.findById({ _id: req.params.post_id })
+		.populate({ path: 'comments', options: { sort: { votes: 1 } } })
+		.then((post, err) => {
+			if (post == null) {
+				res.status(404).json({
+					error: "Comments not found!",
+				});
+				return;
+			}
+			if (err) res.send(err);
+            if (post.comments.length == 0) {
+                res.status(200).json({
+                    message: "There are no comments in this post", // tells client that the post has no comments 
+                });
+            } else {
+			res.status(200).json({
+				message: "Comment details loading..",
+				data: post.comments,
+			});
+        }
+		});
+};
+
+exports.sortCommentsByDescVotes = function async(req, res) {
+	Post.findById({ _id: req.params.post_id })
+		.populate({ path: 'comments', options: { sort: { votes: -1 } } })
+		.then((post, err) => {
+			if (post == null) {
+				res.status(404).json({
+					error: "Comments not found!",
+				});
+				return;
+			}
+			if (err) res.send(err);
+            if (post.comments.length == 0) {
+                res.status(200).json({
+                    message: "There are no comments in this post", // tells client that the post has no comments 
+                });
+            } else {
+			res.status(200).json({
+				message: "Comment details loading..",
+				data: post.comments,
+			});
+        }
+		});
 };
