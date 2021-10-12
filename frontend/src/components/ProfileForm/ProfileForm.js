@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // import Redux
-import { handleRetrieveProfileInformation } from "../../actions/auth";
+import { handleProfileRetrieval } from "../../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -21,7 +21,7 @@ function ProfileForm() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(handleRetrieveProfileInformation("61653498d37604ad124a721d")); //Hardcode _id for now
+    dispatch(handleProfileRetrieval("61653498d37604ad124a721d")); //Hardcode _id for now
     setEmail(auth.user.email);
     setName(auth.user.name);
     setCurrentPassword("");
