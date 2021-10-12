@@ -9,20 +9,20 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/posts')
+router.route('/api/posts')
     .get(postController.index)
     .post(postController.createPost)
 
-router.route('/posts/:post_id')
+router.route('/api/posts/:post_id')
     .get(postController.viewPost)
     .put(postController.updatePost)
     .delete(postController.deletePost)
 
-router.route('/posts/:post_id/comments')
+router.route('/api/posts/:post_id/comments')
     .get(commentController.viewPostComments)
     .post(commentController.createComment)
 
-router.route('/posts/:post_id/:comment_id')
+router.route('/api/posts/:post_id/:comment_id')
     .get(commentController.viewComment)
     .patch(commentController.updateComment)
     .delete(commentController.deleteComment)
