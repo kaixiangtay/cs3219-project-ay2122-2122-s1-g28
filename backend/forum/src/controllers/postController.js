@@ -113,3 +113,70 @@ exports.deletePost = function (req, res) {
 	);
 };
 
+exports.sortPostByAscVotes = function (req, res) {
+	var compareByVotes = { votes : 1 }
+	Post.find().sort(compareByVotes).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				message: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			message: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
+
+exports.sortPostByDescVotes = function (req, res) {
+	var compareByVotes = { votes : -1 }
+	Post.find().sort(compareByVotes).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				message: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			message: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
+
+exports.sortPostByAscDate = function (req, res) {
+	var compareByDate = { dateCreated : 1 }
+	Post.find().sort(compareByDate).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				message: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			message: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
+
+exports.sortPostByDescDate = function (req, res) {
+	var compareByDate = { dateCreated : -1 }
+	Post.find().sort(compareByDate).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				message: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			message: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
