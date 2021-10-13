@@ -9,8 +9,10 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/api/posts')
+router.route('/api/viewAllPosts')
     .get(postController.index)
+
+router.route('/api/createPost')
     .post(postController.createPost)
 
 router.route('/api/viewPost/:post_id')
@@ -28,8 +30,10 @@ router.route('/api/downvotePost/:post_id/:user_id')
 router.route('/api/deletePost/:post_id/:user_id')
     .delete(postController.deletePost)
 
-router.route('/api/posts/:post_id/comments')
+router.route('/api/viewAllComments/:post_id')
     .get(commentController.viewPostComments)
+
+router.route('/api/createComment/:post_id')
     .post(commentController.createComment)
 
 router.route('/api/viewComment/:post_id/:comment_id')
