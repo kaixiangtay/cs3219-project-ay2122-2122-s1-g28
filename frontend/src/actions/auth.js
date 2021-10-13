@@ -10,6 +10,8 @@ import {
   LOGOUT_FAILURE,
   PROFILE_RETRIEVE_SUCCESS,
   PROFILE_RETRIEVE_FAILURE,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAILURE,
 } from "../constants/ReduxConstants";
 
 const loginRequest = () => {
@@ -74,6 +76,21 @@ const profileRetrieveFailure = (err) => {
   };
 };
 
+const profileUpdateSuccess = () => {
+  return {
+    type: PROFILE_UPDATE_SUCCESS,
+  };
+};
+
+const profileUpdateFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: PROFILE_UPDATE_FAILURE,
+  };
+};
+
 // Handle user login
 export const loginUser = (email, password) => (dispatch) => {
   const requestUrl = ``;
@@ -126,6 +143,32 @@ export const handleProfileRetrieval = (_id) => (dispatch) => {
         response.json().then((res) => dispatch(profileRetrieveSuccess(res)));
       } else {
         response.json().then((res) => dispatch(profileRetrieveFailure(res)));
+      }
+    })
+    .catch((err) => {
+      alert(err);
+    });
+};
+
+// Handle update Profile Information (Find a way to optionally change password and double check with current password)
+export const handleProfileUpdate = (_id, _name, _password) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update/${_id}`;
+
+  fetch(requestUrl, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      name: _name,
+      password: _password,
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        dispatch(profileUpdateSuccess());
+      } else {
+        response.json().then((res) => dispatch(profileUpdateFailure(res)));
       }
     })
     .catch((err) => {

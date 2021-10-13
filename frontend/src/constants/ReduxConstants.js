@@ -21,3 +21,5 @@ export const LOGOUT_SUCCESS = 24;
 export const LOGOUT_FAILURE = 25;
 export const PROFILE_RETRIEVE_SUCCESS = 26;
 export const PROFILE_RETRIEVE_FAILURE = 27;
+export const PROFILE_UPDATE_SUCCESS = 28;
+export const PROFILE_UPDATE_FAILURE = 29;

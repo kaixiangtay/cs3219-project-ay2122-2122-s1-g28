@@ -8,6 +8,8 @@ import {
   LOGOUT_FAILURE,
   PROFILE_RETRIEVE_SUCCESS,
   PROFILE_RETRIEVE_FAILURE,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAILURE,
 } from "../constants/ReduxConstants";
 
 const defaultState = {
@@ -70,6 +72,8 @@ export default function authReducer(state = defaultState, action) {
         user: action.payload,
       };
     case PROFILE_RETRIEVE_FAILURE:
+      return { ...state };
+    case PROFILE_UPDATE_SUCCESS:
       return {
         ...state,
         logoutLoading: false,
@@ -77,6 +81,8 @@ export default function authReducer(state = defaultState, action) {
         logoutFailure: false,
         user: action.payload,
       };
+    case PROFILE_UPDATE_FAILURE:
+      return { state };
     default:
       return state;
   }
