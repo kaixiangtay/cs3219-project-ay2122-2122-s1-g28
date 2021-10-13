@@ -63,6 +63,7 @@ exports.registerUser = [
               });
 
               res.status(200).json({
+                status: "success",
                 msg: "New user created!",
                 data: user,
               });
@@ -101,7 +102,10 @@ exports.resendActivationEmail = function (req, res) {
 exports.verifyUserEmail = function (req, res) {
   User.findOne({ token: req.params.token }, function (err, user) {
     if (!user) {
-      res.status(404).json({ error: "Invalid Verification Link!" });
+      res.status(404).json({ 
+        status: "error",
+        msg: "Invalid Verification Link!" 
+      });
     } else {
       const userEmail = authController.verifyToken(user.token);
 
@@ -111,12 +115,16 @@ exports.verifyUserEmail = function (req, res) {
         // save the user and check for errors
         user.save(function (err) {
           res.status(200).json({
+            status: "success",
             msg: "Your email has been verified",
             data: user,
           });
         });
       } else {
-        res.status(404).json({ error: "Link has expired!" });
+        res.status(404).json({ 
+          status: "error",
+          msg: "Link has expired!" 
+        });
       }
     }
   });
@@ -136,14 +144,12 @@ exports.sendResetPasswordEmail = function (req, res) {
           to: user.email,
           subject: "NUSociaLife Account Verification",
           html:
-            '<p>Click <a href="http://localhost:' +
-            port +
-            "/api/users/resetPassword/" +
-            user.token +
-            '">here</a> to reset your password. Note: Link is only valid for 15 minutes!!!</p>',
+            '<p>Click <a href="http://localhost:' + port + "/api/users/resetPassword/" + user.token 
+            + '">here</a> to reset your password. Note: Link is only valid for 15 minutes!!!</p>',
         });
 
         res.status(200).json({
+          status: "success",
           msg: "Reset password email link sent!",
           data: user,
         });
@@ -157,7 +163,8 @@ exports.resetPassword = function (req, res) {
   User.findOne({ token: req.params.token }, function (err, user) {
     if (!user) {
       res.status(404).json({
-        error: "User not found!",
+        status: "error",
+        msg: "User not found!",
       });
       return;
     }
@@ -173,6 +180,7 @@ exports.resetPassword = function (req, res) {
     // save the user and check for errors
     user.save(function (err) {
       res.status(200).json({
+        status: "success",
         msg: "User password has successfully been reset!",
         data: user,
       });
@@ -187,7 +195,8 @@ exports.updateUser = [
     User.findById(req.params.user_id, function (err, user) {
       if (!user) {
         res.status(404).json({
-          error: "User not found!",
+          status: "error",
+          msg: "User not found!",
         });
         return;
       }
@@ -203,6 +212,7 @@ exports.updateUser = [
       // save the user and check for errors
       user.save(function (err) {
         res.status(200).json({
+          status: "success",
           msg: "User Info updated",
           data: user,
         });
@@ -214,9 +224,12 @@ exports.updateUser = [
 exports.viewUser = function (req, res) {
   User.findById(req.params.user_id, function (err, user) {
     if (!user) {
-      res.status(404).json({ error: "User not found!" });
+      res.status(404).json({ 
+        status: "error",
+        msg: "User not found!" });
     } else {
       res.status(200).json({
+        status: "success",
         msg: "User details loading..",
         data: user,
       });
@@ -227,7 +240,10 @@ exports.viewUser = function (req, res) {
 exports.deleteUser = function (req, res) {
   User.deleteOne({ _id: req.params.user_id }, function (err, user) {
     if (user == null) {
-      res.status(404).json({ error: "User not found!" });
+      res.status(404).json({ 
+        status: "error",
+        msg: "User not found!" 
+      });
     } else {
       res.status(200).json({
         status: "Success",
@@ -247,7 +263,10 @@ exports.loginUser = [
     } else {
       User.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
-          res.status(404).json({ error: "Email cannot be found!" });
+          res.status(404).json({ 
+            status: "error",
+            msg: "Email cannot be found!" 
+          });
         } else {
           const body = req.body;
 
@@ -261,9 +280,15 @@ exports.loginUser = [
             // Allow token access for a day
             user.token = authController.createLoginToken(user.email);
 
-            res.status(200).json({ msg: "Login successful!" });
+            res.status(200).json({ 
+              status: "success",
+              msg: "Login successful!" 
+            });
           } else {
-            res.status(400).json({ error: "Invalid Password!" });
+            res.status(400).json({ 
+              status: "error",
+              msg: "Invalid Password!" 
+            });
           }
         }
       });
