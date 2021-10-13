@@ -142,7 +142,15 @@ exports.upvoteComment = function (req, res) {
 			});
 			return;
 		} else {
+			if (comment.votedUsers.includes(userId)) {
+				res.status(404).json({
+					status: "error",
+					msg: "Users can only upvote/downvote a comment ONCE",
+				});
+				return;
+			}
 			comment.votes = comment.votes + 1;
+			comment.votedUsers.push(userId)
 		}
 		// save the comment and check for errors
 		comment.save(function (err) {
@@ -176,6 +184,13 @@ exports.downvoteComment = function (req, res) {
 			});
 			return;
 		} else {
+			if (comment.votedUsers.includes(userId)) {
+				res.status(404).json({
+					status: "error",
+					msg: "Users can only upvote/downvote a comment ONCE",
+				});
+				return;
+			}
 			if (comment.votes == 0) {
 				res.status(404).json({
 					status: "error",
@@ -184,6 +199,7 @@ exports.downvoteComment = function (req, res) {
 				return;
 			}
 			comment.votes = comment.votes - 1;
+			comment.votedUsers.push(userId);
 		}
 		// save the comment and check for errors
 		comment.save(function (err) {
