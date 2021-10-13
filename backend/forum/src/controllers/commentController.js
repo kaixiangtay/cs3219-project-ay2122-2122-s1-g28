@@ -10,18 +10,21 @@ exports.viewPostComments = function async(req, res) {
 		.then((post, err) => {
 			if (post == null) {
 				res.status(404).json({
-					error: "Comments not found!",
+					status: "error",
+					msg: "Comments not found!",
 				});
 				return;
 			}
 			if (err) res.send(err);
             if (post.comments.length == 0) {
                 res.status(200).json({
-                    message: "There are no comments in this post", // tells client that the post has no comments 
+					status: "success",
+                    msg: "There are no comments in this post", // tells client that the post has no comments 
                 });
             } else {
 			res.status(200).json({
-				message: "Comment details loading..",
+				status: "success",
+				msg: "Comment details loading..",
 				data: post.comments,
 			});
         }
@@ -44,20 +47,21 @@ exports.createComment = [
 		Post.findById(req.params.post_id, function (err, post) {
 			if (post == null) {
 				res.status(404).json({
-					error: "Post not found!",
+					status: "error",
+					msg: "Post not found!",
 				});
 				return;
 			}
 			if (err) res.send(err);
 			comment.postId = req.params.post_id;
-			console.log("newComment", comment);
 			comment.save();
 			post.comments.push(comment);
 			// save the post and check for errors
 			post.save(function (err) {
 				if (err) res.json(err);
 				res.status(200).json({
-					message: "Comment is created!",
+					status: "success",
+					msg: "Comment is created!",
 					data: post,
 				});
 			});
@@ -70,13 +74,15 @@ exports.viewComment = function (req, res) {
 	Comment.findById(req.params.comment_id, function (err, comment) {
 		if (comment == null) {
             res.status(404).json({
-                error: "Comment not found!",
+				status: "error",
+                msg: "Comment not found!",
             });
             return;
         }
 		if (err) res.send(err);
 		res.status(200).json({
-			message: "Comment details loading..",
+			status: "success",
+			msg: "Comment details loading..",
 			data: comment,
 		});
 	});
@@ -86,17 +92,20 @@ exports.updateComment = function (req, res) {
 	Comment.findById(req.params.comment_id, function (err, comment) {
         if (comment == null) {
             res.status(404).json({
-                error: "Comment not found!",
+				status: "error",
+                msg: "Comment not found!",
             });
             return;
         }
 		if (err) res.send(err);
 		comment.content = req.body.content ? req.body.content : comment.content;
+		comment.votes = req.body.votes ? req.body.votes : comment.votes;
 		// save the comment and check for errors
 		comment.save(function (err) {
 			if (err) res.json(err);
 			res.status(200).json({
-				message: "Comment content updated",
+				status: "success",
+				msg: "Comment content updated",
 				data: comment,
 			});
 		});
@@ -111,13 +120,15 @@ exports.deleteComment = function (req, res) {
 		function (err, comment) {
 			if (comment == null) {
                 res.status(404).json({
-                    error: "Comment not found!",
+					status: "error",
+                    msg: "Comment not found!",
                 });
 			} else {
                 Post.findById(req.params.post_id, function (err, post) {
                     if (post == null) {
                         res.status(404).json({
-                            error: "Comment not found!",
+							status: "error",
+                            msg: "Comment not found!",
                         });
                         return;
                     }
@@ -127,12 +138,66 @@ exports.deleteComment = function (req, res) {
                     post.save(function (err) {
                         if (err) res.json(err);
                         res.status(200).json({
-                            status: "Success",
-                            message: "Comment deleted",
+                            status: "success",
+                            msg: "Comment deleted",
                         });
                     });
                 })
 			}
 		}
 	);
+};
+
+exports.sortCommentsByAscVotes = function async(req, res) {
+	Post.findById({ _id: req.params.post_id })
+		.populate({ path: 'comments', options: { sort: { votes: 1 } } })
+		.then((post, err) => {
+			if (post == null) {
+				res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
+				});
+				return;
+			}
+			if (err) res.send(err);
+            if (post.comments.length == 0) {
+                res.status(200).json({
+					status: "sucess",
+                    msg: "There are no comments in this post", // tells client that the post has no comments 
+                });
+            } else {
+			res.status(200).json({
+				status: "success",
+				msg: "Comment details loading..",
+				data: post.comments,
+			});
+        }
+		});
+};
+
+exports.sortCommentsByDescVotes = function async(req, res) {
+	Post.findById({ _id: req.params.post_id })
+		.populate({ path: 'comments', options: { sort: { votes: -1 } } })
+		.then((post, err) => {
+			if (post == null) {
+				res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
+				});
+				return;
+			}
+			if (err) res.send(err);
+            if (post.comments.length == 0) {
+                res.status(200).json({
+					status: "success",
+                    msg: "There are no comments in this post", // tells client that the post has no comments 
+                });
+            } else {
+			res.status(200).json({
+				status: "success",
+				msg: "Comment details loading..",
+				data: post.comments,
+			});
+        }
+		});
 };

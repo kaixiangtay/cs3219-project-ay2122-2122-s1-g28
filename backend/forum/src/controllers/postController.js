@@ -8,12 +8,12 @@ exports.index = function (req, res) {
 		if (err) {
 			return res.status(404).json({
 				status: "error",
-				message: err,
+				msg: err,
 			});
 		}
 		res.status(200).json({
 			status: "success",
-			message: "Posts retrieved successfully",
+			msg: "Posts retrieved successfully",
 			data: posts,
 		});
 	});
@@ -37,7 +37,8 @@ exports.createPost = [
 				res.json(err);
 			} else {
 				res.status(200).json({
-					message: "New Post created!",
+					status: "success",
+					msg: "New Post created!",
 					data: post,
 				});
 			}
@@ -49,13 +50,15 @@ exports.viewPost = function (req, res) {
 	Post.findById(req.params.post_id, function (err, post) {
 		if (post == null) {
 			res.status(404).json({
-				error: "Post not found!",
+				status: "error",
+				msg: "Post not found!",
 			});
 			return;
 		}
 		if (err) res.send(err);
 		res.status(200).json({
-			message: "Post details loading..",
+			status: "success",
+			msg: "Post details loading..",
 			data: post,
 		});
 	});
@@ -65,7 +68,8 @@ exports.updatePost = function (req, res) {
 	Post.findById(req.params.post_id, function (err, post) {
 		if (post == null) {
 			res.status(404).json({
-				error: "Post not found!",
+				status: "error",
+				msg: "Post not found!",
 			});
 			return;
 		}
@@ -77,7 +81,8 @@ exports.updatePost = function (req, res) {
 		post.save(function (err) {
 			if (err) res.json(err);
 			res.status(200).json({
-				message: "Post details updated",
+				status: "error",
+				msg: "Post details updated",
 				data: post,
 			});
 		});
@@ -92,20 +97,22 @@ exports.deletePost = function (req, res) {
 		function (err, post) {
 			if (post == null) {
 				res.status(404).json({
-					error: "Post not found!",
+					status: "error",
+					msg: "Post not found!",
 				});
 			} else {
                 Comment.deleteMany({post_id: req.params.post_id}, function (err, comment) {
                     if (comment == null) {
                         res.status(404).json({
-                            error: "Comment in post not found!",
+							status: "error",
+                            msg: "Comment in post not found!",
                         });
                         return;
                     }
                     if (err) res.send({ err });
                     res.status(200).json({
-                        status: "Success",
-                        message: "Post deleted",
+                        status: "success",
+                        msg: "Post deleted",
                     });
                 });//deletes all comments associated with the post
 			}
@@ -113,3 +120,70 @@ exports.deletePost = function (req, res) {
 	);
 };
 
+exports.sortPostByAscVotes = function (req, res) {
+	var compareByVotes = { votes : 1 }
+	Post.find().sort(compareByVotes).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			msg: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
+
+exports.sortPostByDescVotes = function (req, res) {
+	var compareByVotes = { votes : -1 }
+	Post.find().sort(compareByVotes).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			msg: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
+
+exports.sortPostByAscDate = function (req, res) {
+	var compareByDate = { dateCreated : 1 }
+	Post.find().sort(compareByDate).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			msg: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};
+
+exports.sortPostByDescDate = function (req, res) {
+	var compareByDate = { dateCreated : -1 }
+	Post.find().sort(compareByDate).exec((err, posts) => {
+		if (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err,
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			msg: "Posts retrieved successfully",
+			data: posts,
+		});
+	});
+};

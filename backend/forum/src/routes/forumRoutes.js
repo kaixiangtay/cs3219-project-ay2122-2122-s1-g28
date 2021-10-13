@@ -24,8 +24,26 @@ router.route('/api/posts/:post_id/comments')
 
 router.route('/api/posts/:post_id/:comment_id')
     .get(commentController.viewComment)
-    .patch(commentController.updateComment)
+    .put(commentController.updateComment)
     .delete(commentController.deleteComment)
+
+router.route('/api/sortPostByAscVotes')
+    .get(postController.sortPostByAscVotes)
+
+router.route('/api/sortPostByDescVotes')
+    .get(postController.sortPostByDescVotes)
+
+router.route('/api/sortPostByAscDate')
+    .get(postController.sortPostByAscDate) 
+
+router.route('/api/sortPostByDescDate')
+    .get(postController.sortPostByDescDate) 
+
+router.route('/api/sortCommentsByAscVotes/:post_id')
+    .get(commentController.sortCommentsByAscVotes)
+
+router.route('/api/sortCommentsByDescVotes/:post_id')
+    .get(commentController.sortCommentsByDescVotes)
 
 module.exports = router; 
 
