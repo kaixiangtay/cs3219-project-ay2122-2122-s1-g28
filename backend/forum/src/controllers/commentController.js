@@ -198,39 +198,60 @@ exports.downvoteComment = function (req, res) {
 };
 
 exports.deleteComment = function (req, res) {
-	Comment.deleteOne(
-		{
-			_id: req.params.comment_id,
-		},
-		function (err, comment) {
-			if (comment == null) {
-                res.status(404).json({
-					status: "error",
-                    msg: "Comment not found!",
-                });
-			} else {
-                Post.findById(req.params.post_id, function (err, post) {
-                    if (post == null) {
-                        res.status(404).json({
+	Comment.findById(req.params.comment_id, function (err, comment) {
+        if (comment == null) {
+            res.status(404).json({
+				status: "error",
+                msg: "Comment not found!",
+            });
+            return;
+        }
+		var userId = req.params.user_id;
+		var commentUserId = comment.userId;
+
+		if (userId == commentUserId) {
+			Comment.deleteOne(
+				{
+					_id: req.params.comment_id,
+				},
+				function (err, comment) {
+					if (comment == null) {
+						res.status(404).json({
 							status: "error",
-                            msg: "Comment not found!",
-                        });
-                        return;
-                    }
-                    if (err) res.send(err);
-                    post.comments.remove(req.params.comment_id) // removes comment in Post Collection 
-                    // save the post and check for errors
-                    post.save(function (err) {
-                        if (err) res.json(err);
-                        res.status(200).json({
-                            status: "success",
-                            msg: "Comment deleted",
-                        });
-                    });
-                })
-			}
+							msg: "Comment not found!",
+						});
+					} else {
+						Post.findById(req.params.post_id, function (err, post) {
+							if (post == null) {
+								res.status(404).json({
+									status: "error",
+									msg: "Comment not found!",
+								});
+								return;
+							}
+							if (err) res.send(err);
+							post.comments.remove(req.params.comment_id) // removes comment in Post Collection 
+							// save the post and check for errors
+							post.save(function (err) {
+								if (err) res.json(err);
+								res.status(200).json({
+									status: "success",
+									msg: "Comment deleted",
+								});
+							});
+						})
+					}
+				}
+			);
+		} else {
+			res.status(404).json({
+				status: "error",
+				msg: "User is not authorised to delete this comment",
+			});
+			return;
 		}
-	);
+	});
+
 };
 
 exports.sortCommentsByAscVotes = function async(req, res) {
