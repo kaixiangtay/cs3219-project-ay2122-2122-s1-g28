@@ -114,7 +114,7 @@ exports.upvotePost = function (req, res) {
 		if (err) res.send(err);
 		var userId = req.params.user_id;
 		var postUserId = post.userId;
-
+		
 		if (userId == postUserId) {
 			res.status(404).json({
 				status: "error",
@@ -122,7 +122,15 @@ exports.upvotePost = function (req, res) {
 			});
 			return;
 		} else {
+			if (post.votedUsers.includes(userId)) {
+				res.status(404).json({
+					status: "error",
+					msg: "Users can only upvote/downvote a post ONCE",
+				});
+				return;
+			}
 			post.votes = post.votes + 1;
+			post.votedUsers.push(userId);
 		}
 		post.save(function (err) {
 			if (err) res.json(err);
@@ -155,6 +163,14 @@ exports.downvotePost = function (req, res) {
 			});
 			return;
 		} else {
+			if (post.votedUsers.includes(userId)) {
+				res.status(404).json({
+					status: "error",
+					msg: "Users can only upvote/downvote a post ONCE",
+				});
+				return;
+			}
+
 			if (post.votes == 0) {
 				res.status(404).json({
 					status: "error",
@@ -163,6 +179,7 @@ exports.downvotePost = function (req, res) {
 				return;
 			}
 			post.votes = post.votes - 1;
+			post.votedUsers.push(userId);
 		}
 		post.save(function (err) {
 			if (err) res.json(err);
