@@ -32,9 +32,19 @@ router.route('/api/posts/:post_id/comments')
     .get(commentController.viewPostComments)
     .post(commentController.createComment)
 
-router.route('/api/posts/:post_id/:comment_id')
+router.route('/api/viewComment/:post_id/:comment_id')
     .get(commentController.viewComment)
-    .put(commentController.updateComment)
+
+router.route('/api/updateComment/:post_id/:comment_id/:user_id')
+    .patch(commentController.updateComment)
+
+router.route('/api/upvoteComment/:post_id/:comment_id/:user_id')
+    .patch(commentController.upvoteComment)
+
+router.route('/api/downvoteComment/:post_id/:comment_id/:user_id')
+    .patch(commentController.downvoteComment)
+
+router.route('/api/deleteComment/:post_id/:comment_id/:user_id')
     .delete(commentController.deleteComment)
 
 router.route('/api/sortPostByAscVotes')

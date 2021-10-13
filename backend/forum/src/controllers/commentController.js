@@ -98,14 +98,99 @@ exports.updateComment = function (req, res) {
             return;
         }
 		if (err) res.send(err);
-		comment.content = req.body.content ? req.body.content : comment.content;
-		comment.votes = req.body.votes ? req.body.votes : comment.votes;
+		var userId = req.params.user_id;
+		var commentUserId = comment.userId;
+
+		if (userId == commentUserId) {
+			comment.content = req.body.content ? req.body.content : comment.content;
+		} else {
+			res.status(404).json({
+				status: "error",
+				msg: "User is not authorised to edit this comment",
+			});
+			return;
+		}
 		// save the comment and check for errors
 		comment.save(function (err) {
 			if (err) res.json(err);
 			res.status(200).json({
 				status: "success",
 				msg: "Comment content updated",
+				data: comment,
+			});
+		});
+	});
+};
+
+exports.upvoteComment = function (req, res) {
+	Comment.findById(req.params.comment_id, function (err, comment) {
+        if (comment == null) {
+            res.status(404).json({
+				status: "error",
+                msg: "Comment not found!",
+            });
+            return;
+        }
+		if (err) res.send(err);
+		var userId = req.params.user_id;
+		var commentUserId = comment.userId;
+
+		if (userId == commentUserId) {
+			res.status(404).json({
+				status: "error",
+				msg: "Users are not allowed to upvote/downvote their own comments",
+			});
+			return;
+		} else {
+			comment.votes = comment.votes + 1;
+		}
+		// save the comment and check for errors
+		comment.save(function (err) {
+			if (err) res.json(err);
+			res.status(200).json({
+				status: "success",
+				msg: "Comment has been upvoted!",
+				data: comment,
+			});
+		});
+	});
+};
+
+exports.downvoteComment = function (req, res) {
+	Comment.findById(req.params.comment_id, function (err, comment) {
+        if (comment == null) {
+            res.status(404).json({
+				status: "error",
+                msg: "Comment not found!",
+            });
+            return;
+        }
+		if (err) res.send(err);
+		var userId = req.params.user_id;
+		var commentUserId = comment.userId;
+
+		if (userId == commentUserId) {
+			res.status(404).json({
+				status: "error",
+				msg: "Users are not allowed to upvote/downvote their own comments",
+			});
+			return;
+		} else {
+			if (comment.votes == 0) {
+				res.status(404).json({
+					status: "error",
+					msg: "Vote count is already at 0, downvote is not allowed",
+				});
+				return;
+			}
+			comment.votes = comment.votes - 1;
+		}
+		// save the comment and check for errors
+		comment.save(function (err) {
+			if (err) res.json(err);
+			res.status(200).json({
+				status: "success",
+				msg: "Comment has been downvoted!",
 				data: comment,
 			});
 		});
