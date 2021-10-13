@@ -13,9 +13,19 @@ router.route('/api/posts')
     .get(postController.index)
     .post(postController.createPost)
 
-router.route('/api/posts/:post_id')
+router.route('/api/viewPost/:post_id')
     .get(postController.viewPost)
+
+router.route('/api/updatePost/:post_id/:user_id')
     .put(postController.updatePost)
+
+router.route('/api/upvotePost/:post_id/:user_id')
+    .patch(postController.upvotePost)
+
+router.route('/api/downvotePost/:post_id/:user_id')
+    .patch(postController.downvotePost)
+
+router.route('/api/deletePost/:post_id/:user_id')
     .delete(postController.deletePost)
 
 router.route('/api/posts/:post_id/comments')
