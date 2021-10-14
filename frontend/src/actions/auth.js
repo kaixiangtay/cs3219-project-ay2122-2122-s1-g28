@@ -150,28 +150,36 @@ export const handleProfileRetrieval = (_id) => (dispatch) => {
     });
 };
 
-// Handle update Profile Information (Find a way to optionally change password and double check with current password)
-export const handleProfileUpdate = (_id, _name, _password) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update/${_id}`;
+// Handle update Profile Information
+export const handleProfileUpdate =
+  (_token, _name, _password, verifyPassword) => (dispatch) => {
+    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update/${_token}`;
 
-  fetch(requestUrl, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      name: _name,
-      password: _password,
-    }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        dispatch(profileUpdateSuccess());
-      } else {
-        response.json().then((res) => dispatch(profileUpdateFailure(res)));
-      }
+    // If user inputs password, then pass in password field in body
+    let bodyContent = verifyPassword
+      ? {
+          name: _name,
+          password: _password,
+        }
+      : {
+          name: _name,
+        };
+
+    fetch(requestUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(bodyContent),
     })
-    .catch((err) => {
-      alert(err);
-    });
-};
+      .then((response) => {
+        if (response.ok) {
+          dispatch(profileUpdateSuccess());
+        } else {
+          response.json().then((res) => dispatch(profileUpdateFailure(res)));
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
