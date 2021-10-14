@@ -81,7 +81,6 @@ export default function authReducer(state = defaultState, action) {
         logoutLoading: false,
         logoutSuccess: false,
         logoutFailure: false,
-        user: action.payload,
       };
     case PROFILE_UPDATE_FAILURE:
       return { state };

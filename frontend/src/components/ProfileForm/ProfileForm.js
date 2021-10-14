@@ -32,10 +32,11 @@ function ProfileForm() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  let _token = "61683520f57326edf6234d6a"; //Hardcode _token for now
+  const _token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmN1cy5sZWUuZXVnZW5lQHUubnVzLmVkdSIsImlhdCI6MTYzNDIyMzU3MywiZXhwIjoxNjM0MjI0NDczfQ.ckjiZzHsvceLzDnanJbVFPITUaHAyWafCAdjLNIDW5U";
 
   useEffect(() => {
-    dispatch(handleProfileRetrieval(_token)); //Hardcode _token for now
+    dispatch(handleProfileRetrieval(_token));
     setEmail(auth.user.email);
     setName(auth.user.name);
     setNewPassword("");

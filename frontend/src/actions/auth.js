@@ -158,8 +158,8 @@ export const logoutUser = () => (dispatch) => {
 };
 
 // Handle retrieve Profile Information
-export const handleProfileRetrieval = (_id) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/${_id}`;
+export const handleProfileRetrieval = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/${token}`;
 
   fetch(requestUrl, {
     method: "GET",
