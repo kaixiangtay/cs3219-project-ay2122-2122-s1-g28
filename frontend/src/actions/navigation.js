@@ -7,6 +7,10 @@ import {
   RESET,
 } from "../constants/ReduxConstants.js";
 
+// ===================================================================
+// Navigation State Change
+// ===================================================================
+
 const findfriends = () => {
   return {
     type: FINDFRIENDS,
@@ -36,6 +40,10 @@ export const navigationReset = () => {
     type: RESET,
   };
 };
+
+// ===================================================================
+// HANDLING API CALLS
+// ===================================================================
 
 // Handle user sign up
 export const handleNavigation = (selection) => (dispatch) => {

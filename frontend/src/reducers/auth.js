@@ -1,3 +1,4 @@
+// Import Constants
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -5,7 +6,13 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-} from "../actions/auth";
+  PROFILE_RETRIEVE_SUCCESS,
+  PROFILE_RETRIEVE_FAILURE,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAILURE,
+  DELETE_ACCOUNT_FAILURE,
+  DELETE_ACCOUNT_SUCCESS,
+} from "../constants/ReduxConstants";
 
 const defaultState = {
   loginLoading: false,
@@ -58,6 +65,35 @@ export default function authReducer(state = defaultState, action) {
         logoutSuccess: false,
         logoutFailure: true,
       };
+    case PROFILE_RETRIEVE_SUCCESS:
+      return {
+        ...state,
+        logoutLoading: false,
+        logoutSuccess: false,
+        logoutFailure: false,
+        user: action.payload,
+      };
+    case PROFILE_RETRIEVE_FAILURE:
+      return { ...state };
+    case PROFILE_UPDATE_SUCCESS:
+      return {
+        ...state,
+        logoutLoading: false,
+        logoutSuccess: false,
+        logoutFailure: false,
+      };
+    case PROFILE_UPDATE_FAILURE:
+      return { state };
+    case DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        loginLoading: false,
+        loginSuccess: false,
+        loginFailure: false,
+        user: {},
+      };
+    case DELETE_ACCOUNT_FAILURE:
+      return { state };
     default:
       return state;
   }
