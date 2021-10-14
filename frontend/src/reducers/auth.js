@@ -10,6 +10,8 @@ import {
   PROFILE_RETRIEVE_FAILURE,
   PROFILE_UPDATE_SUCCESS,
   PROFILE_UPDATE_FAILURE,
+  DELETE_ACCOUNT_FAILURE,
+  DELETE_ACCOUNT_SUCCESS,
 } from "../constants/ReduxConstants";
 
 const defaultState = {
@@ -82,6 +84,16 @@ export default function authReducer(state = defaultState, action) {
         user: action.payload,
       };
     case PROFILE_UPDATE_FAILURE:
+      return { state };
+    case DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        loginLoading: false,
+        loginSuccess: false,
+        loginFailure: false,
+        user: {},
+      };
+    case DELETE_ACCOUNT_FAILURE:
       return { state };
     default:
       return state;

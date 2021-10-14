@@ -12,7 +12,13 @@ import {
   PROFILE_RETRIEVE_FAILURE,
   PROFILE_UPDATE_SUCCESS,
   PROFILE_UPDATE_FAILURE,
+  DELETE_ACCOUNT_SUCCESS,
+  DELETE_ACCOUNT_FAILURE,
 } from "../constants/ReduxConstants";
+
+// ===================================================================
+// LOGIN STATE CHANGE
+// ===================================================================
 
 const loginRequest = () => {
   return {
@@ -60,6 +66,10 @@ const logoutFailure = () => {
   };
 };
 
+// ===================================================================
+// PROFILE STATE CHANGE
+// ===================================================================
+
 const profileRetrieveSuccess = (_payload) => {
   return {
     type: PROFILE_RETRIEVE_SUCCESS,
@@ -90,6 +100,25 @@ const profileUpdateFailure = (err) => {
     type: PROFILE_UPDATE_FAILURE,
   };
 };
+
+const deleteAccountSuccess = () => {
+  return {
+    type: DELETE_ACCOUNT_SUCCESS,
+  };
+};
+
+const deleteAccountFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: DELETE_ACCOUNT_FAILURE,
+  };
+};
+
+// ===================================================================
+// HANDLING API CALLS
+// ===================================================================
 
 // Handle user login
 export const loginUser = (email, password) => (dispatch) => {
@@ -183,3 +212,25 @@ export const handleProfileUpdate =
         alert(err);
       });
   };
+
+// Handle delete account
+export const handleDeleteAccount = (_token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/delete/${_token}`;
+
+  fetch(requestUrl, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        dispatch(deleteAccountSuccess());
+      } else {
+        response.json().then((res) => dispatch(deleteAccountFailure(res)));
+      }
+    })
+    .catch((err) => {
+      alert(err);
+    });
+};

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import {
   handleProfileRetrieval,
   handleProfileUpdate,
+  handleDeleteAccount,
 } from "../../actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,10 +32,10 @@ function ProfileForm() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  let _id = "6165533ad37604ad124a7248"; //Hardcode _id for now
+  let _token = "61683520f57326edf6234d6a"; //Hardcode _token for now
 
   useEffect(() => {
-    dispatch(handleProfileRetrieval(_id)); //Hardcode _id for now
+    dispatch(handleProfileRetrieval(_token)); //Hardcode _token for now
     setEmail(auth.user.email);
     setName(auth.user.name);
     setNewPassword("");
@@ -94,7 +95,12 @@ function ProfileForm() {
           )}
         </Grid>
         <Grid item md={12} className={styles.buttonContainer}>
-          <Button className="red-button">Delete Account</Button>
+          <Button
+            className="red-button"
+            onClick={() => dispatch(handleDeleteAccount(_token))}
+          >
+            Delete Account
+          </Button>
           <Button
             className="green-button"
             onClick={() =>
