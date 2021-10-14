@@ -32,8 +32,9 @@ function ProfileForm() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  //Hardcoded token for now until login feature implemented
   const _token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmN1cy5sZWUuZXVnZW5lQHUubnVzLmVkdSIsImlhdCI6MTYzNDIyMzU3MywiZXhwIjoxNjM0MjI0NDczfQ.ckjiZzHsvceLzDnanJbVFPITUaHAyWafCAdjLNIDW5U";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY4NGM5YTRiZjBlMmYwNTI0Y2E5ZTQiLCJpYXQiOjE2MzQyMjUzMjYsImV4cCI6MTYzNDMxMTcyNn0.ivTDFkSblN_q6eGF14YwESx5RE9y0zAUGB74HzMedew";
 
   useEffect(() => {
     dispatch(handleProfileRetrieval(_token));
