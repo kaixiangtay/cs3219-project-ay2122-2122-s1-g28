@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
 const { ACCESS_TOKEN_KEY, RESET_PASSWORD_TOKEN_KEY } = require('../config/config');
 
 
@@ -38,10 +37,10 @@ exports.resetPasswordToken = (userEmail) => {
     return token;
 }
 
-exports.createLoginToken = (userEmail) => {
+exports.createLoginToken = (userID) => {
     // Create account login JWT token (valid for a day)
     const token = jwt.sign(
-        { email: userEmail },
+        { _id: userID },
         ACCESS_TOKEN_KEY,
         { expiresIn: "24h" }
     );
@@ -56,3 +55,9 @@ exports.verifyToken = (token) => {
         return err;
     }
 }
+
+// For authorised api calls
+exports.authenticateToken = (token) => {
+    var userID = jwt.verify(token, ACCESS_TOKEN_KEY);
+    return userID;
+};

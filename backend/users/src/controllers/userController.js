@@ -99,6 +99,7 @@ exports.resendActivationEmail = function (req, res) {
   });
 };
 
+// API to verify user email from email link
 exports.verifyUserEmail = function (req, res) {
   User.findOne({ token: req.params.token }, function (err, user) {
     if (!user) {
@@ -188,11 +189,12 @@ exports.resetPassword = function (req, res) {
   });
 };
 
-// Change user Password in Profile page when user logged in to account
+// Change user name and password in Profile page when user logged in to account
 exports.updateUser = [
   userPasswordValidator(),
   (req, res) => {
-    User.findById(req.params.user_id, function (err, user) {
+    var userID = authController.authenticateToken(req.params.token);
+    User.findById(userID, function (err, user) {
       if (!user) {
         res.status(404).json({
           status: "error",
@@ -207,6 +209,7 @@ exports.updateUser = [
         return res.status(404).json(errors.array());
       }
 
+      user.name = req.body.name;
       user.password = authController.hashPassword(req.body.password);
 
       // save the user and check for errors
@@ -222,7 +225,8 @@ exports.updateUser = [
 ];
 
 exports.viewUser = function (req, res) {
-  User.findById(req.params.user_id, function (err, user) {
+  var userID = authController.authenticateToken(req.params.token);
+  User.findById(userID, function (err, user) {
     if (!user) {
       res.status(404).json({ 
         status: "error",
@@ -238,7 +242,8 @@ exports.viewUser = function (req, res) {
 };
 
 exports.deleteUser = function (req, res) {
-  User.deleteOne({ _id: req.params.user_id }, function (err, user) {
+  var userID = authController.authenticateToken(req.params.token);
+  User.deleteOne({ _id: userID }, function (err, user) {
     if (user == null) {
       res.status(404).json({ 
         status: "error",
@@ -278,11 +283,13 @@ exports.loginUser = [
 
           if (validPassword) {
             // Allow token access for a day
-            user.token = authController.createLoginToken(user.email);
+            user.token = authController.createLoginToken(user._id);
+            user.save();
 
             res.status(200).json({ 
               status: "success",
-              msg: "Login successful!" 
+              msg: "Login successful!",
+              token: user.token,
             });
           } else {
             res.status(400).json({ 
@@ -295,3 +302,24 @@ exports.loginUser = [
     }
   },
 ];
+
+exports.logout = function (req, res) {
+  var userID = authController.authenticateToken(req.params.token);
+  User.deleteOne({ _id: userID }, function (err, user) {
+    if (user == null) {
+      res.status(404).json({ 
+        status: "error",
+        msg: "User not found!" 
+      });
+    } else {
+      // Clear token before logout
+      user.token = '';
+      user.save();
+
+      res.status(200).json({ 
+        status: "success",
+        msg: "Have a nice day!" 
+      });
+    }
+  });
+};

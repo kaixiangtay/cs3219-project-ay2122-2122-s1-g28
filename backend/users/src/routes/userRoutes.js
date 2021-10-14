@@ -4,13 +4,15 @@ var userController = require("../controllers/userController");
 router.get("/", function (req, res) {
   res.json({
     status: "API Its Working",
-    message: "NUSociaLife",
+    message: "NUSociaLife User Microservices",
   });
 });
 
 router.route("/api/users/login").post(userController.loginUser);
 
 router.route("/api/users/signup").post(userController.registerUser);
+
+router.route("/api/users/logout").post(userController.logout);
 
 router.route("/api/users").get(userController.index);
 
