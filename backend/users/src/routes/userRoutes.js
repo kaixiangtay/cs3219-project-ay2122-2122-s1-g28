@@ -12,11 +12,11 @@ router.route("/api/users/login").post(userController.loginUser);
 
 router.route("/api/users/signup").post(userController.registerUser);
 
-router.route("/api/users/logout").post(userController.logout);
+router.route("/api/users/logout/:token").post(userController.logout);
 
 router.route("/api/users").get(userController.index);
 
-router.route("/api/users/:user_id").get(userController.viewUser);
+router.route("/api/users/:token").get(userController.viewUser);
 
 router
   .route("/api/users/verifyEmail/:token")
@@ -34,8 +34,8 @@ router
   .route("/api/users/resetPassword/:token")
   .patch(userController.resetPassword);
 
-router.route("/api/users/update/:user_id").patch(userController.updateUser);
+router.route("/api/users/update/:token").patch(userController.updateUser);
 
-router.route("/api/users/delete/:user_id").delete(userController.deleteUser);
+router.route("/api/users/delete/:token").delete(userController.deleteUser);
 
 module.exports = router;
