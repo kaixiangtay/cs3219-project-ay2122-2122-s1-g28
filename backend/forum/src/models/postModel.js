@@ -26,6 +26,7 @@ var PostSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  votedUsers: [String],
   dateCreated: {
     type: Date,
     default: Date.now(),

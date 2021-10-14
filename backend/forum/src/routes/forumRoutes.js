@@ -9,22 +9,46 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/api/posts')
+router.route('/api/viewAllPosts')
     .get(postController.index)
+
+router.route('/api/createPost')
     .post(postController.createPost)
 
-router.route('/api/posts/:post_id')
+router.route('/api/viewPost/:post_id')
     .get(postController.viewPost)
+
+router.route('/api/updatePost/:post_id/:user_id')
     .put(postController.updatePost)
+
+router.route('/api/upvotePost/:post_id/:user_id')
+    .patch(postController.upvotePost)
+
+router.route('/api/downvotePost/:post_id/:user_id')
+    .patch(postController.downvotePost)
+
+router.route('/api/deletePost/:post_id/:user_id')
     .delete(postController.deletePost)
 
-router.route('/api/posts/:post_id/comments')
+router.route('/api/viewAllComments/:post_id')
     .get(commentController.viewPostComments)
+
+router.route('/api/createComment/:post_id')
     .post(commentController.createComment)
 
-router.route('/api/posts/:post_id/:comment_id')
+router.route('/api/viewComment/:post_id/:comment_id')
     .get(commentController.viewComment)
-    .put(commentController.updateComment)
+
+router.route('/api/updateComment/:post_id/:comment_id/:user_id')
+    .patch(commentController.updateComment)
+
+router.route('/api/upvoteComment/:post_id/:comment_id/:user_id')
+    .patch(commentController.upvoteComment)
+
+router.route('/api/downvoteComment/:post_id/:comment_id/:user_id')
+    .patch(commentController.downvoteComment)
+
+router.route('/api/deleteComment/:post_id/:comment_id/:user_id')
     .delete(commentController.deleteComment)
 
 router.route('/api/sortPostByAscVotes')
