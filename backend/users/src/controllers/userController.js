@@ -1,9 +1,9 @@
 const { EMAIL, PORT, FRONTEND_URL, S3_BUCKET_NAME } = require("../config/config");
 
 var User = require("../models/userModel");
-var authController = require("../middlewares/userAuth");
-const mailer = require("../services/mailerService");
-const imageUploader = require("../services/imageService");
+var userAuth = require("../middlewares/userAuth");
+const mailerService = require("../services/mailerService");
+const imagerService = require("../services/imageService");
 const { validationResult } = require("express-validator");
 const {
   userRegisterValidator,
@@ -46,15 +46,15 @@ exports.registerUser = [
           var user = new User();
           user.name = req.body.name;
           user.email = req.body.email;
-          user.password = authController.hashPassword(req.body.password);
-          user.token = authController.createAccessToken(user.email);
+          user.password = userAuth.hashPassword(req.body.password);
+          user.token = userAuth.createAccessToken(user.email);
           user.save();
 
-          mailer.sendEmail({
+          mailerService.sendEmail({
             from: EMAIL,
             to: user.email,
             subject: "NUSociaLife Account Verification",
-            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,       
+            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,    
           });
 
           return res.status(200).json({
@@ -71,13 +71,13 @@ exports.registerUser = [
 // Resend verification email when token has expired after 15 mins
 exports.resendActivationEmail = function (req, res) {
   User.findOne({ email: req.body.email }, function (err, user) {
-    user.token = authController.createAccessToken(user.email);
+    user.token = userAuth.createAccessToken(user.email);
 
     user.save(function (err) {
       if (err) {
         return res.status(404).json(err);
       } else {
-        mailer.sendEmail({
+        mailerService.sendEmail({
           from: EMAIL,
           to: user.email,
           subject: "NUSociaLife Account Verification",
@@ -96,7 +96,7 @@ exports.resendActivationEmail = function (req, res) {
 // API to verify user email from email link
 exports.verifyUserEmail = function (req, res) {
   User.findOne({ token: req.params.token }, function (err, user) {
-    const userEmail = authController.decodeTempToken(user.token);
+    const userEmail = userAuth.decodeTempToken(user.token);
 
     if (userEmail === user.email) {
       user.status = "Approved";
@@ -119,13 +119,13 @@ exports.verifyUserEmail = function (req, res) {
 // Send email for user to reset password
 exports.sendResetPasswordEmail = function (req, res) {
   User.findOne({ email: req.body.email }, function (err, user) {
-    user.token = authController.resetPasswordToken(user.email);
+    user.token = userAuth.resetPasswordToken(user.email);
 
     user.save(function (err) {
       if (err) {
         return res.status(404).json(err);
       } else {
-        mailer.sendEmail({
+        mailerService.sendEmail({
           from: EMAIL,
           to: user.email,
           subject: "NUSociaLife Account Verification",
@@ -153,7 +153,7 @@ exports.resetPassword = function (req, res) {
       return res.status(404).json(errors.array());
     }
 
-    user.password = authController.hashPassword(req.body.password);
+    user.password = userAuth.hashPassword(req.body.password);
     user.save();
     
     return res.status(200).json({
@@ -166,14 +166,14 @@ exports.resetPassword = function (req, res) {
 
 // Upload Image into AWS S3 bucket
 exports.uploadProfileImage = [ 
-  authController.authenticateToken, 
+  userAuth.authenticateToken, 
   (req, res) => {
     const authHeader = req.headers['authorization'];
-    var userID  = authController.decodeAuthToken(authHeader);
+    var userID  = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
       // frontend file name put to profileImage
-      const uploadSingleImage = imageUploader.upload(S3_BUCKET_NAME, user._id).single(
+      const uploadSingleImage = imagerService.upload(S3_BUCKET_NAME, user._id).single(
         "profileImage");
       
         uploadSingleImage(req, res, async (err) => {
@@ -198,30 +198,13 @@ exports.uploadProfileImage = [
     });
 }]
 
-// View Profile Image in Profile page
-exports.viewProfileImage = [ 
-  authController.authenticateToken, 
-  (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = authController.decodeAuthToken(authHeader);
-
-    User.findById(userID, function (err, user) {
-      return res.status(200).json({ 
-        status: "success",
-        msg: "User profile image retrieved successfully!",
-        profileImageUrl: user.profileImageUrl,
-      });
-    });
-}]
-
-
 // Change user name and password in Profile page when user logged in to account
 exports.updateUser = [
-  authController.authenticateToken,
+  userAuth.authenticateToken,
   userUpdateValidator(),
   (req, res) => {
     const authHeader = req.headers['authorization'];
-    var userID  = authController.decodeAuthToken(authHeader);
+    var userID  = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
       const errors = validationResult(req);
@@ -233,7 +216,7 @@ exports.updateUser = [
       user.name = req.body.name;
   
       if (req.body.password !== undefined) {
-        user.password = authController.hashPassword(req.body.password)
+        user.password = userAuth.hashPassword(req.body.password)
       } 
       
       user.save();
@@ -248,30 +231,34 @@ exports.updateUser = [
 ];
 
 exports.viewUser = [ 
-  authController.authenticateToken, 
+  userAuth.authenticateToken, 
   (req, res) => {
     const authHeader = req.headers['authorization'];
-    var userID  = authController.decodeAuthToken(authHeader);
+    var userID  = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
       return res.status(200).json({
         status: "success",
         msg: "User details loading..",
-        data: user,
+        data: {
+          name: user.name,
+          email: user.email,
+          profileImageUrl: user.profileImageUrl,
+        }
       });
     });
 }]
 
 exports.deleteUser = [ 
-  authController.authenticateToken, 
+  userAuth.authenticateToken, 
   (req, res) => {
     const authHeader = req.headers['authorization'];
-    var userID  = authController.decodeAuthToken(authHeader);
+    var userID  = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
 
       if (user.profileImageUrl !== '') {
-        imageUploader.delete(user.profileImageUrl);
+        imagerService.delete(user.profileImageUrl);
       }
 
       User.deleteOne({_id: user._id}, function (err, user) {
@@ -298,17 +285,23 @@ exports.loginUser = [
             msg: "Email cannot be found!" 
           });
         } else {
+          if (user.status !== "Approved") {
+            return res.status(400).json({
+              status: "error",
+              msg: "User is not verified, unable to login!",
+            })
+          }
           const body = req.body;
 
           // compare user password with hashed password in database
-          const validPassword = authController.comparePassword(
+          const validPassword = userAuth.comparePassword(
             body.password,
             user.password
           );
 
           if (validPassword) {
             // Allow token access for a day
-            user.token = authController.createLoginToken(user._id);
+            user.token = userAuth.createLoginToken(user._id);
             user.save();
 
             return res.status(200).json({
@@ -329,10 +322,10 @@ exports.loginUser = [
 ];
 
 exports.logout = [ 
-  authController.authenticateToken, 
+  userAuth.authenticateToken, 
   (req, res) => {
     const authHeader = req.headers['authorization'];
-    var userID  = authController.decodeAuthToken(authHeader);
+    var userID  = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
        // Clear token before logout
