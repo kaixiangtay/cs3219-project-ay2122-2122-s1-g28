@@ -10,6 +10,7 @@ module.exports = {
   GCP_CLIENT_ID: process.env.GCP_CLIENT_ID,
   GCP_CLIENT_SECRET: process.env.GCP_CLIENT_SECRET,
   GCP_REFRESH_TOKEN: process.env.GCP_REFRESH_TOKEN,
+  GCP_ACCESS_TOKEN: process.env.GCP_ACCESS_TOKEN,
   EMAIL: process.env.EMAIL,
   OAUTH_URL: process.env.OAUTH_URL,
   

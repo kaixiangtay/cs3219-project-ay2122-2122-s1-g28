@@ -1,54 +1,24 @@
-const { GCP_CLIENT_ID, GCP_CLIENT_SECRET, EMAIL, GCP_REFRESH_TOKEN, OAUTH_URL } = require('../config/config')
+const { GCP_CLIENT_ID, GCP_CLIENT_SECRET, EMAIL, GCP_ACCESS_TOKEN, GCP_REFRESH_TOKEN, OAUTH_URL } = require('../config/config')
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
 
-const oauth2Client = new OAuth2(
-    GCP_CLIENT_ID,
-    GCP_CLIENT_SECRET,
-    OAUTH_URL
-);
-
-oauth2Client.setCredentials({
-    GCP_REFRESH_TOKEN: GCP_REFRESH_TOKEN
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  secure: true,
+  auth: {
+      type: 'OAuth2',
+      user: EMAIL,
+      clientId: GCP_CLIENT_ID,
+      clientSecret: GCP_CLIENT_SECRET,
+      refreshToken: GCP_REFRESH_TOKEN,
+      accessToken: GCP_ACCESS_TOKEN,
+      expires: 1484314697598
+  }
 });
 
-const createTransporter = async () => {
-    const oauth2Client = new OAuth2(
-      GCP_CLIENT_ID,
-      GCP_CLIENT_SECRET,
-      OAUTH_URL
-    );
-  
-    oauth2Client.setCredentials({
-      GCP_REFRESH_TOKEN: GCP_REFRESH_TOKEN
-    });
-  
-    const accessToken = await new Promise((resolve, reject) => {
-      oauth2Client.getAccessToken((err, token) => {
-        if (err) {
-          reject();
-        }
-        resolve(token);
-      });
-    });
-  
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: EMAIL,
-        accessToken,
-        GCP_CLIENT_ID: GCP_CLIENT_ID,
-        GCP_CLIENT_SECRET: GCP_CLIENT_SECRET,
-        refreshToken: GCP_REFRESH_TOKEN
-      }
-    });
-  
-    return transporter;
-  };
-
 exports.sendEmail = async (emailOptions) => {
-    let emailTransporter = await createTransporter();
-    await emailTransporter.sendMail(emailOptions);
+    try {
+      await transporter.sendMail(emailOptions);
+    } catch (err) {
+        console.log(err);
+    }
   };

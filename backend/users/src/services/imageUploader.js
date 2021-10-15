@@ -1,7 +1,7 @@
 const aws = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_REGION } = require("../config/config");
+const { S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_REGION, S3_BUCKET_NAME } = require("../config/config");
 
 const s3 = new aws.S3({
   accessKeyId: S3_ACCESS_KEY_ID,
@@ -9,9 +9,11 @@ const s3 = new aws.S3({
   region: S3_BUCKET_REGION,
 });
 
+const allowedFileTypes = ['jpeg', 'png'];
+
 const multerFilter =  function (req, file, cb) {
   const ext = file.mimetype.split('/')[1];
- if (ext === 'jpeg' || ext === 'png') {
+ if (allowedFileTypes.includes(ext)) {
    cb(null, true);
  } else {
    cb(new Error("Unrecognised image file type!"), false);
@@ -28,7 +30,6 @@ exports.upload = (bucketName, userID) =>
       },
       key: function (req, file, cb) {
         const ext = file.mimetype.split('/')[1];
-        console.log(userID);
         cb(null, `image-${userID}.${ext}`);
       },
     }),
@@ -38,3 +39,15 @@ exports.upload = (bucketName, userID) =>
       fileSize: 1024 * 1024 * 10,
     },
   });
+
+  exports.delete = (imageUrl) => {
+    var fileName = imageUrl.split('/').slice(-1)[0];
+    var params = {  Bucket: S3_BUCKET_NAME, Key: fileName};
+    s3.deleteObject(params, function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Successfully delete profile image from bucket!")
+      }
+    });
+  }
