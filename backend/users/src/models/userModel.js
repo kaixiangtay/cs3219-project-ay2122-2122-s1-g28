@@ -17,6 +17,10 @@ var UserSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  profileImageUrl: {
+    type: String,
+    default: "",
+  },
   token: {
     type: String,
     required: true,
@@ -25,7 +29,6 @@ var UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-
 });
 
 var User = mongoose.model("User", UserSchema);

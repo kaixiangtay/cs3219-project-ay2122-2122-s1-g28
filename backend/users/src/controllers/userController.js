@@ -1,8 +1,9 @@
-const { EMAIL, port, FRONTEND_URL } = require("../config/config");
+const { EMAIL, PORT, FRONTEND_URL, S3_BUCKET_NAME } = require("../config/config");
 
 var User = require("../models/userModel");
 var authController = require("../controllers/authController");
 const mailer = require("../services/mailer");
+const imageUploader = require("../services/imageUploader");
 const { validationResult } = require("express-validator");
 const {
   userRegisterValidator,
@@ -145,7 +146,7 @@ exports.sendResetPasswordEmail = function (req, res) {
           to: user.email,
           subject: "NUSociaLife Account Verification",
           html:
-            '<p>Click <a href="http://localhost:' + port + "/api/users/resetPassword/" + user.token 
+            '<p>Click <a href="http://localhost:' + PORT + "/api/users/resetPassword/" + user.token 
             + '">here</a> to reset your password. Note: Link is only valid for 15 minutes!!!</p>',
         });
 
@@ -188,6 +189,59 @@ exports.resetPassword = function (req, res) {
     });
   });
 };
+
+// Upload Image into AWS S3 bucket
+exports.uploadProfileImage = function (req, res) {
+  var userID = authController.authenticateToken(req.params.token);
+  User.findById(userID, function (err, user) {
+    if (!user) {
+      res.status(404).json({ 
+        status: "error",
+        msg: "User not found!" });
+    } else {
+      // frontend file name put to profileImage
+      const uploadSingleImage = imageUploader.upload(S3_BUCKET_NAME, user._id).single(
+        "profileImage");
+      
+        uploadSingleImage(req, res, async (err) => {
+          if (err)
+            res.status(400).json({ 
+              status: "faliure", 
+              msg: "Unable to upload image!",
+            });
+
+          else {
+            user.profileImageUrl = req.file.location;
+            user.save();
+            res.status(200).json({ 
+              status: "success", 
+              msg: "Image uploaded successfully!",
+              profileImageUrl: user.profileImageUrl,
+            });
+          }
+        });
+    }
+  });
+}
+
+// View Profile Image in Profile page
+exports.viewProfileImage = function (req, res) {
+  var userID = authController.authenticateToken(req.params.token);
+  User.findById(userID, function (err, user) {
+    if (!user) {
+      res.status(404).json({ 
+        status: "error",
+        msg: "User not found!" });
+    } else {
+      res.status(200).json({ 
+        status: "success",
+        msg: "User profile image retrieved successfully!",
+        profileImageUrl: user.profileImageUrl,
+      });
+    }
+  });
+}
+
 
 // Change user name and password in Profile page when user logged in to account
 exports.updateUser = [
@@ -305,7 +359,7 @@ exports.loginUser = [
 
 exports.logout = function (req, res) {
   var userID = authController.authenticateToken(req.params.token);
-  User.deleteOne({ _id: userID }, function (err, user) {
+  User.findById( userID, function (err, user) {
     if (user == null) {
       res.status(404).json({ 
         status: "error",
