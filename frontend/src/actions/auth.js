@@ -2,10 +2,8 @@ import { toast } from "react-toastify";
 
 // Import Constants
 import {
-  LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
   PROFILE_RETRIEVE_SUCCESS,
@@ -20,16 +18,10 @@ import {
 // LOGIN STATE CHANGE
 // ===================================================================
 
-const loginRequest = () => {
-  return {
-    type: LOGIN_REQUEST,
-  };
-};
-
 const loginSuccess = (payload) => {
   return {
     type: LOGIN_SUCCESS,
-    token: payload.token
+    token: payload.token,
   };
 };
 
@@ -39,12 +31,6 @@ const loginFailure = (err) => {
   });
   return {
     type: LOGIN_FAILURE,
-  };
-};
-
-const logoutRequest = () => {
-  return {
-    type: LOGOUT_REQUEST,
   };
 };
 
@@ -136,7 +122,7 @@ export const handleUserLogin = (_email, _password) => (dispatch) => {
   })
     .then((response) => {
       if (response.ok) {
-        response.json().then((res) => dispatch(dispatch(loginSuccess(res)));
+        response.json().then((res) => dispatch(dispatch(loginSuccess(res))));
       } else {
         response.json().then((res) => dispatch(dispatch(loginFailure(res))));
       }
