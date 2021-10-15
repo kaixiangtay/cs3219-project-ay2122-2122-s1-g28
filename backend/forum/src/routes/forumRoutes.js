@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/api/viewAllPosts')
+router.route('/api/viewAllPosts/:topic')
     .get(postController.index)
 
 router.route('/api/createPost')
@@ -51,16 +51,16 @@ router.route('/api/downvoteComment/:post_id/:comment_id/:user_id')
 router.route('/api/deleteComment/:post_id/:comment_id/:user_id')
     .delete(commentController.deleteComment)
 
-router.route('/api/sortPostByAscVotes')
+router.route('/api/sortPostByAscVotes/:topic')
     .get(postController.sortPostByAscVotes)
 
-router.route('/api/sortPostByDescVotes')
+router.route('/api/sortPostByDescVotes/:topic')
     .get(postController.sortPostByDescVotes)
 
-router.route('/api/sortPostByAscDate')
+router.route('/api/sortPostByAscDate/:topic')
     .get(postController.sortPostByAscDate) 
 
-router.route('/api/sortPostByDescDate')
+router.route('/api/sortPostByDescDate/:topic')
     .get(postController.sortPostByDescDate) 
 
 router.route('/api/sortCommentsByAscVotes/:post_id')
@@ -68,6 +68,12 @@ router.route('/api/sortCommentsByAscVotes/:post_id')
 
 router.route('/api/sortCommentsByDescVotes/:post_id')
     .get(commentController.sortCommentsByDescVotes)
+
+router.route('/api/sortCommentsByAscDate/:post_id')
+    .get(commentController.sortCommentsByAscDate)
+
+router.route('/api/sortCommentsByDescDate/:post_id')
+    .get(commentController.sortCommentsByDescDate)
 
 module.exports = router; 
 
