@@ -191,13 +191,6 @@ exports.downvoteComment = function (req, res) {
 				});
 				return;
 			}
-			if (comment.votes == 0) {
-				res.status(404).json({
-					status: "error",
-					msg: "Vote count is already at 0, downvote is not allowed",
-				});
-				return;
-			}
 			comment.votes = comment.votes - 1;
 			comment.votedUsers.push(userId);
 		}
