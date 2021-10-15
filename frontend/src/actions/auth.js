@@ -12,10 +12,10 @@ import {
 // LOGIN STATE CHANGE
 // ===================================================================
 
-const loginSuccess = (payload) => {
+const loginSuccess = (_payload) => {
   return {
     type: LOGIN_SUCCESS,
-    token: payload.token,
+    payload: _payload.token,
   };
 };
 
@@ -81,6 +81,5 @@ export const handleUserLogout = () => (dispatch) => {
     dispatch(logoutSuccess());
   } catch (err) {
     dispatch(logoutFailure());
-    alert(err);
   }
 };
