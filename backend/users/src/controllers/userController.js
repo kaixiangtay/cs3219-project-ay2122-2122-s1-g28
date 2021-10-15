@@ -54,7 +54,7 @@ exports.registerUser = [
             from: EMAIL,
             to: user.email,
             subject: "NUSociaLife Account Verification",
-            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,      
+            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,    
           });
 
           return res.status(200).json({
@@ -198,23 +198,6 @@ exports.uploadProfileImage = [
     });
 }]
 
-// View Profile Image in Profile page
-exports.viewProfileImage = [ 
-  userAuth.authenticateToken, 
-  (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = userAuth.decodeAuthToken(authHeader);
-
-    User.findById(userID, function (err, user) {
-      return res.status(200).json({ 
-        status: "success",
-        msg: "User profile image retrieved successfully!",
-        profileImageUrl: user.profileImageUrl,
-      });
-    });
-}]
-
-
 // Change user name and password in Profile page when user logged in to account
 exports.updateUser = [
   userAuth.authenticateToken,
@@ -257,7 +240,11 @@ exports.viewUser = [
       return res.status(200).json({
         status: "success",
         msg: "User details loading..",
-        data: user,
+        data: {
+          name: user.name,
+          email: user.email,
+          profileImageUrl: user.profileImageUrl,
+        }
       });
     });
 }]
