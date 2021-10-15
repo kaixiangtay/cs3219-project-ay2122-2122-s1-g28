@@ -21,7 +21,7 @@ import styles from "./Signup.module.css";
 function Signup() {
   const signup = useSelector((state) => state.signup);
 
-  if (signup.success) {
+  if (signup.signupSuccess) {
     return <Redirect to="/verify-email" />;
   }
 

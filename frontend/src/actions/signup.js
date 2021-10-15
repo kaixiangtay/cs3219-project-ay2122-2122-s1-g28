@@ -8,6 +8,10 @@ import {
   VERIFIED,
 } from "../constants/ReduxConstants.js";
 
+// ===================================================================
+// SIGNUP STATE CHANGE
+// ===================================================================
+
 const signupSuccess = (email) => {
   return {
     type: SUCCESS,
@@ -43,6 +47,10 @@ export const signupReset = () => {
     type: RESET,
   };
 };
+
+// ===================================================================
+// HANDLING API CALLS
+// ===================================================================
 
 // Handle user sign up
 export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {

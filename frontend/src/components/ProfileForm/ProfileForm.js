@@ -6,7 +6,7 @@ import {
   handleProfileRetrieval,
   handleProfileUpdate,
   handleDeleteAccount,
-} from "../../actions/auth";
+} from "../../actions/profile";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -30,16 +30,13 @@ function ProfileForm() {
   const [changePassword, setChangePassword] = useState(false);
 
   const auth = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
-  //Hardcoded token for now until login feature implemented
-  const _token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY4NGM5YTRiZjBlMmYwNTI0Y2E5ZTQiLCJpYXQiOjE2MzQyMjUzMjYsImV4cCI6MTYzNDMxMTcyNn0.ivTDFkSblN_q6eGF14YwESx5RE9y0zAUGB74HzMedew";
-
   useEffect(() => {
-    dispatch(handleProfileRetrieval(_token));
-    setEmail(auth.user.email);
-    setName(auth.user.name);
+    dispatch(handleProfileRetrieval(auth.token));
+    setEmail(profile.data.email);
+    setName(profile.data.name);
     setNewPassword("");
     setChangePassword(false);
   }, []);
@@ -99,14 +96,21 @@ function ProfileForm() {
         <Grid item md={12} className={styles.buttonContainer}>
           <Button
             className="red-button"
-            onClick={() => dispatch(handleDeleteAccount(_token))}
+            onClick={() => dispatch(handleDeleteAccount(auth.token))}
           >
             Delete Account
           </Button>
           <Button
             className="green-button"
             onClick={() =>
-              dispatch(handleProfileUpdate(name, newPassword, changePassword))
+              dispatch(
+                handleProfileUpdate(
+                  auth.token,
+                  name,
+                  newPassword,
+                  changePassword
+                )
+              )
             }
           >
             Save Changes
