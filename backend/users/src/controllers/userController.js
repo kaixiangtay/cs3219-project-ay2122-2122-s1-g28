@@ -207,7 +207,7 @@ exports.uploadProfileImage = function (req, res) {
           if (err)
             res.status(400).json({ 
               status: "faliure", 
-              msg: "Unable to upload image!",
+              msg: "Invalid file type, must be an image file!",
             });
 
           else {
@@ -215,7 +215,7 @@ exports.uploadProfileImage = function (req, res) {
             user.save();
             res.status(200).json({ 
               status: "success", 
-              msg: "Image uploaded successfully!",
+              msg: "User profile image uploaded successfully!",
               profileImageUrl: user.profileImageUrl,
             });
           }
