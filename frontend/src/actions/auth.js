@@ -20,7 +20,7 @@ const loginSuccess = (_payload) => {
 };
 
 const loginFailure = (err) => {
-  toast.error(err, {
+  toast.error(err.msg, {
     position: toast.POSITION.TOP_RIGHT,
   });
   return {
@@ -37,8 +37,8 @@ const logoutSuccess = () => {
   };
 };
 
-const logoutFailure = () => {
-  toast.error("Unable to logout. Please try again!", {
+const logoutFailure = (err) => {
+  toast.error(err.msg, {
     position: toast.POSITION.TOP_RIGHT,
   });
   return {
@@ -76,10 +76,23 @@ export const handleUserLogin = (_email, _password) => (dispatch) => {
     });
 };
 
-export const handleUserLogout = () => (dispatch) => {
-  try {
-    dispatch(logoutSuccess());
-  } catch (err) {
-    dispatch(logoutFailure());
-  }
+export const handleUserLogout = (_token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/logout/${_token}`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        dispatch(logoutSuccess());
+      } else {
+        response.json().then((res) => dispatch(dispatch(logoutFailure(res))));
+      }
+    })
+    .catch((err) => {
+      alert(err);
+    });
 };
