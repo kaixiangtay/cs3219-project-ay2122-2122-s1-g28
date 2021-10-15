@@ -20,7 +20,7 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture.js";
 function Profile() {
   const auth = useSelector((state) => state.auth);
 
-  //Object.keys(auth.token) == 0
+  Object.keys(auth.token) == 0;
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
