@@ -7,13 +7,23 @@ let Post = require("../models/postModel");
 let Comment = require("../models/commentModel");
 
 exports.index = function (req, res) {
-	Post.get(function (err, posts) {
+	Post.find({ topic: req.params.topic }, function (err, posts) {
 		if (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err,
 			});
 		}
+
+		if (posts.length == 0) {
+			res.status(200).json({
+				status: "success",
+				msg: "There are no posts under this topic: " + req.params.topic,
+				data: posts,
+			});
+			return;
+		}
+
 		res.status(200).json({
 			status: "success",
 			msg: "Posts retrieved successfully",
@@ -28,6 +38,7 @@ exports.createPost = [
 		var post = new Post();
 		post.userName = req.body.userName;
 		post.userId = req.body.userId;
+		post.topic = req.body.topic;
 		post.title = req.body.title;
 		post.content = req.body.content;
 		const errors = validationResult(req);
@@ -63,6 +74,7 @@ exports.viewPost = function (req, res) {
 			status: "success",
 			msg: "Post details loading..",
 			data: post,
+			numberOfComments: post.comments.length,
 		});
 	});
 };
@@ -114,7 +126,7 @@ exports.upvotePost = function (req, res) {
 		if (err) res.send(err);
 		var userId = req.params.user_id;
 		var postUserId = post.userId;
-		
+
 		if (userId == postUserId) {
 			res.status(404).json({
 				status: "error",
@@ -167,14 +179,6 @@ exports.downvotePost = function (req, res) {
 				res.status(404).json({
 					status: "error",
 					msg: "Users can only upvote/downvote a post ONCE",
-				});
-				return;
-			}
-
-			if (post.votes == 0) {
-				res.status(404).json({
-					status: "error",
-					msg: "Vote count is already at 0, downvote is not allowed",
 				});
 				return;
 			}
@@ -237,7 +241,8 @@ exports.deletePost = function (req, res) {
 					}
 				}
 			);
-		} else { // checks if user is authorised to delete post 
+		} else {
+			// checks if user is authorised to delete post
 			res.status(404).json({
 				status: "error",
 				msg: "User is not authorised to delete this post",
@@ -249,7 +254,7 @@ exports.deletePost = function (req, res) {
 
 exports.sortPostByAscVotes = function (req, res) {
 	var compareByVotes = { votes: 1 };
-	Post.find()
+	Post.find({ topic: req.params.topic })
 		.sort(compareByVotes)
 		.exec((err, posts) => {
 			if (err) {
@@ -258,6 +263,16 @@ exports.sortPostByAscVotes = function (req, res) {
 					msg: err,
 				});
 			}
+
+			if (posts.length == 0) {
+				res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+				return;
+			}
+
 			res.status(200).json({
 				status: "success",
 				msg: "Posts retrieved successfully",
@@ -268,7 +283,7 @@ exports.sortPostByAscVotes = function (req, res) {
 
 exports.sortPostByDescVotes = function (req, res) {
 	var compareByVotes = { votes: -1 };
-	Post.find()
+	Post.find({ topic: req.params.topic })
 		.sort(compareByVotes)
 		.exec((err, posts) => {
 			if (err) {
@@ -277,6 +292,16 @@ exports.sortPostByDescVotes = function (req, res) {
 					msg: err,
 				});
 			}
+
+			if (posts.length == 0) {
+				res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+				return;
+			}
+
 			res.status(200).json({
 				status: "success",
 				msg: "Posts retrieved successfully",
@@ -287,7 +312,7 @@ exports.sortPostByDescVotes = function (req, res) {
 
 exports.sortPostByAscDate = function (req, res) {
 	var compareByDate = { dateCreated: 1 };
-	Post.find()
+	Post.find({ topic: req.params.topic })
 		.sort(compareByDate)
 		.exec((err, posts) => {
 			if (err) {
@@ -296,6 +321,16 @@ exports.sortPostByAscDate = function (req, res) {
 					msg: err,
 				});
 			}
+
+			if (posts.length == 0) {
+				res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+				return;
+			}
+
 			res.status(200).json({
 				status: "success",
 				msg: "Posts retrieved successfully",
@@ -306,7 +341,7 @@ exports.sortPostByAscDate = function (req, res) {
 
 exports.sortPostByDescDate = function (req, res) {
 	var compareByDate = { dateCreated: -1 };
-	Post.find()
+	Post.find({ topic: req.params.topic })
 		.sort(compareByDate)
 		.exec((err, posts) => {
 			if (err) {
@@ -315,6 +350,16 @@ exports.sortPostByDescDate = function (req, res) {
 					msg: err,
 				});
 			}
+
+			if (posts.length == 0) {
+				res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+				return;
+			}
+
 			res.status(200).json({
 				status: "success",
 				msg: "Posts retrieved successfully",
