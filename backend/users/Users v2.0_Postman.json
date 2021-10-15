@@ -758,6 +758,117 @@
 			]
 		},
 		{
+			"name": "Login failed - User did not verify email first",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "e0407217@u.nus.edu",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234ABC!a",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login failed - User did not verify email first",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "e0407217@u.nus.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234ABC!a",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "65"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"41-3b4afPXATKlxKfqukHmPzZE5ucU\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 15 Oct 2021 09:38:21 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"msg\": \"User is not verified, unable to login!\"\n}"
+				}
+			]
+		},
+		{
 			"name": "Login Invalid Password",
 			"request": {
 				"method": "POST",
@@ -1273,14 +1384,14 @@
 			]
 		},
 		{
-			"name": "Get User (Success) ",
+			"name": "Get User (Success)",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5NGZjNzcwMzRlNzU2NDRjOWVhNDQiLCJpYXQiOjE2MzQyOTE2NzAsImV4cCI6MTYzNDM3ODA3MH0.hZwO0qp27cIbIRiOTksLNjFQMB0FVjRIywEdm3ivPRo",
 							"type": "string"
 						}
 					]
@@ -1303,7 +1414,7 @@
 			},
 			"response": [
 				{
-					"name": "Get User (Success) ",
+					"name": "Get User (Success)",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
@@ -1339,15 +1450,15 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "488"
+							"value": "123"
 						},
 						{
 							"key": "ETag",
-							"value": "W/\"1e8-l6B0aUAYJAB2fn2tgv4P4Vh+33c\""
+							"value": "W/\"7b-9Q8Kzctf89aToiDffuk00+a3nDE\""
 						},
 						{
 							"key": "Date",
-							"value": "Fri, 15 Oct 2021 07:09:07 GMT"
+							"value": "Fri, 15 Oct 2021 09:54:38 GMT"
 						},
 						{
 							"key": "Connection",
@@ -1359,7 +1470,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"status\": \"success\",\n    \"msg\": \"User details loading..\",\n    \"data\": {\n        \"_id\": \"6169266789185438d1da9469\",\n        \"status\": \"Approved\",\n        \"profileImageUrl\": \"\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM\",\n        \"dateCreated\": \"2021-10-15T06:53:19.945Z\",\n        \"name\": \"kai xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$FP1OQu/gOON7Cf1khyKW8u9cL17BWHrYYsSQJOuAUL5FPU/u78FYS\",\n        \"__v\": 0\n    }\n}"
+					"body": "{\n    \"status\": \"success\",\n    \"msg\": \"User details loading..\",\n    \"data\": {\n        \"name\": \"kai\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"profileImageUrl\": \"\"\n    }\n}"
 				}
 			]
 		},
