@@ -38,8 +38,6 @@ router.route("/api/users/update").patch(userController.updateUser);
 
 router.route("/api/users/uploadProfileImage").post(userController.uploadProfileImage);
 
-router.route("/api/users/viewProfileImage").get(userController.viewProfileImage);
-
 router.route("/api/users/delete").delete(userController.deleteUser);
 
 module.exports = router;
