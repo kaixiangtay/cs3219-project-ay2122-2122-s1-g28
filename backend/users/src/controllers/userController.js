@@ -2,7 +2,7 @@ const { EMAIL, PORT, FRONTEND_URL, S3_BUCKET_NAME } = require("../config/config"
 
 var User = require("../models/userModel");
 var userAuth = require("../middlewares/userAuth");
-const mailerService = require("../services/mailerServiceService");
+const mailerService = require("../services/mailerService");
 const imagerService = require("../services/imageService");
 const { validationResult } = require("express-validator");
 const {
@@ -54,7 +54,7 @@ exports.registerUser = [
             from: EMAIL,
             to: user.email,
             subject: "NUSociaLife Account Verification",
-            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,       
+            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,      
           });
 
           return res.status(200).json({
@@ -298,6 +298,12 @@ exports.loginUser = [
             msg: "Email cannot be found!" 
           });
         } else {
+          if (user.status !== "Approved") {
+            return res.status(400).json({
+              status: "error",
+              msg: "User is not verified, unable to login!",
+            })
+          }
           const body = req.body;
 
           // compare user password with hashed password in database
