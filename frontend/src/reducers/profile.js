@@ -4,8 +4,10 @@ import {
   PROFILE_RETRIEVE_FAILURE,
   PROFILE_UPDATE_SUCCESS,
   PROFILE_UPDATE_FAILURE,
-  DELETE_ACCOUNT_FAILURE,
+  PROFILE_IMAGE_UPLOAD_SUCCESS,
+  PROFILE_IMAGE_UPLOAD_FAILURE,
   DELETE_ACCOUNT_SUCCESS,
+  DELETE_ACCOUNT_FAILURE,
 } from "../constants/ReduxConstants";
 
 const defaultState = {
@@ -13,9 +15,11 @@ const defaultState = {
   profileRetrieveFailure: false,
   profileUpdateSuccess: false,
   profileUpdateFailure: false,
+  profileImageUploadSuccess: false,
+  profileImageUploadFailure: false,
   deleteAccountSuccess: false,
   deleteAccountFailure: false,
-  data: {},
+  data: {}, //Data: {name, email, profileImageUrl}
 };
 
 export default function profileReducer(state = defaultState, action) {
@@ -24,65 +28,47 @@ export default function profileReducer(state = defaultState, action) {
       return {
         ...state,
         profileRetrieveSuccess: true,
-        profileRetrieveFailure: false,
-        profileUpdateSuccess: false,
-        profileUpdateFailure: false,
-        deleteAccountSuccess: false,
-        deleteAccountFailure: false,
         data: action.payload,
       };
     case PROFILE_RETRIEVE_FAILURE:
       return {
         ...state,
-        profileRetrieveSuccess: false,
         profileRetrieveFailure: true,
-        profileUpdateSuccess: false,
-        profileUpdateFailure: false,
-        deleteAccountSuccess: false,
-        deleteAccountFailure: false,
         data: state.data,
       };
     case PROFILE_UPDATE_SUCCESS:
       return {
         ...state,
-        profileRetrieveSuccess: false,
-        profileRetrieveFailure: false,
         profileUpdateSuccess: true,
-        profileUpdateFailure: false,
-        deleteAccountSuccess: false,
-        deleteAccountFailure: false,
         data: action.payload,
       };
     case PROFILE_UPDATE_FAILURE:
       return {
         ...state,
-        profileRetrieveSuccess: false,
-        profileRetrieveFailure: false,
-        profileUpdateSuccess: false,
         profileUpdateFailure: true,
-        deleteAccountSuccess: false,
-        deleteAccountFailure: false,
+        data: state.data,
+      };
+    case PROFILE_IMAGE_UPLOAD_SUCCESS:
+      return {
+        ...state,
+        profileImageUploadSuccess: true,
+        data: state.data,
+      };
+    case PROFILE_IMAGE_UPLOAD_FAILURE:
+      return {
+        ...state,
+        profileImageUploadFailure: true,
         data: state.data,
       };
     case DELETE_ACCOUNT_SUCCESS:
       return {
         ...state,
-        profileRetrieveSuccess: false,
-        profileRetrieveFailure: false,
-        profileUpdateSuccess: false,
-        profileUpdateFailure: false,
         deleteAccountSuccess: true,
-        deleteAccountFailure: false,
         data: {},
       };
     case DELETE_ACCOUNT_FAILURE:
       return {
         ...state,
-        profileRetrieveSuccess: false,
-        profileRetrieveFailure: false,
-        profileUpdateSuccess: false,
-        profileUpdateFailure: false,
-        deleteAccountSuccess: false,
         deleteAccountFailure: true,
         data: state.data,
       };

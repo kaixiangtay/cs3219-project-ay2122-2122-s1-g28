@@ -9,6 +9,8 @@ import {
   PROFILE_RETRIEVE_FAILURE,
   PROFILE_UPDATE_SUCCESS,
   PROFILE_UPDATE_FAILURE,
+  PROFILE_IMAGE_UPLOAD_SUCCESS,
+  PROFILE_IMAGE_UPLOAD_FAILURE,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_FAILURE,
 } from "../constants/ReduxConstants";
@@ -48,6 +50,21 @@ const profileUpdateFailure = (err) => {
   };
 };
 
+const profileImageUploadSuccess = () => {
+  return {
+    type: PROFILE_IMAGE_UPLOAD_SUCCESS,
+  };
+};
+
+const profileImageUploadFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: PROFILE_IMAGE_UPLOAD_FAILURE,
+  };
+};
+
 const deleteAccountSuccess = () => {
   return {
     type: DELETE_ACCOUNT_SUCCESS,
@@ -69,19 +86,20 @@ const deleteAccountFailure = (err) => {
 
 // Handle retrieve Profile Information
 export const handleProfileRetrieval = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/${token}`;
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/getUser`;
 
   fetch(requestUrl, {
     method: "GET",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })
     .then((response) => {
       if (response.ok) {
         response.json().then((res) => dispatch(profileRetrieveSuccess(res)));
-      } else if (response.status == 403) {
-        response.json().then((res) => dispatch(tokenExpire(res)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
         response.json().then((res) => dispatch(profileRetrieveFailure(res)));
       }
@@ -93,8 +111,8 @@ export const handleProfileRetrieval = (token) => (dispatch) => {
 
 // Handle update Profile Information
 export const handleProfileUpdate =
-  (_token, _name, _password, verifyPassword) => (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update/${_token}`;
+  (token, _name, _password, verifyPassword) => (dispatch) => {
+    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update`;
 
     // If user inputs password, then pass in password field in body
     let bodyContent = verifyPassword
@@ -109,6 +127,7 @@ export const handleProfileUpdate =
     fetch(requestUrl, {
       method: "PATCH",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams(bodyContent),
@@ -116,8 +135,8 @@ export const handleProfileUpdate =
       .then((response) => {
         if (response.ok) {
           dispatch(profileUpdateSuccess());
-        } else if (response.status == 403) {
-          response.json().then((res) => dispatch(tokenExpire(res)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
         } else {
           response.json().then((res) => dispatch(profileUpdateFailure(res)));
         }
@@ -127,21 +146,52 @@ export const handleProfileUpdate =
       });
   };
 
+// Handle upload Profile Image
+export const handleProfileImageUpload =
+  (token, _profileImage) => (dispatch) => {
+    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update`;
+
+    fetch(requestUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ profileImage: _profileImage }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          dispatch(profileImageUploadSuccess());
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response
+            .json()
+            .then((res) => dispatch(profileImageUploadFailure(res)));
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
 // Handle delete account
-export const handleDeleteAccount = (_token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/delete/${_token}`;
+export const handleDeleteAccount = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/delete`;
 
   fetch(requestUrl, {
     method: "DELETE",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })
     .then((response) => {
       if (response.ok) {
         dispatch(deleteAccountSuccess());
-      } else if (response.status == 403) {
-        response.json().then((res) => dispatch(tokenExpire(res)));
+        dispatch(tokenExpire());
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
         response.json().then((res) => dispatch(deleteAccountFailure(res)));
       }

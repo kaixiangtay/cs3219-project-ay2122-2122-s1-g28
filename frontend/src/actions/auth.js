@@ -47,10 +47,7 @@ const logoutFailure = (err) => {
   };
 };
 
-export const tokenExpire = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
+export const tokenExpire = () => {
   return {
     type: TOKEN_EXPIRE,
   };
