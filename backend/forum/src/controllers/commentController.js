@@ -312,32 +312,32 @@ exports.sortCommentsByDescVotes = function async(req, res) {
 			});
 			return;
 		}
-	});
 
-	Post.findById({ _id: req.params.post_id })
-		.populate({ path: "comments", options: { sort: { votes: -1 } } })
-		.then((post, err) => {
-			if (post == null) {
-				res.status(404).json({
-					status: "error",
-					msg: "Comments not found!",
-				});
-				return;
-			}
-			if (err) res.send(err);
-			if (post.comments.length == 0) {
-				res.status(200).json({
-					status: "success",
-					msg: "There are no comments in this post", // tells client that the post has no comments
-				});
-			} else {
-				res.status(200).json({
-					status: "success",
-					msg: "Comment details loading..",
-					data: post.comments,
-				});
-			}
-		});
+		Post.findById({ _id: req.params.post_id })
+			.populate({ path: "comments", options: { sort: { votes: -1 } } })
+			.then((post, err) => {
+				if (post == null) {
+					res.status(404).json({
+						status: "error",
+						msg: "Comments not found!",
+					});
+					return;
+				}
+				if (err) res.send(err);
+				if (post.comments.length == 0) {
+					res.status(200).json({
+						status: "success",
+						msg: "There are no comments in this post", // tells client that the post has no comments
+					});
+				} else {
+					res.status(200).json({
+						status: "success",
+						msg: "Comment details loading..",
+						data: post.comments,
+					});
+				}
+			});
+	});
 };
 
 exports.sortCommentsByAscDate = function async(req, res) {
@@ -386,30 +386,30 @@ exports.sortCommentsByDescDate = function async(req, res) {
 			});
 			return;
 		}
-	});
 
-	Post.findById({ _id: req.params.post_id })
-		.populate({ path: "comments", options: { sort: { dateCreated: -1 } } })
-		.then((post, err) => {
-			if (post == null) {
-				res.status(404).json({
-					status: "error",
-					msg: "Comments not found!",
-				});
-				return;
-			}
-			if (err) res.send(err);
-			if (post.comments.length == 0) {
-				res.status(200).json({
-					status: "success",
-					msg: "There are no comments in this post", // tells client that the post has no comments
-				});
-			} else {
-				res.status(200).json({
-					status: "success",
-					msg: "Comment details loading..",
-					data: post.comments,
-				});
-			}
-		});
+		Post.findById({ _id: req.params.post_id })
+			.populate({ path: "comments", options: { sort: { dateCreated: -1 } } })
+			.then((post, err) => {
+				if (post == null) {
+					res.status(404).json({
+						status: "error",
+						msg: "Comments not found!",
+					});
+					return;
+				}
+				if (err) res.send(err);
+				if (post.comments.length == 0) {
+					res.status(200).json({
+						status: "success",
+						msg: "There are no comments in this post", // tells client that the post has no comments
+					});
+				} else {
+					res.status(200).json({
+						status: "success",
+						msg: "Comment details loading..",
+						data: post.comments,
+					});
+				}
+			});
+	});
 };
