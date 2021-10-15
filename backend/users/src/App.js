@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require('cors');
-const { port } = require('./config/config')
+const { PORT } = require('./config/config')
 const Router = require("./routes/userRoutes")
 
 const app = express();
@@ -23,16 +23,13 @@ app.use(function(req, res, next) {
   next();
 });
 
-// // Setup server port
-// var port = process.env.PORT;
-
-app.listen(port, err => {
+app.listen(PORT, err => {
 	if (err) {
 		console.log(err);
 		process.exit(1);
 	}
 	require('./loaders/dbLoader');
-	console.log(`Server is running at port ${port}`);
+	console.log(`Server is running at PORT ${PORT}`);
 });
 
-module.exports = app;
+module.exPORTs = app;

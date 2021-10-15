@@ -8,7 +8,6 @@ var UserSchema = mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    required: true,
   },
   password: {
     type: String,
@@ -17,15 +16,18 @@ var UserSchema = mongoose.Schema({
     type: String,
     default: "Pending",
   },
+  profileImageUrl: {
+    type: String,
+    default: "",
+  },
   token: {
     type: String,
-    required: true,
+    default: "",
   },
   dateCreated: {
     type: Date,
     default: Date.now(),
   },
-
 });
 
 var User = mongoose.model("User", UserSchema);
