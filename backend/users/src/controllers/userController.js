@@ -1,15 +1,15 @@
 const { EMAIL, PORT, FRONTEND_URL, S3_BUCKET_NAME } = require("../config/config");
 
 var User = require("../models/userModel");
-var authController = require("../controllers/authController");
-const mailer = require("../services/mailer");
-const imageUploader = require("../services/imageUploader");
+var authController = require("../middlewares/userAuth");
+const mailer = require("../services/mailerService");
+const imageUploader = require("../services/imageService");
 const { validationResult } = require("express-validator");
 const {
   userRegisterValidator,
   userLoginValidator,
-  userPasswordValidator,
-} = require("../validators/userValidator");
+  userUpdateValidator,
+} = require("../middlewares/userValidator");
 
 exports.index = function (req, res) {
   User.get(function (err, users) {
@@ -38,38 +38,29 @@ exports.registerUser = [
     } else {
       User.findOne({ email: req.body.email }).then((user) => {
         if (user) {
-          return res.status(404).json([
-            {
+          return res.status(404).json([{
               status: "error",
               msg: "Email already exists!",
-            },
-          ]);
+            }]);
         } else {
           var user = new User();
-
           user.name = req.body.name;
           user.email = req.body.email;
           user.password = authController.hashPassword(req.body.password);
           user.token = authController.createAccessToken(user.email);
+          user.save();
 
-          user.save(function (err) {
-            if (err) {
-              return res.status(404).json(err);
-            } else {
-              mailer.sendEmail({
-                from: EMAIL,
-                to: user.email,
-                subject: "NUSociaLife Account Verification",
-                // html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`, 
-                html: `<p>Click <a href="${'http://localhost:5000/api/users'}/verifyEmail/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,        
-              });
+          mailer.sendEmail({
+            from: EMAIL,
+            to: user.email,
+            subject: "NUSociaLife Account Verification",
+            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,       
+          });
 
-              return res.status(200).json({
-                status: "success",
-                msg: "New user created!",
-                data: user,
-              });
-            }
+          return res.status(200).json({
+            status: "success",
+            msg: "New user created!",
+            data: user,
           });
         }
       });
@@ -90,10 +81,11 @@ exports.resendActivationEmail = function (req, res) {
           from: EMAIL,
           to: user.email,
           subject: "NUSociaLife Account Verification",
-          html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
+          html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`, 
         });
 
         return res.status(200).json({
+          status: "success",
           msg: "New account sign up email link sent!",
         });
       }
@@ -104,31 +96,22 @@ exports.resendActivationEmail = function (req, res) {
 // API to verify user email from email link
 exports.verifyUserEmail = function (req, res) {
   User.findOne({ token: req.params.token }, function (err, user) {
-    if (!user) {
-      return res.status(404).json({ 
-        status: "error",
-        msg: "Invalid Verification Link!" 
+    const userEmail = authController.decodeTempToken(user.token);
+
+    if (userEmail === user.email) {
+      user.status = "Approved";
+      user.save();
+
+      return res.status(200).json({
+        status: "success",
+        msg: "Your email has been verified",
+        data: user,
       });
     } else {
-      const userEmail = authController.verifyToken(user.token);
-
-      if (userEmail === user.email) {
-        user.status = "Approved";
-
-        // save the user and check for errors
-        user.save(function (err) {
-          return res.status(200).json({
-            status: "success",
-            msg: "Your email has been verified",
-            data: user,
-          });
-        });
-      } else {
-        return res.status(404).json({ 
-          status: "error",
-          msg: "Link has expired!" 
-        });
-      }
+      return res.status(404).json({ 
+        status: "error",
+        msg: "Link has expired!" 
+      });
     }
   });
 };
@@ -164,13 +147,6 @@ exports.sendResetPasswordEmail = function (req, res) {
 // Reset password when user not logged in to account (will use the same if password link expires)
 exports.resetPassword = function (req, res) {
   User.findOne({ token: req.params.token }, function (err, user) {
-    if (!user) {
-      return res.status(404).json({
-        status: "error",
-        msg: "User not found!",
-      });
-    }
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -178,8 +154,6 @@ exports.resetPassword = function (req, res) {
     }
 
     user.password = authController.hashPassword(req.body.password);
-
-    // save the user and check for errors
     user.save();
     
     return res.status(200).json({
@@ -191,16 +165,13 @@ exports.resetPassword = function (req, res) {
 };
 
 // Upload Image into AWS S3 bucket
-exports.uploadProfileImage = function (req, res) {
-  var userID = authController.authenticateToken(req.params.token);
+exports.uploadProfileImage = [ 
+  authController.authenticateToken, 
+  (req, res) => {
+    const authHeader = req.headers['authorization'];
+    var userID  = authController.decodeAuthToken(authHeader);
 
-  User.findById(userID, function (err, user) {
-    if (!user) {
-      return res.status(404).json({ 
-        status: "error",
-        msg: "User not found!" 
-      });
-    } else {
+    User.findById(userID, function (err, user) {
       // frontend file name put to profileImage
       const uploadSingleImage = imageUploader.upload(S3_BUCKET_NAME, user._id).single(
         "profileImage");
@@ -208,7 +179,7 @@ exports.uploadProfileImage = function (req, res) {
         uploadSingleImage(req, res, async (err) => {
           if (err) {
             return res.status(400).json({ 
-              status: "faliure", 
+              status: "error", 
               msg: "Invalid file type, must be an image file!",
             });
           }
@@ -224,116 +195,93 @@ exports.uploadProfileImage = function (req, res) {
             });
           }
         });
-    }
-  });
-}
+    });
+}]
 
 // View Profile Image in Profile page
-exports.viewProfileImage = function (req, res) {
-  var userID = authController.authenticateToken(req.params.token);
+exports.viewProfileImage = [ 
+  authController.authenticateToken, 
+  (req, res) => {
+    const authHeader = req.headers['authorization'];
+    var userID  = authController.decodeAuthToken(authHeader);
 
-  User.findById(userID, function (err, user) {
-    if (!user) {
-      return res.status(404).json({ 
-        status: "error",
-        msg: "User not found!" });
-    } else {
+    User.findById(userID, function (err, user) {
       return res.status(200).json({ 
         status: "success",
         msg: "User profile image retrieved successfully!",
         profileImageUrl: user.profileImageUrl,
       });
-    }
-  });
-}
+    });
+}]
 
 
 // Change user name and password in Profile page when user logged in to account
 exports.updateUser = [
-  userPasswordValidator(),
+  authController.authenticateToken,
+  userUpdateValidator(),
   (req, res) => {
-    var userID = authController.authenticateToken(req.params.token);
+    const authHeader = req.headers['authorization'];
+    var userID  = authController.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
-      if (!user) {
-        return res.status(404).json({
-          status: "error",
-          msg: "User not found!",
-        });
-      }
-
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        res.status(404).json(errors.array());
+        return res.status(404).json(errors.array());
       }
 
       user.name = req.body.name;
-      user.password = authController.hashPassword(req.body.password);
+  
+      if (req.body.password !== undefined) {
+        user.password = authController.hashPassword(req.body.password)
+      } 
+      
+      user.save();
 
-      // save the user and check for errors
-      user.save(function (err) {
-        res.status(200).json({
-          status: "success",
-          msg: "User Info updated",
-          data: user,
-        });
+      return res.status(200).json({
+        status: "success",
+        msg: "User Info updated",
+        data: user,
       });
     });
   },
 ];
 
-exports.viewUser = function (req, res) {
-  var userID = authController.authenticateToken(req.params.token);
+exports.viewUser = [ 
+  authController.authenticateToken, 
+  (req, res) => {
+    const authHeader = req.headers['authorization'];
+    var userID  = authController.decodeAuthToken(authHeader);
 
-  User.findById(userID, function (err, user) {
-    if (!user) {
-      res.status(404).json({ 
-        status: "error",
-        msg: "User not found!" 
-      });
-    } else {
-      res.status(200).json({
+    User.findById(userID, function (err, user) {
+      return res.status(200).json({
         status: "success",
         msg: "User details loading..",
         data: user,
       });
-    }
-  });
-};
+    });
+}]
 
-exports.deleteUser = function (req, res) {
-  var userID = authController.authenticateToken(req.params.token);
+exports.deleteUser = [ 
+  authController.authenticateToken, 
+  (req, res) => {
+    const authHeader = req.headers['authorization'];
+    var userID  = authController.decodeAuthToken(authHeader);
 
-  User.findById(userID, function (err, user) {
-    if (user == null) {
-      res.status(404).json({ 
-        status: "error",
-        msg: "User not found!" 
+    User.findById(userID, function (err, user) {
+
+      if (user.profileImageUrl !== '') {
+        imageUploader.delete(user.profileImageUrl);
+      }
+
+      User.deleteOne({_id: user._id}, function (err, user) {
+          return res.status(200).json({
+              status: "success",
+              msg: 'User deleted'
+            });
       });
-    }
-    
-    if (user.profileImageUrl !== '') {
-      imageUploader.delete(user.profileImageUrl);
-    }
-
-    User.deleteOne({_id: user._id}, function (err, user) {
-      if (err) {
-        return res.status(404).json({
-          status: "failure",
-          msg: 'User not found'
-        });
-      }
-
-      else {
-        return res.status(200).json({
-          status: "success",
-          msg: 'User deleted'
-          });
-      }
-  });
-});         
-};
+  });         
+}]
 
 exports.loginUser = [
   userLoginValidator(),
@@ -363,11 +311,11 @@ exports.loginUser = [
             user.token = authController.createLoginToken(user._id);
             user.save();
 
-            return res.status(200).json({ 
+            return res.status(200).json({
+              token: user.token,
               status: "success",
               msg: "Login successful!",
-              token: user.token,
-            });
+            })
           } else {
             return res.status(400).json({ 
               status: "error",
@@ -380,24 +328,20 @@ exports.loginUser = [
   },
 ];
 
-exports.logout = function (req, res) {
-  var userID = authController.authenticateToken(req.params.token);
+exports.logout = [ 
+  authController.authenticateToken, 
+  (req, res) => {
+    const authHeader = req.headers['authorization'];
+    var userID  = authController.decodeAuthToken(authHeader);
 
-  User.findById( userID, function (err, user) {
-    if (user == null) {
-      return res.status(404).json({ 
-        status: "error",
-        msg: "User not found!" 
-      });
-    } else {
-      // Clear token before logout
-      user.token = '';
-      user.save();
+    User.findById(userID, function (err, user) {
+       // Clear token before logout
+       user.token = '';
+       user.save();
 
-      return res.status(200).json({ 
-        status: "success",
-        msg: "Have a nice day!" 
-      });
-    }
-  });
-};
+       return res.status(200).json({ 
+         status: "success",
+         msg: "Have a nice day!" 
+       });
+    });
+}]

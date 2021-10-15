@@ -8,10 +8,7 @@ exports.userNameValidator = () => {
 
 exports.userEmailValidator = () => {
     return [
-    check('email').notEmpty().withMessage("Email is a compulsory field"),
-    
     check('email')
-    .contains("@u.nus.edu")
     .custom(value => {
         const domain = value.substring(value.lastIndexOf("@") + 1)
         if (domain === "u.nus.edu") {
@@ -26,7 +23,6 @@ exports.userEmailValidator = () => {
 
 exports.userPasswordValidator = () => {
     return [
-        check('password').notEmpty().withMessage("Password is a compulsory field"),
         check('password').isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
     ]
 }
@@ -44,4 +40,11 @@ exports.userLoginValidator = () => {
         this.userEmailValidator(),
         this.userPasswordValidator(),
      ]
+}
+
+exports.userUpdateValidator = () => {
+    return [
+        this.userNameValidator(),
+        check('password').optional().isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
+    ]
 }
