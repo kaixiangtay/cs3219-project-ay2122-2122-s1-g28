@@ -34,7 +34,7 @@ exports.upload = (bucketName, userID) =>
     }),
     fileFilter: multerFilter,
     limits: {
-      // set to 5mb
-      fileSize: 1024 * 1024 * 5,
+      // set to 10MB
+      fileSize: 1024 * 1024 * 10,
     },
   });
