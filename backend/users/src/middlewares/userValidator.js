@@ -44,7 +44,6 @@ exports.userLoginValidator = () => {
 
 exports.userUpdateValidator = () => {
     return [
-        this.userNameValidator(),
         check('password').optional().isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
     ]
 }
