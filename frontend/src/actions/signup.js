@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 
 // Import constants
 import {
-  SUCCESS,
-  FAILURE,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   RESET,
   VERIFIED,
 } from "../constants/ReduxConstants.js";
@@ -14,7 +14,7 @@ import {
 
 const signupSuccess = (email) => {
   return {
-    type: SUCCESS,
+    type: SIGNUP_SUCCESS,
     payload: email,
   };
 };
@@ -27,7 +27,7 @@ const signupFailure = (err) => {
   }
 
   return {
-    type: FAILURE,
+    type: SIGNUP_FAILURE,
   };
 };
 

@@ -4,6 +4,7 @@ import {
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  TOKEN_EXPIRE,
 } from "../constants/ReduxConstants";
 
 const defaultState = {
@@ -50,6 +51,15 @@ export default function authReducer(state = defaultState, action) {
         loginFailure: false,
         logoutSuccess: false,
         logoutFailure: true,
+        token: null,
+      };
+    case TOKEN_EXPIRE:
+      return {
+        ...state,
+        loginSuccess: false,
+        loginFailure: false,
+        logoutSuccess: false,
+        logoutFailure: false,
         token: null,
       };
     default:

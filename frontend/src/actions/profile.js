@@ -1,5 +1,8 @@
 import { toast } from "react-toastify";
 
+// Import tokenExpire to update if token expired
+import { tokenExpire } from "./auth.js";
+
 // Import Constants
 import {
   PROFILE_RETRIEVE_SUCCESS,
@@ -77,6 +80,8 @@ export const handleProfileRetrieval = (token) => (dispatch) => {
     .then((response) => {
       if (response.ok) {
         response.json().then((res) => dispatch(profileRetrieveSuccess(res)));
+      } else if (response.status == 403) {
+        response.json().then((res) => dispatch(tokenExpire(res)));
       } else {
         response.json().then((res) => dispatch(profileRetrieveFailure(res)));
       }
@@ -111,6 +116,8 @@ export const handleProfileUpdate =
       .then((response) => {
         if (response.ok) {
           dispatch(profileUpdateSuccess());
+        } else if (response.status == 403) {
+          response.json().then((res) => dispatch(tokenExpire(res)));
         } else {
           response.json().then((res) => dispatch(profileUpdateFailure(res)));
         }
@@ -133,6 +140,8 @@ export const handleDeleteAccount = (_token) => (dispatch) => {
     .then((response) => {
       if (response.ok) {
         dispatch(deleteAccountSuccess());
+      } else if (response.status == 403) {
+        response.json().then((res) => dispatch(tokenExpire(res)));
       } else {
         response.json().then((res) => dispatch(deleteAccountFailure(res)));
       }

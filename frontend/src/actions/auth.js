@@ -6,6 +6,7 @@ import {
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  TOKEN_EXPIRE,
 } from "../constants/ReduxConstants";
 
 // ===================================================================
@@ -43,6 +44,15 @@ const logoutFailure = (err) => {
   });
   return {
     type: LOGOUT_FAILURE,
+  };
+};
+
+export const tokenExpire = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: TOKEN_EXPIRE,
   };
 };
 

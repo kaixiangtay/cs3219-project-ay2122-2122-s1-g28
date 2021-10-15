@@ -17,6 +17,7 @@ export const LOGIN_SUCCESS = 20;
 export const LOGIN_FAILURE = 21;
 export const LOGOUT_SUCCESS = 22;
 export const LOGOUT_FAILURE = 23;
+export const TOKEN_EXPIRE = 24;
 
 // Profile
 export const PROFILE_RETRIEVE_SUCCESS = 30;
