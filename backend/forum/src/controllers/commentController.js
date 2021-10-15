@@ -5,7 +5,16 @@ let Post = require("../models/postModel");
 
 
 exports.viewPostComments = function async(req, res) {
-	Post.findById({ _id: req.params.post_id })
+	Post.findById(req.params.post_id, function (err, post) {
+		if (post == null) {
+			res.status(404).json({
+				status: "error",
+				msg: "Post not found!",
+			});
+			return;
+		}
+
+		Post.findById({ _id: req.params.post_id })
 		.populate("comments")
 		.then((post, err) => {
 			if (post == null) {
@@ -29,6 +38,7 @@ exports.viewPostComments = function async(req, res) {
 			});
         }
 		});
+	});
 };
 
 exports.createComment = [
@@ -264,7 +274,16 @@ exports.deleteComment = function (req, res) {
 };
 
 exports.sortCommentsByAscVotes = function async(req, res) {
-	Post.findById({ _id: req.params.post_id })
+	Post.findById(req.params.post_id, function (err, post) {
+		if (post == null) {
+			res.status(404).json({
+				status: "error",
+				msg: "Post not found!",
+			});
+			return;
+		}
+
+		Post.findById({ _id: req.params.post_id })
 		.populate({ path: 'comments', options: { sort: { votes: 1 } } })
 		.then((post, err) => {
 			if (post == null) {
@@ -288,11 +307,96 @@ exports.sortCommentsByAscVotes = function async(req, res) {
 			});
         }
 		});
+	});
 };
 
 exports.sortCommentsByDescVotes = function async(req, res) {
+	Post.findById(req.params.post_id, function (err, post) {
+		if (post == null) {
+			res.status(404).json({
+				status: "error",
+				msg: "Post not found!",
+			});
+			return;
+		}
+	});
+
 	Post.findById({ _id: req.params.post_id })
 		.populate({ path: 'comments', options: { sort: { votes: -1 } } })
+		.then((post, err) => {
+			if (post == null) {
+				res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
+				});
+				return;
+			}
+			if (err) res.send(err);
+            if (post.comments.length == 0) {
+                res.status(200).json({
+					status: "success",
+                    msg: "There are no comments in this post", // tells client that the post has no comments 
+                });
+            } else {
+			res.status(200).json({
+				status: "success",
+				msg: "Comment details loading..",
+				data: post.comments,
+			});
+        }
+		});
+};
+
+exports.sortCommentsByAscDate = function async(req, res) {
+	Post.findById(req.params.post_id, function (err, post) {
+		if (post == null) {
+			res.status(404).json({
+				status: "error",
+				msg: "Post not found!",
+			});
+			return;
+		}
+
+		Post.findById({ _id: req.params.post_id })
+		.populate({ path: 'comments', options: { sort: { dateCreated: 1 } } })
+		.then((post, err) => {
+			if (post == null) {
+				res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
+				});
+				return;
+			}
+			if (err) res.send(err);
+            if (post.comments.length == 0) {
+                res.status(200).json({
+					status: "sucess",
+                    msg: "There are no comments in this post", // tells client that the post has no comments 
+                });
+            } else {
+			res.status(200).json({
+				status: "success",
+				msg: "Comment details loading..",
+				data: post.comments,
+			});
+        }
+		});
+	});
+};
+
+exports.sortCommentsByDescDate = function async(req, res) {
+	Post.findById(req.params.post_id, function (err, post) {
+		if (post == null) {
+			res.status(404).json({
+				status: "error",
+				msg: "Post not found!",
+			});
+			return;
+		}
+	});
+
+	Post.findById({ _id: req.params.post_id })
+		.populate({ path: 'comments', options: { sort: { dateCreated: -1 } } })
 		.then((post, err) => {
 			if (post == null) {
 				res.status(404).json({

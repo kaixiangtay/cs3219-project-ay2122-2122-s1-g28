@@ -69,5 +69,11 @@ router.route('/api/sortCommentsByAscVotes/:post_id')
 router.route('/api/sortCommentsByDescVotes/:post_id')
     .get(commentController.sortCommentsByDescVotes)
 
+router.route('/api/sortCommentsByAscDate/:post_id')
+    .get(commentController.sortCommentsByAscDate)
+
+router.route('/api/sortCommentsByDescDate/:post_id')
+    .get(commentController.sortCommentsByDescDate)
+
 module.exports = router; 
 
