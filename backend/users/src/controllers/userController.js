@@ -199,8 +199,12 @@ exports.uploadProfileImage = [
 
           return res.status(200).json({
             status: "success",
-            msg: "User profile image uploaded successfully!",
-            profileImageUrl: user.profileImageUrl,
+            msg: "Profile uploaded successfully!",
+            data: {
+              name: user.name,
+              email: user.email,
+              profileImageUrl: user.profileImageUrl,
+            },
           });
         }
       });

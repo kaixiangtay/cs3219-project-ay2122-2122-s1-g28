@@ -63,7 +63,7 @@ export default function profileReducer(state = defaultState, action) {
         ...state,
         profileRetrieveSuccess: false,
         profileImageUploadSuccess: true,
-        data: state.data,
+        data: action.payload,
       };
     case PROFILE_IMAGE_UPLOAD_FAILURE:
       return {
@@ -76,7 +76,6 @@ export default function profileReducer(state = defaultState, action) {
       return {
         ...state,
         deleteAccountSuccess: true,
-        data: state,
       };
     case DELETE_ACCOUNT_FAILURE:
       return {

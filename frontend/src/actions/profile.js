@@ -55,9 +55,10 @@ const profileUpdateFailure = (err) => {
   };
 };
 
-const profileImageUploadSuccess = () => {
+const profileImageUploadSuccess = (_payload) => {
   return {
     type: PROFILE_IMAGE_UPLOAD_SUCCESS,
+    payload: _payload.data,
   };
 };
 
@@ -179,7 +180,9 @@ export const handleProfileImageUpload =
     })
       .then((response) => {
         if (response.ok) {
-          dispatch(profileImageUploadSuccess());
+          response
+            .json()
+            .then((res) => dispatch(dispatch(profileImageUploadSuccess(res))));
         } else if (response.status == 401) {
           dispatch(tokenExpire());
         } else {
