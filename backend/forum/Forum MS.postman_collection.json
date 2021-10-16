@@ -1,0 +1,990 @@
+{
+	"info": {
+		"_postman_id": "60ad4d17-5e42-4b93-be56-0ecc7fbd2ceb",
+		"name": "Forum MS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retrieve all posts of a particular Topic",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/viewAllPosts/:topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"viewAllPosts",
+						":topic"
+					],
+					"variable": [
+						{
+							"key": "topic",
+							"value": "Accomodation"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userName",
+							"value": "Rachel",
+							"type": "text"
+						},
+						{
+							"key": "topic",
+							"value": "Academics",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "How is CS3219?",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "I'm taking this module right now. ",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/createPost",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"createPost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/viewPost/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"viewPost",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update title of a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "hello!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/updatePost/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"updatePost",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update content of a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "content",
+							"value": "testing123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/updatePost/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"updatePost",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/upvotePost/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"upvotePost",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616908a930ff885e75d1a234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Downvote a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/downvotePost/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"downvotePost",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616908a930ff885e75d1a234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/deletePost/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"deletePost",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a671ac8509cbfb9d73673"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve all comments in a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/viewAllComments/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"viewAllComments",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a comment in a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "userName",
+							"value": "Alice",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "Hello!!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/createComment/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"createComment",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve a particular comment in a particular post",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/viewComment/:post_id/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"viewComment",
+						":post_id",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						},
+						{
+							"key": "comment_id",
+							"value": "616a695449ebe80b1f396b30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a particular comment in a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "content",
+							"value": "I am fine!!!",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/updateComment/:post_id/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"updateComment",
+						":post_id",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						},
+						{
+							"key": "comment_id",
+							"value": "616a695449ebe80b1f396b30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote a particular comment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/upvoteComment/:post_id/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"upvoteComment",
+						":post_id",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						},
+						{
+							"key": "comment_id",
+							"value": "616a695449ebe80b1f396b30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Downvote a particular comment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forum/downvoteComment/:post_id/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"downvoteComment",
+						":post_id",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						},
+						{
+							"key": "comment_id",
+							"value": "616a695449ebe80b1f396b30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete particular comment in a particular post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/deleteComment/:post_id/:comment_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"deleteComment",
+						":post_id",
+						":comment_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "616a6637c5591b042ed39d45"
+						},
+						{
+							"key": "comment_id",
+							"value": "616a695449ebe80b1f396b30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort posts by ascending date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortPostByAscDate/:topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortPostByAscDate",
+						":topic"
+					],
+					"variable": [
+						{
+							"key": "topic",
+							"value": "Academics"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort posts by descending date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortPostByDescDate/:topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortPostByDescDate",
+						":topic"
+					],
+					"variable": [
+						{
+							"key": "topic",
+							"value": "Academics"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort posts by ascending votes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortPostByAscVotes/:topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortPostByAscVotes",
+						":topic"
+					],
+					"variable": [
+						{
+							"key": "topic",
+							"value": "Academics"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort posts by descending votes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortPostByDescVotes/:topic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortPostByDescVotes",
+						":topic"
+					],
+					"variable": [
+						{
+							"key": "topic",
+							"value": "Academics"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort comments by ascending votes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortCommentsByAscVotes/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortCommentsByAscVotes",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": "a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort comments by descending votes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortCommentsByDescVotes/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortCommentsByDescVotes",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort comments by ascending date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortCommentsByAscDate/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortCommentsByAscDate",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort comments by descending date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/forum/sortCommentsByDescDate/:post_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forum",
+						"sortCommentsByDescDate",
+						":post_id"
+					],
+					"variable": [
+						{
+							"key": "post_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
