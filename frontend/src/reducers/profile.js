@@ -1,5 +1,6 @@
 // Import Constants
 import {
+  RESET,
   PROFILE_RETRIEVE_SUCCESS,
   PROFILE_RETRIEVE_FAILURE,
   PROFILE_UPDATE_SUCCESS,
@@ -19,7 +20,11 @@ const defaultState = {
   profileImageUploadFailure: false,
   deleteAccountSuccess: false,
   deleteAccountFailure: false,
-  data: {}, //Data: {name, email, profileImageUrl}
+  data: {
+    name: "",
+    email: "",
+    profileImageUrl: "",
+  },
 };
 
 export default function profileReducer(state = defaultState, action) {
@@ -28,6 +33,7 @@ export default function profileReducer(state = defaultState, action) {
       return {
         ...state,
         profileRetrieveSuccess: true,
+        profileImageUploadSuccess: false,
         data: action.payload,
       };
     case PROFILE_RETRIEVE_FAILURE:
@@ -51,6 +57,7 @@ export default function profileReducer(state = defaultState, action) {
     case PROFILE_IMAGE_UPLOAD_SUCCESS:
       return {
         ...state,
+        profileRetrieveSuccess: false,
         profileImageUploadSuccess: true,
         data: state.data,
       };
@@ -64,7 +71,7 @@ export default function profileReducer(state = defaultState, action) {
       return {
         ...state,
         deleteAccountSuccess: true,
-        data: {},
+        data: state,
       };
     case DELETE_ACCOUNT_FAILURE:
       return {
@@ -72,6 +79,8 @@ export default function profileReducer(state = defaultState, action) {
         deleteAccountFailure: true,
         data: state.data,
       };
+    case RESET:
+      return defaultState;
     default:
       return state;
   }

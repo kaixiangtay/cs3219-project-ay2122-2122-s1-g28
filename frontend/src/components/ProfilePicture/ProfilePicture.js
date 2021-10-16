@@ -1,5 +1,5 @@
 // Import settings
-import React from "react";
+import React, { useEffect } from "react";
 
 // import Redux
 import { handleProfileImageUpload } from "../../actions/profile";
@@ -16,10 +16,17 @@ function ProfilePicture() {
   const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
+  useEffect(() => {}, [profile]);
+
   return (
     <Grid>
       <Grid>
-        <Avatar src={profile.data.profileImageUrl} className={styles.image} />
+        <Avatar
+          src={`${
+            profile.data.profileImageUrl
+          }?timestamp=${new Date().getTime()}`}
+          className={styles.image}
+        />
       </Grid>
       <Grid className="center-text">
         <Button
@@ -32,7 +39,7 @@ function ProfilePicture() {
             hidden
             type="file"
             onChange={(e) =>
-              dispatch(handleProfileImageUpload(auth.token, e.target.value))
+              dispatch(handleProfileImageUpload(auth.token, e.target.files[0]))
             }
           />
         </Button>

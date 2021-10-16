@@ -73,22 +73,23 @@ export const handleUserLogin = (_email, _password) => (dispatch) => {
   })
     .then((response) => {
       if (response.ok) {
-        response.json().then((res) => dispatch(dispatch(loginSuccess(res))));
+        response.json().then((res) => dispatch(loginSuccess(res)));
       } else {
-        response.json().then((res) => dispatch(dispatch(loginFailure(res))));
+        response.json().then((res) => dispatch(loginFailure(res)));
       }
     })
     .catch((err) => {
-      alert(err);
+      dispatch(loginFailure(err));
     });
 };
 
-export const handleUserLogout = (_token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/logout/${_token}`;
+export const handleUserLogout = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/logout`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })
@@ -96,7 +97,7 @@ export const handleUserLogout = (_token) => (dispatch) => {
       if (response.ok) {
         dispatch(logoutSuccess());
       } else {
-        response.json().then((res) => dispatch(dispatch(logoutFailure(res))));
+        response.json().then((res) => dispatch(logoutFailure(res)));
       }
     })
     .catch((err) => {

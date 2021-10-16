@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 // Import Redux
 import { handleUserLogin } from "../../actions/auth";
+import { handleForgetPassword } from "../../actions/signup";
 import { useDispatch } from "react-redux";
 
 // Import Material-ui
@@ -27,8 +28,8 @@ function LoginForm() {
             <TextField
               variant="outlined"
               className={styles.textWidth}
-              onChange={(event) => {
-                setEmail(event.target.value);
+              onChange={(e) => {
+                setEmail(e.target.value);
               }}
             />
           </Grid>
@@ -38,8 +39,8 @@ function LoginForm() {
               variant="outlined"
               type="password"
               className={styles.textWidth}
-              onChange={(event) => {
-                setPassword(event.target.value);
+              onChange={(e) => {
+                setPassword(e.target.value);
               }}
             />
           </Grid>
@@ -60,7 +61,9 @@ function LoginForm() {
               Sign Up
             </Button>
           </Grid>
-          <a href="/#">Forget Password?</a>
+          <a href="/#" onClick={() => handleForgetPassword(email)}>
+            Forget Password?
+          </a>
         </form>
       </Paper>
     </Container>

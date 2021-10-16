@@ -5,6 +5,7 @@ import { tokenExpire } from "./auth.js";
 
 // Import Constants
 import {
+  RESET,
   PROFILE_RETRIEVE_SUCCESS,
   PROFILE_RETRIEVE_FAILURE,
   PROFILE_UPDATE_SUCCESS,
@@ -80,6 +81,13 @@ const deleteAccountFailure = (err) => {
   };
 };
 
+// Clear all signup state
+export const profileReset = () => {
+  return {
+    type: RESET,
+  };
+};
+
 // ===================================================================
 // HANDLING API CALLS
 // ===================================================================
@@ -103,6 +111,7 @@ export const handleProfileRetrieval = (token) => (dispatch) => {
       } else {
         response.json().then((res) => dispatch(profileRetrieveFailure(res)));
       }
+      return response;
     })
     .catch((err) => {
       alert(err);
@@ -149,15 +158,17 @@ export const handleProfileUpdate =
 // Handle upload Profile Image
 export const handleProfileImageUpload =
   (token, _profileImage) => (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update`;
+    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/uploadProfileImage`;
+    var formData = new FormData();
+    formData.append("profileImage", _profileImage);
 
     fetch(requestUrl, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+        headers: { "Content-Type": "multipart/form-data" },
       },
-      body: new URLSearchParams({ profileImage: _profileImage }),
+      body: formData,
     })
       .then((response) => {
         if (response.ok) {

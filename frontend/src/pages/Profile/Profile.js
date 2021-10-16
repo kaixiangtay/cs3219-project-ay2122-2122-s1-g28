@@ -2,7 +2,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-// // import Redux
+// import Redux
 import { useSelector } from "react-redux";
 
 // Import Material-ui
@@ -20,7 +20,6 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture.js";
 function Profile() {
   const auth = useSelector((state) => state.auth);
 
-  Object.keys(auth.token) == 0;
   if (!auth.token) {
     return <Redirect to="/login" />;
   }

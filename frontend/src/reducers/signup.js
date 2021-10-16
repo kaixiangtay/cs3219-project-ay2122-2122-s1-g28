@@ -40,13 +40,7 @@ function signupReducer(state = defaultState, action) {
         email: state.email,
       };
     case RESET:
-      return {
-        ...state,
-        signupSuccess: false,
-        signupFailure: false,
-        verified: false,
-        email: "",
-      };
+      return defaultState;
     default:
       return state;
   }

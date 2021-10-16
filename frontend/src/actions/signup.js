@@ -121,3 +121,23 @@ export const handleResendEmailVerification = (_email) => {
       err.json().then((res) => console.log(res));
     });
 };
+
+export const handleForgetPassword = (_email) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/resetPassword`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      email: _email,
+    }),
+  })
+    .then((response) => {
+      response.json().then((res) => console.log(res));
+    })
+    .catch((err) => {
+      err.json().then((res) => console.log(res));
+    });
+};

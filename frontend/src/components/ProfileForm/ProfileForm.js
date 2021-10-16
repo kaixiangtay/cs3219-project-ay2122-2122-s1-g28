@@ -24,22 +24,28 @@ import {
 import styles from "./ProfileForm.module.css";
 
 function ProfileForm() {
+  const auth = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.profile);
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [changePassword, setChangePassword] = useState(false);
 
-  const auth = useSelector((state) => state.auth);
-  const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(handleProfileRetrieval(auth.token));
-    setEmail(profile.data.email);
-    setName(profile.data.name);
-    setNewPassword("");
-    setChangePassword(false);
   }, []);
+
+  useEffect(() => {
+    if (profile.profileRetrieveSuccess) {
+      setEmail(profile.data.email);
+      setName(profile.data.name);
+      setNewPassword("");
+      setChangePassword(false);
+    }
+  }, [profile]);
 
   return (
     <Container className="primary-font">
