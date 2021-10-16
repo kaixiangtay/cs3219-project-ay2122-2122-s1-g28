@@ -1,9 +1,9 @@
 // Import Settings
 import React from "react";
-// import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-// // import Redux
-// import { useSelector } from "react-redux";
+// import Redux
+import { useSelector } from "react-redux";
 
 // Import Material-ui
 import { Container, Grid } from "@material-ui/core";
@@ -18,11 +18,11 @@ import ProfileForm from "../../components/ProfileForm/ProfileForm.js";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture.js";
 
 function Profile() {
-  // const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
 
-  // if (Object.keys(auth.user) == 0) {
-  //   return <Redirect to="/login" />;
-  // }
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div>

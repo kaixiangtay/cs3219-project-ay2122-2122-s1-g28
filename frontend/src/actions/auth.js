@@ -2,49 +2,30 @@ import { toast } from "react-toastify";
 
 // Import Constants
 import {
-  LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-  PROFILE_RETRIEVE_SUCCESS,
-  PROFILE_RETRIEVE_FAILURE,
-  PROFILE_UPDATE_SUCCESS,
-  PROFILE_UPDATE_FAILURE,
-  DELETE_ACCOUNT_SUCCESS,
-  DELETE_ACCOUNT_FAILURE,
+  TOKEN_EXPIRE,
 } from "../constants/ReduxConstants";
 
 // ===================================================================
 // LOGIN STATE CHANGE
 // ===================================================================
 
-const loginRequest = () => {
-  return {
-    type: LOGIN_REQUEST,
-  };
-};
-
-const loginSuccess = (user) => {
+const loginSuccess = (_payload) => {
   return {
     type: LOGIN_SUCCESS,
-    user,
+    payload: _payload.token,
   };
 };
 
-const loginFailure = () => {
-  toast.error("Incorrect username or password. Please try again!", {
+const loginFailure = (err) => {
+  toast.error(err.msg, {
     position: toast.POSITION.TOP_RIGHT,
   });
   return {
     type: LOGIN_FAILURE,
-  };
-};
-
-const logoutRequest = () => {
-  return {
-    type: LOGOUT_REQUEST,
   };
 };
 
@@ -57,8 +38,8 @@ const logoutSuccess = () => {
   };
 };
 
-const logoutFailure = () => {
-  toast.error("Unable to logout. Please try again!", {
+const logoutFailure = (err) => {
+  toast.error(err.msg, {
     position: toast.POSITION.TOP_RIGHT,
   });
   return {
@@ -66,53 +47,9 @@ const logoutFailure = () => {
   };
 };
 
-// ===================================================================
-// PROFILE STATE CHANGE
-// ===================================================================
-
-const profileRetrieveSuccess = (_payload) => {
+export const tokenExpire = () => {
   return {
-    type: PROFILE_RETRIEVE_SUCCESS,
-    payload: _payload.data,
-  };
-};
-
-const profileRetrieveFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
-  return {
-    type: PROFILE_RETRIEVE_FAILURE,
-  };
-};
-
-const profileUpdateSuccess = () => {
-  return {
-    type: PROFILE_UPDATE_SUCCESS,
-  };
-};
-
-const profileUpdateFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
-  return {
-    type: PROFILE_UPDATE_FAILURE,
-  };
-};
-
-const deleteAccountSuccess = () => {
-  return {
-    type: DELETE_ACCOUNT_SUCCESS,
-  };
-};
-
-const deleteAccountFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
-  return {
-    type: DELETE_ACCOUNT_FAILURE,
+    type: TOKEN_EXPIRE,
   };
 };
 
@@ -121,116 +58,49 @@ const deleteAccountFailure = (err) => {
 // ===================================================================
 
 // Handle user login
-export const loginUser = (email, password) => (dispatch) => {
-  const requestUrl = ``;
-  let userData = { email, password };
+export const handleUserLogin = (_email, _password) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/login`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: JSON.stringify(userData),
+    body: new URLSearchParams({
+      email: _email,
+      password: _password,
+    }),
   })
     .then((response) => {
-      dispatch(loginRequest());
-      response.json().then((user) => {
-        if (response.status === 200) {
-          dispatch(loginSuccess(user));
-        } else {
-          dispatch(loginFailure());
-        }
-      });
+      if (response.ok) {
+        response.json().then((res) => dispatch(loginSuccess(res)));
+      } else {
+        response.json().then((res) => dispatch(loginFailure(res)));
+      }
+    })
+    .catch((err) => {
+      dispatch(loginFailure(err));
+    });
+};
+
+export const handleUserLogout = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/logout`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        dispatch(logoutSuccess());
+      } else {
+        response.json().then((res) => dispatch(logoutFailure(res)));
+      }
     })
     .catch(() => {
-      dispatch(loginFailure());
-    });
-};
-
-export const logoutUser = () => (dispatch) => {
-  dispatch(logoutRequest());
-  try {
-    //Remove auth token here, if successful, dispatch logoutSuccess
-    dispatch(logoutSuccess());
-  } catch (err) {
-    dispatch(logoutFailure());
-  }
-};
-
-// Handle retrieve Profile Information
-export const handleProfileRetrieval = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/${token}`;
-
-  fetch(requestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((res) => dispatch(profileRetrieveSuccess(res)));
-      } else {
-        response.json().then((res) => dispatch(profileRetrieveFailure(res)));
-      }
-    })
-    .catch((err) => {
-      alert(err);
-    });
-};
-
-// Handle update Profile Information
-export const handleProfileUpdate =
-  (_token, _name, _password, verifyPassword) => (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update/${_token}`;
-
-    // If user inputs password, then pass in password field in body
-    let bodyContent = verifyPassword
-      ? {
-          name: _name,
-          password: _password,
-        }
-      : {
-          name: _name,
-        };
-
-    fetch(requestUrl, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams(bodyContent),
-    })
-      .then((response) => {
-        if (response.ok) {
-          dispatch(profileUpdateSuccess());
-        } else {
-          response.json().then((res) => dispatch(profileUpdateFailure(res)));
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-// Handle delete account
-export const handleDeleteAccount = (_token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/delete/${_token}`;
-
-  fetch(requestUrl, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        dispatch(deleteAccountSuccess());
-      } else {
-        response.json().then((res) => dispatch(deleteAccountFailure(res)));
-      }
-    })
-    .catch((err) => {
-      alert(err);
+      dispatch(tokenExpire());
     });
 };

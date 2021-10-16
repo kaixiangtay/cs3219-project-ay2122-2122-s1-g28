@@ -1,4 +1,9 @@
-const { EMAIL, PORT, FRONTEND_URL, S3_BUCKET_NAME } = require("../config/config");
+const {
+  EMAIL,
+  PORT,
+  FRONTEND_URL,
+  S3_BUCKET_NAME,
+} = require("../config/config");
 
 var User = require("../models/userModel");
 var userAuth = require("../middlewares/userAuth");
@@ -38,10 +43,12 @@ exports.registerUser = [
     } else {
       User.findOne({ email: req.body.email }).then((user) => {
         if (user) {
-          return res.status(404).json([{
+          return res.status(404).json([
+            {
               status: "error",
               msg: "Email already exists!",
-            }]);
+            },
+          ]);
         } else {
           var user = new User();
           user.name = req.body.name;
@@ -54,7 +61,7 @@ exports.registerUser = [
             from: EMAIL,
             to: user.email,
             subject: "NUSociaLife Account Verification",
-            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,    
+            html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
           });
 
           return res.status(200).json({
@@ -81,7 +88,7 @@ exports.resendActivationEmail = function (req, res) {
           from: EMAIL,
           to: user.email,
           subject: "NUSociaLife Account Verification",
-          html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`, 
+          html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${user.token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
         });
 
         return res.status(200).json({
@@ -108,9 +115,9 @@ exports.verifyUserEmail = function (req, res) {
         data: user,
       });
     } else {
-      return res.status(404).json({ 
+      return res.status(404).json({
         status: "error",
-        msg: "Link has expired!" 
+        msg: "Link has expired!",
       });
     }
   });
@@ -130,8 +137,11 @@ exports.sendResetPasswordEmail = function (req, res) {
           to: user.email,
           subject: "NUSociaLife Account Verification",
           html:
-            '<p>Click <a href="http://localhost:' + PORT + "/api/users/resetPassword/" + user.token 
-            + '">here</a> to reset your password. Note: Link is only valid for 15 minutes!!!</p>',
+            '<p>Click <a href="http://localhost:' +
+            PORT +
+            "/api/users/resetPassword/" +
+            user.token +
+            '">here</a> to reset your password. Note: Link is only valid for 15 minutes!!!</p>',
         });
 
         return res.status(200).json({
@@ -155,56 +165,60 @@ exports.resetPassword = function (req, res) {
 
     user.password = userAuth.hashPassword(req.body.password);
     user.save();
-    
+
     return res.status(200).json({
-        status: "success",
-        msg: "User password has successfully been reset!",
-        data: user,
-      });
+      status: "success",
+      msg: "User password has successfully been reset!",
+      data: user,
+    });
   });
 };
 
 // Upload Image into AWS S3 bucket
-exports.uploadProfileImage = [ 
-  userAuth.authenticateToken, 
+exports.uploadProfileImage = [
+  userAuth.authenticateToken,
   (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = userAuth.decodeAuthToken(authHeader);
+    const authHeader = req.headers["authorization"];
+    var userID = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
       // frontend file name put to profileImage
-      const uploadSingleImage = imagerService.upload(S3_BUCKET_NAME, user._id).single(
-        "profileImage");
-      
-        uploadSingleImage(req, res, async (err) => {
-          if (err) {
-            return res.status(400).json({ 
-              status: "error", 
-              msg: "Invalid file type, must be an image file!",
-            });
-          }
+      const uploadSingleImage = imagerService
+        .upload(S3_BUCKET_NAME, user._id)
+        .single("profileImage");
 
-          else {
-            user.profileImageUrl = req.file.location;
-            user.save();
-            
-            return res.status(200).json({ 
-              status: "success", 
-              msg: "User profile image uploaded successfully!",
+      uploadSingleImage(req, res, async (err) => {
+        if (err) {
+          return res.status(400).json({
+            status: "error",
+            msg: "Invalid file type, must be an image file!",
+          });
+        } else {
+          user.profileImageUrl = req.file.location;
+          user.save();
+
+          return res.status(200).json({
+            status: "success",
+            msg: "Profile uploaded successfully!",
+            data: {
+              name: user.name,
+              email: user.email,
               profileImageUrl: user.profileImageUrl,
-            });
-          }
-        });
+            },
+          });
+        }
+      });
     });
-}]
+  },
+];
 
 // Change user name and password in Profile page when user logged in to account
 exports.updateUser = [
   userAuth.authenticateToken,
   userUpdateValidator(),
   (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = userAuth.decodeAuthToken(authHeader);
+    const authHeader = req.headers["authorization"];
+    var userID = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
       const errors = validationResult(req);
@@ -214,27 +228,31 @@ exports.updateUser = [
       }
 
       user.name = req.body.name;
-  
+
       if (req.body.password !== undefined) {
-        user.password = userAuth.hashPassword(req.body.password)
-      } 
-      
+        user.password = userAuth.hashPassword(req.body.password);
+      }
+
       user.save();
 
       return res.status(200).json({
         status: "success",
-        msg: "User Info updated",
-        data: user,
+        msg: "Changes saved successfully",
+        data: {
+          name: user.name,
+          email: user.email,
+          profileImageUrl: user.profileImageUrl,
+        },
       });
     });
   },
 ];
 
-exports.viewUser = [ 
-  userAuth.authenticateToken, 
+exports.viewUser = [
+  userAuth.authenticateToken,
   (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = userAuth.decodeAuthToken(authHeader);
+    const authHeader = req.headers["authorization"];
+    var userID = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
       return res.status(200).json({
@@ -244,31 +262,32 @@ exports.viewUser = [
           name: user.name,
           email: user.email,
           profileImageUrl: user.profileImageUrl,
-        }
+        },
       });
     });
-}]
+  },
+];
 
-exports.deleteUser = [ 
-  userAuth.authenticateToken, 
+exports.deleteUser = [
+  userAuth.authenticateToken,
   (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = userAuth.decodeAuthToken(authHeader);
+    const authHeader = req.headers["authorization"];
+    var userID = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
-
-      if (user.profileImageUrl !== '') {
+      if (user.profileImageUrl !== "") {
         imagerService.delete(user.profileImageUrl);
       }
 
-      User.deleteOne({_id: user._id}, function (err, user) {
-          return res.status(200).json({
-              status: "success",
-              msg: 'User deleted'
-            });
+      User.deleteOne({ _id: user._id }, function (err, user) {
+        return res.status(200).json({
+          status: "success",
+          msg: "Account deleted successfully",
+        });
       });
-  });         
-}]
+    });
+  },
+];
 
 exports.loginUser = [
   userLoginValidator(),
@@ -280,16 +299,16 @@ exports.loginUser = [
     } else {
       User.findOne({ email: req.body.email }).then((user) => {
         if (!user) {
-          return res.status(404).json({ 
+          return res.status(404).json({
             status: "error",
-            msg: "Email cannot be found!" 
+            msg: "Email cannot be found!",
           });
         } else {
           if (user.status !== "Approved") {
             return res.status(400).json({
               status: "error",
               msg: "User is not verified, unable to login!",
-            })
+            });
           }
           const body = req.body;
 
@@ -308,11 +327,11 @@ exports.loginUser = [
               token: user.token,
               status: "success",
               msg: "Login successful!",
-            })
+            });
           } else {
-            return res.status(400).json({ 
+            return res.status(400).json({
               status: "error",
-              msg: "Invalid Password!" 
+              msg: "Invalid Password!",
             });
           }
         }
@@ -321,20 +340,21 @@ exports.loginUser = [
   },
 ];
 
-exports.logout = [ 
-  userAuth.authenticateToken, 
+exports.logout = [
+  userAuth.authenticateToken,
   (req, res) => {
-    const authHeader = req.headers['authorization'];
-    var userID  = userAuth.decodeAuthToken(authHeader);
+    const authHeader = req.headers["authorization"];
+    var userID = userAuth.decodeAuthToken(authHeader);
 
     User.findById(userID, function (err, user) {
-       // Clear token before logout
-       user.token = '';
-       user.save();
+      // Clear token before logout
+      user.token = "";
+      user.save();
 
-       return res.status(200).json({ 
-         status: "success",
-         msg: "Have a nice day!" 
-       });
+      return res.status(200).json({
+        status: "success",
+        msg: "Have a nice day!",
+      });
     });
-}]
+  },
+];

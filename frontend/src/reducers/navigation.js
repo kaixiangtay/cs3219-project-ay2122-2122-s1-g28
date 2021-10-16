@@ -34,10 +34,7 @@ function navigationReducer(state = defaultState, action) {
         selection: LOGOUT,
       };
     case RESET:
-      return {
-        ...state,
-        selection: FINDFRIENDS,
-      };
+      return defaultState;
     default:
       return state;
   }
