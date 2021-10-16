@@ -1,12 +1,16 @@
 import { combineReducers } from "redux";
-import auth from "./auth";
-import signup from "./signup";
+
+// Import Reducers
 import navigation from "./navigation";
+import signup from "./signup";
+import auth from "./auth";
+import profile from "./profile";
 
 const rootReducer = combineReducers({
-  auth,
-  signup,
   navigation,
+  signup,
+  auth,
+  profile,
 });
 
 export default rootReducer;

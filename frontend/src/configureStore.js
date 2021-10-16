@@ -10,7 +10,9 @@ export default function configureStore(persistedState) {
     key: "root",
     storage,
   };
+
   const persistedReducer = persistReducer(persistConfig, rootReducer);
+
   const store = createStore(
     persistedReducer,
     persistedState,
