@@ -9,70 +9,70 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/api/viewAllPosts/:topic')
+router.route('/api/forum/viewAllPosts/:topic')
     .get(postController.index)
 
-router.route('/api/createPost')
+router.route('/api/forum/createPost')
     .post(postController.createPost)
 
-router.route('/api/viewPost/:post_id')
+router.route('/api/forum/viewPost/:post_id')
     .get(postController.viewPost)
 
-router.route('/api/updatePost/:post_id/:user_id')
+router.route('/api/forum/updatePost/:post_id')
     .put(postController.updatePost)
 
-router.route('/api/upvotePost/:post_id/:user_id')
+router.route('/api/forum/upvotePost/:post_id')
     .patch(postController.upvotePost)
 
-router.route('/api/downvotePost/:post_id/:user_id')
+router.route('/api/forum/downvotePost/:post_id')
     .patch(postController.downvotePost)
 
-router.route('/api/deletePost/:post_id/:user_id')
+router.route('/api/forum/deletePost/:post_id')
     .delete(postController.deletePost)
 
-router.route('/api/viewAllComments/:post_id')
+router.route('/api/forum/viewAllComments/:post_id')
     .get(commentController.viewPostComments)
 
-router.route('/api/createComment/:post_id')
+router.route('/api/forum/createComment/:post_id')
     .post(commentController.createComment)
 
-router.route('/api/viewComment/:post_id/:comment_id')
+router.route('/api/forum/viewComment/:post_id/:comment_id')
     .get(commentController.viewComment)
 
-router.route('/api/updateComment/:post_id/:comment_id/:user_id')
+router.route('/api/forum/updateComment/:post_id/:comment_id')
     .patch(commentController.updateComment)
 
-router.route('/api/upvoteComment/:post_id/:comment_id/:user_id')
+router.route('/api/forum/upvoteComment/:post_id/:comment_id')
     .patch(commentController.upvoteComment)
 
-router.route('/api/downvoteComment/:post_id/:comment_id/:user_id')
+router.route('/api/forum/downvoteComment/:post_id/:comment_id')
     .patch(commentController.downvoteComment)
 
-router.route('/api/deleteComment/:post_id/:comment_id/:user_id')
+router.route('/api/forum/deleteComment/:post_id/:comment_id')
     .delete(commentController.deleteComment)
 
-router.route('/api/sortPostByAscVotes/:topic')
+router.route('/api/forum/sortPostByAscVotes/:topic')
     .get(postController.sortPostByAscVotes)
 
-router.route('/api/sortPostByDescVotes/:topic')
+router.route('/api/forum/sortPostByDescVotes/:topic')
     .get(postController.sortPostByDescVotes)
 
-router.route('/api/sortPostByAscDate/:topic')
+router.route('/api/forum/sortPostByAscDate/:topic')
     .get(postController.sortPostByAscDate) 
 
-router.route('/api/sortPostByDescDate/:topic')
+router.route('/api/forum/sortPostByDescDate/:topic')
     .get(postController.sortPostByDescDate) 
 
-router.route('/api/sortCommentsByAscVotes/:post_id')
+router.route('/api/forum/sortCommentsByAscVotes/:post_id')
     .get(commentController.sortCommentsByAscVotes)
 
-router.route('/api/sortCommentsByDescVotes/:post_id')
+router.route('/api/forum/sortCommentsByDescVotes/:post_id')
     .get(commentController.sortCommentsByDescVotes)
 
-router.route('/api/sortCommentsByAscDate/:post_id')
+router.route('/api/forum/sortCommentsByAscDate/:post_id')
     .get(commentController.sortCommentsByAscDate)
 
-router.route('/api/sortCommentsByDescDate/:post_id')
+router.route('/api/forum/sortCommentsByDescDate/:post_id')
     .get(commentController.sortCommentsByDescDate)
 
 module.exports = router; 
