@@ -233,7 +233,7 @@ exports.updateUser = [
 
       return res.status(200).json({
         status: "success",
-        msg: "User Info updated",
+        msg: "Changes saved successfully",
         data: {
           name: user.name,
           email: user.email,
@@ -278,7 +278,7 @@ exports.deleteUser = [
       User.deleteOne({ _id: user._id }, function (err, user) {
         return res.status(200).json({
           status: "success",
-          msg: "User deleted",
+          msg: "Account deleted successfully",
         });
       });
     });

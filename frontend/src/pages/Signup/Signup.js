@@ -27,30 +27,28 @@ function Signup() {
 
   return (
     <div>
-      <div>
-        <Container>
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="center"
-            className="empty-navbar-gap"
-          >
-            <Grid item md={6}>
-              <img alt="NUSociaLifeLogo" src={NUSociaLifeLogo} />
-            </Grid>
-            <Grid item md={6} xs={12} sm={12}>
-              <SignupForm />
-            </Grid>
+      <Container>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          className="empty-navbar-gap"
+        >
+          <Grid item md={6}>
+            <img alt="NUSociaLifeLogo" src={NUSociaLifeLogo} />
           </Grid>
-        </Container>
-        <Grid item md={12}>
-          <img
-            alt="RandomScribble"
-            src={RandomScribble}
-            className={styles.randomScribble}
-          />
+          <Grid item md={6} xs={12} sm={12}>
+            <SignupForm />
+          </Grid>
         </Grid>
-      </div>
+      </Container>
+      <Grid item md={12}>
+        <img
+          alt="RandomScribble"
+          src={RandomScribble}
+          className={styles.randomScribble}
+        />
+      </Grid>
     </div>
   );
 }

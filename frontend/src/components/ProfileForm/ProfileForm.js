@@ -42,9 +42,9 @@ function ProfileForm() {
     if (profile.profileRetrieveSuccess) {
       setEmail(profile.data.email);
       setName(profile.data.name);
-      setNewPassword("");
-      setChangePassword(false);
     }
+    setNewPassword("");
+    setChangePassword(false);
   }, [profile]);
 
   return (

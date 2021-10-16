@@ -100,7 +100,7 @@ export const handleUserLogout = (token) => (dispatch) => {
         response.json().then((res) => dispatch(logoutFailure(res)));
       }
     })
-    .catch((err) => {
-      alert(err);
+    .catch(() => {
+      dispatch(tokenExpire());
     });
 };

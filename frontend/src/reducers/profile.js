@@ -45,12 +45,16 @@ export default function profileReducer(state = defaultState, action) {
     case PROFILE_UPDATE_SUCCESS:
       return {
         ...state,
+        profileRetrieveSuccess: false,
+        profileImageUploadSuccess: false,
         profileUpdateSuccess: true,
         data: action.payload,
       };
     case PROFILE_UPDATE_FAILURE:
       return {
         ...state,
+        profileRetrieveSuccess: false,
+        profileImageUploadSuccess: false,
         profileUpdateFailure: true,
         data: state.data,
       };
@@ -64,6 +68,7 @@ export default function profileReducer(state = defaultState, action) {
     case PROFILE_IMAGE_UPLOAD_FAILURE:
       return {
         ...state,
+        profileRetrieveSuccess: false,
         profileImageUploadFailure: true,
         data: state.data,
       };

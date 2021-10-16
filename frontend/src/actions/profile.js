@@ -36,9 +36,13 @@ const profileRetrieveFailure = (err) => {
   };
 };
 
-const profileUpdateSuccess = () => {
+const profileUpdateSuccess = (_payload) => {
+  toast.success(_payload.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: PROFILE_UPDATE_SUCCESS,
+    payload: _payload.data,
   };
 };
 
@@ -66,7 +70,10 @@ const profileImageUploadFailure = (err) => {
   };
 };
 
-const deleteAccountSuccess = () => {
+const deleteAccountSuccess = (payload) => {
+  toast.success(payload.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: DELETE_ACCOUNT_SUCCESS,
   };
@@ -113,8 +120,8 @@ export const handleProfileRetrieval = (token) => (dispatch) => {
       }
       return response;
     })
-    .catch((err) => {
-      alert(err);
+    .catch(() => {
+      dispatch(tokenExpire());
     });
 };
 
@@ -143,15 +150,15 @@ export const handleProfileUpdate =
     })
       .then((response) => {
         if (response.ok) {
-          dispatch(profileUpdateSuccess());
+          response.json().then((res) => dispatch(profileUpdateSuccess(res)));
         } else if (response.status == 401) {
           dispatch(tokenExpire());
         } else {
           response.json().then((res) => dispatch(profileUpdateFailure(res)));
         }
       })
-      .catch((err) => {
-        alert(err);
+      .catch(() => {
+        dispatch(tokenExpire());
       });
   };
 
@@ -181,8 +188,8 @@ export const handleProfileImageUpload =
             .then((res) => dispatch(profileImageUploadFailure(res)));
         }
       })
-      .catch((err) => {
-        alert(err);
+      .catch(() => {
+        dispatch(tokenExpire());
       });
   };
 
@@ -199,7 +206,7 @@ export const handleDeleteAccount = (token) => (dispatch) => {
   })
     .then((response) => {
       if (response.ok) {
-        dispatch(deleteAccountSuccess());
+        response.json().then((res) => dispatch(deleteAccountSuccess(res)));
         dispatch(tokenExpire());
       } else if (response.status == 401) {
         dispatch(tokenExpire());
@@ -207,7 +214,7 @@ export const handleDeleteAccount = (token) => (dispatch) => {
         response.json().then((res) => dispatch(deleteAccountFailure(res)));
       }
     })
-    .catch((err) => {
-      alert(err);
+    .catch(() => {
+      dispatch(tokenExpire());
     });
 };

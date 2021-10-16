@@ -1,0 +1,1944 @@
+{
+  "info": {
+    "_postman_id": "21c24738-9596-497c-a680-49d879759f34",
+    "name": "Users v2.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Reset Password Email",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/resetPassword"
+      },
+      "response": []
+    },
+    {
+      "name": "Resend Activation Email",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/resendActivationEmail"
+      },
+      "response": [
+        {
+          "name": "Resend Activation Email",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "e0407217@u.nus.edu",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/resendActivationEmail"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "46"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2e-l7ANrBtcmMN7YJ22kxbCao8WcEc\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 10 Oct 2021 16:45:41 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"msg\": \"New account sign up email link sent!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Reset Password",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "password",
+              "value": "12345ABCdhcb!",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE"
+      },
+      "response": [
+        {
+          "name": "Reset Password",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "password",
+                  "value": "12345ABCdhcb!",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "463"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1cf-eud8Soi71YcEmWyd7OrZeyfpsLI\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 10 Oct 2021 16:59:22 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"msg\": \"User password has successfully been reset!\",\n    \"data\": {\n        \"_id\": \"61631916314fc66e6426c9e7\",\n        \"status\": \"Approved\",\n        \"dateCreated\": \"2021-10-10T16:31:12.996Z\",\n        \"name\": \"Kai Xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$xvfEzWSDvdZYLPBgpHTEEu69xL.eiH20USSHntZbkQjP6yq3QSby6\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzMzg4NDkyNCwiZXhwIjoxNjMzODg1ODI0fQ.7GzHFyeg0M-92V3O7VyxfNwrQbPGgm2nlYbXLt9uOnE\",\n        \"__v\": 0\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Existing Account Sign up",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "abcABC123!",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "kai xiang",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/signup"
+      },
+      "response": [
+        {
+          "name": "Existing Account Sign up",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "e0407217@u.nus.edu",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "abcABC123!",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "kai xiang",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/signup"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "50"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"32-UOIPyf2uc4y2DxtdFqagmp5Hf50\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 06:55:06 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"status\": \"error\",\n        \"msg\": \"Email already exists!\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "New Account Sign Up (Success)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "ABCabc123!",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "kai xiang",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/signup"
+      },
+      "response": [
+        {
+          "name": "New Account Sign Up (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "e0407217@u.nus.edu",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "ABCabc123!",
+                  "type": "text"
+                },
+                {
+                  "key": "name",
+                  "value": "kai xiang",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/signup"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "469"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1d5-XpSJTxoJvC0tWh4GShWEHr7wCM0\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 06:57:44 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"New user created!\",\n    \"data\": {\n        \"status\": \"Pending\",\n        \"profileImageUrl\": \"\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzNDI4MTA2NCwiZXhwIjoxNjM0MjgxOTY0fQ.Df5HauU30qHdCh9qsA0EKEIUbpVtUfg-NXz8WmzdT1U\",\n        \"dateCreated\": \"2021-10-15T06:53:19.945Z\",\n        \"_id\": \"6169266789185438d1da9469\",\n        \"name\": \"kai xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$FP1OQu/gOON7Cf1khyKW8u9cL17BWHrYYsSQJOuAUL5FPU/u78FYS\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Verify Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:5000/api/users/verifyEmail/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzNDI4MTA2NCwiZXhwIjoxNjM0MjgxOTY0fQ.Df5HauU30qHdCh9qsA0EKEIUbpVtUfg-NXz8WmzdT1U"
+      },
+      "response": [
+        {
+          "name": "Verify Email",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:5000/api/users/verifyEmail/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzNDI4MTA2NCwiZXhwIjoxNjM0MjgxOTY0fQ.Df5HauU30qHdCh9qsA0EKEIUbpVtUfg-NXz8WmzdT1U"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "489"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1e9-Edh7SygHfnidWOT1+NkCT6tSvS4\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 06:58:57 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"Your email has been verified\",\n    \"data\": {\n        \"_id\": \"6169266789185438d1da9469\",\n        \"status\": \"Approved\",\n        \"profileImageUrl\": \"\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzNDI4MTA2NCwiZXhwIjoxNjM0MjgxOTY0fQ.Df5HauU30qHdCh9qsA0EKEIUbpVtUfg-NXz8WmzdT1U\",\n        \"dateCreated\": \"2021-10-15T06:53:19.945Z\",\n        \"name\": \"kai xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$FP1OQu/gOON7Cf1khyKW8u9cL17BWHrYYsSQJOuAUL5FPU/u78FYS\",\n        \"__v\": 0\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get All Users (No token required)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:5000/api/users/getAllUsers"
+      },
+      "response": [
+        {
+          "name": "Get All Users (No token required)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:5000/api/users/getAllUsers"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "491"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1eb-SRnQflAm0yHmS4KwT3nhDH1Y1+U\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 06:59:41 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"Users retrieved successfully\",\n    \"data\": [\n        {\n            \"_id\": \"6169266789185438d1da9469\",\n            \"status\": \"Approved\",\n            \"profileImageUrl\": \"\",\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUwNDA3MjE3QHUubnVzLmVkdSIsImlhdCI6MTYzNDI4MTA2NCwiZXhwIjoxNjM0MjgxOTY0fQ.Df5HauU30qHdCh9qsA0EKEIUbpVtUfg-NXz8WmzdT1U\",\n            \"dateCreated\": \"2021-10-15T06:53:19.945Z\",\n            \"name\": \"kai xiang\",\n            \"email\": \"e0407217@u.nus.edu\",\n            \"password\": \"$2b$10$FP1OQu/gOON7Cf1khyKW8u9cL17BWHrYYsSQJOuAUL5FPU/u78FYS\",\n            \"__v\": 0\n        }\n    ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Login (Success)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "ABCabc123!",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/login"
+      },
+      "response": [
+        {
+          "name": "Login (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "e0407217@u.nus.edu",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "ABCabc123!",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/login"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "229"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"e5-ulyftTovD3iWQt6MlbcFfBwUWpk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:00:51 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODEyNTEsImV4cCI6MTYzNDM2NzY1MX0.z2lFFSe3ixRndrFiaunElx727iC6cJrx2rvXgy6g3xI\",\n    \"status\": \"success\",\n    \"msg\": \"Login successful!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Login Invalid Password",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "ABCabc123!dhedyuedh",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/login"
+      },
+      "response": [
+        {
+          "name": "Login Invalid Password",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "email",
+                  "value": "e0407217@u.nus.edu",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "ABCabc123!dhedyuedh",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/login"
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "44"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2c-XNyLWI5CTdd/Qw1pQsQPjojW7so\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:04:02 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"error\",\n    \"msg\": \"Invalid Password!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Sign up (All empty fields)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:5000/api/users/signup"
+      },
+      "response": [
+        {
+          "name": "Sign up (All empty fields)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": "http://localhost:5000/api/users/signup"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "328"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"148-goEl2WidFXKJWpSMMDfuxawLQNA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:48:21 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"msg\": \"Name is a compulsory field\",\n        \"param\": \"name\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    },\n    {\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Sign up Invalid Email Domain",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "name",
+              "value": "kai xiang",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "kx@gmail.com",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "abcABC123!",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/signup"
+      },
+      "response": [
+        {
+          "name": "Sign up Invalid Email Domain",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "kai xiang",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "kx@gmail.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "abcABC123!",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/signup"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "110"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"6e-vg/jr8eh1cKqAmVD0hOJiybsOjw\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:49:14 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"value\": \"kx@gmail.com\",\n        \"msg\": \"Email should be in the form of @u.nus.edu\",\n        \"param\": \"email\",\n        \"location\": \"body\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Sign up Weak password",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "name",
+              "value": "kai xiang",
+              "type": "text"
+            },
+            {
+              "key": "email",
+              "value": "e0407217@u.nus.edu",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "12345",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/signup"
+      },
+      "response": [
+        {
+          "name": "Sign up Weak password",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "kai xiang",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "e0407217@u.nus.edu",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "12345",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/signup"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "188"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"bc-/M80hSvvgfid+HXMrObkz7cjYHQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:50:17 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"value\": \"12345\",\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorised (Get Single User)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:5000/api/users/getUser"
+      },
+      "response": [
+        {
+          "name": "Unauthorised (Get Single User)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:5000/api/users/getUser"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "12"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:04:34 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "Unauthorized"
+        }
+      ]
+    },
+    {
+      "name": "Get User (Success) ",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:5000/api/users/getUser"
+      },
+      "response": [
+        {
+          "name": "Get User (Success) ",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:5000/api/users/getUser"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "488"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1e8-l6B0aUAYJAB2fn2tgv4P4Vh+33c\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:09:07 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"User details loading..\",\n    \"data\": {\n        \"_id\": \"6169266789185438d1da9469\",\n        \"status\": \"Approved\",\n        \"profileImageUrl\": \"\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM\",\n        \"dateCreated\": \"2021-10-15T06:53:19.945Z\",\n        \"name\": \"kai xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$FP1OQu/gOON7Cf1khyKW8u9cL17BWHrYYsSQJOuAUL5FPU/u78FYS\",\n        \"__v\": 0\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorised (Upload Image)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:5000/api/users/uploadProfileImage"
+      },
+      "response": [
+        {
+          "name": "Unauthorised (Upload Image)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": "http://localhost:5000/api/users/uploadProfileImage"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "12"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:35:19 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "Unauthorized"
+        }
+      ]
+    },
+    {
+      "name": "Upload Profile Image (Success)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM"
+          }
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "profileImage",
+              "type": "file",
+              "src": "/Users/tkx/Downloads/calendar.png"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/uploadProfileImage"
+      },
+      "response": [
+        {
+          "name": "Upload Profile Image (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": "/Users/tkx/Downloads/calendar.png"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/uploadProfileImage"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "190"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"be-nLfDHDWBGzS7uIDlG843WlO/gWQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:12:10 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"User profile image uploaded successfully!\",\n    \"profileImageUrl\": \"https://nusocialife-profileimage.s3.ap-southeast-1.amazonaws.com/image-6169266789185438d1da9469.png\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Invalid file type for Profile Image",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM"
+          }
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "profileImage",
+              "type": "file",
+              "src": "/Users/tkx/Downloads/test.txt"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/uploadProfileImage"
+      },
+      "response": [
+        {
+          "name": "Invalid file type for Profile Image",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": "/Users/tkx/Downloads/test.txt"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/uploadProfileImage"
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "68"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"44-IZinm/OfjI+5tcaSGs8G/1PxDfM\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:13:50 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"error\",\n    \"msg\": \"Invalid file type, must be an image file!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorised (Update user)",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "http://localhost:5000/api/users/update"
+      },
+      "response": [
+        {
+          "name": "Unauthorised (Update user)",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [],
+            "url": "http://localhost:5000/api/users/update"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "12"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:34:45 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "Unauthorized"
+        }
+      ]
+    },
+    {
+      "name": "Update user profile (Weak Password)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM"
+          }
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "name",
+              "value": "John",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "jsnd",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/update"
+      },
+      "response": [
+        {
+          "name": "Update user profile (Weak Password)",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "John",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "jsnd",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/update"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "187"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"bb-gnVRXemh2GyS/fR7CdrNRkMI11A\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:26:07 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"value\": \"jsnd\",\n        \"msg\": \"Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character\",\n        \"param\": \"password\",\n        \"location\": \"body\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Update user profile with name only (Success)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5NmU0NTFkYmMwOTQ1OThjMWRhNWYiLCJpYXQiOjE2MzQzMTE0NzgsImV4cCI6MTYzNDM5Nzg3OH0.lnYMoSBB6R3bsfnWJ_yVDPAlpIe0tAdWrTEGcWCL_vs"
+          }
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "name",
+              "value": "kai xiang",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/update"
+      },
+      "response": [
+        {
+          "name": "Update user profile with name only (Success)",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "kai xiang",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/update"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "582"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"246-Cx9i3qAc5tqjqf9hPjhKS2YL5+k\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:31:01 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"User Info updated\",\n    \"data\": {\n        \"_id\": \"6169266789185438d1da9469\",\n        \"status\": \"Approved\",\n        \"profileImageUrl\": \"https://nusocialife-profileimage.s3.ap-southeast-1.amazonaws.com/image-6169266789185438d1da9469.png\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM\",\n        \"dateCreated\": \"2021-10-15T06:53:19.945Z\",\n        \"name\": \"kai xiang\",\n        \"email\": \"e0407217@u.nus.edu\",\n        \"password\": \"$2b$10$FP1OQu/gOON7Cf1khyKW8u9cL17BWHrYYsSQJOuAUL5FPU/u78FYS\",\n        \"__v\": 0\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Update with name and password (Success)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTZhNTEwNmVjYThhNzY2MDc2ZDViM2IiLCJpYXQiOjE2MzQzNTc1NTksImV4cCI6MTYzNDQ0Mzk1OX0.gW8lF9z4m5uAsszbVKDp5tWoJ854GyGlq6yRzwRWVhw"
+          }
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "name",
+              "value": "John",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "johnDoe@123",
+              "type": "text"
+            }
+          ]
+        },
+        "url": "http://localhost:5000/api/users/update"
+      },
+      "response": [
+        {
+          "name": "Update with name and password (Success)",
+          "originalRequest": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "John",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "johnDoe@123",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "http://localhost:5000/api/users/update"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "137"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"89-fZ1UtqLzL1Cb71eqZur5ehP9l+Q\""
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 16 Oct 2021 04:14:25 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"Changes saved successfully\",\n    \"data\": {\n        \"name\": \"John\",\n        \"email\": \"marcus.lee.eugene@u.nus.edu\",\n        \"profileImageUrl\": \"\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "View Profile Image (Success)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:5000/api/users/viewProfileImage"
+      },
+      "response": [
+        {
+          "name": "View Profile Image (Success)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:5000/api/users/viewProfileImage"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "191"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"bf-aiTm56/FCLJNWkPKnBsI8O6MooI\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:33:04 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"User profile image retrieved successfully!\",\n    \"profileImageUrl\": \"https://nusocialife-profileimage.s3.ap-southeast-1.amazonaws.com/image-6169266789185438d1da9469.png\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorised (View profile Image)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:5000/api/users/viewProfileImage"
+      },
+      "response": [
+        {
+          "name": "Unauthorised (View profile Image)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:5000/api/users/viewProfileImage"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "12"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:34:07 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "Unauthorized"
+        }
+      ]
+    },
+    {
+      "name": "Logout (Success)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY5MjY2Nzg5MTg1NDM4ZDFkYTk0NjkiLCJpYXQiOjE2MzQyODE3MjQsImV4cCI6MTYzNDM2ODEyNH0.iXq9i8Dara_wx-aw5_HplM1cttV4N_qAw68W1nGqOrM"
+          }
+        },
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:5000/api/users/logout"
+      },
+      "response": [
+        {
+          "name": "Logout (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": "http://localhost:5000/api/users/logout"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "45"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2d-sUwrdGihaWsDkRVq4cIvjlZpAuY\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:51:25 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"Have a nice day!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorised (Logout)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "http://localhost:5000/api/users/logout"
+      },
+      "response": [
+        {
+          "name": "Unauthorised (Logout)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": "http://localhost:5000/api/users/logout"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "12"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:52:01 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "Unauthorized"
+        }
+      ]
+    },
+    {
+      "name": "Delete User (Success)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTZhNTEwNmVjYThhNzY2MDc2ZDViM2IiLCJpYXQiOjE2MzQzNTc1NTksImV4cCI6MTYzNDQ0Mzk1OX0.gW8lF9z4m5uAsszbVKDp5tWoJ854GyGlq6yRzwRWVhw"
+          }
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": "http://localhost:5000/api/users/delete"
+      },
+      "response": [
+        {
+          "name": "Delete User (Success)",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": "http://localhost:5000/api/users/delete"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "57"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"39-q6gSxWints8mdhvlL1n55i6N6rw\""
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 16 Oct 2021 04:15:44 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"success\",\n    \"msg\": \"Account deleted successfully\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Unauthorised (Delete)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "http://localhost:5000/api/users/delete"
+      },
+      "response": [
+        {
+          "name": "Unauthorised (Delete)",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": "http://localhost:5000/api/users/delete"
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/plain; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "12"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 15 Oct 2021 07:54:23 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "Unauthorized"
+        }
+      ]
+    }
+  ]
+}
