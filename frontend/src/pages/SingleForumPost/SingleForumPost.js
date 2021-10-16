@@ -18,10 +18,10 @@ import {
 
 // Import Components
 import Navbar from "../../components/Navbar/Navbar.js";
+import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
 
 // Import CSS
 import styles from "./SingleForumPost.module.css";
-import VoteArrows from "../VoteArrows/VoteArrows.js";
 
 function SingleForumPost() {
   // const post = useSelector((state) => state.forum.singlePost);

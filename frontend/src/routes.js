@@ -10,7 +10,7 @@ import FindFriends from "./pages/FindFriends/FindFriends.js";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail.js";
 import Forum from "./pages/Forum/Forum.js";
 import ForumTopic from "./pages/ForumTopic/ForumTopic.js";
-import SingleForumPost from "./components/SingleForumPost/SingleForumPost.js";
+import SingleForumPost from "./pages/SingleForumPost/SingleForumPost.js";
 
 const Routes = () => {
   return (
