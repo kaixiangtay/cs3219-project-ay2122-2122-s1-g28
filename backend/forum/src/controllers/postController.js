@@ -94,8 +94,7 @@ exports.updatePost = [
 	userAuth.authenticateToken,
 	(req, res) => {
 		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader);
-
+		var userId = userAuth.decodeAuthToken(authHeader)._id;
 		Post.findById(req.params.post_id, function (err, post) {
 			if (post == null) {
 				res.status(404).json({
@@ -133,7 +132,7 @@ exports.upvotePost = [
 	userAuth.authenticateToken,
 	(req, res) => {
 		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader);
+		var userId = userAuth.decodeAuthToken(authHeader)._id;;
 
 		Post.findById(req.params.post_id, function (err, post) {
 			if (post == null) {
@@ -178,7 +177,7 @@ exports.downvotePost = [
 	userAuth.authenticateToken,
 	(req, res) => {
 		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader);
+		var userId = userAuth.decodeAuthToken(authHeader)._id;;
 
 		Post.findById(req.params.post_id, function (err, post) {
 			if (post == null) {
@@ -223,7 +222,7 @@ exports.deletePost = [
 	userAuth.authenticateToken,
 	(req, res) => {
 		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader);
+		var userId = userAuth.decodeAuthToken(authHeader)._id;;
 
 		Post.findById(req.params.post_id, function (err, post) {
 			if (post == null) {
