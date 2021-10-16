@@ -9,7 +9,8 @@ import Profile from "./pages/Profile/Profile.js";
 import FindFriends from "./pages/FindFriends/FindFriends.js";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail.js";
 import Forum from "./pages/Forum/Forum.js";
-import ForumTopic from "./components/ForumTopic/ForumTopic.js";
+import ForumTopic from "./pages/ForumTopic/ForumTopic.js";
+import SingleForumPost from "./components/SingleForumPost/SingleForumPost.js";
 
 const Routes = () => {
   return (
@@ -30,6 +31,7 @@ const Routes = () => {
       <Route path="/findfriends" component={FindFriends} />
       <Route exact path="/forum" component={Forum} />
       <Route exact path="/forum/:topic" component={ForumTopic} />
+      <Route exact path="/forum/:topic/:id" component={SingleForumPost} />
     </Switch>
   );
 };

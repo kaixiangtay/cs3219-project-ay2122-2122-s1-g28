@@ -1,6 +1,9 @@
 // Import Settings
 import React from "react";
-import { Link } from "react-router-dom";
+
+// Import Redux
+import { useDispatch } from "react-redux";
+import { handleForumSelection } from "../../actions/forum";
 
 // Import Material-ui
 import { Button } from "@material-ui/core";
@@ -10,11 +13,14 @@ import styles from "./ForumGroup.module.css";
 
 function ForumGroup(props) {
   const { topic } = props;
-  const path = "/forum/" + topic;
+  const dispatch = useDispatch();
 
   return (
     <div>
-      <Button className={styles.button} component={Link} to={path}>
+      <Button
+        className={styles.button}
+        onClick={() => dispatch(handleForumSelection(props, topic))}
+      >
         {topic}
       </Button>
     </div>
