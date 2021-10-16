@@ -280,3 +280,34 @@ export const handleDownvotePost = (postId) => (dispatch) => {
       dispatch(downvotePostFailure());
     });
 };
+
+// Sort posts
+// export const handlePostSorting = (sortByValue, topic) => (dispatch) => {
+//   const requestUrl =
+//     sortByValue == "newest"
+//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByAscDate/${topic}`
+//       : sortByValue == "oldest"
+//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByDescDate/${topic}`
+//       : sortByValue == "ascVote"
+//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByAscVotes/${topic}`
+//       : sortByValue == "descVote"
+//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByDescVotes/${topic}`
+//       : ``;
+//   fetch(requestUrl, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/x-www-form-urlencoded",
+//     },
+//   })
+//     .then((response) => {
+//       if (response.ok) {
+//         response.json();
+//         // .then((res) => dispatch(selectionSuccess(path, topic, res.posts)));
+//       } else {
+//         response.json().then(() => dispatch(selectionFailure()));
+//       }
+//     })
+//     .catch((err) => {
+//       dispatch(selectionFailure(err));
+//     });
+// };
