@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 // Import Redux
 import { signupReset } from "../../actions/signup";
 import { navigationReset } from "../../actions/navigation";
-import { profileReset } from "../../actions/profile";
+import { profileReset, handleProfileRetrieval } from "../../actions/profile";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -32,6 +32,7 @@ function Login() {
   }, [dispatch]);
 
   if (auth.token) {
+    dispatch(handleProfileRetrieval(auth.token));
     return <Redirect to="/findfriends" />;
   }
 

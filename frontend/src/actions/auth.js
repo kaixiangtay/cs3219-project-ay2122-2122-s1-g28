@@ -62,7 +62,7 @@ export const tokenExpire = () => {
 
 // Handle user login
 export const handleUserLogin = (_email, _password) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/login`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/login`;
 
   fetch(requestUrl, {
     method: "POST",
@@ -87,7 +87,7 @@ export const handleUserLogin = (_email, _password) => (dispatch) => {
 };
 
 export const handleUserLogout = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/logout`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/logout`;
 
   fetch(requestUrl, {
     method: "POST",

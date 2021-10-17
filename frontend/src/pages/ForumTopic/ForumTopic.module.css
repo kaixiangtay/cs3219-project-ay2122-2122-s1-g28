@@ -1,0 +1,18 @@
+.container {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5%;
+}
+
+.createButton {
+  color: var(--WHITE) !important;
+  background-color: var(--ORANGE) !important;
+  width: 250px !important;
+  margin-bottom: 1% !important;
+}
+
+.sortButton {
+  position: absolute;
+  right: 10%;
+  min-width: 100px;
+}
