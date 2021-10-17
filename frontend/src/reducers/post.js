@@ -4,12 +4,13 @@ import {
   GET_ALL_POSTS_FAILURE,
   GET_SINGLE_POST_SUCCESS,
   GET_SINGLE_POST_FAILURE,
-  CREATE_POST_SUCESS,
+  CREATE_POST_SUCCESS,
   CREATE_POST_FAILURE,
-  UPVOTE_POST_SUCESS,
+  UPVOTE_POST_SUCCESS,
   UPVOTE_POST_FAILURE,
-  DOWNVOTE_POST_SUCESS,
+  DOWNVOTE_POST_SUCCESS,
   DOWNVOTE_POST_FAILURE,
+  SELECT_TOPIC,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -17,14 +18,14 @@ const defaultState = {
   getPostsFailure: false,
   getSinglePostSuccess: false,
   getSinglePostFailure: false,
-  createPostSucess: false,
+  createPostSuccess: false,
   createPostFailure: false,
   upvotePostSuccess: false,
   upvotePostFailure: false,
   downvotePostSuccess: false,
   downvotePostFailure: false,
   forumTopic: "",
-  posts: {},
+  posts: [],
   singlePost: {},
 };
 
@@ -35,6 +36,8 @@ function postReducer(state = defaultState, action) {
         ...state,
         getPostsSuccess: true,
         getPostsFailure: false,
+        createPostSuccess: false,
+        createPostFailure: false,
         forumTopic: action.topic,
         posts: action.posts,
       };
@@ -44,13 +47,15 @@ function postReducer(state = defaultState, action) {
         getPostsSuccess: false,
         getPostsFailure: true,
         forumTopic: "",
-        posts: {},
+        posts: [],
       };
     case GET_SINGLE_POST_SUCCESS:
       return {
         ...state,
         getSinglePostSuccess: true,
         getSinglePostFailure: false,
+        getPostsSuccess: false,
+        getPostsFailure: false,
         singlePost: action.post,
       };
     case GET_SINGLE_POST_FAILURE:
@@ -60,19 +65,24 @@ function postReducer(state = defaultState, action) {
         getSinglePostFailure: true,
         singlePost: {},
       };
-    case CREATE_POST_SUCESS:
+    case SELECT_TOPIC:
       return {
         ...state,
-        createPostSucess: true,
+        forumTopic: action.topic,
+      };
+    case CREATE_POST_SUCCESS:
+      return {
+        ...state,
+        createPostSuccess: true,
         createPostFailure: false,
       };
     case CREATE_POST_FAILURE:
       return {
         ...state,
-        createPostSucess: false,
+        createPostSuccess: false,
         createPostFailure: true,
       };
-    case UPVOTE_POST_SUCESS:
+    case UPVOTE_POST_SUCCESS:
       return {
         ...state,
         upvotePostSuccess: true,
@@ -84,7 +94,7 @@ function postReducer(state = defaultState, action) {
         upvotePostSuccess: false,
         upvotePostFailure: true,
       };
-    case DOWNVOTE_POST_SUCESS:
+    case DOWNVOTE_POST_SUCCESS:
       return {
         ...state,
         downvotePostSuccess: true,

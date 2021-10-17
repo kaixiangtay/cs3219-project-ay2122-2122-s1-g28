@@ -34,13 +34,16 @@ export const GET_ALL_POSTS_SUCCESS = 40;
 export const GET_ALL_POSTS_FAILURE = 41;
 export const GET_SINGLE_POST_SUCCESS = 42;
 export const GET_SINGLE_POST_FAILURE = 43;
-export const CREATE_POST_SUCESS = 44;
-export const CREATE_POST_FAILURE = 45;
-export const UPVOTE_POST_SUCESS = 46;
-export const UPVOTE_POST_FAILURE = 47;
-export const DOWNVOTE_POST_SUCESS = 48;
-export const DOWNVOTE_POST_FAILURE = 49;
+export const SELECT_TOPIC = 44;
+export const CREATE_POST_SUCCESS = 45;
+export const CREATE_POST_FAILURE = 46;
+export const UPVOTE_POST_SUCCESS = 47;
+export const UPVOTE_POST_FAILURE = 48;
+export const DOWNVOTE_POST_SUCCESS = 49;
+export const DOWNVOTE_POST_FAILURE = 50;
 
 // Comment
-export const CREATE_COMMENT_SUCESS = 60;
+export const CREATE_COMMENT_SUCCESS = 60;
 export const CREATE_COMMENT_FAILURE = 61;
+export const GET_ALL_COMMENTS_SUCCESS = 62;
+export const GET_ALL_COMMENTS_FAILURE = 63;

@@ -1,9 +1,12 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
-import { useDispatch } from "react-redux";
-import { handleCreateComment } from "../../actions/comment.js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleCreateComment,
+  handleGetAllComments,
+} from "../../actions/comment.js";
 
 // Import Material-ui
 import {
@@ -24,32 +27,22 @@ import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
 import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
-  // const post = useSelector((state) => state.forum.singlePost);
+  const post = useSelector((state) => state.post.singlePost);
+  const comments = useSelector((state) => state.comment.comments);
   const dispatch = useDispatch();
   const [userComment, setUserComment] = useState("");
-  const post = {
-    title: "How to do CS2101 Assignment 1?",
-    content:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
-    dateCreated: "2021-01-01",
-    votes: 1,
-    comments: [
-      {
-        userName: "Dylan",
-        content:
-          " On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. ",
-      },
-      { userName: "Tiffany", content: "comment 2" },
-    ],
-    userName: "Bryan Chia",
-    _id: 1,
+  const handleOnComment = () => {
+    setUserComment("");
+    dispatch(handleCreateComment(userComment, post._id));
   };
-  const comments = post.comments;
+
+  useEffect(() => {
+    dispatch(handleGetAllComments(post._id));
+  }, [handleOnComment]);
 
   return (
     <div>
       <Navbar />
-
       <Grid container justifyContent="center">
         <Grid item className={styles.grid}>
           <Paper>
@@ -76,7 +69,7 @@ function SingleForumPost() {
             </Grid>
             <Grid container>
               <Typography variant="caption" className={styles.postDetails}>
-                Posted by {post.userName} on {post.dateCreated}
+                Posted by {post.userName} on {post.displayDate}
               </Typography>
               <TextField
                 autoFocus
@@ -87,11 +80,12 @@ function SingleForumPost() {
                 rows={12}
                 fullWidth
                 className={styles.commentBox}
+                value={userComment}
                 onChange={(e) => setUserComment(e.target.value)}
               />
               <Button
                 className={styles.commentButton}
-                onClick={() => dispatch(handleCreateComment(userComment))}
+                onClick={() => handleOnComment()}
               >
                 Comment
               </Button>
@@ -101,21 +95,24 @@ function SingleForumPost() {
               direction="column"
               className={styles.commentContainer}
             >
-              {comments.map((comment) => (
-                <Card
-                  key={comment}
-                  variant="outlined"
-                  className={styles.card}
-                  overFlow="auto"
-                >
-                  <CardContent>
-                    <Typography variant="h6" className={styles.commentName}>
-                      {comment.userName}
-                    </Typography>
-                    <Typography variant="body1">{comment.content}</Typography>
-                  </CardContent>
-                </Card>
-              ))}
+              {comments ? (
+                comments.map((comment) => (
+                  <Card
+                    key={comment._id}
+                    variant="outlined"
+                    className={styles.card}
+                  >
+                    <CardContent>
+                      <Typography variant="h6" className={styles.commentName}>
+                        {comment.userName}
+                      </Typography>
+                      <Typography variant="body1">{comment.content}</Typography>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <div></div>
+              )}
             </Grid>
           </Paper>
         </Grid>

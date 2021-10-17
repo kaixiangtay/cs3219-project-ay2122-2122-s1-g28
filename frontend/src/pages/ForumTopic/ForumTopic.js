@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // Import Redux
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Import Material-ui
 import {
@@ -34,10 +34,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ForumTopic() {
-  // const [sortByValue, setSortByValue] = useState("");
-  // const topic = useSelector((state) => state.forum.forumTopic);
+  const topic = useSelector((state) => state.post.forumTopic);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const topic = "Academic";
+  const [sortByValue, setSortByValue] = useState("");
+
   const icon =
     topic == "Academic"
       ? faFileAlt
@@ -74,8 +74,8 @@ function ForumTopic() {
             <InputLabel>Sort By</InputLabel>
             <Select
               label="Sort By"
-              // value={sortByValue}
-              // onChange={(e) => setSortByValue(e.target.value)}
+              value={sortByValue}
+              onChange={(e) => setSortByValue(e.target.value)}
             >
               <MenuItem value="newest">Newest</MenuItem>
               <MenuItem value="oldest">Oldest</MenuItem>

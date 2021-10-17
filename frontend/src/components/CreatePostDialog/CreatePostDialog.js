@@ -37,6 +37,7 @@ function CreatePostDialog(props) {
       content: content,
     };
     dispatch(handleCreatePost(postData));
+    handleClose();
   };
 
   return (
@@ -82,7 +83,7 @@ function CreatePostDialog(props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button className={styles.postButton} onClick={handleCreate}>
+        <Button className={styles.postButton} onClick={() => handleCreate()}>
           Post
         </Button>
       </DialogActions>

@@ -4,19 +4,22 @@ import {
   GET_ALL_POSTS_FAILURE,
   GET_SINGLE_POST_SUCCESS,
   GET_SINGLE_POST_FAILURE,
-  CREATE_POST_SUCESS,
+  SELECT_TOPIC,
+  CREATE_POST_SUCCESS,
   CREATE_POST_FAILURE,
-  UPVOTE_POST_SUCESS,
+  UPVOTE_POST_SUCCESS,
   UPVOTE_POST_FAILURE,
-  DOWNVOTE_POST_SUCESS,
+  DOWNVOTE_POST_SUCCESS,
   DOWNVOTE_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
+
+// Import tokenExpire to update if token expired
+import { tokenExpire } from "./auth.js";
 
 // ===================================================================
 // GET ALL POSTS STATE CHANGE
 // ===================================================================
-const getAllPostsSuccess = (props, path, topic, posts) => {
-  props.history.push(path);
+const getAllPostsSuccess = (topic, posts) => {
   return {
     type: GET_ALL_POSTS_SUCCESS,
     topic: topic,
@@ -33,8 +36,8 @@ const getAllPostsFailure = () => {
 // ===================================================================
 // GET SINGLE POST STATE CHANGE
 // ===================================================================
-const getSinglePostSuccess = (props, path, post) => {
-  props.history.push(path);
+const getSinglePostSuccess = (history, path, post) => {
+  history.push(path);
   return {
     type: GET_SINGLE_POST_SUCCESS,
     post: post,
@@ -48,12 +51,23 @@ const getSinglePostFailure = () => {
 };
 
 // ===================================================================
+// SELECT TOPIC STATE CHANGE
+// ===================================================================
+const selectTopic = (topic, history) => {
+  const path = "/forum/" + topic.toLowerCase();
+  history.push(path);
+  return {
+    type: SELECT_TOPIC,
+    topic: topic,
+  };
+};
+
+// ===================================================================
 // CREATE POST STATE CHANGE
 // ===================================================================
-const createPostSucess = (post) => {
+const createPostSuccess = () => {
   return {
-    type: CREATE_POST_SUCESS,
-    post: post,
+    type: CREATE_POST_SUCCESS,
   };
 };
 
@@ -68,7 +82,7 @@ const createPostFailure = () => {
 // ===================================================================
 const upvotePostSuccess = () => {
   return {
-    type: UPVOTE_POST_SUCESS,
+    type: UPVOTE_POST_SUCCESS,
   };
 };
 
@@ -83,7 +97,7 @@ const upvotePostFailure = () => {
 // ===================================================================
 const downvotePostSuccess = () => {
   return {
-    type: DOWNVOTE_POST_SUCESS,
+    type: DOWNVOTE_POST_SUCCESS,
   };
 };
 
@@ -98,24 +112,24 @@ const downvotePostFailure = () => {
 // ===================================================================
 
 // Get all forum posts of a topic
-export const handleForumSelection = (props, topic) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/forum/viewAllPosts/${topic}`;
+export const handleForumSelection = (topic) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewAllPosts/${topic}`;
 
   fetch(requestUrl, {
     method: "GET",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      // Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((response) => {
       if (response.ok) {
-        const path = "/forum/" + topic.toLowerCase();
         response
           .json()
-          .then((res) =>
-            dispatch(getAllPostsSuccess(props, path, topic, res.posts))
-          );
+          .then((res) => dispatch(getAllPostsSuccess(topic, res.data)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
         response.json().then(() => dispatch(getAllPostsFailure()));
       }
@@ -125,11 +139,53 @@ export const handleForumSelection = (props, topic) => (dispatch) => {
     });
 };
 
+// Get a single forum post
+export const handlePostSelection =
+  (history, postData) => (dispatch, getState) => {
+    const postId = postData.postId;
+    const topic = postData.topic;
+    const token = getState().auth.token;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewPost/${postId}`;
+
+    fetch(requestUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(function (response) {
+        if (response.ok) {
+          const path = topic.toLowerCase() + "/" + postId;
+          response
+            .json()
+            .then((res) =>
+              dispatch(getSinglePostSuccess(history, path, res.data))
+            );
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then(() => {
+            dispatch(getSinglePostFailure());
+          });
+        }
+      })
+      .catch((err) => {
+        dispatch(getSinglePostFailure(err));
+      });
+  };
+
+// Handle selection of a topic
+export const handleTopicSelection = (topic, history) => (dispatch) => {
+  dispatch(selectTopic(topic, history));
+};
+
 // Create a post
-export const handleCreatePost = (postData) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/forum/createPost`;
+export const handleCreatePost = (postData) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/createPost`;
   const newPost = {
-    // userName: auth.user.userName,
+    userName: getState().profile.data.name,
     topic: postData.topic,
     title: postData.title,
     content: postData.content,
@@ -139,13 +195,15 @@ export const handleCreatePost = (postData) => (dispatch) => {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      // Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: new URLSearchParams(newPost),
   })
     .then(function (response) {
       if (response.ok) {
-        response.json().then((res) => dispatch(createPostSucess(res)));
+        response.json().then(() => dispatch(createPostSuccess()));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
         response.json().then(() => {
           dispatch(createPostFailure());
@@ -157,51 +215,23 @@ export const handleCreatePost = (postData) => (dispatch) => {
     });
 };
 
-// Get a single forum post
-export const handlePostSelection = (props, postData) => (dispatch) => {
-  const postId = postData.postId;
-  const topic = postData.topic;
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/forum/viewPost/${postId}`;
-
-  fetch(requestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      // Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(function (response) {
-      if (response.ok) {
-        const path = "./forum/" + topic + "/" + postId;
-        response
-          .json()
-          .then((res) => dispatch(getSinglePostSuccess(props, path, res.post)));
-      } else {
-        response.json().then(() => {
-          dispatch(getSinglePostFailure());
-        });
-      }
-    })
-    .catch((err) => {
-      dispatch(getSinglePostFailure(err));
-    });
-};
-
 // Upvote a post
-export const handleUpvotePost = (postId) => (dispatch) => {
-  console.log("test");
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/forum/upvotePost/${postId}`;
+export const handleUpvotePost = (postId) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/upvotePost/${postId}`;
 
   fetch(requestUrl, {
     method: "PATCH",
     headers: {
-      // Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })
     .then((response) => {
       if (response.ok) {
         response.json().then(() => dispatch(upvotePostSuccess()));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
         response.json().then(() => dispatch(upvotePostFailure()));
       }
@@ -212,19 +242,22 @@ export const handleUpvotePost = (postId) => (dispatch) => {
 };
 
 // Downvote a post
-export const handleDownvotePost = (postId) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/forum/downvotePost/${postId}`;
+export const handleDownvotePost = (postId) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/downvotePost/${postId}`;
 
   fetch(requestUrl, {
     method: "PATCH",
     headers: {
-      // Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })
     .then((response) => {
       if (response.ok) {
         response.json().then(() => dispatch(downvotePostSuccess()));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
         response.json().then(() => dispatch(downvotePostFailure()));
       }
