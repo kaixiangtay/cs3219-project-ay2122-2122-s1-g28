@@ -35,7 +35,10 @@ var PostSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-
+  displayDate: {
+    type: String,
+    default: new Date().toDateString(),
+  }
 });
 
 const Post = mongoose.model("Post", PostSchema);
