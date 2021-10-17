@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 // Import Redux
 import { useDispatch } from "react-redux";
-import { handleCreateComment } from "../../actions/forum.js";
+import { handleCreateComment } from "../../actions/comment.js";
 
 // Import Material-ui
 import {

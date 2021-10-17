@@ -2,7 +2,7 @@
 import React from "react";
 
 // Import Redux
-import { handleUpvotePost, handleDownvotePost } from "../../actions/forum";
+import { handleUpvotePost, handleDownvotePost } from "../../actions/post";
 import { useDispatch } from "react-redux";
 
 // Import Material-ui

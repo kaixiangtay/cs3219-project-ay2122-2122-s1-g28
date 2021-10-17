@@ -10,8 +10,6 @@ import {
   UPVOTE_POST_FAILURE,
   DOWNVOTE_POST_SUCESS,
   DOWNVOTE_POST_FAILURE,
-  CREATE_COMMENT_SUCESS,
-  CREATE_COMMENT_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -25,14 +23,12 @@ const defaultState = {
   upvotePostFailure: false,
   downvotePostSuccess: false,
   downvotePostFailure: false,
-  createCommentSuccess: false,
-  createCommentFailure: false,
   forumTopic: "",
   posts: {},
   singlePost: {},
 };
 
-function forumReducer(state = defaultState, action) {
+function postReducer(state = defaultState, action) {
   switch (action.type) {
     case GET_ALL_POSTS_SUCCESS:
       return {
@@ -100,21 +96,9 @@ function forumReducer(state = defaultState, action) {
         downvotePostSuccess: false,
         downvotePostFailure: true,
       };
-    case CREATE_COMMENT_SUCESS:
-      return {
-        ...state,
-        createCommentSuccess: true,
-        createCommentFailure: false,
-      };
-    case CREATE_COMMENT_FAILURE:
-      return {
-        ...state,
-        createCommentSuccess: false,
-        createCommentFailure: true,
-      };
     default:
       return state;
   }
 }
 
-export default forumReducer;
+export default postReducer;

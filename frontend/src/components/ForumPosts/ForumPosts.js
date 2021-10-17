@@ -3,7 +3,7 @@ import React from "react";
 
 // Import Redux
 import { useDispatch } from "react-redux";
-import { handlePostSelection } from "../../actions/forum";
+import { handlePostSelection } from "../../actions/post";
 
 // Import Material-ui
 import { Button, Grid, Typography } from "@material-ui/core";

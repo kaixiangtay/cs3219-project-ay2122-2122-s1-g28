@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 // Import Redux
 import { useDispatch } from "react-redux";
-import { handleCreatePost } from "../../actions/forum";
+import { handleCreatePost } from "../../actions/post";
 
 // Import Material-ui
 import {
