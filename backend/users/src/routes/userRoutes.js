@@ -1,5 +1,5 @@
-var router = require("express").Router();
-var userController = require("../controllers/userController");
+const router = require("express").Router();
+const userController = require("../controllers/userController");
 
 router.get("/", function (req, res) {
   res.json({
@@ -28,11 +28,7 @@ router
 
 router
   .route("/api/users/resetPassword")
-  .post(userController.sendResetPasswordEmail);
-
-router
-  .route("/api/users/resetPassword/:token")
-  .patch(userController.resetPassword);
+  .post(userController.resetPassword);
 
 router.route("/api/users/update").patch(userController.updateUser);
 
