@@ -129,7 +129,7 @@ export const handleProfileRetrieval = (token) => (dispatch) => {
 // Handle update Profile Information
 export const handleProfileUpdate =
   (token, _name, _password, verifyPassword) => (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/update`;
+    const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/update`;
 
     // If user inputs password, then pass in password field in body
     let bodyContent = verifyPassword
