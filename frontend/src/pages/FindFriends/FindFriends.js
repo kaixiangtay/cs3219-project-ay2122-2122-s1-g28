@@ -75,7 +75,7 @@ function FindFriends() {
         >
           <Button
             variant="contained"
-            className="green-button"
+            className="orange-button"
             onClick={() => handleMatchState(LOADING)}
           >
             Match

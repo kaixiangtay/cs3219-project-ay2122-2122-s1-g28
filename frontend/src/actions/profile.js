@@ -102,7 +102,7 @@ export const profileReset = () => {
 
 // Handle retrieve Profile Information
 export const handleProfileRetrieval = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/getUser`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/getUser`;
 
   fetch(requestUrl, {
     method: "GET",
@@ -166,7 +166,7 @@ export const handleProfileUpdate =
 // Handle upload Profile Image
 export const handleProfileImageUpload =
   (token, _profileImage) => (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/uploadProfileImage`;
+    const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/uploadProfileImage`;
     var formData = new FormData();
     formData.append("profileImage", _profileImage);
 
@@ -198,7 +198,7 @@ export const handleProfileImageUpload =
 
 // Handle delete account
 export const handleDeleteAccount = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/delete`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/delete`;
 
   fetch(requestUrl, {
     method: "DELETE",
