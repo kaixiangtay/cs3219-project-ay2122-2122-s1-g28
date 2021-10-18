@@ -20,8 +20,7 @@ const registerAccountEmailOptions = (email, token) => {
     from: EMAIL,
     to: email,
     subject: "NUSociaLife Account Verification",
-    // html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
-    html: `<p>Click <a href="${'http://localhost:5000/api/users'}/verifyEmail/${token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
+    html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
   };
 
   return emailOptions;
