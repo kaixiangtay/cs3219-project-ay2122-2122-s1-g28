@@ -14,6 +14,11 @@ var CommentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  votes: {
+    type: Number,
+    default: 0,
+  },
+  votedUsers: [String],
   postId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'
@@ -22,7 +27,10 @@ var CommentSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-
+  displayDate: {
+    type: String,
+    default: new Date().toDateString(),
+  }
 });
 
 const Comment = mongoose.model("Comment", CommentSchema);

@@ -1,6 +1,10 @@
 // Import Settings
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
+// Import Redux
+import { useDispatch } from "react-redux";
+import { handleTopicSelection } from "../../actions/post";
 
 // Import Material-ui
 import { Button } from "@material-ui/core";
@@ -10,11 +14,15 @@ import styles from "./ForumGroup.module.css";
 
 function ForumGroup(props) {
   const { topic } = props;
-  const path = "/forum/" + topic;
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <div>
-      <Button className={styles.button} component={Link} to={path}>
+      <Button
+        className={styles.button}
+        onClick={() => dispatch(handleTopicSelection(topic, history))}
+      >
         {topic}
       </Button>
     </div>

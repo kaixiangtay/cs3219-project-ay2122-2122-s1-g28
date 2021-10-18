@@ -17,12 +17,12 @@ import styles from "./Forum.module.css";
 
 function Forum() {
   const forumGroups = [
-    { topic: "academic" },
-    { topic: "admin" },
+    { topic: "Academic" },
+    { topic: "Admin" },
     { topic: "CCA" },
-    { topic: "accomodation" },
-    { topic: "tips" },
-    { topic: "miscellaneous" },
+    { topic: "Accomodation" },
+    { topic: "Tips" },
+    { topic: "Miscellaneous" },
   ];
 
   return (

@@ -10,6 +10,10 @@ var PostSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  topic: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -26,11 +30,15 @@ var PostSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  votedUsers: [String],
   dateCreated: {
     type: Date,
     default: Date.now(),
   },
-
+  displayDate: {
+    type: String,
+    default: new Date().toDateString(),
+  }
 });
 
 const Post = mongoose.model("Post", PostSchema);

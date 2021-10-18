@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 // Import Redux
 import { handleNavigation } from "../../actions/navigation";
+import { handleUserLogout } from "../../actions/auth";
 import { useSelector, useDispatch } from "react-redux";
 
 // Import Material-ui
@@ -31,11 +32,9 @@ import {
 // Import Resources
 import NUSociaLifeLogo from "../../resources/NUSociaLife_Navbar_Icon.png";
 
-// Import Actions
-// import { logoutUser } from '../../actions';
-
 function Navbar() {
   const navigation = useSelector((state) => state.navigation);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const navItems = [
@@ -65,6 +64,13 @@ function Navbar() {
     },
   ];
 
+  const handleNavClick = (selection) => {
+    if (selection == LOGOUT) {
+      dispatch(handleUserLogout(auth.token));
+    }
+    dispatch(handleNavigation(selection));
+  };
+
   return (
     <AppBar position="static" className={styles.navColor}>
       <Toolbar>
@@ -85,7 +91,7 @@ function Navbar() {
               }
               component={Link}
               to={item.link}
-              onClick={() => dispatch(handleNavigation(item.selection))}
+              onClick={() => handleNavClick(item.selection)}
             >
               <div className={styles.navIcon}>
                 <FontAwesomeIcon icon={item.icon} />

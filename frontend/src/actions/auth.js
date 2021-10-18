@@ -1,52 +1,48 @@
 import { toast } from "react-toastify";
 
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILURE = "LOGIN_FAILURE";
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
+// Import Constants
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
+  TOKEN_EXPIRE,
+} from "../constants/ReduxConstants";
 
-const loginRequest = () => {
-  return {
-    type: LOGIN_REQUEST,
-  };
-};
+// ===================================================================
+// LOGIN STATE CHANGE
+// ===================================================================
 
-const loginSuccess = (user) => {
+const loginSuccess = (_payload) => {
   return {
     type: LOGIN_SUCCESS,
-    user,
+    payload: _payload.token,
   };
 };
 
-const loginFailure = () => {
-  toast.error("Incorrect username or password. Please try again!", {
-    position: toast.POSITION.TOP_RIGHT,
-  });
+const loginFailure = (err) => {
+  for (var i = 0; i < err.length; i++) {
+    toast.error(err[i].msg, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
+
   return {
     type: LOGIN_FAILURE,
   };
 };
 
-const logoutRequest = () => {
-  return {
-    type: LOGOUT_REQUEST,
-  };
-};
-
-const logoutSuccess = (props) => {
+const logoutSuccess = () => {
   toast.success("Successfully logout!", {
     position: toast.POSITION.TOP_RIGHT,
   });
-  props.history.push("/login");
   return {
     type: LOGOUT_SUCCESS,
   };
 };
 
-const logoutFailure = () => {
-  toast.error("Unable to logout. Please try again!", {
+const logoutFailure = (err) => {
+  toast.error(err.msg, {
     position: toast.POSITION.TOP_RIGHT,
   });
   return {
@@ -54,39 +50,60 @@ const logoutFailure = () => {
   };
 };
 
+export const tokenExpire = () => {
+  return {
+    type: TOKEN_EXPIRE,
+  };
+};
+
+// ===================================================================
+// HANDLING API CALLS
+// ===================================================================
+
 // Handle user login
-export const loginUser = (email, password) => (dispatch) => {
-  const requestUrl = ``;
-  let userData = { email, password };
+export const handleUserLogin = (_email, _password) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/login`;
 
   fetch(requestUrl, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: JSON.stringify(userData),
+    body: new URLSearchParams({
+      email: _email,
+      password: _password,
+    }),
   })
     .then((response) => {
-      dispatch(loginRequest());
-      response.json().then((user) => {
-        if (response.status === 200) {
-          dispatch(loginSuccess(user));
-        } else {
-          dispatch(loginFailure());
-        }
-      });
+      if (response.ok) {
+        response.json().then((res) => dispatch(loginSuccess(res)));
+      } else {
+        response.json().then((res) => dispatch(loginFailure(res)));
+      }
     })
-    .catch(() => {
-      dispatch(loginFailure());
+    .catch((err) => {
+      dispatch(loginFailure(err));
     });
 };
 
-export const logoutUser = (props) => (dispatch) => {
-  dispatch(logoutRequest());
-  try {
-    //Remove auth token here, if successful, dispatch logoutSuccess
-    dispatch(logoutSuccess(props));
-  } catch (err) {
-    dispatch(logoutFailure());
-  }
+export const handleUserLogout = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/logout`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        dispatch(logoutSuccess());
+      } else {
+        response.json().then((res) => dispatch(logoutFailure(res)));
+      }
+    })
+    .catch(() => {
+      dispatch(tokenExpire());
+    });
 };

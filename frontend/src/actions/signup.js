@@ -2,15 +2,19 @@ import { toast } from "react-toastify";
 
 // Import constants
 import {
-  SUCCESS,
-  FAILURE,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
   RESET,
   VERIFIED,
 } from "../constants/ReduxConstants.js";
 
+// ===================================================================
+// SIGNUP STATE CHANGE
+// ===================================================================
+
 const signupSuccess = (email) => {
   return {
-    type: SUCCESS,
+    type: SIGNUP_SUCCESS,
     payload: email,
   };
 };
@@ -23,7 +27,7 @@ const signupFailure = (err) => {
   }
 
   return {
-    type: FAILURE,
+    type: SIGNUP_FAILURE,
   };
 };
 
@@ -44,9 +48,13 @@ export const signupReset = () => {
   };
 };
 
+// ===================================================================
+// HANDLING API CALLS
+// ===================================================================
+
 // Handle user sign up
 export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/signup`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/signup`;
 
   fetch(requestUrl, {
     method: "POST",
@@ -73,7 +81,7 @@ export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {
 
 //Verify email
 export const handleEmailVerification = (_token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/verifyEmail/${_token}`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/verifyEmail/${_token}`;
 
   fetch(requestUrl, {
     method: "GET",
@@ -95,7 +103,27 @@ export const handleEmailVerification = (_token) => (dispatch) => {
 
 // Resend email verification
 export const handleResendEmailVerification = (_email) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL}/api/users/resendActivationEmail`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/resendActivationEmail`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      email: _email,
+    }),
+  })
+    .then((response) => {
+      response.json().then((res) => console.log(res));
+    })
+    .catch((err) => {
+      err.json().then((res) => console.log(res));
+    });
+};
+
+export const handleForgetPassword = (_email) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/resetPassword`;
 
   fetch(requestUrl, {
     method: "POST",

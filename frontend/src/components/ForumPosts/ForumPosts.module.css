@@ -1,0 +1,38 @@
+.postContainer {
+  display: flex;
+  flex-direction: row;
+  padding-top: 2% !important;
+}
+
+.postButton {
+  background-color: var(--WHITE) !important;
+  width: 95% !important;
+  border-radius: 0% !important;
+}
+
+.title {
+  font-weight: bold !important;
+  text-transform: none;
+}
+
+.content {
+  text-transform: none;
+}
+
+.comments {
+  position: absolute;
+  bottom: 2%;
+  left: 1%;
+  text-transform: none;
+}
+
+.userName {
+  position: absolute;
+  bottom: 2%;
+  right: 1%;
+  text-transform: none;
+}
+
+.postDetails {
+  margin-bottom: 5%;
+}

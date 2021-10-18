@@ -1,62 +1,66 @@
+// Import Constants
 import {
-  LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-} from "../actions/auth";
+  TOKEN_EXPIRE,
+} from "../constants/ReduxConstants";
 
 const defaultState = {
-  loginLoading: false,
   loginSuccess: false,
   loginFailure: false,
-  // isAuthenticated: false,
-  logoutLoading: false,
   logoutSuccess: false,
   logoutFailure: false,
-  user: {},
+  token: null,
 };
 
 export default function authReducer(state = defaultState, action) {
   switch (action.type) {
-    case LOGIN_REQUEST:
-      return {
-        ...state,
-        loginLoading: true,
-        loginFailure: false,
-        loginSuccess: false,
-      };
     case LOGIN_SUCCESS:
       return {
         ...state,
-        loginLoading: false,
-        loginSuccess: true, // Can replace with isAuthenticated after setting up authentication
+        loginSuccess: true,
         loginFailure: false,
-        user: action.user,
+        logoutSuccess: false,
+        logoutFailure: false,
+        token: action.payload,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
-        loginLoading: false,
         loginSuccess: false,
         loginFailure: true,
-      };
-    case LOGOUT_REQUEST:
-      return {
-        ...state,
-        logoutLoading: true,
         logoutSuccess: false,
         logoutFailure: false,
+        token: null,
       };
     case LOGOUT_SUCCESS:
-      return defaultState;
+      return {
+        ...state,
+        loginSuccess: false,
+        loginFailure: false,
+        logoutSuccess: true,
+        logoutFailure: false,
+        token: null,
+      };
     case LOGOUT_FAILURE:
       return {
         ...state,
-        logoutLoading: false,
+        loginSuccess: false,
+        loginFailure: false,
         logoutSuccess: false,
         logoutFailure: true,
+        token: null,
+      };
+    case TOKEN_EXPIRE:
+      return {
+        ...state,
+        loginSuccess: false,
+        loginFailure: false,
+        logoutSuccess: false,
+        logoutFailure: false,
+        token: null,
       };
     default:
       return state;
