@@ -1,13 +1,13 @@
 const { S3_BUCKET_NAME } = require("../config/config");
 const userAuth = require("../middlewares/userAuth");
-const userDb = require("../middlewares/userDb");
+const userService = require("../services/userService");
 const imageService = require("../services/imageService");
 const { validationResult } = require("express-validator");
 const { userRegisterValidator, userLoginValidator, userUpdateValidator } = require("../middlewares/userValidator");
 
 exports.index = async (req, res) => {
   try {
-    const users = await userDb.getAllUsers();
+    const users = await userService.getAllUsers();
     const emptyUserDatabase = users.length == 0;
 
     if (emptyUserDatabase) {
@@ -38,7 +38,7 @@ exports.registerUser = [userRegisterValidator(), async (req, res) => {
       return res.status(404).json(errors.array());
     } 
 
-    let user = await userDb.getUserByEmail(req.body.email);
+    let user = await userService.getUserByEmail(req.body.email);
 
     if (user) {
       return res.status(404).json([{
@@ -47,7 +47,7 @@ exports.registerUser = [userRegisterValidator(), async (req, res) => {
       }]);
     }
      else {
-      user = userDb.createUser(req.body);
+      user = userService.createUser(req.body);
       
       return res.status(200).json({
         status: "success",
@@ -67,7 +67,7 @@ exports.registerUser = [userRegisterValidator(), async (req, res) => {
 // Resend verification email when token has expired after 15 mins
 exports.resendActivationEmail = async (req, res) => {
   try {
-    let user = await userDb.getUserByEmail(req.body.email);
+    let user = await userService.getUserByEmail(req.body.email);
 
     if (!user) {
       return res.status(404).json({
@@ -83,7 +83,7 @@ exports.resendActivationEmail = async (req, res) => {
       });
     }
 
-    userDb.resendEmail(user);
+    userService.resendEmail(user);
 
     return res.status(200).json({
       status: "success",
@@ -100,7 +100,7 @@ exports.resendActivationEmail = async (req, res) => {
 // API to verify user email from email link
 exports.verifyUserEmail = async (req, res) => {
   try {
-    let user = await userDb.getUserByToken(req.params.token);
+    let user = await userService.getUserByToken(req.params.token);
     const userEmail = userAuth.decodeTempToken(user.token);
 
     if (userEmail !== user.email) {
@@ -110,7 +110,7 @@ exports.verifyUserEmail = async (req, res) => {
       });
     } 
 
-    user = userDb.verifyUser(user);
+    user = userService.verifyUser(user);
 
     return res.status(200).json({
       status: "success",
@@ -128,7 +128,7 @@ exports.verifyUserEmail = async (req, res) => {
 // Send email for user to reset password
 exports.resetPassword = async (req, res) => {
   try {
-    let user = await userDb.getUserByEmail(req.body.email);
+    let user = await userService.getUserByEmail(req.body.email);
 
     if (!user) {
       return res.status(404).json({
@@ -136,7 +136,7 @@ exports.resetPassword = async (req, res) => {
         msg: "Invalid email detected!",
       });
     } else {
-      userDb.resetPassword(user);
+      userService.resetPassword(user);
       
       return res.status(200).json({
         status: "success",
@@ -155,7 +155,7 @@ exports.resetPassword = async (req, res) => {
 exports.uploadProfileImage = [userAuth.authenticateToken, async (req, res) => {
     try {
       const authHeader = req.headers["authorization"];
-      let user = await userDb.getUserByID(authHeader);
+      let user = await userService.getUserByID(authHeader);
 
       // frontend file name put to profileImage
       const uploadSingleImage = imageService.upload(S3_BUCKET_NAME, user._id).single("profileImage");
@@ -167,7 +167,7 @@ exports.uploadProfileImage = [userAuth.authenticateToken, async (req, res) => {
             msg: "Invalid file type, must be an image file!",
           });
         } else {
-          user = userDb.saveProfileImageUrl(user, req.file.location);
+          user = userService.saveProfileImageUrl(user, req.file.location);
      
           return res.status(200).json({
             status: "success",
@@ -197,7 +197,7 @@ exports.updateUser = [userAuth.authenticateToken, userUpdateValidator(), async (
       } 
       
       const authHeader = req.headers["authorization"];
-      let user = await userDb.updateUser(authHeader, req.body);
+      let user = await userService.updateUser(authHeader, req.body);
 
       return res.status(200).json({
         status: "success",
@@ -220,7 +220,7 @@ exports.updateUser = [userAuth.authenticateToken, userUpdateValidator(), async (
 exports.viewUser = [userAuth.authenticateToken, async (req, res) => {
   try {
     const authHeader = req.headers["authorization"];
-    let user = await userDb.getUserByID(authHeader);
+    let user = await userService.getUserByID(authHeader);
     
     return res.status(200).json({
       status: "success",
@@ -243,7 +243,7 @@ exports.deleteUser = [userAuth.authenticateToken, async (req, res) => {
   try {
     const authHeader = req.headers["authorization"];
     // Database will return delete count of data
-    const deletedCount = await userDb.deleteUser(authHeader);;
+    const deletedCount = await userService.deleteUser(authHeader);;
     const isDeletedUser = deletedCount == 1; 
 
     if (isDeletedUser) {
@@ -268,7 +268,7 @@ exports.loginUser = [userLoginValidator(), async (req, res) => {
       return res.status(404).json(errors.array());
     }
 
-    let user = await userDb.getUserByEmail(req.body.email);
+    let user = await userService.getUserByEmail(req.body.email);
 
     if (!user) {
       return res.status(404).json({
@@ -294,7 +294,7 @@ exports.loginUser = [userLoginValidator(), async (req, res) => {
       });
     }
 
-    user = userDb.loginUser(user);
+    user = userService.loginUser(user);
 
     return res.status(200).json({
       token: user.token,
@@ -313,9 +313,9 @@ exports.loginUser = [userLoginValidator(), async (req, res) => {
 exports.logout = [userAuth.authenticateToken, async (req, res) => {
   try {
     const authHeader = req.headers["authorization"];
-    let user = await userDb.getUserByID(authHeader);
+    let user = await userService.getUserByID(authHeader);
 
-    userDb.logoutUser(user);
+    userService.logoutUser(user);
 
     return res.status(200).json({
       status: "success",

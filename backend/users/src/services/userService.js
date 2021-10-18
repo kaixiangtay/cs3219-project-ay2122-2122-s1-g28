@@ -1,8 +1,8 @@
 let User = require("../models/userModel");
 let userAuth = require("../middlewares/userAuth");
 let generator = require('generate-password');
-const mailerService = require("../services/mailerService");
-const imageService = require("../services/imageService");
+const mailerService = require("./mailerService");
+const imageService = require("./imageService");
 
 async function getAllUsers() {
     const users = await User.find();
