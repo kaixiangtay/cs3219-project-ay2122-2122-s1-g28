@@ -1,5 +1,10 @@
 // Import Settings
-import React from "react";
+import React, { useEffect } from "react";
+import { Redirect } from "react-router-dom";
+
+// import Redux
+import { handleNavigation } from "../../actions/navigation";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import { Grid } from "@material-ui/core";
@@ -11,6 +16,9 @@ import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../../components/Navbar/Navbar.js";
 import PageTitle from "../../components/PageTitle/PageTitle.js";
 import ForumGroup from "../../components/ForumGroup/ForumGroup.js";
+
+// Import Constants
+import { FORUM } from "../../constants/ReduxConstants";
 
 // Import CSS
 import styles from "./Forum.module.css";
@@ -24,6 +32,18 @@ function Forum() {
     { topic: "Tips" },
     { topic: "Miscellaneous" },
   ];
+
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
+
+  // Update navigation state when user returns to this page from previous page
+  useEffect(() => {
+    dispatch(handleNavigation(FORUM));
+  }, []);
 
   return (
     <div>

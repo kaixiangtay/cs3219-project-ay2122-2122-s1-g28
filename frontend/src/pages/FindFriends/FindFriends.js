@@ -1,9 +1,10 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 // import Redux
-import { useSelector } from "react-redux";
+import { handleNavigation } from "../../actions/navigation";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import { Button, Container, Grid, Tooltip } from "@material-ui/core";
@@ -29,15 +30,22 @@ import {
   LOADING,
   MATCHED,
 } from "../../constants/FindFriendsConstants";
+import { FINDFRIENDS } from "../../constants/ReduxConstants";
 
 function FindFriends() {
   const [matchState, setMatchState] = useState(UNMATCHED);
 
   const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
+
+  // Update navigation state when user returns to this page from previous page
+  useEffect(() => {
+    dispatch(handleNavigation(FINDFRIENDS));
+  }, []);
 
   const handleMatchState = (state) => {
     setMatchState(state);
