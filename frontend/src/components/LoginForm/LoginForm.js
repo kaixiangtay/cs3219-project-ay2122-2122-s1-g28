@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // Import Redux
 import { handleUserLogin } from "../../actions/auth";
-import { handleForgetPassword } from "../../actions/signup";
+import { handleResetPassword } from "../../actions/signup";
 import { useDispatch } from "react-redux";
 
 // Import Material-ui
@@ -61,9 +61,12 @@ function LoginForm() {
               Sign Up
             </Button>
           </Grid>
-          <a href="/#" onClick={() => handleForgetPassword(email)}>
+          <span
+            className="hrefLink"
+            onClick={() => dispatch(handleResetPassword(email))}
+          >
             Forget Password?
-          </a>
+          </span>
         </form>
       </Paper>
     </Container>
