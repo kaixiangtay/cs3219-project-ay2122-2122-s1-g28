@@ -79,6 +79,7 @@ function resetPassword(user) {
         length: 15,
         numbers: true,
         symbols: true,
+        strict: true,
       });
 
     // temporary password will be issued 
