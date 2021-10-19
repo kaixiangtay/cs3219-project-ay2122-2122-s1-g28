@@ -1,5 +1,9 @@
 // Import Settings
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+
+// import Redux
+import { useSelector } from "react-redux";
 
 // Import Material-ui
 import { Button, Container, Grid, Tooltip } from "@material-ui/core";
@@ -28,6 +32,12 @@ import {
 
 function FindFriends() {
   const [matchState, setMatchState] = useState(UNMATCHED);
+
+  const auth = useSelector((state) => state.auth);
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
 
   const handleMatchState = (state) => {
     setMatchState(state);
@@ -65,7 +75,7 @@ function FindFriends() {
         >
           <Button
             variant="contained"
-            className="green-button"
+            className="orange-button"
             onClick={() => handleMatchState(LOADING)}
           >
             Match

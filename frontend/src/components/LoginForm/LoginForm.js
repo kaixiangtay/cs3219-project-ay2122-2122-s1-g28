@@ -2,6 +2,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// Import Redux
+import { handleUserLogin } from "../../actions/auth";
+import { handleForgetPassword } from "../../actions/signup";
+import { useDispatch } from "react-redux";
+
 // Import Material-ui
 import { Button, Container, Grid, Paper, TextField } from "@material-ui/core";
 
@@ -12,9 +17,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //Remove when bringing in redux
-  console.log(email);
-  console.log(password);
+  const dispatch = useDispatch();
 
   return (
     <Container>
@@ -25,8 +28,8 @@ function LoginForm() {
             <TextField
               variant="outlined"
               className={styles.textWidth}
-              onChange={(event) => {
-                setEmail(event.target.value);
+              onChange={(e) => {
+                setEmail(e.target.value);
               }}
             />
           </Grid>
@@ -36,8 +39,8 @@ function LoginForm() {
               variant="outlined"
               type="password"
               className={styles.textWidth}
-              onChange={(event) => {
-                setPassword(event.target.value);
+              onChange={(e) => {
+                setPassword(e.target.value);
               }}
             />
           </Grid>
@@ -45,7 +48,7 @@ function LoginForm() {
             <Button
               variant="contained"
               className={`${styles.loginButtonGap} ${styles.loginButton}`}
-              onClick={null}
+              onClick={() => dispatch(handleUserLogin(email, password))}
             >
               Login
             </Button>
@@ -58,7 +61,9 @@ function LoginForm() {
               Sign Up
             </Button>
           </Grid>
-          <a href="/#">Forget Password?</a>
+          <a href="/#" onClick={() => handleForgetPassword(email)}>
+            Forget Password?
+          </a>
         </form>
       </Paper>
     </Container>

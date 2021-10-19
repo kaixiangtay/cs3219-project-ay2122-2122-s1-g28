@@ -37,6 +37,13 @@
   margin: 3% !important;
 }
 
+.orange-button {
+  color: var(--WHITE) !important;
+  background-color: var(--ORANGE) !important;
+  width: 250px !important;
+  margin: 3% !important;
+}
+
 .red-button {
   color: var(--WHITE) !important;
   background-color: var(--RED) !important;

@@ -1,10 +1,12 @@
 // Import Settings
 import React, { useEffect } from "react";
+import { Redirect } from "react-router-dom";
 
 // Import Redux
 import { signupReset } from "../../actions/signup";
 import { navigationReset } from "../../actions/navigation";
-import { useDispatch } from "react-redux";
+import { profileReset, handleProfileRetrieval } from "../../actions/profile";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import { Container, Grid } from "@material-ui/core";
@@ -20,12 +22,19 @@ import RandomScribble from "../../resources/RandomScribble.png";
 import styles from "./Login.module.css";
 
 function Login() {
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(signupReset());
     dispatch(navigationReset());
+    dispatch(profileReset());
   }, [dispatch]);
+
+  if (auth.token) {
+    dispatch(handleProfileRetrieval(auth.token));
+    return <Redirect to="/findfriends" />;
+  }
 
   return (
     <div>

@@ -1,0 +1,17 @@
+.voteContainer {
+  width: 5% !important;
+  background-color: var(--WHITE) !important;
+  outline: px;
+}
+
+.upvoteButton {
+  color: var(--GREEN) !important;
+}
+
+.downvoteButton {
+  color: var(--RED) !important;
+}
+
+.numVotes {
+  text-align: center;
+}
