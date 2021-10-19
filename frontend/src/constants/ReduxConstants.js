@@ -10,7 +10,9 @@ export const LOGOUT = 4;
 // Signup
 export const SIGNUP_SUCCESS = 10;
 export const SIGNUP_FAILURE = 11;
-export const VERIFIED = 12;
+export const RESET_PASSWORD_SUCCESS = 12;
+export const RESET_PASSWORD_FAILURE = 13;
+export const VERIFIED = 14;
 
 // Auth
 export const LOGIN_SUCCESS = 20;
