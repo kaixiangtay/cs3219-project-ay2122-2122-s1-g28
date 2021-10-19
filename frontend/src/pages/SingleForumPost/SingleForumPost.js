@@ -1,5 +1,6 @@
 // Import Settings
 import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -27,10 +28,13 @@ import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
 import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
+  const [userComment, setUserComment] = useState("");
+
+  const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
   const dispatch = useDispatch();
-  const [userComment, setUserComment] = useState("");
+
   const handleOnComment = () => {
     setUserComment("");
     dispatch(handleCreateComment(userComment, post._id));
@@ -39,6 +43,10 @@ function SingleForumPost() {
   useEffect(() => {
     dispatch(handleGetAllComments(post._id));
   }, [handleOnComment]);
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div>

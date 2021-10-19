@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE,
   RESET,
   VERIFIED,
 } from "../constants/ReduxConstants.js";
@@ -28,6 +30,26 @@ const signupFailure = (err) => {
 
   return {
     type: SIGNUP_FAILURE,
+  };
+};
+
+const resetPasswordSuccess = (err) => {
+  toast.success(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+
+  return {
+    type: RESET_PASSWORD_SUCCESS,
+  };
+};
+
+const resetPasswordFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+
+  return {
+    type: RESET_PASSWORD_FAILURE,
   };
 };
 
@@ -122,7 +144,7 @@ export const handleResendEmailVerification = (_email) => {
     });
 };
 
-export const handleForgetPassword = (_email) => {
+export const handleResetPassword = (_email) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/resetPassword`;
 
   fetch(requestUrl, {
@@ -135,7 +157,11 @@ export const handleForgetPassword = (_email) => {
     }),
   })
     .then((response) => {
-      response.json().then((res) => console.log(res));
+      if (response.ok) {
+        response.json().then((res) => dispatch(resetPasswordSuccess(res)));
+      } else {
+        response.json().then((res) => dispatch(resetPasswordFailure(res)));
+      }
     })
     .catch((err) => {
       err.json().then((res) => console.log(res));
