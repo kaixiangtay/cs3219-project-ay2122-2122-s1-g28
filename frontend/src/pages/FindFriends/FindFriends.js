@@ -38,14 +38,14 @@ function FindFriends() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  if (!auth.token) {
-    return <Redirect to="/login" />;
-  }
-
   // Update navigation state when user returns to this page from previous page
   useEffect(() => {
     dispatch(handleNavigation(FINDFRIENDS));
   }, []);
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
 
   const handleMatchState = (state) => {
     setMatchState(state);

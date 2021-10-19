@@ -72,11 +72,12 @@ exports.registerUser = [
 ];
 
 // Resend verification email when token has expired after 15 mins
-exports.resendActivationEmail = async (req, res) => {
+exports.resendEmail = async (req, res) => {
   try {
-    let user = await userService.getUserByEmail(req.body.email);
+    let user = await userService.getUserByToken(req.params.token);
+    const userEmail = userAuth.decodeTempToken(user.token);
 
-    if (!user) {
+    if (!userEmail) {
       return res.status(404).json({
         status: "error",
         msg: "Invalid email detected!",
@@ -90,11 +91,13 @@ exports.resendActivationEmail = async (req, res) => {
       });
     }
 
+    console.log(user);
     userService.resendEmail(user);
 
     return res.status(200).json({
       status: "success",
       msg: "New account sign up email link have been resend!",
+      token: user.token,
     });
   } catch (err) {
     return res.status(400).json({

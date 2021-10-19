@@ -23,8 +23,8 @@ router
   .get(userController.verifyUserEmail);
 
 router
-  .route("/api/users/resendActivationEmail")
-  .post(userController.resendActivationEmail);
+  .route("/api/users/resendEmail/:token")
+  .get(userController.resendEmail);
 
 router
   .route("/api/users/resetPassword")
