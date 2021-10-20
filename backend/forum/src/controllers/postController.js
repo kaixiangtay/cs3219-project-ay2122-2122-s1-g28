@@ -101,9 +101,8 @@ exports.updatePost = [
 				});
 			}
 
-			post = await postService.updatePost(post, req.body);
-
 			if (postService.isUserPost(post.userId, authHeader)) { // userId == postId
+				post = await postService.updatePost(post, req.body);
 				return res.status(200).json({
 					status: "success",
 					msg: "Post details updated",
