@@ -60,7 +60,7 @@ async function createMatch(interests, authHeader) {
     const anyMatch = (isEmptyArt && isEmptyMusic && isEmptySport && isEmptyGender && isEmptyFaculty);
 
     if (anyMatch) {
-        matchedPersonId = randomMatch();
+        matchedPersonId = await randomMatch();
     } 
 
     let matchingGender, matchingArt, matchingSport, matchingMusic, matchingFaculty;
@@ -196,14 +196,22 @@ async function createMatch(interests, authHeader) {
    findFriend.matchUserId = matchedPersonId;
    
    // console.log(sortedMatch);
-   findFriend.save();
+   
+   const isSameUser = (findFriend.userId == findFriend.matchUserId);
+   const noMatchingUser = (matchedPersonId == "");
 
-   // Only issued matchedPerson jwt token if there is a match
-   if (matchedPersonId !== "") {
+   if (isSameUser) {
+       return "";
+   } else {
+        findFriend.save();
+
+        if (noMatchingUser) {
+            return matchedPersonId;
+        }
+
+       // Only issued matchedPerson jwt token if there is a match
         const matchedPersonToken = userAuth.createMatchingToken(matchedPersonId);
         return matchedPersonToken;
-   } else {
-       return matchedPersonId;
    }
 }
 
