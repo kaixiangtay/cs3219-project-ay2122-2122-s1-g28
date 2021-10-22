@@ -41,7 +41,7 @@ async function randomMatch() {
 
 async function createMatch(interests, authHeader) {
     const userID = userAuth.decodeAuthToken(authHeader);
-    console.log(userID);
+
     let findFriend = new FindFriend();
     let matchedPersonId = "";
 
