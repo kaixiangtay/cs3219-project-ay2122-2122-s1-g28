@@ -1,7 +1,20 @@
-// Match Interests
-export const GENDER = ["Male", "Female"];
+// ===================================================================
+// MATCH INTERESTS KEYS
+// ===================================================================
 
-export const SPORT = [
+export const GENDER = 131;
+export const SPORT = 132;
+export const ART = 133;
+export const MUSIC = 134;
+export const FACULTY = 135;
+
+// ===================================================================
+// MATCH INTERESTS ITEMS
+// ===================================================================
+
+export const GENDER_ITEMS = ["Male", "Female"];
+
+export const SPORT_ITEMS = [
   "Running",
   "Basketball",
   "Soccer",
@@ -16,11 +29,11 @@ export const SPORT = [
   "Tennis",
 ];
 
-export const ART = ["Photography", "Videography", "Drawing", "Painting"];
+export const ART_ITEMS = ["Photography", "Videography", "Drawing", "Painting"];
 
-export const MUSIC = ["Pop", "Jazz", "Rock", "EDM", "Lofi", "Disco"];
+export const MUSIC_ITEMS = ["Pop", "Jazz", "Rock", "EDM", "Lofi", "Disco"];
 
-export const FACULTY = [
+export const FACULTY_ITEMS = [
   "Engineering",
   "Computing",
   "Science",
@@ -32,8 +45,3 @@ export const FACULTY = [
   "Design & Environment",
   "Arts & Social Science",
 ];
-
-// Match States
-export const UNMATCHED = 1;
-export const LOADING = 2;
-export const MATCHED = 3;

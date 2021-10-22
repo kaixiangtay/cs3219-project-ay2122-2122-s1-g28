@@ -1,6 +1,10 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+
+// import Redux
+import { handleUnmatch } from "../../actions/match";
+import { useDispatch } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -14,19 +18,11 @@ import { faUserFriends } from "@fortawesome/free-solid-svg-icons";
 // Import Components
 import PageTitle from "../PageTitle/PageTitle.js";
 
-// Import Constants
-import { UNMATCHED, MATCHED } from "../../constants/FindFriendsConstants";
-
 // Import CSS
 import styles from "./SearchMatch.module.css";
 
-function SearchMatch({ handleMatchState }) {
-  //Simulate successful matching of user after 3s for testing purpose
-  useEffect(() => {
-    setTimeout(() => {
-      handleMatchState(MATCHED);
-    }, 3000);
-  }, [handleMatchState]);
+function SearchMatch() {
+  const dispatch = useDispatch();
 
   return (
     <Container className="primary-font">
@@ -43,7 +39,7 @@ function SearchMatch({ handleMatchState }) {
         <Button
           variant="contained"
           className="red-button"
-          onClick={() => handleMatchState(UNMATCHED)}
+          onClick={() => dispatch(handleUnmatch())}
         >
           Cancel Matching
         </Button>
