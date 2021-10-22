@@ -6,6 +6,16 @@ exports.getToken = (header) => {
     return token;
 }
 
+exports.createMatchingToken = (userID) => {
+    // Create matching token (valid for a day)
+    const token = jwt.sign(
+        { _id: userID },
+        JWT_ACCESS_TOKEN,
+        { expiresIn: "24h" }
+    );
+    return token;
+}
+
 exports.decodeAuthToken = (header) => {
     const token = this.getToken(header);
     var decoded = jwt.verify(token, JWT_ACCESS_TOKEN);
