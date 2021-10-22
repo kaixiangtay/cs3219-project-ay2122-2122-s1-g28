@@ -10,7 +10,7 @@ exports.index =  async (req, res) => {
       if (emptyDatabase) {
         return res.status(200).json({
           status: "success",
-          msg: "No Users in database found",
+          msg: "No FindFriend Users in database found",
         });
       } else {
         return res.status(200).json({
@@ -27,22 +27,6 @@ exports.index =  async (req, res) => {
     }
 } 
        
-exports.clearMatch = async (req, res) => {
-    FindFriend.findOne({userId:req.body.userId}, function (err, user) {
-        if (user == null) {
-            res.status(404).json({ error: "User not found!"});
-        } else {
-            user.matchUserId = "";
-            user.save();
-
-            res.status(200).json({
-                status: "Success",
-                message: "Match deleted",
-                data: user,
-            });
-        }
-    })
-} 
 
 exports.clearMatch = [ userAuth.authenticateToken,
     async (req, res) => {
