@@ -39,30 +39,34 @@ async function randomMatch() {
     return matchedPersonId;
 }
 
-async function createMatch(inputData, authHeader) {
+async function createMatch(interests, authHeader) {
     const userID = userAuth.decodeAuthToken(authHeader);
-
 
     let findFriend = new FindFriend();
     let matchedPersonId = "";
 
     findFriend.userId = userID;
+    const genderChoices = interests.gender;
+    const facultyChoices= interests.faculty;
+    const artChoices = interests.art;
+    const musicChoices = interests.music;
+    const sportChoices = interests.sport;
+    const isEmptyGender = (genderChoices == undefined || genderChoices.length == 0);
+    const isEmptyArt = (artChoices == undefined || artChoices.length == 0);
+    const isEmptyMusic = (musicChoices == undefined || musicChoices.length == 0);
+    const isEmptySport = (sportChoices == undefined || sportChoices.length == 0);
+    const isEmptyFaculty = (facultyChoices == undefined || facultyChoices.length == 0) 
 
-    const genderChoices = inputData.gender;
-    const facultyChoices= inputData.faculty;
-    const artChoices = inputData.art;
-    const musicChoices = inputData.music;
-    const sportChoices = inputData.sport;
-    const anyMatch = (genderChoices.length == 0 && facultyChoices.length == 0 && artChoices.length == 0 && musicChoices.length == 0 && sportChoices.length == 0);
+    const anyMatch = (isEmptyArt && isEmptyMusic && isEmptySport && isEmptyGender && isEmptyFaculty);
 
     if (anyMatch) {
         matchedPersonId = randomMatch();
-        return matchedPersonId;
     } 
 
     let matchingGender, matchingArt, matchingSport, matchingMusic, matchingFaculty;
 
-    if (genderChoices.length > 0) {
+   
+    if (genderChoices !== undefined || genderChoices > 0) {
         matchingGender = await FindFriend.aggregate([
             {
                 $unwind: { path: "$gender", preserveNullAndEmptyArrays: true }
@@ -81,7 +85,7 @@ async function createMatch(inputData, authHeader) {
         ])
     }
 
-    if (artChoices.length > 0) {
+    if (artChoices !== undefined || artChoices.length > 0) {
         matchingArt = await FindFriend.aggregate([
             {
                 $unwind: { path: "$art", preserveNullAndEmptyArrays: true }
@@ -98,7 +102,7 @@ async function createMatch(inputData, authHeader) {
         ]);
     }
 
-    if (sportChoices > 0) {
+    if (sportChoices !== undefined || sportChoices > 0) {
         matchingSport = await FindFriend.aggregate([
             {
                 $unwind: { path: "$sport", preserveNullAndEmptyArrays: true }
@@ -115,7 +119,7 @@ async function createMatch(inputData, authHeader) {
         ]);
     }
 
-    if (musicChoices.length > 0) {
+    if (musicChoices !== undefined || musicChoices.length > 0) {
         matchingMusic = await FindFriend.aggregate([
             {
                 $unwind: { path: "$music", preserveNullAndEmptyArrays: true }
@@ -132,7 +136,7 @@ async function createMatch(inputData, authHeader) {
         ]);
     }
 
-    if (facultyChoices.length > 0) {
+    if (facultyChoices !== undefined || facultyChoices.length > 0) {
         matchingFaculty = await FindFriend.aggregate([
             {
                 $unwind: { path: "$faculty", preserveNullAndEmptyArrays: true }
@@ -190,10 +194,17 @@ async function createMatch(inputData, authHeader) {
    findFriend.music = musicChoices;
    findFriend.faculty = facultyChoices;
    findFriend.matchUserId = matchedPersonId;
-
+   
+   // console.log(sortedMatch);
    findFriend.save();
 
-   return matchedPersonId;
+   // Only issued matchedPerson jwt token if there is a match
+   if (matchedPersonId !== "") {
+        const matchedPersonToken = userAuth.createMatchingToken(matchedPersonId);
+        return matchedPersonToken;
+   } else {
+       return matchedPersonId;
+   }
 }
 
 async function clearMatch(authHeader) {
@@ -208,7 +219,5 @@ async function clearMatch(authHeader) {
         // user.save();
     }
 }
-
-
 
 module.exports = { getAllFindFriendsUsers, createMatch, clearMatch }
