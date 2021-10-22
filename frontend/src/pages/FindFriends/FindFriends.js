@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 // import Redux
 import { handleNavigation } from "../../actions/navigation";
-import { handleMatch, resetInterests } from "../../actions/match";
+import { handleMatchWithRetry, resetInterests } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -90,7 +90,9 @@ function FindFriends() {
           <Button
             variant="contained"
             className="orange-button"
-            onClick={() => dispatch(handleMatch())}
+            onClick={() =>
+              dispatch(handleMatchWithRetry(auth.token, match.interests))
+            }
           >
             Match
           </Button>

@@ -1,11 +1,13 @@
+import { toast } from "react-toastify";
+
 // Import tokenExpire to update if token expired
-// import { tokenExpire } from "./auth.js";
+import { tokenExpire } from "./auth.js";
 
 // Import Constants
 import {
   MATCHING,
   MATCHED_SUCCESS,
-  //   MATCHED_FAILURE,
+  MATCHED_FAILURE,
   UNMATCHED_SUCCESS,
   //   UNMATCHED_FAILURE,
   UPDATE_INTEREST_GENDER,
@@ -41,18 +43,19 @@ const matchedSuccess = (_payload) => {
   };
 };
 
-// const matchedFailure = (err) => {
-//   toast.error(err.msg, {
-//     position: toast.POSITION.TOP_RIGHT,
-//   });
-//   return {
-//     type: MATCHED_FAILURE,
-//   };
-// };
+const matchedFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: MATCHED_FAILURE,
+  };
+};
 
-const unmatchedSuccess = () => {
+const unmatchedSuccess = (_payload) => {
   return {
     type: UNMATCHED_SUCCESS,
+    payload: _payload.data,
   };
 };
 
@@ -136,19 +139,56 @@ export const updateInterests = (category, items) => (dispatch) => {
 // HANDLING API CALLS
 // ===================================================================
 
-// Temporary harcoded solution
-export const handleMatch = () => (dispatch) => {
-  dispatch(matching());
-  setTimeout(
-    () =>
-      dispatch(
-        matchedSuccess({
-          matchedPersonId: 12345,
-        })
-      ),
-    3000
-  );
-};
+// Handles matching between users
+export const handleMatchWithRetry =
+  (token, interests, numRetries = 2) =>
+  (dispatch) => {
+    console.log(numRetries);
+    dispatch(matching());
+
+    const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
+
+    fetch(requestUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        gender: interests.gender,
+        art: interests.art,
+        music: interests.music,
+        sport: interests.sport,
+        faculty: interests.faculty,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => dispatch(matchedSuccess(res)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          if (numRetries > 0) {
+            setTimeout(
+              () =>
+                dispatch(
+                  handleMatchWithRetry(token, interests, numRetries - 1)
+                ),
+              10000
+            );
+          } else {
+            response
+              .json()
+              .then((res) => alert(res))
+              .catch((err) => alert(err)); //dispatch(matchedFailure(res))
+            matchedFailure({ msg: "lol" });
+          }
+        }
+      })
+      .catch(() => {
+        dispatch(tokenExpire());
+      });
+  };
 
 // Temporary harcoded solution
 export const handleUnmatch = () => (dispatch) => {
