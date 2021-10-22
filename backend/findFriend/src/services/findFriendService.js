@@ -2,222 +2,239 @@ let FindFriend = require("../models/findFriendModel");
 let userAuth = require("../middlewares/userAuth");
 
 async function getAllFindFriendsUsers() {
-    const users = await FindFriend.find();
-    return users;
-  }
+  const users = await FindFriend.find();
+  return users;
+}
 
 function splitString(data) {
-    const dataArr = data.length > 0 ? data.split(',') : "";
-    return dataArr;
+  const dataArr = data.length > 0 ? data.split(",") : "";
+  return dataArr;
 }
 
 const merge = (arr1, arr2) => {
-    let hash = new Map();
+  let hash = new Map();
 
-    arr1.concat(arr2).forEach((obj) => {
-        hash.set(obj._id, Object.assign(hash.get(obj._id) || {}, obj))
-    });
+  arr1.concat(arr2).forEach((obj) => {
+    hash.set(obj._id, Object.assign(hash.get(obj._id) || {}, obj));
+  });
 
-    let a3 = Array.from(hash.values());
-    return a3;
-}
+  let a3 = Array.from(hash.values());
+  return a3;
+};
 
 async function randomMatch() {
-    const count = await FindFriend.count();
+  const count = await FindFriend.count();
 
-    if (count == 0) {
-        // No user in database to be matched
-        return "";
-    }
-    
-    let random = Math.floor(Math.random() * count);
+  if (count == 0) {
+    // No user in database to be matched
+    return "";
+  }
 
-    // Get a random user who is already in database
-    const result = await FindFriend.findOne().skip(random);
+  let random = Math.floor(Math.random() * count);
 
-    let matchedPersonId = result.userId;
-    return matchedPersonId;
+  // Get a random user who is already in database
+  const result = await FindFriend.findOne().skip(random);
+
+  let matchedPersonId = result.userId;
+  return matchedPersonId;
 }
 
 async function createMatch(interests, authHeader) {
-    const userID = userAuth.decodeAuthToken(authHeader);
+  const userID = userAuth.decodeAuthToken(authHeader);
 
-    let findFriend = new FindFriend();
-    let matchedPersonId = "";
+  let findFriend = new FindFriend();
+  let matchedPersonId = "";
 
-    findFriend.userId = userID;
-    const genderChoices = interests.gender;
-    const facultyChoices= interests.faculty;
-    const artChoices = interests.art;
-    const musicChoices = interests.music;
-    const sportChoices = interests.sport;
-    const isEmptyGender = (genderChoices == undefined || genderChoices.length == 0);
-    const isEmptyArt = (artChoices == undefined || artChoices.length == 0);
-    const isEmptyMusic = (musicChoices == undefined || musicChoices.length == 0);
-    const isEmptySport = (sportChoices == undefined || sportChoices.length == 0);
-    const isEmptyFaculty = (facultyChoices == undefined || facultyChoices.length == 0) 
+  findFriend.userId = userID;
+  const genderChoices = interests.gender;
+  const facultyChoices = interests.faculty;
+  const artChoices = interests.art;
+  const musicChoices = interests.music;
+  const sportChoices = interests.sport;
+  const isEmptyGender = genderChoices == undefined || genderChoices.length == 0;
+  const isEmptyArt = artChoices == undefined || artChoices.length == 0;
+  const isEmptyMusic = musicChoices == undefined || musicChoices.length == 0;
+  const isEmptySport = sportChoices == undefined || sportChoices.length == 0;
+  const isEmptyFaculty =
+    facultyChoices == undefined || facultyChoices.length == 0;
 
-    const anyMatch = (isEmptyArt && isEmptyMusic && isEmptySport && isEmptyGender && isEmptyFaculty);
+  const anyMatch =
+    isEmptyArt &&
+    isEmptyMusic &&
+    isEmptySport &&
+    isEmptyGender &&
+    isEmptyFaculty;
 
-    if (anyMatch) {
-        matchedPersonId = randomMatch();
-    } 
+  if (anyMatch) {
+    matchedPersonId = await randomMatch();
+  }
 
-    let matchingGender, matchingArt, matchingSport, matchingMusic, matchingFaculty;
+  let matchingGender,
+    matchingArt,
+    matchingSport,
+    matchingMusic,
+    matchingFaculty;
 
-   
-    if (genderChoices !== undefined || genderChoices > 0) {
-        matchingGender = await FindFriend.aggregate([
-            {
-                $unwind: { path: "$gender", preserveNullAndEmptyArrays: true }
-            },
-            {
-                $match: {
-                    gender: {$in: genderChoices},
-                }
-            },
-            {
-                $group: {
-                    _id: '$userId',
-                    genderCount: { $sum: 1 }
-                },
-            },
-        ])
+  if (genderChoices !== undefined || genderChoices > 0) {
+    matchingGender = await FindFriend.aggregate([
+      {
+        $unwind: { path: "$gender", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $match: {
+          gender: { $in: genderChoices },
+        },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          genderCount: { $sum: 1 },
+        },
+      },
+    ]);
+  }
+
+  if (artChoices !== undefined || artChoices.length > 0) {
+    matchingArt = await FindFriend.aggregate([
+      {
+        $unwind: { path: "$art", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $match: { art: { $in: artChoices } },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          artCount: { $sum: 1 },
+        },
+      },
+    ]);
+  }
+
+  if (sportChoices !== undefined || sportChoices > 0) {
+    matchingSport = await FindFriend.aggregate([
+      {
+        $unwind: { path: "$sport", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $match: { sport: { $in: sportChoices } },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          sportCount: { $sum: 1 },
+        },
+      },
+    ]);
+  }
+
+  if (musicChoices !== undefined || musicChoices.length > 0) {
+    matchingMusic = await FindFriend.aggregate([
+      {
+        $unwind: { path: "$music", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $match: { music: { $in: musicChoices } },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          musicCount: { $sum: 1 },
+        },
+      },
+    ]);
+  }
+
+  if (facultyChoices !== undefined || facultyChoices.length > 0) {
+    matchingFaculty = await FindFriend.aggregate([
+      {
+        $unwind: { path: "$faculty", preserveNullAndEmptyArrays: true },
+      },
+      {
+        $match: { faculty: { $in: facultyChoices } },
+      },
+      {
+        $group: {
+          _id: "$userId",
+          facultyCount: { $sum: 1 },
+        },
+      },
+    ]);
+  }
+
+  const result = merge(
+    matchingArt,
+    merge(
+      matchingSport,
+      merge(matchingMusic, merge(matchingGender, matchingFaculty))
+    )
+  );
+
+  result.forEach((curr) => {
+    let totalCount = 0;
+
+    if (curr.genderCount !== undefined) {
+      totalCount = totalCount + curr.genderCount;
     }
 
-    if (artChoices !== undefined || artChoices.length > 0) {
-        matchingArt = await FindFriend.aggregate([
-            {
-                $unwind: { path: "$art", preserveNullAndEmptyArrays: true }
-            },
-            {
-                $match: { art: {$in: artChoices} },
-            },
-            {
-                $group: {
-                    _id: '$userId',
-                    artCount: { $sum: 1 }
-                }
-            }
-        ]);
+    if (curr.facultyCount !== undefined) {
+      totalCount = totalCount + curr.facultyCount;
     }
 
-    if (sportChoices !== undefined || sportChoices > 0) {
-        matchingSport = await FindFriend.aggregate([
-            {
-                $unwind: { path: "$sport", preserveNullAndEmptyArrays: true }
-            },
-            {
-                $match: { sport: {$in: sportChoices} },
-            },
-            {
-                $group: {
-                    _id: '$userId',
-                    sportCount: { $sum: 1 }
-                  }
-            }
-        ]);
+    if (curr.musicCount !== undefined) {
+      totalCount = totalCount + curr.musicCount;
     }
 
-    if (musicChoices !== undefined || musicChoices.length > 0) {
-        matchingMusic = await FindFriend.aggregate([
-            {
-                $unwind: { path: "$music", preserveNullAndEmptyArrays: true }
-            },
-            {
-                $match: { music: {$in: musicChoices} },
-            },
-            {
-                $group: {
-                    _id: '$userId',
-                    musicCount: { $sum: 1 }
-                  }
-            }
-        ]);
+    if (curr.artCount !== undefined) {
+      totalCount = totalCount + curr.artCount;
     }
 
-    if (facultyChoices !== undefined || facultyChoices.length > 0) {
-        matchingFaculty = await FindFriend.aggregate([
-            {
-                $unwind: { path: "$faculty", preserveNullAndEmptyArrays: true }
-            },
-            {
-                $match: { faculty: {$in: facultyChoices} },
-            },
-            {
-                $group: {
-                    _id: '$userId',
-                    facultyCount: { $sum: 1 }
-                }
-            },
-        ]);
+    if (curr.sportCount !== undefined) {
+      totalCount = totalCount + curr.sportCount;
     }
 
-    const result = merge(matchingArt, merge(matchingSport, merge(matchingMusic, merge(matchingGender, matchingFaculty))));
+    curr["totalCount"] = totalCount;
+  });
 
-    result.forEach(curr => {
-        let totalCount = 0;
+  // return total number of matches in descending order
+  let sortedMatch = result.sort((c1, c2) =>
+    c1.totalCount < c2.totalCount ? 1 : c1.totalCount > c2.totalCount ? -1 : 0
+  );
 
-        if (curr.genderCount !== undefined) {
-            totalCount = totalCount + curr.genderCount;
-        }
+  if (sortedMatch.length > 0) {
+    matchedPersonId = sortedMatch[0]._id;
+  }
 
-        if (curr.facultyCount !== undefined) {
-            totalCount = totalCount + curr.facultyCount;
-        }
+  findFriend.gender = genderChoices;
+  findFriend.art = artChoices;
+  findFriend.sport = sportChoices;
+  findFriend.music = musicChoices;
+  findFriend.faculty = facultyChoices;
+  findFriend.matchUserId = matchedPersonId;
 
-        if (curr.musicCount !== undefined) {
-            totalCount = totalCount + curr.musicCount;
-        }
+  // console.log(sortedMatch);
+  findFriend.save();
 
-        if (curr.artCount !== undefined) {
-            totalCount = totalCount + curr.artCount;
-        }
-
-        if (curr.sportCount !== undefined) {
-            totalCount = totalCount + curr.sportCount;
-        }
-
-        curr["totalCount"] = totalCount;
-       });
-       
-    // return total number of matches in descending order
-   let sortedMatch = result.sort((c1, c2) => (c1.totalCount < c2.totalCount) ? 1 : (c1.totalCount > c2.totalCount) ? -1 : 0);
-   
-   if (sortedMatch.length > 0) {
-       matchedPersonId = sortedMatch[0]._id;
-   }
-
-   findFriend.gender = genderChoices;
-   findFriend.art = artChoices;
-   findFriend.sport = sportChoices;
-   findFriend.music = musicChoices;
-   findFriend.faculty = facultyChoices;
-   findFriend.matchUserId = matchedPersonId;
-   
-   // console.log(sortedMatch);
-   findFriend.save();
-
-   // Only issued matchedPerson jwt token if there is a match
-   if (matchedPersonId !== "") {
-        const matchedPersonToken = userAuth.createMatchingToken(matchedPersonId);
-        return matchedPersonToken;
-   } else {
-       return matchedPersonId;
-   }
+  // Only issued matchedPerson jwt token if there is a match
+  if (matchedPersonId !== "") {
+    const matchedPersonToken = userAuth.createMatchingToken(matchedPersonId);
+    return matchedPersonToken;
+  } else {
+    return matchedPersonId;
+  }
 }
 
 async function clearMatch(authHeader) {
-    const userID = userAuth.decodeAuthToken(authHeader);
+  const userID = userAuth.decodeAuthToken(authHeader);
 
-    const user = await FindFriend.findOne({userId: userID});
-    
-    if (user !== null) {
-        const status = await FindFriend.deleteOne(user);
-        return status.deletedCount;
-        // user.matchUserId = "";
-        // user.save();
-    }
+  const user = await FindFriend.findOne({ userId: userID });
+
+  if (user !== null) {
+    const status = await FindFriend.deleteOne(user);
+    return status.deletedCount;
+    // user.matchUserId = "";
+    // user.save();
+  }
 }
 
-module.exports = { getAllFindFriendsUsers, createMatch, clearMatch }
+module.exports = { getAllFindFriendsUsers, createMatch, clearMatch };

@@ -141,9 +141,8 @@ export const updateInterests = (category, items) => (dispatch) => {
 
 // Handles matching between users
 export const handleMatchWithRetry =
-  (token, interests, numRetries = 2) =>
+  (token, interests, numRetries = 4) =>
   (dispatch) => {
-    console.log(numRetries);
     dispatch(matching());
 
     const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
@@ -152,14 +151,16 @@ export const handleMatchWithRetry =
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: new URLSearchParams({
-        gender: interests.gender,
-        art: interests.art,
-        music: interests.music,
-        sport: interests.sport,
-        faculty: interests.faculty,
+      body: JSON.stringify({
+        interests: {
+          gender: interests.gender,
+          art: interests.art,
+          music: interests.music,
+          sport: interests.sport,
+          faculty: interests.faculty,
+        },
       }),
     })
       .then((response) => {
@@ -177,11 +178,9 @@ export const handleMatchWithRetry =
               10000
             );
           } else {
-            response
-              .json()
-              .then((res) => alert(res))
-              .catch((err) => alert(err)); //dispatch(matchedFailure(res))
-            matchedFailure({ msg: "lol" });
+            dispatch(
+              matchedFailure({ msg: "No suitable match found at the moment" })
+            );
           }
         }
       })
