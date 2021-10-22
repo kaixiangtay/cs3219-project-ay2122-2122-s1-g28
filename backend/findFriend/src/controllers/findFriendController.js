@@ -1,5 +1,6 @@
 const findFriendService = require("../services/findFriendService");
 const userAuth = require("../middlewares/userAuth");
+let FindFriend = require("../models/findFriendModel");
 
 exports.index =  async (req, res) => {
     try {
@@ -27,7 +28,7 @@ exports.index =  async (req, res) => {
 } 
        
 
-exports.clearMatch = [ userAuth.authenticateToken,
+exports.clearMatch = [userAuth.authenticateToken,
     async (req, res) => {
         try {
             const authHeader = req.headers["authorization"];
@@ -54,9 +55,10 @@ exports.createMatch = [userAuth.authenticateToken,
     async (req, res) => {
         try {
             const authHeader = req.headers["authorization"];
-            const matchedPersonId = await findFriendService.createMatch(req.body.interests, authHeader);
+            const interests = req.body.interests;
+            const matchedPersonToken = await findFriendService.createMatch(interests, authHeader);
 
-            const noMatch = matchedPersonId == "";
+            const noMatch = matchedPersonToken == "";
         
             if (noMatch) {
                 return res.status(404).json({
@@ -67,7 +69,7 @@ exports.createMatch = [userAuth.authenticateToken,
                 return res.status(200).json({
                     status: "success",
                     msg: "Congratulations! You have a new match!",
-                    data: { matchedPersonId: matchedPersonId},
+                    data: { matchedPersonToken: matchedPersonToken},
                 });
             }
         } catch (err) {
@@ -78,4 +80,3 @@ exports.createMatch = [userAuth.authenticateToken,
         }
     }     
 ]   
-
