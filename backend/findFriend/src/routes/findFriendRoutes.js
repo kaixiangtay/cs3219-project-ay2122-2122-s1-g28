@@ -20,4 +20,7 @@ router.route('/api/findFriend/randomMatch')
 router.route('/api/findFriend/clearMatch')
     .post(findFriendController.clearMatch)
 
+router.route('/api/findFriend/customMatch')
+    .post(findFriendController.customMatch)
+
 module.exports = router; 
