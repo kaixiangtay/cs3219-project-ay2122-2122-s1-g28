@@ -94,72 +94,20 @@ async function createMatch(interests, authHeader) {
     ]);
   }
 
-  if (artChoices !== undefined || artChoices.length > 0) {
-    matchingArt = await FindFriend.aggregate([
-      {
-        $unwind: { path: "$art", preserveNullAndEmptyArrays: true },
-      },
-      {
-        $match: { art: { $in: artChoices } },
-      },
-      {
-        $group: {
-          _id: "$userId",
-          artCount: { $sum: 1 },
-        },
-      },
-    ]);
+  if (curr.facultyCount !== undefined) {
+    totalCount = totalCount + curr.facultyCount;
   }
 
-  if (sportChoices !== undefined || sportChoices > 0) {
-    matchingSport = await FindFriend.aggregate([
-      {
-        $unwind: { path: "$sport", preserveNullAndEmptyArrays: true },
-      },
-      {
-        $match: { sport: { $in: sportChoices } },
-      },
-      {
-        $group: {
-          _id: "$userId",
-          sportCount: { $sum: 1 },
-        },
-      },
-    ]);
+  if (curr.musicCount !== undefined) {
+    totalCount = totalCount + curr.musicCount;
   }
 
-  if (musicChoices !== undefined || musicChoices.length > 0) {
-    matchingMusic = await FindFriend.aggregate([
-      {
-        $unwind: { path: "$music", preserveNullAndEmptyArrays: true },
-      },
-      {
-        $match: { music: { $in: musicChoices } },
-      },
-      {
-        $group: {
-          _id: "$userId",
-          musicCount: { $sum: 1 },
-        },
-      },
-    ]);
+  if (curr.artCount !== undefined) {
+    totalCount = totalCount + curr.artCount;
   }
 
-  if (facultyChoices !== undefined || facultyChoices.length > 0) {
-    matchingFaculty = await FindFriend.aggregate([
-      {
-        $unwind: { path: "$faculty", preserveNullAndEmptyArrays: true },
-      },
-      {
-        $match: { faculty: { $in: facultyChoices } },
-      },
-      {
-        $group: {
-          _id: "$userId",
-          facultyCount: { $sum: 1 },
-        },
-      },
-    ]);
+  if (curr.sportCount !== undefined) {
+    totalCount = totalCount + curr.sportCount;
   }
 
   const result = merge(
@@ -213,14 +161,22 @@ async function createMatch(interests, authHeader) {
   findFriend.matchUserId = matchedPersonId;
 
   // console.log(sortedMatch);
-  findFriend.save();
 
-  // Only issued matchedPerson jwt token if there is a match
-  if (matchedPersonId !== "") {
+  const isSameUser = findFriend.userId == findFriend.matchUserId;
+  const noMatchingUser = matchedPersonId == "";
+
+  if (isSameUser) {
+    return "";
+  } else {
+    findFriend.save();
+
+    if (noMatchingUser) {
+      return matchedPersonId;
+    }
+
+    // Only issued matchedPerson jwt token if there is a match
     const matchedPersonToken = userAuth.createMatchingToken(matchedPersonId);
     return matchedPersonToken;
-  } else {
-    return matchedPersonId;
   }
 }
 
