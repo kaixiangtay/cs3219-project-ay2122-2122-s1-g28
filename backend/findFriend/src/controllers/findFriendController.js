@@ -1,4 +1,3 @@
-let FindFriend = require("../models/findFriendModel");
 const findFriendService = require("../services/findFriendService");
 const userAuth = require("../middlewares/userAuth");
 
