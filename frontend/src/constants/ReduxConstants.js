@@ -49,3 +49,15 @@ export const CREATE_COMMENT_SUCCESS = 60;
 export const CREATE_COMMENT_FAILURE = 61;
 export const GET_ALL_COMMENTS_SUCCESS = 62;
 export const GET_ALL_COMMENTS_FAILURE = 63;
+
+// Match
+export const MATCHING = 70;
+export const MATCHED_SUCCESS = 71;
+export const MATCHED_FAILURE = 72;
+export const UNMATCHED_SUCCESS = 73;
+export const UNMATCHED_FAILURE = 74;
+export const UPDATE_INTEREST_GENDER = 75;
+export const UPDATE_INTEREST_SPORT = 76;
+export const UPDATE_INTEREST_ART = 77;
+export const UPDATE_INTEREST_MUSIC = 78;
+export const UPDATE_INTEREST_FACULTY = 79;
