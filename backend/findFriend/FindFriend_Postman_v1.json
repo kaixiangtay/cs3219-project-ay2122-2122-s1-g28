@@ -1,0 +1,399 @@
+{
+	"info": {
+		"_postman_id": "6248042d-7d9b-4d24-b1d5-e87debbd7725",
+		"name": "FindFriend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All FindFriend Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6000/api/findFriend/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"findFriend",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All FindFriend Users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/api/findFriend/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"api",
+								"findFriend",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1080"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"438-UROS2OdCZODSoau5qNXF7DJbF3E\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 22 Oct 2021 15:11:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"msg\": \"FindFind Users retrieved successfully\",\n    \"data\": [\n        {\n            \"matchUserId\": \"\",\n            \"_id\": \"615c2e62a123c219640e4a84\",\n            \"gender\": [\n                \"male\"\n            ],\n            \"art\": [\n                \"Photography\"\n            ],\n            \"sport\": [\n                \"Soccer\"\n            ],\n            \"music\": [\n                \"Jazz\"\n            ],\n            \"faculty\": [\n                \"computing\"\n            ],\n            \"userId\": \"chturghguty\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"616f7dbdbcf21b8011fa002c\",\n            \"matchUserId\": \"\",\n            \"gender\": [\n                \"male\",\n                \" female\"\n            ],\n            \"art\": [\n                null\n            ],\n            \"sport\": [\n                null\n            ],\n            \"music\": [\n                null\n            ],\n            \"faculty\": [\n                null\n            ],\n            \"userId\": \"12345\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"616f7e20bcf21b8011fa0033\",\n            \"matchUserId\": \"\",\n            \"gender\": [\n                \"male\"\n            ],\n            \"art\": [\n                null\n            ],\n            \"sport\": [\n                null\n            ],\n            \"music\": [\n                null\n            ],\n            \"faculty\": [\n                null\n            ],\n            \"userId\": \"34567\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"616f7f57d6bb8ba613a49cb7\",\n            \"matchUserId\": \"\",\n            \"gender\": [\n                \"female\"\n            ],\n            \"art\": [\n                null\n            ],\n            \"sport\": [\n                null\n            ],\n            \"music\": [\n                null\n            ],\n            \"faculty\": [\n                null\n            ],\n            \"userId\": \"56789\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"616f81b3482c81a005e5b9e7\",\n            \"matchUserId\": \"\",\n            \"gender\": [\n                \"female\"\n            ],\n            \"art\": [\n                null\n            ],\n            \"sport\": [\n                null\n            ],\n            \"music\": [\n                null\n            ],\n            \"faculty\": [\n                \"computing\",\n                \"business\"\n            ],\n            \"userId\": \"6789\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"616f859d482c81a005e5b9f5\",\n            \"matchUserId\": \"\",\n            \"gender\": [\n                \"male\"\n            ],\n            \"art\": [\n                null\n            ],\n            \"sport\": [\n                null\n            ],\n            \"music\": [\n                null\n            ],\n            \"faculty\": [\n                \"computing\",\n                \"business\"\n            ],\n            \"userId\": \"789\",\n            \"__v\": 0\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Match",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTcyN2EyZWM3YjlhZDViMzE1YTViMWMiLCJpYXQiOjE2MzQ4OTIzNjcsImV4cCI6MTYzNDk3ODc2N30.UFlEPNgebv_MPgfmzRriOq-i9esMnx5eG9XuSLjjbXA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"interests\" : \n        {\n            \"gender\": [\"male\", \"female\"],\n            \"art\": [\"drawing\"],\n            \"music\": [\"pop\"],\n            \"faculty\": [\"computing\", \"business\"],\n            \"sport\": [\"running\"]\n        }\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/findFriend/createMatch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"findFriend",
+						"createMatch"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Match",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"interests\" : \n        {\n            \"gender\": [\"male\", \"female\"],\n            \"art\": [\"drawing\"],\n            \"music\": [\"pop\"],\n            \"faculty\": [\"computing\", \"business\"],\n            \"sport\": [\"running\"]\n        }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/api/findFriend/createMatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"api",
+								"findFriend",
+								"createMatch"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "242"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"f2-TkazLPkwqzsE0XkbkCar0aw+FMw\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 22 Oct 2021 14:40:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"msg\": \"Congratulations! You have a new match!\",\n    \"data\": {\n        \"matchedPersonId\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzg5IiwiaWF0IjoxNjM0OTEzNjQxLCJleHAiOjE2MzQ5MTQ1NDF9.8al0W7WnWqaapkX2Pe7OPPuPgrt2QuTkTQ9jMhY227A\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Match (Random Match)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTcyN2EyZWM3YjlhZDViMzE1YTViMWMiLCJpYXQiOjE2MzQ4OTIzNjcsImV4cCI6MTYzNDk3ODc2N30.UFlEPNgebv_MPgfmzRriOq-i9esMnx5eG9XuSLjjbXA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"interests\" : \n        {\n            \"gender\": [],\n            \"art\": [],\n            \"music\": [],\n            \"faculty\": [],\n            \"sport\": []\n        }\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6000/api/findFriend/createMatch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"findFriend",
+						"createMatch"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Match (Random Match)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"interests\" : \n        {\n            \"gender\": [],\n            \"art\": [],\n            \"music\": [],\n            \"faculty\": [],\n            \"sport\": []\n        }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/api/findFriend/createMatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"api",
+								"findFriend",
+								"createMatch"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "237"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ed-wHPKGKg21cGP8CljF8i/7Zil4cw\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 22 Oct 2021 14:49:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"msg\": \"Congratulations! You have a new match!\",\n    \"data\": {\n        \"matchedPersonId\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOnt9LCJpYXQiOjE2MzQ5MTQxODksImV4cCI6MTYzNDkxNTA4OX0.-y6YdjLGzCpMH865p6t29q7MvDOgXHNMlsQDT9W34MM\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Clear Match",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTcyN2EyZWM3YjlhZDViMzE1YTViMWMiLCJpYXQiOjE2MzQ4OTIzNjcsImV4cCI6MTYzNDk3ODc2N30.UFlEPNgebv_MPgfmzRriOq-i9esMnx5eG9XuSLjjbXA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6000/api/findFriend/clearMatch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6000",
+					"path": [
+						"api",
+						"findFriend",
+						"clearMatch"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Clear Match",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/api/findFriend/clearMatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"api",
+								"findFriend",
+								"clearMatch"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "43"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2b-9snvBQ2hch8gmuuyYXXlXychCUo\""
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 22 Oct 2021 15:00:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"msg\": \"Match deleted!\"\n}"
+				}
+			]
+		}
+	]
+}
