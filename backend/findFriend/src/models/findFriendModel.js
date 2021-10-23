@@ -1,6 +1,6 @@
-var mongoose = require("mongoose");
+let mongoose = require("mongoose");
 
-var FindFriendSchema = mongoose.Schema({
+let FindFriendSchema = mongoose.Schema({
   userId: {
     type: String,
     required: true,
@@ -18,8 +18,4 @@ var FindFriendSchema = mongoose.Schema({
 
 const FindFriend = mongoose.model("FindFriend", FindFriendSchema);
 
-module.exports = FindFriend;
-
-module.exports.get = function (callback, limit) {
-    FindFriend.find(callback).limit(limit);
-}
+module.exports = { FindFriend };

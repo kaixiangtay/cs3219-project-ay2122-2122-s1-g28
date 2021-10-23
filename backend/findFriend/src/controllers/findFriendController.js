@@ -1,38 +1,36 @@
 const findFriendService = require("../services/findFriendService");
 const userAuth = require("../middlewares/userAuth");
-let FindFriend = require("../models/findFriendModel");
 
-exports.index =  async (req, res) => {
+const index = [async (req, res) => {
     try {
-      const findFriendUsers = await findFriendService.getAllFindFriendsUsers();
-      const emptyDatabase = findFriendUsers.length == 0;
-  
-      if (emptyDatabase) {
-        return res.status(200).json({
-          status: "success",
-          msg: "No FindFriend Users in database found",
-        });
-      } else {
-        return res.status(200).json({
-          status: "success",
-          msg: "FindFind Users retrieved successfully",
-          data: findFriendUsers,
-        });
-      }
+        const findFriendUsers = await findFriendService.getAllFindFriendsUsers();
+        const emptyDatabase = findFriendUsers.length == 0;
+    
+        if (emptyDatabase) {
+          return res.status(200).json({
+            status: "success",
+            msg: "No FindFriend Users in database found",
+          });
+        } else {
+          return res.status(200).json({
+            status: "success",
+            msg: "FindFind Users retrieved successfully",
+            data: findFriendUsers,
+          });
+        }
     } catch (err) {
-      return res.status(400).json({
-        status: "error",
-        msg: err.toString(),
-      });
+        return res.status(400).json({
+          status: "error",
+          msg: err.toString(),
+        });
     }
-} 
-       
+}]
 
-exports.clearMatch = [userAuth.authenticateToken,
+const clearMatch = [userAuth.decodeToken,
     async (req, res) => {
         try {
-            const authHeader = req.headers["authorization"];
-            const deletedCount = await findFriendService.clearMatch(authHeader);
+            const userId = req.userId;
+            const deletedCount = await findFriendService.clearMatch(userId);
             const isDeletedMatch = deletedCount == 1;
         
             if (isDeletedMatch) {
@@ -50,13 +48,12 @@ exports.clearMatch = [userAuth.authenticateToken,
     }     
 ]   
 
-
-exports.createMatch = [userAuth.authenticateToken,
+const createMatch = [userAuth.decodeToken,
     async (req, res) => {
         try {
-            const authHeader = req.headers["authorization"];
+            const userId = req.userId;
             const interests = req.body.interests;
-            const matchedPersonToken = await findFriendService.createMatch(interests, authHeader);
+            const matchedPersonToken = await findFriendService.createMatch(interests, userId);
 
             const noMatch = matchedPersonToken == "";
         
@@ -80,3 +77,5 @@ exports.createMatch = [userAuth.authenticateToken,
         }
     }     
 ]   
+
+module.exports = { index, clearMatch, createMatch };
