@@ -72,7 +72,7 @@ const registerUser = [userRegisterValidator(), async (req, res) => {
 const resendEmail = [userAuth.decodeTempToken, async (req, res) => {
   try {
     const userEmail = req.email;
-    let user = await userService.getUserByEmail(req.body.email);
+    let user = await userService.getUserByEmail(req.email);
 
     if (!userEmail) {
       return res.status(404).json({
@@ -107,6 +107,7 @@ const resendEmail = [userAuth.decodeTempToken, async (req, res) => {
 const verifyUserEmail = [userAuth.decodeTempToken, async (req, res) => {
   try {
     const userEmail = req.email;
+    let user = await userService.getUserByEmail(req.email);
 
     if (userEmail !== user.email) {
       return res.status(404).json({
