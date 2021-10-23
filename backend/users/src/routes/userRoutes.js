@@ -12,7 +12,7 @@ router.route("/api/users/login").post(userController.loginUser);
 
 router.route("/api/users/signup").post(userController.registerUser);
 
-router.route("/api/users/logout").post(userController.logout);
+router.route("/api/users/logout").post(userController.logoutUser);
 
 router.route("/api/users/getAllUsers").get(userController.index);
 
