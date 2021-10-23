@@ -43,7 +43,7 @@ function getToken(header) {
 
 // For forgot password and new email sign ups
 function decodeTempToken(req, res, next) {
-    const token = getToken(req.headers['authorization']);
+    const token = req.params.token;
 
     if (!token) {
         // No token in req header
