@@ -9,7 +9,7 @@ import {
   MATCHED_SUCCESS,
   MATCHED_FAILURE,
   UNMATCHED_SUCCESS,
-  //   UNMATCHED_FAILURE,
+  UNMATCHED_FAILURE,
   UPDATE_INTEREST_GENDER,
   UPDATE_INTEREST_SPORT,
   UPDATE_INTEREST_ART,
@@ -52,21 +52,20 @@ const matchedFailure = (err) => {
   };
 };
 
-const unmatchedSuccess = (_payload) => {
+const unmatchedSuccess = () => {
   return {
     type: UNMATCHED_SUCCESS,
-    payload: _payload.data,
   };
 };
 
-// const unmatchedFailure = (err) => {
-//   toast.error(err.msg, {
-//     position: toast.POSITION.TOP_RIGHT,
-//   });
-//   return {
-//     type: MATCHED_FAILURE,
-//   };
-// };
+const unmatchedFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: UNMATCHED_FAILURE,
+  };
+};
 
 const updateGender = (_payload) => {
   return {
@@ -189,7 +188,26 @@ export const handleMatchWithRetry =
       });
   };
 
-// Temporary harcoded solution
-export const handleUnmatch = () => (dispatch) => {
-  dispatch(unmatchedSuccess());
+// Unmatches user from other party
+export const handleUnmatch = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/clearMatch`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then(() => dispatch(unmatchedSuccess()));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((res) => dispatch(unmatchedFailure(res)));
+      }
+    })
+    .catch(() => {
+      dispatch(tokenExpire());
+    });
 };
