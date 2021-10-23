@@ -1,6 +1,5 @@
 let Post = require("../models/postModel");
 let Comment = require("../models/commentModel");
-var userAuth = require("../middlewares/userAuth");
 
 async function getAllComments(postId) {
 	const post = await Post.findById({ _id: postId }).populate("comments");
@@ -10,8 +9,7 @@ async function getAllComments(postId) {
 	return post.comments;
 }
 
-function createComment(authHeader, inputData, post) {
-	var userId = userAuth.decodeAuthToken(authHeader);
+function createComment(userId, inputData, post) {
 	var comment = new Comment();
 	comment.userName = inputData.userName;
 	comment.userId = userId;
@@ -34,32 +32,39 @@ function updateComment(comment, inputData) {
     return comment;
 }   
 
-function upvoteComment(authHeader, comment) {
-	var userId = userAuth.decodeAuthToken(authHeader)._id;
-	if (comment.votedUsers.includes(userId)) {
+function upvoteComment(userId, comment) {
+	if (comment.upvotedUsers.includes(userId)) {
 		return null;
 	} else {
-		comment.votes = post.votes + 1;
-		comment.votedUsers.push(userId);
+		if (comment.downvotedUsers.includes(userId)) {
+			comment.downvotedUsers.remove(userId);
+			comment.votes = comment.votes + 2;
+		} else {
+			comment.votes = comment.votes + 1;
+		}		
+		comment.upvotedUsers.push(userId);
 		comment.save();
 		return comment;
 	}
 }
 
-function downvoteComment(authHeader, comment) {
-	var userId = userAuth.decodeAuthToken(authHeader)._id;
-	if (comment.votedUsers.includes(userId)) {
+function downvoteComment(userId, comment) {
+	if (comment.downvotedUsers.includes(userId)) {
 		return null;
 	} else {
-		comment.votes = post.votes - 1;
-		comment.votedUsers.push(userId);
+		if (comment.upvotedUsers.includes(userId)) {
+			comment.upvotedUsers.remove(userId);
+			comment.votes = comment.votes - 2;
+		} else {
+			comment.votes = comment.votes - 1;
+		}		
+		comment.downvotedUsers.push(userId);
 		comment.save();
 		return comment;
 	}
 }
 
-function isUserComment(commentUserId, authHeader) {
-	var userId = userAuth.decodeAuthToken(authHeader)._id;
+function isUserComment(commentUserId, userId) {
 	return userId == commentUserId;
 }
 

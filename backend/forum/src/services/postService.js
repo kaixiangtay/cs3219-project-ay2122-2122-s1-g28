@@ -1,14 +1,12 @@
 let Post = require("../models/postModel");
 let Comment = require("../models/commentModel");
-var userAuth = require("../middlewares/userAuth");
 
 async function getAllPosts(inputTopic) {
 	const posts = await Post.find({ topic: inputTopic });
 	return posts;
 }
 
-function createPost(authHeader, inputData) {
-	var userId = userAuth.decodeAuthToken(authHeader);
+function createPost(userId, inputData) {
 	let post = new Post();
 	post.userName = inputData.userName;
 	post.userId = userId;
@@ -31,25 +29,33 @@ function updatePost(post, inputData) {
 	return post;
 }
 
-function upvotePost(authHeader, post) {
-	var userId = userAuth.decodeAuthToken(authHeader)._id;
-	if (post.votedUsers.includes(userId)) {
+function upvotePost(userId, post) {
+	if (post.upvotedUsers.includes(userId)) {
 		return null;
 	} else {
-		post.votes = post.votes + 1;
-		post.votedUsers.push(userId);
+		if (post.downvotedUsers.includes(userId)) {
+			post.downvotedUsers.remove(userId);
+			post.votes = post.votes + 2;
+		} else {
+			post.votes = post.votes + 1;
+		}		
+		post.upvotedUsers.push(userId);
 		post.save();
 		return post;
 	}
 }
 
-function downvotePost(authHeader, post) {
-	var userId = userAuth.decodeAuthToken(authHeader)._id;
-	if (post.votedUsers.includes(userId)) {
+function downvotePost(userId, post) {
+	if (post.downvotedUsers.includes(userId)) {
 		return null;
 	} else {
-		post.votes = post.votes - 1;
-		post.votedUsers.push(userId);
+		if (post.upvotedUsers.includes(userId)) {
+			post.upvotedUsers.remove(userId);
+			post.votes = post.votes - 2;
+		} else {
+			post.votes = post.votes - 1;
+		}
+		post.downvotedUsers.push(userId);
 		post.save();
 		return post;
 	}
@@ -72,8 +78,7 @@ async function sortPostByDate(inputTopic, order) {
 	return posts;
 }
 
-function isUserPost(postUserId, authHeader) {
-	var userId = userAuth.decodeAuthToken(authHeader)._id;
+function isUserPost(postUserId, userId) {
 	return userId == postUserId;
 }
 module.exports = {
