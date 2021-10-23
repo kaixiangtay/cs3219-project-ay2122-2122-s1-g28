@@ -1,5 +1,5 @@
-var router = require('express').Router();
-var findFriendController = require('../controllers/findFriendController');
+let router = require('express').Router();
+let findFriendController = require('../controllers/findFriendController');
 
 router.get('/', function (req, res) {
     res.json({
