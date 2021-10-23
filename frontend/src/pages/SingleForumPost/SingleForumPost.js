@@ -54,8 +54,12 @@ function SingleForumPost() {
       <Grid container justifyContent="center">
         <Grid item className={styles.grid}>
           <Paper>
-            <Grid container className={styles.gridContainer}>
-              <Grid item xs={1} sm={1} md={1}>
+            <Grid
+              container
+              className={styles.gridContainer}
+              justifyContent="center"
+            >
+              <Grid item>
                 <VoteArrows votes={post.votes} postId={post._id} />
               </Grid>
               <Grid item xs={11} sm={11} md={11}>
@@ -75,48 +79,54 @@ function SingleForumPost() {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid container>
-              <Typography variant="caption" className={styles.postDetails}>
-                Posted by {post.userName} on {post.displayDate}
-              </Typography>
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Comment here"
-                variant="outlined"
-                multiline
-                rows={12}
-                fullWidth
-                className={styles.commentBox}
-                value={userComment}
-                onChange={(e) => setUserComment(e.target.value)}
-              />
-              <Button
-                className={styles.commentButton}
-                onClick={() => handleOnComment()}
-              >
-                Comment
-              </Button>
+            <Grid container justifyContent="center">
+              <Grid item xs={11} sm={11} md={11}>
+                <Grid container direction="row-reverse">
+                  <Typography variant="caption">
+                    Posted by {post.userName} on {post.displayDate}
+                  </Typography>
+                </Grid>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Comment here"
+                  variant="outlined"
+                  multiline
+                  rows={12}
+                  fullWidth
+                  value={userComment}
+                  onChange={(e) => setUserComment(e.target.value)}
+                />
+                <Grid container direction="row-reverse">
+                  <Button
+                    className={styles.commentButton}
+                    onClick={() => handleOnComment()}
+                  >
+                    Comment
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid
               container
               direction="column"
+              justifyContent="center"
               className={styles.commentContainer}
             >
               {comments ? (
                 comments.map((comment) => (
-                  <Card
-                    key={comment._id}
-                    variant="outlined"
-                    className={styles.card}
-                  >
-                    <CardContent>
-                      <Typography variant="h6" className={styles.commentName}>
-                        {comment.userName}
-                      </Typography>
-                      <Typography variant="body1">{comment.content}</Typography>
-                    </CardContent>
-                  </Card>
+                  <Grid item xs={12} sm={12} md={12} key={comment._id}>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <Typography variant="h6" className={styles.commentName}>
+                          {comment.userName}
+                        </Typography>
+                        <Typography variant="body1">
+                          {comment.content}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
                 ))
               ) : (
                 <div></div>

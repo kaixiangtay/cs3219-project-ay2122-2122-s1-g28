@@ -59,14 +59,14 @@ function ForumPosts(props) {
                   {post.content}
                 </Typography>
               </Grid>
-              <Typography className={styles.comments}>
+              <Typography variant="caption" className={styles.comments}>
                 <FontAwesomeIcon
                   icon={faComment}
                   className={styles.commentIcon}
                 />
                 {post.comments.length} Comments
               </Typography>
-              <Typography className={styles.userName}>
+              <Typography variant="caption" className={styles.userName}>
                 Posted by {post.userName} on {post.displayDate}
               </Typography>
             </Button>
