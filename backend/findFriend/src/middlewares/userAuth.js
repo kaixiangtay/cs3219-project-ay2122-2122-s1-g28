@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
 const { JWT_ACCESS_TOKEN } = require('../config/config')
 
-exports.getToken = (header) => {
+function getToken(header) {
     const token = header && header.split(' ')[1];
     return token;
 }
 
-exports.createMatchingToken = (userID) => {
+function createMatchingToken(userID) {
     // Create matching token (valid for a day)
     const token = jwt.sign(
         { _id: userID },
@@ -16,23 +16,29 @@ exports.createMatchingToken = (userID) => {
     return token;
 }
 
-exports.decodeAuthToken = (header) => {
-    const token = this.getToken(header);
-    var decoded = jwt.verify(token, JWT_ACCESS_TOKEN);
-    return decoded;
-};
+function decodeToken(req, res, next)  {
+    const token = getToken(req.headers['authorization']);
 
-exports.authenticateToken = (req, res, next) => {
-    const token = this.getToken(req.headers['authorization']);
-
+    //console.log(token);
     if (!token) {
-        return res.sendStatus(401);
+        // No token in req header
+        return res.status(401).json({
+            success: "error",
+            msg: "Unauthorized to access data",
+        });
     }
-    
-    jwt.verify(token, JWT_ACCESS_TOKEN, function(err) {
-        if (err) {
-            return res.sendStatus(403);
-        }
-        next();
-    });
+
+    try {
+        const decoded = jwt.verify(token, JWT_ACCESS_TOKEN);
+        req.userId = decoded._id;
+        return next();
+      } catch (error) {
+        // Invalid token detected in req header
+        return res.status(401).json({ 
+            success: "error",
+            msg: "Unauthorized to access data",
+        });
+    }
 };
+
+module.exports = { getToken, createMatchingToken, decodeToken }
