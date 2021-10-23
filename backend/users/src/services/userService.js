@@ -19,9 +19,8 @@ async function getUserByToken(inputToken) {
   return user;
 }
 
-async function getUserByID(authHeader) {
-  const userID = userAuth.decodeAuthToken(authHeader);
-  const user = await User.findById(userID);
+async function getUserByID(userId) {
+  const user = await User.findById(userId);
   return user;
 }
 
@@ -30,15 +29,15 @@ function createUser(inputData) {
   user.name = inputData.name;
   user.email = inputData.email;
   user.password = userAuth.hashPassword(inputData.password);
-  user.token = userAuth.createAccessToken(user.email);
+  user.token = userAuth.createSignUpToken(user.email);
 
   user.save();
   mailerService.sendRegisterUserEmail(user.email, user.token);
   return user;
 }
 
-async function updateUser(authHeader, inputData) {
-  let user = await getUserByID(authHeader);
+async function updateUser(userId, inputData) {
+  let user = await getUserByID(userId);
   user.name = inputData.name;
 
   if (inputData.password !== undefined) {
@@ -65,8 +64,8 @@ function logoutUser(user) {
   user.save();
 }
 
-async function deleteUser(authHeader) {
-  let user = await getUserByID(authHeader);
+async function deleteUser(userId) {
+  let user = await getUserByID(userId);
   if (user.profileImageUrl !== "") {
     imageService.delete(user.profileImageUrl);
   }
@@ -84,13 +83,13 @@ function resetPassword(user) {
 
   // temporary password will be issued
   mailerService.sendForgotPasswordEmail(user.email, tempPassword);
-  user.token = userAuth.createAccessToken(user.email);
+  user.token = userAuth.createSignUpToken(user.email);
   user.password = userAuth.hashPassword(tempPassword);
   user.save();
 }
 
 function resendEmail(user) {
-  user.token = userAuth.createAccessToken(user.email);
+  user.token = userAuth.createSignUpToken(user.email);
   user.save();
   mailerService.sendRegisterUserEmail(user.email, user.token);
 }

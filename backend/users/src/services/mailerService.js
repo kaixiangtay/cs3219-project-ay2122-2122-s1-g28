@@ -38,7 +38,7 @@ const resetPasswordEmailOptions = (email, tempPassword) => {
   return emailOptions;
 } 
 
-exports.sendRegisterUserEmail = async (email, token) => {
+const sendRegisterUserEmail = async (email, token) => {
     try {
       const emailOptions = registerAccountEmailOptions(email, token);
       await transporter.sendMail(emailOptions);
@@ -52,7 +52,7 @@ exports.sendRegisterUserEmail = async (email, token) => {
     }
   };
 
-exports.sendForgotPasswordEmail = async (email, tempPassword) => {
+const sendForgotPasswordEmail = async (email, tempPassword) => {
     try {
       const emailOptions = resetPasswordEmailOptions(email, tempPassword);
       await transporter.sendMail(emailOptions);
@@ -65,3 +65,5 @@ exports.sendForgotPasswordEmail = async (email, tempPassword) => {
         }])
     }
   };
+
+module.exports = { sendForgotPasswordEmail, sendRegisterUserEmail };
