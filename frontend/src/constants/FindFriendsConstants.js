@@ -12,36 +12,36 @@ export const FACULTY = 135;
 // MATCH INTERESTS ITEMS
 // ===================================================================
 
-export const GENDER_ITEMS = ["Male", "Female"];
+export const GENDER_ITEMS = ["male", "female"];
 
 export const SPORT_ITEMS = [
-  "Running",
-  "Basketball",
-  "Soccer",
-  "Badminton",
-  "Swimming",
-  "Squash",
-  "Volleyball",
-  "Floorball",
-  "Table Tennis",
-  "Frisbee",
-  "Handball",
-  "Tennis",
+  "running",
+  "basketball",
+  "soccer",
+  "badminton",
+  "swimming",
+  "squash",
+  "volleyball",
+  "floorball",
+  "table tennis",
+  "frisbee",
+  "handball",
+  "tennis",
 ];
 
-export const ART_ITEMS = ["Photography", "Videography", "Drawing", "Painting"];
+export const ART_ITEMS = ["photography", "videography", "drawing", "painting"];
 
-export const MUSIC_ITEMS = ["Pop", "Jazz", "Rock", "EDM", "Lofi", "Disco"];
+export const MUSIC_ITEMS = ["pop", "jazz", "rock", "edm", "lofi", "disco"];
 
 export const FACULTY_ITEMS = [
-  "Engineering",
-  "Computing",
-  "Science",
-  "Business",
-  "Law",
-  "Dentistry",
-  "Music",
-  "Medicine",
-  "Design & Environment",
-  "Arts & Social Science",
+  "engineering",
+  "computing",
+  "science",
+  "business",
+  "law",
+  "dentistry",
+  "music",
+  "medicine",
+  "design & environment",
+  "arts & social science",
 ];

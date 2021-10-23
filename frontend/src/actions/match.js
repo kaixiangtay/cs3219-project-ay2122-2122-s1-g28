@@ -1,13 +1,15 @@
+import { toast } from "react-toastify";
+
 // Import tokenExpire to update if token expired
-// import { tokenExpire } from "./auth.js";
+import { tokenExpire } from "./auth.js";
 
 // Import Constants
 import {
   MATCHING,
   MATCHED_SUCCESS,
-  //   MATCHED_FAILURE,
+  MATCHED_FAILURE,
   UNMATCHED_SUCCESS,
-  //   UNMATCHED_FAILURE,
+  UNMATCHED_FAILURE,
   UPDATE_INTEREST_GENDER,
   UPDATE_INTEREST_SPORT,
   UPDATE_INTEREST_ART,
@@ -41,14 +43,14 @@ const matchedSuccess = (_payload) => {
   };
 };
 
-// const matchedFailure = (err) => {
-//   toast.error(err.msg, {
-//     position: toast.POSITION.TOP_RIGHT,
-//   });
-//   return {
-//     type: MATCHED_FAILURE,
-//   };
-// };
+const matchedFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: MATCHED_FAILURE,
+  };
+};
 
 const unmatchedSuccess = () => {
   return {
@@ -56,14 +58,14 @@ const unmatchedSuccess = () => {
   };
 };
 
-// const unmatchedFailure = (err) => {
-//   toast.error(err.msg, {
-//     position: toast.POSITION.TOP_RIGHT,
-//   });
-//   return {
-//     type: MATCHED_FAILURE,
-//   };
-// };
+const unmatchedFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: UNMATCHED_FAILURE,
+  };
+};
 
 const updateGender = (_payload) => {
   return {
@@ -136,21 +138,76 @@ export const updateInterests = (category, items) => (dispatch) => {
 // HANDLING API CALLS
 // ===================================================================
 
-// Temporary harcoded solution
-export const handleMatch = () => (dispatch) => {
-  dispatch(matching());
-  setTimeout(
-    () =>
-      dispatch(
-        matchedSuccess({
-          matchedPersonId: 12345,
-        })
-      ),
-    3000
-  );
-};
+// Handles matching between users
+export const handleMatchWithRetry =
+  (token, interests, numRetries = 4) =>
+  (dispatch) => {
+    dispatch(matching());
 
-// Temporary harcoded solution
-export const handleUnmatch = () => (dispatch) => {
-  dispatch(unmatchedSuccess());
+    const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
+
+    fetch(requestUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        interests: {
+          gender: interests.gender,
+          art: interests.art,
+          music: interests.music,
+          sport: interests.sport,
+          faculty: interests.faculty,
+        },
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => dispatch(matchedSuccess(res)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          if (numRetries > 0) {
+            setTimeout(
+              () =>
+                dispatch(
+                  handleMatchWithRetry(token, interests, numRetries - 1)
+                ),
+              10000
+            );
+          } else {
+            dispatch(
+              matchedFailure({ msg: "No suitable match found at the moment" })
+            );
+          }
+        }
+      })
+      .catch(() => {
+        dispatch(tokenExpire());
+      });
+  };
+
+// Unmatches user from other party
+export const handleUnmatch = (token) => (dispatch) => {
+  const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/clearMatch`;
+
+  fetch(requestUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then(() => dispatch(unmatchedSuccess()));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((res) => dispatch(unmatchedFailure(res)));
+      }
+    })
+    .catch(() => {
+      dispatch(tokenExpire());
+    });
 };
