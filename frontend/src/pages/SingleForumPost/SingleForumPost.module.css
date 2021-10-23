@@ -1,17 +1,15 @@
-.fontColor {
-  color: var(--BLACK);
-}
-
 .grid {
-  max-width: 75%;
-  min-width: 75%;
-  align-items: center;
   margin-top: 3% !important;
+  margin-bottom: 3% !important;
 }
 
 .gridContainer {
   padding-top: 2%;
   padding-right: 5%;
+}
+
+.title {
+  font-weight: bold !important;
 }
 
 .commentButton {
@@ -23,6 +21,10 @@
 
 .commentContainer {
   padding: 3%;
+}
+
+.comment {
+  margin-bottom: 3% !important;
 }
 
 .commentName {

@@ -52,7 +52,7 @@ function SingleForumPost() {
     <div>
       <Navbar />
       <Grid container justifyContent="center">
-        <Grid item className={styles.grid}>
+        <Grid item xs={10} sm={10} md={10} className={styles.grid}>
           <Paper>
             <Grid
               container
@@ -63,18 +63,10 @@ function SingleForumPost() {
                 <VoteArrows votes={post.votes} postId={post._id} />
               </Grid>
               <Grid item xs={11} sm={11} md={11}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  className={styles.fontColor}
-                >
+                <Typography gutterBottom variant="h6" className={styles.title}>
                   {post.title}
                 </Typography>
-                <Typography
-                  gutterBottom
-                  variant="body1"
-                  className={styles.fontColor}
-                >
+                <Typography gutterBottom variant="body1">
                   {post.content}
                 </Typography>
               </Grid>
@@ -115,7 +107,14 @@ function SingleForumPost() {
             >
               {comments ? (
                 comments.map((comment) => (
-                  <Grid item xs={12} sm={12} md={12} key={comment._id}>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    key={comment._id}
+                    className={styles.comment}
+                  >
                     <Card variant="outlined">
                       <CardContent>
                         <Typography variant="h6" className={styles.commentName}>
