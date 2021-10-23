@@ -15,7 +15,6 @@ module.exports = {
   EMAIL: process.env.EMAIL,
   
   JWT_ACCESS_TOKEN: process.env.JWT_ACCESS_TOKEN,
-  JWT_RESET_PASSWORD_TOKEN: process.env.JWT_RESET_PASSWORD_TOKEN,
   
   S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
   S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,

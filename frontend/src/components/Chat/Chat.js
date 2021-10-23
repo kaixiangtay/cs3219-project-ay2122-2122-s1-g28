@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 // import Redux
 import { handleUnmatch } from "../../actions/match";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -23,6 +23,7 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer.js";
 import styles from "./Chat.module.css";
 
 function Chat() {
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   //Hardcoded values for testing before syncing with backend
@@ -86,7 +87,7 @@ function Chat() {
               <Button
                 variant="contained"
                 className="red-button"
-                onClick={() => dispatch(handleUnmatch())}
+                onClick={() => dispatch(handleUnmatch(auth.token))}
               >
                 Unmatch
               </Button>
