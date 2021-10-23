@@ -3,13 +3,11 @@ const {
 	addPostValidator,
 } = require("../validators/postValidator");
 const { validationResult, check } = require("express-validator");
-let Post = require("../models/postModel");
-let Comment = require("../models/commentModel");
 const userAuth = require("../middlewares/userAuth");
 const postService = require("../services/postService");
 
 exports.index = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const posts = await postService.getAllPosts(req.params.topic);
@@ -37,17 +35,17 @@ exports.index = [
 ];
 
 exports.createPost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	addPostValidator(),
 	(req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			const errors = validationResult(req);
 
 			if (!errors.isEmpty()) {
 				return res.status(404).json(errors.array());
 			}
-			const post = postService.createPost(authHeader, req.body);
+			const post = postService.createPost(userId, req.body);
 			return res.status(200).json({
 				status: "success",
 				msg: "New Post created!",
@@ -63,7 +61,7 @@ exports.createPost = [
 ];
 
 exports.viewPost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
@@ -89,10 +87,10 @@ exports.viewPost = [
 ];
 
 exports.updatePost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -101,7 +99,7 @@ exports.updatePost = [
 				});
 			}
 
-			if (postService.isUserPost(post.userId, authHeader)) { // userId == postId
+			if (postService.isUserPost(post.userId, userId)) { // userId == postId
 				post = await postService.updatePost(post, req.body);
 				return res.status(200).json({
 					status: "success",
@@ -124,10 +122,10 @@ exports.updatePost = [
 ];
 
 exports.upvotePost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -135,17 +133,17 @@ exports.upvotePost = [
 					msg: "Post not found!",
 				});
 			}
-			if (postService.isUserPost(post.userId, authHeader)) {
+			if (postService.isUserPost(post.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
 					msg: "Users are not allowed to upvote/downvote their own posts",
 				});
 			} else {
-				post = postService.upvotePost(authHeader, post);
+				post = postService.upvotePost(userId, post);
 				if (post == null) {
 					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a post ONCE",
+						msg: "Users can only upvote a post ONCE",
 					});
 				} else {
 					return res.status(200).json({
@@ -165,10 +163,10 @@ exports.upvotePost = [
 ];
 
 exports.downvotePost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -176,17 +174,17 @@ exports.downvotePost = [
 					msg: "Post not found!",
 				});
 			}
-			if (postService.isUserPost(post.userId, authHeader)) {
+			if (postService.isUserPost(post.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
 					msg: "Users are not allowed to upvote/downvote their own posts",
 				});
 			} else {
-				post = postService.downvotePost(authHeader, post);
+				post = postService.downvotePost(userId, post);
 				if (post == null) {
 					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a post ONCE",
+						msg: "Users can only downvote a post ONCE",
 					});
 				} else {
 					return res.status(200).json({
@@ -206,10 +204,10 @@ exports.downvotePost = [
 ];
 
 exports.deletePost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -217,7 +215,7 @@ exports.deletePost = [
 					msg: "Post not found!",
 				});
 			}
-			if (postService.isUserPost(post.userId, authHeader)) {
+			if (postService.isUserPost(post.userId, userId)) {
 				await postService.deletePost(post.id);
 				return res.status(200).json({
 					status: "success",
@@ -239,7 +237,7 @@ exports.deletePost = [
 ];
 
 exports.sortPostByAscVotes = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const posts = await postService.sortPostByVotes(req.params.topic, 1);
@@ -266,7 +264,7 @@ exports.sortPostByAscVotes = [
 ];
 
 exports.sortPostByDescVotes = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const posts = await postService.sortPostByVotes(req.params.topic, -1);
@@ -293,7 +291,7 @@ exports.sortPostByDescVotes = [
 ];
 
 exports.sortPostByAscDate = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const posts = await postService.sortPostByDate(req.params.topic, 1);
@@ -320,7 +318,7 @@ exports.sortPostByAscDate = [
 ];
 
 exports.sortPostByDescDate = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const posts = await postService.sortPostByDate(req.params.topic, -1);

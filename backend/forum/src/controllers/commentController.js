@@ -3,15 +3,12 @@ const {
 	addCommentValidator,
 } = require("../validators/commentValidator");
 const { validationResult, check } = require("express-validator");
-let Comment = require("../models/commentModel");
-let Post = require("../models/postModel");
 var userAuth = require("../middlewares/userAuth");
 const postService = require("../services/postService");
 const commentService = require("../services/commentService");
-const { createPost } = require("./postController");
 
 exports.viewPostComments = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
@@ -50,11 +47,11 @@ exports.viewPostComments = [
 ];
 
 exports.createComment = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	addCommentValidator(),
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			const errors = validationResult(req);
 
 			if (!errors.isEmpty()) {
@@ -68,7 +65,7 @@ exports.createComment = [
 				});
 			}
 			const comment = commentService.createComment(
-				authHeader,
+				userId,
 				req.body,
 				post
 			);
@@ -87,7 +84,7 @@ exports.createComment = [
 ];
 
 exports.viewComment = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
@@ -120,10 +117,10 @@ exports.viewComment = [
 ];
 
 exports.updateComment = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -138,7 +135,7 @@ exports.updateComment = [
 					msg: "Comment not found!",
 				});
 			}
-			if (commentService.isUserComment(comment.userId, authHeader)) {
+			if (commentService.isUserComment(comment.userId, userId)) {
 				comment = commentService.updateComment(comment, req.body);
 				return res.status(200).json({
 					status: "success",
@@ -161,10 +158,10 @@ exports.updateComment = [
 ];
 
 exports.upvoteComment = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -180,13 +177,13 @@ exports.upvoteComment = [
 				});
 			}
 
-			if (commentService.isUserComment(comment.userId, authHeader)) {
+			if (commentService.isUserComment(comment.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
 					msg: "Users are not allowed to upvote/downvote their own comments",
 				});
 			} else {
-				comment = commentService.upvoteComment(authHeader, comment);
+				comment = commentService.upvoteComment(userId, comment);
 				if (comment == null){
 					return res.status(404).json({
 						status: "error",
@@ -210,10 +207,10 @@ exports.upvoteComment = [
 ];
 
 exports.downvoteComment = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -229,13 +226,13 @@ exports.downvoteComment = [
 				});
 			}
 
-			if (commentService.isUserComment(comment.userId, authHeader)) {
+			if (commentService.isUserComment(comment.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
 					msg: "Users are not allowed to upvote/downvote their own comments",
 				});
 			} else {
-				comment = commentService.downvoteComment(authHeader, comment);
+				comment = commentService.downvoteComment(userId, comment);
 				if (comment == null){
 					return res.status(404).json({
 						status: "error",
@@ -259,10 +256,10 @@ exports.downvoteComment = [
 ];
 
 exports.deleteComment = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			const authHeader = req.headers["authorization"];
+			const userId = req.userId;
 			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
@@ -277,7 +274,7 @@ exports.deleteComment = [
 					msg: "Comment not found!",
 				});
 			}
-			if (commentService.isUserComment(comment.userId, authHeader)) {
+			if (commentService.isUserComment(comment.userId, userId)) {
 				await commentService.deleteComment(req.params.comment_id, post);
 				res.status(200).json({
 					status: "success",
@@ -299,7 +296,7 @@ exports.deleteComment = [
 ];
 
 exports.sortCommentsByAscVotes = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
@@ -338,7 +335,7 @@ exports.sortCommentsByAscVotes = [
 ];
 
 exports.sortCommentsByDescVotes = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
@@ -377,7 +374,7 @@ exports.sortCommentsByDescVotes = [
 ];
 
 exports.sortCommentsByAscDate = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
@@ -416,7 +413,7 @@ exports.sortCommentsByAscDate = [
 ];
 
 exports.sortCommentsByDescDate = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const post = await postService.getPostByID(req.params.post_id);
