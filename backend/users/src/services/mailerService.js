@@ -1,4 +1,4 @@
-const { GCP_CLIENT_ID, GCP_CLIENT_SECRET, EMAIL, GCP_ACCESS_TOKEN, GCP_REFRESH_TOKEN, FRONTEND_URL } = require('../config/config');
+const { GCP_CLIENT_ID, GCP_CLIENT_SECRET, EMAIL, GCP_ACCESS_TOKEN, GCP_REFRESH_TOKEN, FRONTEND_URL, BACKEND_URL } = require('../config/config');
 const nodemailer = require("nodemailer");
 
 let transporter = nodemailer.createTransport({
@@ -20,7 +20,8 @@ const registerAccountEmailOptions = (email, token) => {
     from: EMAIL,
     to: email,
     subject: "NUSociaLife Account Verification",
-    html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>`,
+    html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>
+    <p>Click <a href="${BACKEND_URL}/resendEmail/${token}">here</a> to resend another account activation email if current link has expires!</p>`,
   };
 
   return emailOptions;
@@ -37,7 +38,7 @@ const resetPasswordEmailOptions = (email, tempPassword) => {
   return emailOptions;
 } 
 
-exports.sendRegisterUserEmail = async (email, token) => {
+const sendRegisterUserEmail = async (email, token) => {
     try {
       const emailOptions = registerAccountEmailOptions(email, token);
       await transporter.sendMail(emailOptions);
@@ -51,7 +52,7 @@ exports.sendRegisterUserEmail = async (email, token) => {
     }
   };
 
-exports.sendForgotPasswordEmail = async (email, tempPassword) => {
+const sendForgotPasswordEmail = async (email, tempPassword) => {
     try {
       const emailOptions = resetPasswordEmailOptions(email, tempPassword);
       await transporter.sendMail(emailOptions);
@@ -64,3 +65,5 @@ exports.sendForgotPasswordEmail = async (email, tempPassword) => {
         }])
     }
   };
+
+module.exports = { sendForgotPasswordEmail, sendRegisterUserEmail };

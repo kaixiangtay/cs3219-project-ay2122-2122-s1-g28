@@ -1,39 +1,47 @@
-// Match Interests
-export const GENDER = ["Male", "Female"];
+// ===================================================================
+// MATCH INTERESTS KEYS
+// ===================================================================
 
-export const SPORT = [
-  "Running",
-  "Basketball",
-  "Soccer",
-  "Badminton",
-  "Swimming",
-  "Squash",
-  "Volleyball",
-  "Floorball",
-  "Table Tennis",
-  "Frisbee",
-  "Handball",
-  "Tennis",
+export const GENDER = 131;
+export const SPORT = 132;
+export const ART = 133;
+export const MUSIC = 134;
+export const FACULTY = 135;
+
+// ===================================================================
+// MATCH INTERESTS ITEMS
+// ===================================================================
+
+export const GENDER_ITEMS = ["male", "female"];
+
+export const SPORT_ITEMS = [
+  "running",
+  "basketball",
+  "soccer",
+  "badminton",
+  "swimming",
+  "squash",
+  "volleyball",
+  "floorball",
+  "table tennis",
+  "frisbee",
+  "handball",
+  "tennis",
 ];
 
-export const ART = ["Photography", "Videography", "Drawing", "Painting"];
+export const ART_ITEMS = ["photography", "videography", "drawing", "painting"];
 
-export const MUSIC = ["Pop", "Jazz", "Rock", "EDM", "Lofi", "Disco"];
+export const MUSIC_ITEMS = ["pop", "jazz", "rock", "edm", "lofi", "disco"];
 
-export const FACULTY = [
-  "Engineering",
-  "Computing",
-  "Science",
-  "Business",
-  "Law",
-  "Dentistry",
-  "Music",
-  "Medicine",
-  "Design & Environment",
-  "Arts & Social Science",
+export const FACULTY_ITEMS = [
+  "engineering",
+  "computing",
+  "science",
+  "business",
+  "law",
+  "dentistry",
+  "music",
+  "medicine",
+  "design & environment",
+  "arts & social science",
 ];
-
-// Match States
-export const UNMATCHED = 1;
-export const LOADING = 2;
-export const MATCHED = 3;

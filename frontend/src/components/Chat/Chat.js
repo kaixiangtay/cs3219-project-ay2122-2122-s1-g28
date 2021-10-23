@@ -2,6 +2,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+// import Redux
+import { handleUnmatch } from "../../actions/match";
+import { useDispatch, useSelector } from "react-redux";
+
 // Import Material-ui
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -15,13 +19,13 @@ import ChatMessage from "../ChatMessage/ChatMessage.js";
 import PageTitle from "../PageTitle/PageTitle.js";
 import VideoPlayer from "../VideoPlayer/VideoPlayer.js";
 
-// Import Constants
-import { UNMATCHED } from "../../constants/FindFriendsConstants";
-
 // Import CSS
 import styles from "./Chat.module.css";
 
-function Chat({ handleMatchState }) {
+function Chat() {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   //Hardcoded values for testing before syncing with backend
   const matchInfo = {
     name: "John",
@@ -83,7 +87,7 @@ function Chat({ handleMatchState }) {
               <Button
                 variant="contained"
                 className="red-button"
-                onClick={() => handleMatchState(UNMATCHED)}
+                onClick={() => dispatch(handleUnmatch(auth.token))}
               >
                 Unmatch
               </Button>

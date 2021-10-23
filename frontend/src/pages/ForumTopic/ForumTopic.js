@@ -1,5 +1,6 @@
 // Import Settings
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 // Import Redux
 import { useSelector } from "react-redux";
@@ -34,9 +35,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ForumTopic() {
+  const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sortByValue, setSortByValue] = useState("");
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
 
   const icon =
     topic == "Academic"
