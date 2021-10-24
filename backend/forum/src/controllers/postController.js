@@ -3,405 +3,343 @@ const {
 	addPostValidator,
 } = require("../validators/postValidator");
 const { validationResult, check } = require("express-validator");
-let Post = require("../models/postModel");
-let Comment = require("../models/commentModel");
-var userAuth = require("../middlewares/userAuth");
+const userAuth = require("../middlewares/userAuth");
+const postService = require("../services/postService");
 
 exports.index = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		Post.find({ topic: req.params.topic }, function (err, posts) {
-			if (err) {
-				return res.status(404).json({
-					status: "error",
-					msg: err,
-				});
-			}
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const posts = await postService.getAllPosts(req.params.topic);
+			const emptyPostDatabase = posts.length == 0;
 
-			if (posts.length == 0) {
-				res.status(200).json({
+			if (emptyPostDatabase) {
+				return res.status(200).json({
 					status: "success",
 					msg: "There are no posts under this topic: " + req.params.topic,
 					data: posts,
 				});
-				return;
 			}
-
-			res.status(200).json({
+			return res.status(200).json({
 				status: "success",
 				msg: "Posts retrieved successfully",
 				data: posts,
 			});
-		});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.createPost = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	addPostValidator(),
 	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader);
+		try {
+			const userId = req.userId;
+			const errors = validationResult(req);
 
-		var post = new Post();
-		post.userName = req.body.userName;
-		post.userId = userId;
-		post.topic = req.body.topic;
-		post.title = req.body.title;
-		post.content = req.body.content;
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			return res.status(404).json(errors.array());
-		}
-		post.save(function (err) {
-			if (err) {
-				res.json(err);
-			} else {
-				res.status(200).json({
-					status: "success",
-					msg: "New Post created!",
-					data: post,
-				});
+			if (!errors.isEmpty()) {
+				return res.status(404).json(errors.array());
 			}
-		});
+			const post = postService.createPost(userId, req.body);
+			return res.status(200).json({
+				status: "success",
+				msg: "New Post created!",
+				data: post,
+			});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.viewPost = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		Post.findById(req.params.post_id, function (err, post) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-			res.status(200).json({
+			return res.status(200).json({
 				status: "success",
 				msg: "Post details loading..",
 				data: post,
 				numberOfComments: post.comments.length,
 			});
-		});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.updatePost = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;
-		Post.findById(req.params.post_id, function (err, post) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
 
-			if (userId == post.userId) {
-				post.title = req.body.title ? req.body.title : post.title;
-				post.content = req.body.content ? req.body.content : post.content;
-			} else {
-				res.status(404).json({
-					status: "error",
-					msg: "User is not authorised to edit this post",
-				});
-				return;
-			}
-			// save the post and check for errors
-			post.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
+			if (postService.isUserPost(post.userId, userId)) { // userId == postId
+				post = await postService.updatePost(post, req.body);
+				return res.status(200).json({
 					status: "success",
 					msg: "Post details updated",
 					data: post,
 				});
+			} else {
+				return res.status(404).json({
+					status: "error",
+					msg: "User is not authorised to edit this post",
+				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.upvotePost = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;;
-
-		Post.findById(req.params.post_id, function (err, post) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-
-			if (userId == post.userId) {
-				res.status(404).json({
+			if (postService.isUserPost(post.userId, userId)) {
+				return res.status(404).json({
 					status: "error",
 					msg: "Users are not allowed to upvote/downvote their own posts",
 				});
-				return;
 			} else {
-				if (post.votedUsers.includes(userId)) {
-					res.status(404).json({
+				post = postService.upvotePost(userId, post);
+				if (post == null) {
+					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a post ONCE",
+						msg: "Users can only upvote a post ONCE",
 					});
-					return;
+				} else {
+					return res.status(200).json({
+						status: "success",
+						msg: "Post has been upvoted!",
+						data: post,
+					});
 				}
-				post.votes = post.votes + 1;
-				post.votedUsers.push(userId);
 			}
-			post.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					status: "success",
-					msg: "Post has been upvoted!",
-					data: post,
-				});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.downvotePost = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;;
-
-		Post.findById(req.params.post_id, function (err, post) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-
-			if (userId == post.userId) {
-				res.status(404).json({
+			if (postService.isUserPost(post.userId, userId)) {
+				return res.status(404).json({
 					status: "error",
 					msg: "Users are not allowed to upvote/downvote their own posts",
 				});
-				return;
 			} else {
-				if (post.votedUsers.includes(userId)) {
-					res.status(404).json({
+				post = postService.downvotePost(userId, post);
+				if (post == null) {
+					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a post ONCE",
+						msg: "Users can only downvote a post ONCE",
 					});
-					return;
+				} else {
+					return res.status(200).json({
+						status: "success",
+						msg: "Post has been downvoted!",
+						data: post,
+					});
 				}
-				post.votes = post.votes - 1;
-				post.votedUsers.push(userId);
 			}
-			post.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					status: "success",
-					msg: "Post has been downvoted!",
-					data: post,
-				});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.deletePost = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;;
-
-		Post.findById(req.params.post_id, function (err, post) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			let post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-
-			if (userId == post.userId) {
-				Post.deleteOne(
-					{
-						_id: req.params.post_id,
-					},
-					function (err, post) {
-						if (post == null) {
-							res.status(404).json({
-								status: "error",
-								msg: "Post not found!",
-							});
-						} else {
-							Comment.deleteMany(
-								{ post_id: req.params.post_id },
-								function (err, comment) {
-									if (comment == null) {
-										res.status(404).json({
-											status: "error",
-											msg: "Comment in post is not found!",
-										});
-										return;
-									}
-									if (err) res.send({ err });
-									res.status(200).json({
-										status: "success",
-										msg: "Post deleted",
-									});
-								}
-							); //deletes all comments associated with the post
-						}
-					}
-				);
+			if (postService.isUserPost(post.userId, userId)) {
+				await postService.deletePost(post.id);
+				return res.status(200).json({
+					status: "success",
+					msg: "Post deleted",
+				});
 			} else {
-				// checks if user is authorised to delete post
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "User is not authorised to delete this post",
 				});
-				return;
 			}
-		});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.sortPostByAscVotes = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		var compareByVotes = { votes: 1 };
-		Post.find({ topic: req.params.topic })
-			.sort(compareByVotes)
-			.exec((err, posts) => {
-				if (err) {
-					return res.status(404).json({
-						status: "error",
-						msg: err,
-					});
-				}
-
-				if (posts.length == 0) {
-					res.status(200).json({
-						status: "success",
-						msg: "There are no posts under this topic: " + req.params.topic,
-						data: posts,
-					});
-					return;
-				}
-
-				res.status(200).json({
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const posts = await postService.sortPostByVotes(req.params.topic, 1);
+			if (posts.length == 0) {
+				return res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+			} else {
+				return res.status(200).json({
 					status: "success",
 					msg: "Posts retrieved successfully",
 					data: posts,
 				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
+		}
 	},
 ];
 
 exports.sortPostByDescVotes = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		var compareByVotes = { votes: -1 };
-		Post.find({ topic: req.params.topic })
-			.sort(compareByVotes)
-			.exec((err, posts) => {
-				if (err) {
-					return res.status(404).json({
-						status: "error",
-						msg: err,
-					});
-				}
-
-				if (posts.length == 0) {
-					res.status(200).json({
-						status: "success",
-						msg: "There are no posts under this topic: " + req.params.topic,
-						data: posts,
-					});
-					return;
-				}
-
-				res.status(200).json({
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const posts = await postService.sortPostByVotes(req.params.topic, -1);
+			if (posts.length == 0) {
+				return res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+			} else {
+				return res.status(200).json({
 					status: "success",
 					msg: "Posts retrieved successfully",
 					data: posts,
 				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
+		}
 	},
 ];
 
 exports.sortPostByAscDate = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		var compareByDate = { dateCreated: 1 };
-		Post.find({ topic: req.params.topic })
-			.sort(compareByDate)
-			.exec((err, posts) => {
-				if (err) {
-					return res.status(404).json({
-						status: "error",
-						msg: err,
-					});
-				}
-
-				if (posts.length == 0) {
-					res.status(200).json({
-						status: "success",
-						msg: "There are no posts under this topic: " + req.params.topic,
-						data: posts,
-					});
-					return;
-				}
-
-				res.status(200).json({
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const posts = await postService.sortPostByDate(req.params.topic, 1);
+			if (posts.length == 0) {
+				return res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+			} else {
+				return res.status(200).json({
 					status: "success",
 					msg: "Posts retrieved successfully",
 					data: posts,
 				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
+		}
 	},
 ];
 
 exports.sortPostByDescDate = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		var compareByDate = { dateCreated: -1 };
-		Post.find({ topic: req.params.topic })
-			.sort(compareByDate)
-			.exec((err, posts) => {
-				if (err) {
-					return res.status(404).json({
-						status: "error",
-						msg: err,
-					});
-				}
-
-				if (posts.length == 0) {
-					res.status(200).json({
-						status: "success",
-						msg: "There are no posts under this topic: " + req.params.topic,
-						data: posts,
-					});
-					return;
-				}
-
-				res.status(200).json({
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const posts = await postService.sortPostByDate(req.params.topic, -1);
+			if (posts.length == 0) {
+				return res.status(200).json({
+					status: "success",
+					msg: "There are no posts under this topic: " + req.params.topic,
+					data: posts,
+				});
+			} else {
+				return res.status(200).json({
 					status: "success",
 					msg: "Posts retrieved successfully",
 					data: posts,
 				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
+		}
 	},
 ];
