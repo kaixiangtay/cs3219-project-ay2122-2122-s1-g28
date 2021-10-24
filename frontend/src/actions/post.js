@@ -315,7 +315,7 @@ export const handlePostSorting =
     const requestUrl =
       sortByValue == "oldest"
         ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscDate/${topic}`
-        : sortByValue == "newest"
+        : sortByValue == "latest"
         ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescDate/${topic}`
         : sortByValue == "ascVote"
         ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscVotes/${topic}`

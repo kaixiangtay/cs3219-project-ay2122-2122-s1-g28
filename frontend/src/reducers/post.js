@@ -115,6 +115,8 @@ function postReducer(state = defaultState, action) {
         ...state,
         sortPostsSuccess: true,
         sortPostsFailure: false,
+        createPostSuccess: false,
+        createPostFailure: false,
         posts: action.posts,
       };
     case SORT_POSTS_FAILURE:
@@ -122,6 +124,8 @@ function postReducer(state = defaultState, action) {
         ...state,
         sortPostsSuccess: false,
         sortPostsFailure: true,
+        createPostSuccess: false,
+        createPostFailure: false,
       };
     default:
       return state;
