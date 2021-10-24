@@ -22,6 +22,11 @@ async function getPostByID(postId) {
 	return post;
 }
 
+async function getPostsByUserID(userId, inputTopic) {
+	const posts = await Post.find({ userId: userId, topic: inputTopic });
+	return posts;
+}
+
 function updatePost(post, inputData) {
 	post.title = inputData.title ? inputData.title : post.title;
 	post.content = inputData.content ? inputData.content : post.content;
@@ -85,6 +90,7 @@ module.exports = {
 	getAllPosts,
 	createPost,
 	getPostByID,
+	getPostsByUserID,
 	updatePost,
 	upvotePost,
 	downvotePost,
