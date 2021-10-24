@@ -1,30 +1,22 @@
 const { port } = require("./config/config");
 
-const io = require("socket.io")(port); //hosted on localhost:<port number>
+var http = require("http").createServer().listen(port);
+var io = require("socket.io").listen(http);
 
 io.on("connection", (socket) => {
-  const id = socket.handshake.query.id; //passed in from client, static id that stays the same whenever page refreshes
-  socket.join(id); //Join the room
+  console.log(`Connected: ${socket.id}`);
 
-  //Handles when a message is sent (not sure if we need this way of filtering recipients also?)
-  socket.on("send-message", ({ recipients, text }) => {
-    recipients.forEach((recipient) => {
-      const newRecipients = recipients.filter((r) => r !== recipient); //removing current recipient from list of recipients
-      newRecipients.push(id); //id of the person sending the message
-
-      socket.broadcast.to(recipient).emit("receive-message", {
-        recipients: newRecipients,
-        sender: id,
-        text,
-      });
-    });
+  socket.on("disconnect", () => {
+    console.log(`Disconnected: ${socket.id}`);
   });
 
-  //Handles when a user leaves the room
-  socket.on("disconnect", () => {
-    // Put in implementation here
+  socket.on("join", (roomId) => {
+    console.log(`Socket ${socket.id} joining ${room}`);
+    socket.join(roomId);
+  });
+
+  socket.on("chat", (roomId, message) => {
+    console.log(`msg: ${message}, room: ${roomId}`);
+    io.to(roomId).emit("chat", message);
   });
 });
-
-// Following this tutorial: https://youtu.be/tBr-PybP_9c?t=5141
-// Socketio Room docs: https://socket.io/docs/v4/rooms/
