@@ -1,5 +1,8 @@
 import { toast } from "react-toastify";
 
+// Import Socketio
+import io from "socket.io-client";
+
 // Import tokenExpire to update if token expired
 import { tokenExpire } from "./auth.js";
 
@@ -131,6 +134,45 @@ export const updateInterests = (category, items) => (dispatch) => {
       break;
     default:
       return;
+  }
+};
+
+// ===================================================================
+// HANDLING SOCKET CLIENT FUNCTIONS
+// ===================================================================
+
+let socket;
+
+export const initiateSocket = (roomId) => {
+  socket = io(`${process.env.REACT_APP_API_URL_CHAT}`);
+  console.log(`Connecting socket...`);
+
+  if (socket && roomId) {
+    socket.emit("join", roomId);
+  }
+};
+
+export const disconnectSocket = () => {
+  console.log("Disconnecting socket...");
+  if (socket) {
+    socket.disconnect();
+  }
+};
+
+export const subscribeToChat = (cb) => {
+  if (!socket) {
+    return true;
+  }
+
+  socket.on("chat", (msg) => {
+    console.log("Websocket event received!");
+    return cb(null, msg);
+  });
+};
+
+export const sendMessage = (token, message) => {
+  if (socket) {
+    socket.emit("chat", { token, message });
   }
 };
 
