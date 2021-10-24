@@ -10,6 +10,7 @@ import FindFriends from "./pages/FindFriends/FindFriends.js";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail.js";
 import Forum from "./pages/Forum/Forum.js";
 import ForumTopic from "./pages/ForumTopic/ForumTopic.js";
+import ManagePosts from "./pages/ManagePosts/ManagePosts.js";
 import SingleForumPost from "./pages/SingleForumPost/SingleForumPost.js";
 
 const Routes = () => {
@@ -31,6 +32,7 @@ const Routes = () => {
       <Route path="/findfriends" component={FindFriends} />
       <Route exact path="/forum" component={Forum} />
       <Route exact path="/forum/:topic" component={ForumTopic} />
+      <Route exact path="/forum/:topic/manage-posts" component={ManagePosts} />
       <Route exact path="/forum/:topic/:id" component={SingleForumPost} />
     </Switch>
   );

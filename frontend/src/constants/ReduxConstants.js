@@ -46,12 +46,20 @@ export const DOWNVOTE_POST_SUCCESS = 50;
 export const DOWNVOTE_POST_FAILURE = 51;
 export const SORT_POSTS_SUCCESS = 52;
 export const SORT_POSTS_FAILURE = 53;
+export const GET_USER_POSTS_SUCCESS = 54;
+export const GET_USER_POSTS_FAILURE = 55;
+export const DELETE_POST_SUCCESS = 56;
+export const DELETE_POST_FAILURE = 57;
 
 // Comment
 export const CREATE_COMMENT_SUCCESS = 60;
 export const CREATE_COMMENT_FAILURE = 61;
 export const GET_ALL_COMMENTS_SUCCESS = 62;
 export const GET_ALL_COMMENTS_FAILURE = 63;
+export const GET_USER_COMMENTS_SUCCESS = 64;
+export const GET_USER_COMMENTS_FAILURE = 65;
+export const DELETE_COMMENT_SUCCESS = 66;
+export const DELETE_COMMENT_FAILURE = 67;
 
 // Match
 export const MATCHING = 70;
