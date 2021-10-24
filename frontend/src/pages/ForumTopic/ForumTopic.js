@@ -1,9 +1,10 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 // Import Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handlePostSorting } from "../../actions/post";
 
 // Import Material-ui
 import {
@@ -35,6 +36,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ForumTopic() {
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -63,6 +65,13 @@ function ForumTopic() {
     setDialogOpen(true);
   };
 
+  useEffect(() => {
+    // Check sort by value is defined
+    if (sortByValue) {
+      dispatch(handlePostSorting(sortByValue, topic));
+    }
+  }, [sortByValue]);
+
   return (
     <div>
       <Navbar />
@@ -85,8 +94,8 @@ function ForumTopic() {
             >
               <MenuItem value="newest">Newest</MenuItem>
               <MenuItem value="oldest">Oldest</MenuItem>
-              <MenuItem value="ascVote">Ascending Votes</MenuItem>
-              <MenuItem value="descVote">Descending Votes</MenuItem>
+              <MenuItem value="ascVote">Lowest Votes</MenuItem>
+              <MenuItem value="descVote">Highest Votes</MenuItem>
             </Select>
           </FormControl>
         </Grid>

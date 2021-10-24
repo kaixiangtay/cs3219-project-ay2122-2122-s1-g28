@@ -24,6 +24,8 @@ function ForumPosts(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const posts = useSelector((state) => state.post.posts);
+  const newPostCreated = useSelector((state) => state.post.createPostSuccess);
+
   const onClickSelectedPost = (postId) => {
     const postData = {
       postId: postId,
@@ -34,7 +36,7 @@ function ForumPosts(props) {
 
   useEffect(() => {
     dispatch(handleForumSelection(topic));
-  }, [posts]);
+  }, [newPostCreated]);
 
   return (
     <Grid container direction="column">

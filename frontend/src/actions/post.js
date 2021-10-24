@@ -11,6 +11,8 @@ import {
   UPVOTE_POST_FAILURE,
   DOWNVOTE_POST_SUCCESS,
   DOWNVOTE_POST_FAILURE,
+  SORT_POSTS_SUCCESS,
+  SORT_POSTS_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 // Import tokenExpire to update if token expired
@@ -63,6 +65,15 @@ const selectTopic = (topic, history) => {
 };
 
 // ===================================================================
+// GET SORTED AND NEW POST
+// ===================================================================
+// const getNewSortedPosts = () => {
+//   return {
+//     type: GET_NEW_SORTED_POSTS,
+//   };
+// };
+
+// ===================================================================
 // CREATE POST STATE CHANGE
 // ===================================================================
 const createPostSuccess = () => {
@@ -108,10 +119,26 @@ const downvotePostFailure = () => {
 };
 
 // ===================================================================
+// SORT POST STATE CHANGE
+// ===================================================================
+const sortPostsSuccess = (posts) => {
+  return {
+    type: SORT_POSTS_SUCCESS,
+    posts: posts,
+  };
+};
+
+const sortPostsFailure = () => {
+  return {
+    type: SORT_POSTS_FAILURE,
+  };
+};
+
+// ===================================================================
 // HANDLING API CALLS
 // ===================================================================
 
-// Get all forum posts of a topic
+// Get all forum posts of a topic without sorting
 export const handleForumSelection = (topic) => (dispatch, getState) => {
   const token = getState().auth.token;
   const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewAllPosts/${topic}`;
@@ -268,32 +295,36 @@ export const handleDownvotePost = (postId) => (dispatch, getState) => {
 };
 
 // Sort posts
-// export const handlePostSorting = (sortByValue, topic) => (dispatch) => {
-//   const requestUrl =
-//     sortByValue == "newest"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByAscDate/${topic}`
-//       : sortByValue == "oldest"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByDescDate/${topic}`
-//       : sortByValue == "ascVote"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByAscVotes/${topic}`
-//       : sortByValue == "descVote"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByDescVotes/${topic}`
-//       : ``;
-//   fetch(requestUrl, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//   })
-//     .then((response) => {
-//       if (response.ok) {
-//         response.json();
-//         // .then((res) => dispatch(selectionSuccess(path, topic, res.posts)));
-//       } else {
-//         response.json().then(() => dispatch(selectionFailure()));
-//       }
-//     })
-//     .catch((err) => {
-//       dispatch(selectionFailure(err));
-//     });
-// };
+export const handlePostSorting =
+  (sortByValue, topic) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const requestUrl =
+      sortByValue == "oldest"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscDate/${topic}`
+        : sortByValue == "newest"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescDate/${topic}`
+        : sortByValue == "ascVote"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscVotes/${topic}`
+        : sortByValue == "descVote"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescVotes/${topic}`
+        : ``;
+    fetch(requestUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => dispatch(sortPostsSuccess(res.data)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then(() => dispatch(sortPostsFailure()));
+        }
+      })
+      .catch(() => {
+        dispatch(sortPostsSuccess());
+      });
+  };
