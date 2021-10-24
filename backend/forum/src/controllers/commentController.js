@@ -46,6 +46,31 @@ exports.viewPostComments = [
 	},
 ];
 
+exports.viewUserComments = [
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const comments = await commentService.getCommentsByUserId(userId);
+			const emptyCommentsDatabase = comments.length == 0;
+			if (emptyCommentsDatabase) {
+				return res.status(200).json({
+					status: "success",
+					msg: "This user does not have any comments",
+					data: comments,
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully",
+					data: comments,
+				});
+			}
+		} catch (err) {
+
+		}
+	}
+];
 exports.createComment = [
 	userAuth.decodeAuthToken,
 	addCommentValidator(),

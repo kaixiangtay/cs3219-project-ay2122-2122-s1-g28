@@ -86,6 +86,35 @@ exports.viewPost = [
 	},
 ];
 
+exports.viewUserPosts = [
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const posts = await postService.getPostsByUserID(userId);
+			const emptyPostDatabase = posts.length == 0;
+
+			if (emptyPostDatabase) {
+				return res.status(200).json({
+					status: "success",
+					msg: "This user does not have any posts",
+					data: posts,
+				});
+			}
+			return res.status(200).json({
+				status: "success",
+				msg: "Posts retrieved successfully",
+				data: posts,
+			});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
+	}
+];
+
 exports.updatePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {

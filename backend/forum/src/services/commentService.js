@@ -9,6 +9,11 @@ async function getAllComments(postId) {
 	return post.comments;
 }
 
+async function getCommentsByUserId(userId) {
+	const comments = await Comment.find({ userId: userId });
+	return comments; 
+}
+
 function createComment(userId, inputData, post) {
 	var comment = new Comment();
 	comment.userName = inputData.userName;
@@ -92,4 +97,4 @@ async function sortCommentByDate(postId, order) {
 	return post.comments;
 }
 
-module.exports = { getAllComments, createComment, getCommentByID, updateComment, upvoteComment, downvoteComment, deleteComment, sortCommentByVotes, sortCommentByDate, isUserComment };
+module.exports = { getAllComments, getCommentsByUserId, createComment, getCommentByID, updateComment, upvoteComment, downvoteComment, deleteComment, sortCommentByVotes, sortCommentByDate, isUserComment };

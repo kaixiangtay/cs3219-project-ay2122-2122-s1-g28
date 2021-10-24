@@ -12,6 +12,9 @@ router.get('/', function (req, res) {
 router.route('/api/forum/viewAllPosts/:topic')
     .get(postController.index)
 
+router.route('/api/forum/viewUserPosts')
+    .get(postController.viewUserPosts)
+
 router.route('/api/forum/createPost')
     .post(postController.createPost)
 
@@ -32,6 +35,9 @@ router.route('/api/forum/deletePost/:post_id')
 
 router.route('/api/forum/viewAllComments/:post_id')
     .get(commentController.viewPostComments)
+
+router.route('/api/forum/viewUserComments')
+    .get(commentController.viewUserComments)
 
 router.route('/api/forum/createComment/:post_id')
     .post(commentController.createComment)
