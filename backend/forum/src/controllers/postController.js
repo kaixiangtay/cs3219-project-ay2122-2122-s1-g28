@@ -22,7 +22,7 @@ exports.index = [
 			}
 			return res.status(200).json({
 				status: "success",
-				msg: "Posts retrieved successfully",
+				msg: "Posts retrieved successfully!",
 				data: posts,
 			});
 		} catch (err) {
@@ -48,7 +48,7 @@ exports.createPost = [
 			const post = postService.createPost(userId, req.body);
 			return res.status(200).json({
 				status: "success",
-				msg: "New Post created!",
+				msg: "New post created!",
 				data: post,
 			});
 		} catch (err) {
@@ -73,7 +73,7 @@ exports.viewPost = [
 			}
 			return res.status(200).json({
 				status: "success",
-				msg: "Post details loading..",
+				msg: "Post retrieved successfully!",
 				data: post,
 				numberOfComments: post.comments.length,
 			});
@@ -97,13 +97,13 @@ exports.viewUserPosts = [
 			if (emptyPostDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any posts",
+					msg: "This user does not have any posts!",
 					data: posts,
 				});
 			}
 			return res.status(200).json({
 				status: "success",
-				msg: "Posts retrieved successfully",
+				msg: "Posts retrieved successfully!",
 				data: posts,
 			});
 		} catch (err) {
@@ -132,7 +132,7 @@ exports.updatePost = [
 				post = await postService.updatePost(post, req.body);
 				return res.status(200).json({
 					status: "success",
-					msg: "Post details updated",
+					msg: "Post has been updated!",
 					data: post,
 				});
 			} else {
@@ -165,14 +165,14 @@ exports.upvotePost = [
 			if (postService.isUserPost(post.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
-					msg: "Users are not allowed to upvote/downvote their own posts",
+					msg: "Users are not allowed to upvote their own posts!",
 				});
 			} else {
 				post = postService.upvotePost(userId, post);
 				if (post == null) {
 					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote a post ONCE",
+						msg: "Users can only upvote a post ONCE!",
 					});
 				} else {
 					return res.status(200).json({
@@ -206,14 +206,14 @@ exports.downvotePost = [
 			if (postService.isUserPost(post.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
-					msg: "Users are not allowed to upvote/downvote their own posts",
+					msg: "Users are not allowed to downvote their own posts!",
 				});
 			} else {
 				post = postService.downvotePost(userId, post);
 				if (post == null) {
 					return res.status(404).json({
 						status: "error",
-						msg: "Users can only downvote a post ONCE",
+						msg: "Users can only downvote a post ONCE!",
 					});
 				} else {
 					return res.status(200).json({
@@ -241,14 +241,14 @@ exports.deletePost = [
 			if (post == null) {
 				return res.status(404).json({
 					status: "error",
-					msg: "Post not found!",
+					msg: "Post is not found!",
 				});
 			}
 			if (postService.isUserPost(post.userId, userId)) {
 				await postService.deletePost(post.id);
 				return res.status(200).json({
 					status: "success",
-					msg: "Post deleted",
+					msg: "Post has been deleted!",
 				});
 			} else {
 				return res.status(404).json({
@@ -279,7 +279,7 @@ exports.sortPostByAscVotes = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Posts retrieved successfully",
+					msg: "Posts retrieved successfully!",
 					data: posts,
 				});
 			}
@@ -306,7 +306,7 @@ exports.sortPostByDescVotes = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Posts retrieved successfully",
+					msg: "Posts retrieved successfully!",
 					data: posts,
 				});
 			}
@@ -333,7 +333,7 @@ exports.sortPostByAscDate = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Posts retrieved successfully",
+					msg: "Posts retrieved successfully!",
 					data: posts,
 				});
 			}
@@ -360,7 +360,7 @@ exports.sortPostByDescDate = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Posts retrieved successfully",
+					msg: "Posts retrieved successfully!",
 					data: posts,
 				});
 			}
