@@ -6,23 +6,26 @@ exports.getToken = (header) => {
     return token;
 }
 
-exports.decodeAuthToken = (header) => {
-    const token = this.getToken(header);
-    var decoded = jwt.verify(token, JWT_ACCESS_TOKEN);
-    return decoded;
-};
-
-exports.authenticateToken = (req, res, next) => {
+exports.decodeAuthToken = (req, res, next) => {
     const token = this.getToken(req.headers['authorization']);
 
     if (!token) {
-        return res.sendStatus(401);
+        // No token in req header
+        return res.status(401).json({
+            success: "error",
+            msg: "Unauthorized to access data",
+        });
     }
-    
-    jwt.verify(token, JWT_ACCESS_TOKEN, function(err) {
-        if (err) {
-            return res.sendStatus(403);
-        }
-        next();
-    });
+
+    try {
+        const decoded = jwt.verify(token, JWT_ACCESS_TOKEN);
+        req.userId = decoded._id;
+        return next();
+      } catch (error) {
+        // Invalid token detected in req header
+        return res.status(401).json({ 
+            success: "error",
+            msg: "Unauthorized to access data",
+        });
+    }
 };

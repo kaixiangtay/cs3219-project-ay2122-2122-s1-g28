@@ -18,7 +18,8 @@ var CommentSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  votedUsers: [String],
+  upvotedUsers: [String],
+  downvotedUsers: [String],
   postId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'
