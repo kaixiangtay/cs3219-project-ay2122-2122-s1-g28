@@ -91,7 +91,7 @@ exports.viewUserPosts = [
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			const posts = await postService.getPostsByUserID(userId);
+			const posts = await postService.getPostsByUserID(userId, req.params.topic);
 			const emptyPostDatabase = posts.length == 0;
 
 			if (emptyPostDatabase) {

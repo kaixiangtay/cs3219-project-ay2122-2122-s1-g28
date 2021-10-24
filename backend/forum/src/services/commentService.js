@@ -9,8 +9,8 @@ async function getAllComments(postId) {
 	return post.comments;
 }
 
-async function getCommentsByUserId(userId) {
-	const comments = await Comment.find({ userId: userId });
+async function getCommentsByUserId(userId, inputTopic) {
+	const comments = await Comment.find({ userId: userId, topic: inputTopic });
 	return comments; 
 }
 
@@ -20,6 +20,7 @@ function createComment(userId, inputData, post) {
 	comment.userId = userId;
 	comment.content = inputData.content;
     comment.postId = post._id
+	comment.topic = post.topic; 
     comment.save();
     post.comments.push(comment);
     post.save();

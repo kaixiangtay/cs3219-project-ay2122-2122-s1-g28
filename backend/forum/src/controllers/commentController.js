@@ -51,7 +51,7 @@ exports.viewUserComments = [
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			const comments = await commentService.getCommentsByUserId(userId);
+			const comments = await commentService.getCommentsByUserId(userId, req.params.topic);
 			const emptyCommentsDatabase = comments.length == 0;
 			if (emptyCommentsDatabase) {
 				return res.status(200).json({

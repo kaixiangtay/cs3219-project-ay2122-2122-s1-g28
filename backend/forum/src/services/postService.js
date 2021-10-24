@@ -22,8 +22,8 @@ async function getPostByID(postId) {
 	return post;
 }
 
-async function getPostsByUserID(userId) {
-	const posts = await Post.find({ userId: userId });
+async function getPostsByUserID(userId, inputTopic) {
+	const posts = await Post.find({ userId: userId, topic: inputTopic });
 	return posts;
 }
 
