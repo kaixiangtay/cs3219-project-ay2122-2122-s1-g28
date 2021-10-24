@@ -149,7 +149,7 @@ const sortPostsFailure = (err) => {
 };
 
 // ===================================================================
-// HANDLING API CALLS
+// HANDLE API CALLS
 // ===================================================================
 
 // Get all forum posts of a topic without sorting

@@ -116,13 +116,18 @@ function SingleForumPost() {
                     className={styles.comment}
                   >
                     <Card variant="outlined">
-                      <CardContent>
+                      <CardContent className={styles.cardContent}>
                         <Typography variant="h6" className={styles.commentName}>
                           {comment.userName}
                         </Typography>
                         <Typography variant="body1">
                           {comment.content}
                         </Typography>
+                        <Grid container direction="row-reverse">
+                          <Typography variant="caption">
+                            Commented on {comment.displayDate}
+                          </Typography>
+                        </Grid>
                       </CardContent>
                     </Card>
                   </Grid>
