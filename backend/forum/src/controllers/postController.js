@@ -97,7 +97,7 @@ exports.viewUserPosts = [
 			if (emptyPostDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any posts!",
+					msg: "This user does not have any posts under this topic: " + req.params.topic,
 					data: posts,
 				});
 			}

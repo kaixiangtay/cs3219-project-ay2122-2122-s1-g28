@@ -56,7 +56,7 @@ exports.viewUserComments = [
 			if (emptyCommentsDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any comments!",
+					msg: "This user does not have any comments under this topic: " + req.params.topic,
 					data: comments,
 				});
 			} else {
