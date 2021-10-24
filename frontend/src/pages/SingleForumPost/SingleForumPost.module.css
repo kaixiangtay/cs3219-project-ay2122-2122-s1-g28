@@ -1,12 +1,6 @@
-.fontColor {
-  color: var(--BLACK);
-}
-
 .grid {
-  max-width: 75%;
-  min-width: 75%;
-  align-items: center;
   margin-top: 3% !important;
+  margin-bottom: 3% !important;
 }
 
 .gridContainer {
@@ -14,33 +8,30 @@
   padding-right: 5%;
 }
 
-.commentBox {
-  margin-left: 6% !important;
-  margin-right: 6% !important;
+.title {
+  font-weight: bold !important;
 }
 
 .commentButton {
   background-color: var(--ORANGE) !important;
   color: var(--WHITE) !important;
-  margin-left: 84% !important;
   margin-top: 1% !important;
   width: 10%;
-}
-
-.postDetails {
-  margin-left: 70% !important;
 }
 
 .commentContainer {
   padding: 3%;
 }
 
-.card {
-  margin-top: 2%;
-  max-width: 100%;
+.comment {
+  margin-bottom: 3% !important;
 }
 
 .commentName {
   padding-bottom: 1%;
   font-weight: bold !important;
+}
+
+.cardContent {
+  padding-bottom: 1% !important;
 }
