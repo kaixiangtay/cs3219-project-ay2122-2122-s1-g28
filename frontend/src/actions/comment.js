@@ -1,3 +1,8 @@
+import { toast } from "react-toastify";
+
+// Import tokenExpire to update if token expired
+import { tokenExpire } from "./auth.js";
+
 // Import constants
 import {
   CREATE_COMMENT_SUCCESS,
@@ -9,13 +14,19 @@ import {
 // ===================================================================
 // CREATE COMMENT STATE CHANGE
 // ===================================================================
-const createCommentSuccess = () => {
+const createCommentSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: CREATE_COMMENT_SUCCESS,
   };
 };
 
-const createCommentFailure = () => {
+const createCommentFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: CREATE_COMMENT_FAILURE,
   };
@@ -31,11 +42,18 @@ const getAllCommentsSuccess = (comments) => {
   };
 };
 
-const getAllCommentsFailure = () => {
+const getAllCommentsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: GET_ALL_COMMENTS_FAILURE,
   };
 };
+
+// ===================================================================
+// HANDLE API CALLS
+// ===================================================================
 
 // Create a comment
 export const handleCreateComment =
@@ -57,10 +75,12 @@ export const handleCreateComment =
     })
       .then(function (response) {
         if (response.ok) {
-          response.json().then(() => dispatch(createCommentSuccess()));
+          response.json().then((res) => dispatch(createCommentSuccess(res)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
         } else {
-          response.json().then(() => {
-            dispatch(createCommentFailure());
+          response.json().then((err) => {
+            dispatch(createCommentFailure(err));
           });
         }
       })
@@ -86,9 +106,11 @@ export const handleGetAllComments = (postId) => (dispatch, getState) => {
         response
           .json()
           .then((res) => dispatch(getAllCommentsSuccess(res.data)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
       } else {
-        response.json().then(() => {
-          dispatch(getAllCommentsFailure());
+        response.json().then((err) => {
+          dispatch(getAllCommentsFailure(err));
         });
       }
     })

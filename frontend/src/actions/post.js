@@ -1,3 +1,8 @@
+import { toast } from "react-toastify";
+
+// Import tokenExpire to update if token expired
+import { tokenExpire } from "./auth.js";
+
 // Import constants
 import {
   GET_ALL_POSTS_SUCCESS,
@@ -15,9 +20,6 @@ import {
   SORT_POSTS_FAILURE,
 } from "../constants/ReduxConstants.js";
 
-// Import tokenExpire to update if token expired
-import { tokenExpire } from "./auth.js";
-
 // ===================================================================
 // GET ALL POSTS STATE CHANGE
 // ===================================================================
@@ -29,7 +31,10 @@ const getAllPostsSuccess = (topic, posts) => {
   };
 };
 
-const getAllPostsFailure = () => {
+const getAllPostsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: GET_ALL_POSTS_FAILURE,
   };
@@ -46,7 +51,10 @@ const getSinglePostSuccess = (history, path, post) => {
   };
 };
 
-const getSinglePostFailure = () => {
+const getSinglePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: GET_SINGLE_POST_FAILURE,
   };
@@ -65,24 +73,21 @@ const selectTopic = (topic, history) => {
 };
 
 // ===================================================================
-// GET SORTED AND NEW POST
-// ===================================================================
-// const getNewSortedPosts = () => {
-//   return {
-//     type: GET_NEW_SORTED_POSTS,
-//   };
-// };
-
-// ===================================================================
 // CREATE POST STATE CHANGE
 // ===================================================================
-const createPostSuccess = () => {
+const createPostSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: CREATE_POST_SUCCESS,
   };
 };
 
-const createPostFailure = () => {
+const createPostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: CREATE_POST_FAILURE,
   };
@@ -97,7 +102,10 @@ const upvotePostSuccess = () => {
   };
 };
 
-const upvotePostFailure = () => {
+const upvotePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: UPVOTE_POST_FAILURE,
   };
@@ -112,7 +120,10 @@ const downvotePostSuccess = () => {
   };
 };
 
-const downvotePostFailure = () => {
+const downvotePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: DOWNVOTE_POST_FAILURE,
   };
@@ -128,7 +139,10 @@ const sortPostsSuccess = (posts) => {
   };
 };
 
-const sortPostsFailure = () => {
+const sortPostsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: SORT_POSTS_FAILURE,
   };
@@ -158,7 +172,7 @@ export const handleForumSelection = (topic) => (dispatch, getState) => {
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => dispatch(getAllPostsFailure()));
+        response.json().then((res) => dispatch(getAllPostsFailure(res)));
       }
     })
     .catch((err) => {
@@ -192,8 +206,8 @@ export const handlePostSelection =
         } else if (response.status == 401) {
           dispatch(tokenExpire());
         } else {
-          response.json().then(() => {
-            dispatch(getSinglePostFailure());
+          response.json().then((res) => {
+            dispatch(getSinglePostFailure(res));
           });
         }
       })
@@ -228,12 +242,12 @@ export const handleCreatePost = (postData) => (dispatch, getState) => {
   })
     .then(function (response) {
       if (response.ok) {
-        response.json().then(() => dispatch(createPostSuccess()));
+        response.json().then((res) => dispatch(createPostSuccess(res)));
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => {
-          dispatch(createPostFailure());
+        response.json().then((res) => {
+          dispatch(createPostFailure(res));
         });
       }
     })
@@ -260,11 +274,11 @@ export const handleUpvotePost = (postId) => (dispatch, getState) => {
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => dispatch(upvotePostFailure()));
+        response.json().then((err) => dispatch(upvotePostFailure(err)));
       }
     })
-    .catch(() => {
-      dispatch(upvotePostFailure());
+    .catch((err) => {
+      dispatch(upvotePostFailure(err));
     });
 };
 
@@ -286,11 +300,11 @@ export const handleDownvotePost = (postId) => (dispatch, getState) => {
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => dispatch(downvotePostFailure()));
+        response.json().then((err) => dispatch(downvotePostFailure(err)));
       }
     })
-    .catch(() => {
-      dispatch(downvotePostFailure());
+    .catch((err) => {
+      dispatch(downvotePostFailure(err));
     });
 };
 
@@ -321,10 +335,10 @@ export const handlePostSorting =
         } else if (response.status == 401) {
           dispatch(tokenExpire());
         } else {
-          response.json().then(() => dispatch(sortPostsFailure()));
+          response.json().then((err) => dispatch(sortPostsFailure(err)));
         }
       })
-      .catch(() => {
-        dispatch(sortPostsSuccess());
+      .catch((err) => {
+        dispatch(sortPostsFailure(err));
       });
   };
