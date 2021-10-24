@@ -1,3 +1,8 @@
+import { toast } from "react-toastify";
+
+// Import tokenExpire to update if token expired
+import { tokenExpire } from "./auth.js";
+
 // Import constants
 import {
   GET_ALL_POSTS_SUCCESS,
@@ -11,10 +16,13 @@ import {
   UPVOTE_POST_FAILURE,
   DOWNVOTE_POST_SUCCESS,
   DOWNVOTE_POST_FAILURE,
+  SORT_POSTS_SUCCESS,
+  SORT_POSTS_FAILURE,
+  GET_USER_POSTS_SUCCESS,
+  GET_USER_POSTS_FAILURE,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
-
-// Import tokenExpire to update if token expired
-import { tokenExpire } from "./auth.js";
 
 // ===================================================================
 // GET ALL POSTS STATE CHANGE
@@ -27,7 +35,10 @@ const getAllPostsSuccess = (topic, posts) => {
   };
 };
 
-const getAllPostsFailure = () => {
+const getAllPostsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: GET_ALL_POSTS_FAILURE,
   };
@@ -44,7 +55,10 @@ const getSinglePostSuccess = (history, path, post) => {
   };
 };
 
-const getSinglePostFailure = () => {
+const getSinglePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: GET_SINGLE_POST_FAILURE,
   };
@@ -65,13 +79,19 @@ const selectTopic = (topic, history) => {
 // ===================================================================
 // CREATE POST STATE CHANGE
 // ===================================================================
-const createPostSuccess = () => {
+const createPostSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: CREATE_POST_SUCCESS,
   };
 };
 
-const createPostFailure = () => {
+const createPostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: CREATE_POST_FAILURE,
   };
@@ -86,7 +106,10 @@ const upvotePostSuccess = () => {
   };
 };
 
-const upvotePostFailure = () => {
+const upvotePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: UPVOTE_POST_FAILURE,
   };
@@ -101,17 +124,80 @@ const downvotePostSuccess = () => {
   };
 };
 
-const downvotePostFailure = () => {
+const downvotePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
   return {
     type: DOWNVOTE_POST_FAILURE,
   };
 };
 
 // ===================================================================
-// HANDLING API CALLS
+// SORT POST STATE CHANGE
 // ===================================================================
+const sortPostsSuccess = (posts) => {
+  return {
+    type: SORT_POSTS_SUCCESS,
+    posts: posts,
+  };
+};
 
-// Get all forum posts of a topic
+const sortPostsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: SORT_POSTS_FAILURE,
+  };
+};
+
+// ===================================================================
+// GET USER'S POSTS
+// ===================================================================
+const getUserPostsSuccess = (topic, posts, history) => {
+  const path = "/forum/" + topic.toLowerCase() + "/manage-posts";
+  history.push(path);
+  return {
+    type: GET_USER_POSTS_SUCCESS,
+    posts: posts,
+  };
+};
+
+const getUserPostsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: GET_USER_POSTS_FAILURE,
+  };
+};
+
+// ===================================================================
+// DELETE POST
+// ===================================================================
+const deletePostSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: DELETE_POST_SUCCESS,
+  };
+};
+
+const deletePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: DELETE_POST_FAILURE,
+  };
+};
+
+// ===================================================================
+// HANDLE API CALLS
+// ===================================================================
+// Get all forum posts of a topic without sorting
 export const handleForumSelection = (topic) => (dispatch, getState) => {
   const token = getState().auth.token;
   const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewAllPosts/${topic}`;
@@ -131,7 +217,7 @@ export const handleForumSelection = (topic) => (dispatch, getState) => {
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => dispatch(getAllPostsFailure()));
+        response.json().then((res) => dispatch(getAllPostsFailure(res)));
       }
     })
     .catch((err) => {
@@ -165,8 +251,8 @@ export const handlePostSelection =
         } else if (response.status == 401) {
           dispatch(tokenExpire());
         } else {
-          response.json().then(() => {
-            dispatch(getSinglePostFailure());
+          response.json().then((res) => {
+            dispatch(getSinglePostFailure(res));
           });
         }
       })
@@ -201,12 +287,12 @@ export const handleCreatePost = (postData) => (dispatch, getState) => {
   })
     .then(function (response) {
       if (response.ok) {
-        response.json().then(() => dispatch(createPostSuccess()));
+        response.json().then((res) => dispatch(createPostSuccess(res)));
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => {
-          dispatch(createPostFailure());
+        response.json().then((res) => {
+          dispatch(createPostFailure(res));
         });
       }
     })
@@ -233,11 +319,11 @@ export const handleUpvotePost = (postId) => (dispatch, getState) => {
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => dispatch(upvotePostFailure()));
+        response.json().then((err) => dispatch(upvotePostFailure(err)));
       }
     })
-    .catch(() => {
-      dispatch(upvotePostFailure());
+    .catch((err) => {
+      dispatch(upvotePostFailure(err));
     });
 };
 
@@ -259,41 +345,101 @@ export const handleDownvotePost = (postId) => (dispatch, getState) => {
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then(() => dispatch(downvotePostFailure()));
+        response.json().then((err) => dispatch(downvotePostFailure(err)));
       }
     })
-    .catch(() => {
-      dispatch(downvotePostFailure());
+    .catch((err) => {
+      dispatch(downvotePostFailure(err));
     });
 };
 
 // Sort posts
-// export const handlePostSorting = (sortByValue, topic) => (dispatch) => {
-//   const requestUrl =
-//     sortByValue == "newest"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByAscDate/${topic}`
-//       : sortByValue == "oldest"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByDescDate/${topic}`
-//       : sortByValue == "ascVote"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByAscVotes/${topic}`
-//       : sortByValue == "descVote"
-//       ? `${process.env.REACT_APP_API_URL}/api/forum/sortPostByDescVotes/${topic}`
-//       : ``;
-//   fetch(requestUrl, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//   })
-//     .then((response) => {
-//       if (response.ok) {
-//         response.json();
-//         // .then((res) => dispatch(selectionSuccess(path, topic, res.posts)));
-//       } else {
-//         response.json().then(() => dispatch(selectionFailure()));
-//       }
-//     })
-//     .catch((err) => {
-//       dispatch(selectionFailure(err));
-//     });
-// };
+export const handlePostSorting =
+  (sortByValue, topic) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const requestUrl =
+      sortByValue == "oldest"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscDate/${topic}`
+        : sortByValue == "latest"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescDate/${topic}`
+        : sortByValue == "ascVote"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscVotes/${topic}`
+        : sortByValue == "descVote"
+        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescVotes/${topic}`
+        : ``;
+    fetch(requestUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => dispatch(sortPostsSuccess(res.data)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then((err) => dispatch(sortPostsFailure(err)));
+        }
+      })
+      .catch((err) => {
+        dispatch(sortPostsFailure(err));
+      });
+  };
+
+// Get user's posts
+export const handleGetUserPosts = (topic, history) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewUserPosts/${topic}`;
+
+  fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response
+          .json()
+          .then((res) =>
+            dispatch(getUserPostsSuccess(topic, res.data, history))
+          );
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((err) => dispatch(getUserPostsFailure(err)));
+      }
+    })
+    .catch((err) => {
+      dispatch(getUserPostsFailure(err));
+    });
+};
+
+// Delete post
+export const handleDeletePost = (postId) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/deletePost/${postId}`;
+
+  fetch(requestUrl, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((res) => dispatch(deletePostSuccess(res)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((err) => dispatch(deletePostFailure(err)));
+      }
+    })
+    .catch((err) => {
+      dispatch(deletePostFailure(err));
+    });
+};

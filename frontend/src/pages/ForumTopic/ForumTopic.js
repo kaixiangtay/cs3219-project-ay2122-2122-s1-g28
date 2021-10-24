@@ -1,18 +1,19 @@
 // Import Settings
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handlePostSorting, handleGetUserPosts } from "../../actions/post";
 
 // Import Material-ui
 import {
   Grid,
   Button,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@material-ui/core";
 
 // Import Components
@@ -35,10 +36,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function ForumTopic() {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [sortByValue, setSortByValue] = useState("");
+  const [sortByValue, setSortByValue] = useState("latest");
 
   if (!auth.token) {
     return <Redirect to="/login" />;
@@ -63,6 +66,14 @@ function ForumTopic() {
     setDialogOpen(true);
   };
 
+  const handleManagePost = () => {
+    dispatch(handleGetUserPosts(topic, history));
+  };
+
+  useEffect(() => {
+    dispatch(handlePostSorting(sortByValue, topic));
+  }, [sortByValue]);
+
   return (
     <div>
       <Navbar />
@@ -70,25 +81,53 @@ function ForumTopic() {
         <PageTitle title={topic} icon={icon} />
       </Grid>
       <Grid container className={styles.container}>
-        <Grid item xs={6} sm={6} md={6}>
-          <Button className={styles.createButton} onClick={handleDialogOpen}>
-            Create Post
-          </Button>
-        </Grid>
-        <Grid item xs={6} sm={6} md={6} className={styles.sortButton}>
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel>Sort By</InputLabel>
-            <Select
-              label="Sort By"
-              value={sortByValue}
-              onChange={(e) => setSortByValue(e.target.value)}
+        <Grid container direction="row-reverse">
+          <Grid item className={styles.sortButtonContainer}>
+            <Typography
+              variant="button"
+              align="left"
+              className={styles.sortText}
             >
-              <MenuItem value="newest">Newest</MenuItem>
-              <MenuItem value="oldest">Oldest</MenuItem>
-              <MenuItem value="ascVote">Ascending Votes</MenuItem>
-              <MenuItem value="descVote">Descending Votes</MenuItem>
-            </Select>
-          </FormControl>
+              Sort By:
+            </Typography>
+            <FormControl
+              variant="outlined"
+              size="small"
+              fullWidth
+              className={styles.sortButton}
+            >
+              <Select
+                label="Sort By"
+                value={sortByValue}
+                onChange={(e) => setSortByValue(e.target.value)}
+              >
+                <MenuItem value="latest">Latest</MenuItem>
+                <MenuItem value="oldest">Oldest</MenuItem>
+                <MenuItem value="ascVote">Lowest Votes</MenuItem>
+                <MenuItem value="descVote">Highest Votes</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs={6} sm={6} md={6}>
+            <Button
+              className={styles.createManageButton}
+              onClick={handleDialogOpen}
+            >
+              Create Post
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={6} md={6}>
+            <Grid container direction="row-reverse">
+              <Button
+                className={styles.createManageButton}
+                onClick={handleManagePost}
+              >
+                Manage Posts/Comments
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
         <ForumPosts topic={topic} />
         <CreatePostDialog

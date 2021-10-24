@@ -1,0 +1,7 @@
+.container {
+  margin-top: 2%;
+}
+
+.tabIndicator {
+  background-color: var(--DARKBLUE) !important;
+}
