@@ -28,12 +28,12 @@ exports.viewPostComments = [
 			} else if (comments.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no comments in this post", // tells client that the post has no comments
+					msg: "There are no comments in this post!", // tells client that the post has no comments
 				});
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Comment details loading..",
+					msg: "Comments retrieved successfully!",
 					data: comments,
 				});
 			}
@@ -46,6 +46,31 @@ exports.viewPostComments = [
 	},
 ];
 
+exports.viewUserComments = [
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const comments = await commentService.getCommentsByUserId(userId, req.params.topic);
+			const emptyCommentsDatabase = comments.length == 0;
+			if (emptyCommentsDatabase) {
+				return res.status(200).json({
+					status: "success",
+					msg: "This user does not have any comments under this topic: " + req.params.topic,
+					data: comments,
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully!",
+					data: comments,
+				});
+			}
+		} catch (err) {
+
+		}
+	}
+];
 exports.createComment = [
 	userAuth.decodeAuthToken,
 	addCommentValidator(),
@@ -71,7 +96,7 @@ exports.createComment = [
 			);
 			return res.status(200).json({
 				status: "success",
-				msg: "Comment is created!",
+				msg: "New comment created!",
 				data: comment,
 			});
 		} catch (err) {
@@ -104,7 +129,7 @@ exports.viewComment = [
 			}
 			return res.status(200).json({
 				status: "success",
-				msg: "Comment details loading..",
+				msg: "Comment retrieved successfully!",
 				data: comment,
 			});
 		} catch (err) {
@@ -139,7 +164,7 @@ exports.updateComment = [
 				comment = commentService.updateComment(comment, req.body);
 				return res.status(200).json({
 					status: "success",
-					msg: "Comment content updated",
+					msg: "Comment has been updated!",
 					data: comment,
 				});
 			} else {
@@ -180,14 +205,14 @@ exports.upvoteComment = [
 			if (commentService.isUserComment(comment.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
-					msg: "Users are not allowed to upvote/downvote their own comments",
+					msg: "Users are not allowed to upvote their own comments!",
 				});
 			} else {
 				comment = commentService.upvoteComment(userId, comment);
 				if (comment == null){
 					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a comment ONCE",
+						msg: "Users can only upvote a comment ONCE!",
 					});
 				} else {
 					return res.status(200).json({
@@ -229,14 +254,14 @@ exports.downvoteComment = [
 			if (commentService.isUserComment(comment.userId, userId)) {
 				return res.status(404).json({
 					status: "error",
-					msg: "Users are not allowed to upvote/downvote their own comments",
+					msg: "Users are not allowed to downvote their own comments!",
 				});
 			} else {
 				comment = commentService.downvoteComment(userId, comment);
 				if (comment == null){
 					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a comment ONCE",
+						msg: "Users can only downvote a comment ONCE!",
 					});
 				} else {
 					return res.status(200).json({
@@ -278,7 +303,7 @@ exports.deleteComment = [
 				await commentService.deleteComment(req.params.comment_id, post);
 				res.status(200).json({
 					status: "success",
-					msg: "Comment deleted",
+					msg: "Comment has been deleted!",
 				});
 			} else {
 				return res.status(404).json({
@@ -321,7 +346,7 @@ exports.sortCommentsByAscVotes = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Comment details loading..",
+					msg: "Comments retrieved successfully!",
 					data: comments,
 				});
 			}
@@ -360,7 +385,7 @@ exports.sortCommentsByDescVotes = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Comment details loading..",
+					msg: "Comments retrieved successfully!",
 					data: comments,
 				});
 			}
@@ -399,7 +424,7 @@ exports.sortCommentsByAscDate = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "Comment details loading..",
+					msg: "Comments retrieved successfully!",
 					data: comments,
 				});
 			}
@@ -433,7 +458,7 @@ exports.sortCommentsByDescDate = [
 			} else if (comments.legnth == 0) {
 				return res.status(200).json({
 					status: "sucess",
-					msg: "There are no comments in this post", // tells client that the post has no comments
+					msg: "Comments retrieved successfully!", // tells client that the post has no comments
 				});
 			} else {
 				return res.status(200).json({
