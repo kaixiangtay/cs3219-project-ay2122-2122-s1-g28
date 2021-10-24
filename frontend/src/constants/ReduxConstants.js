@@ -31,18 +31,21 @@ export const PROFILE_IMAGE_UPLOAD_FAILURE = 35;
 export const DELETE_ACCOUNT_SUCCESS = 36;
 export const DELETE_ACCOUNT_FAILURE = 37;
 
-// Forum
+// Post
 export const GET_ALL_POSTS_SUCCESS = 40;
 export const GET_ALL_POSTS_FAILURE = 41;
 export const GET_SINGLE_POST_SUCCESS = 42;
 export const GET_SINGLE_POST_FAILURE = 43;
 export const SELECT_TOPIC = 44;
-export const CREATE_POST_SUCCESS = 45;
-export const CREATE_POST_FAILURE = 46;
-export const UPVOTE_POST_SUCCESS = 47;
-export const UPVOTE_POST_FAILURE = 48;
-export const DOWNVOTE_POST_SUCCESS = 49;
-export const DOWNVOTE_POST_FAILURE = 50;
+export const GET_NEW_SORTED_POSTS = 45;
+export const CREATE_POST_SUCCESS = 46;
+export const CREATE_POST_FAILURE = 47;
+export const UPVOTE_POST_SUCCESS = 48;
+export const UPVOTE_POST_FAILURE = 49;
+export const DOWNVOTE_POST_SUCCESS = 50;
+export const DOWNVOTE_POST_FAILURE = 51;
+export const SORT_POSTS_SUCCESS = 52;
+export const SORT_POSTS_FAILURE = 53;
 
 // Comment
 export const CREATE_COMMENT_SUCCESS = 60;

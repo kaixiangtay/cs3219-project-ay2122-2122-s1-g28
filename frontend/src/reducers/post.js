@@ -4,13 +4,15 @@ import {
   GET_ALL_POSTS_FAILURE,
   GET_SINGLE_POST_SUCCESS,
   GET_SINGLE_POST_FAILURE,
+  SELECT_TOPIC,
   CREATE_POST_SUCCESS,
   CREATE_POST_FAILURE,
   UPVOTE_POST_SUCCESS,
   UPVOTE_POST_FAILURE,
   DOWNVOTE_POST_SUCCESS,
   DOWNVOTE_POST_FAILURE,
-  SELECT_TOPIC,
+  SORT_POSTS_SUCCESS,
+  SORT_POSTS_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -24,6 +26,8 @@ const defaultState = {
   upvotePostFailure: false,
   downvotePostSuccess: false,
   downvotePostFailure: false,
+  sortPostsSuccess: false,
+  sortPostsFailure: false,
   forumTopic: "",
   posts: [],
   singlePost: {},
@@ -105,6 +109,23 @@ function postReducer(state = defaultState, action) {
         ...state,
         downvotePostSuccess: false,
         downvotePostFailure: true,
+      };
+    case SORT_POSTS_SUCCESS:
+      return {
+        ...state,
+        sortPostsSuccess: true,
+        sortPostsFailure: false,
+        createPostSuccess: false,
+        createPostFailure: false,
+        posts: action.posts,
+      };
+    case SORT_POSTS_FAILURE:
+      return {
+        ...state,
+        sortPostsSuccess: false,
+        sortPostsFailure: true,
+        createPostSuccess: false,
+        createPostFailure: false,
       };
     default:
       return state;

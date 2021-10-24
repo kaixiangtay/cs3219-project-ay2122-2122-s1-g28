@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handlePostSelection, handleForumSelection } from "../../actions/post";
+import { handlePostSelection, handlePostSorting } from "../../actions/post";
 
 // Import Material-ui
 import { Button, Grid, Typography } from "@material-ui/core";
@@ -24,6 +24,8 @@ function ForumPosts(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const posts = useSelector((state) => state.post.posts);
+  const newPostCreated = useSelector((state) => state.post.createPostSuccess);
+
   const onClickSelectedPost = (postId) => {
     const postData = {
       postId: postId,
@@ -33,8 +35,11 @@ function ForumPosts(props) {
   };
 
   useEffect(() => {
-    dispatch(handleForumSelection(topic));
-  }, [posts]);
+    // Default sort by latest post
+    if (newPostCreated) {
+      dispatch(handlePostSorting("latest", topic));
+    }
+  }, [newPostCreated]);
 
   return (
     <Grid container direction="column">
@@ -59,14 +64,14 @@ function ForumPosts(props) {
                   {post.content}
                 </Typography>
               </Grid>
-              <Typography className={styles.comments}>
+              <Typography variant="caption" className={styles.comments}>
                 <FontAwesomeIcon
                   icon={faComment}
                   className={styles.commentIcon}
                 />
                 {post.comments.length} Comments
               </Typography>
-              <Typography className={styles.userName}>
+              <Typography variant="caption" className={styles.userName}>
                 Posted by {post.userName} on {post.displayDate}
               </Typography>
             </Button>
