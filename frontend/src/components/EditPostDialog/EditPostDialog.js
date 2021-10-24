@@ -1,9 +1,9 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
 import { useDispatch } from "react-redux";
-import { handleCreatePost } from "../../actions/post";
+import { handleEditPost } from "../../actions/post";
 
 // Import Material-ui
 import {
@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
   IconButton,
   Button,
@@ -18,25 +19,27 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 
 // Import CSS
-import styles from "./CreatePostDialog.module.css";
+import styles from "./EditPostDialog.module.css";
 
-// Import FontAwesome
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-function CreatePostDialog(props) {
-  const { isOpen, handleClose, topic } = props;
+function EditPostDialog(props) {
+  const { isOpen, handleClose, post } = props;
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [postId, setPostId] = useState("");
 
-  const handleCreate = () => {
-    let postData = {
-      topic: topic,
+  useEffect(() => {
+    setTitle(post.title);
+    setContent(post.content);
+    setPostId(post._id);
+  }, [isOpen]);
+
+  const onClickSaveChanges = () => {
+    const editedPostData = {
       title: title,
       content: content,
     };
-    dispatch(handleCreatePost(postData));
+    dispatch(handleEditPost(postId, editedPostData));
     handleClose();
   };
 
@@ -51,24 +54,25 @@ function CreatePostDialog(props) {
       fullWidth={true}
       maxWidth={"md"}
     >
-      <DialogTitle id="form-dialog-title">
-        Create A Post
-        <FontAwesomeIcon icon={faPen} className={styles.icon} />
-        <IconButton
-          aria-label="close"
-          className={styles.closeButton}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+      <Grid container>
+        <Grid item xs={6} sm={6} md={6}>
+          <DialogTitle>Edit Post</DialogTitle>
+        </Grid>
+        <Grid item xs={6} sm={6} md={6}>
+          <Grid container direction="row-reverse">
+            <IconButton aria-label="close" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
       <DialogContent dividers>
         <TextField
           autoFocus
           margin="dense"
           label="Title"
           fullWidth
-          className={styles.title}
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <TextField
@@ -79,16 +83,20 @@ function CreatePostDialog(props) {
           variant="outlined"
           multiline
           rows={18}
+          value={content}
           onChange={(e) => setContent(e.target.value)}
         />
       </DialogContent>
       <DialogActions>
-        <Button className={styles.postButton} onClick={() => handleCreate()}>
-          Post
+        <Button
+          className={styles.saveButton}
+          onClick={() => onClickSaveChanges()}
+        >
+          Save Changes
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default CreatePostDialog;
+export default EditPostDialog;

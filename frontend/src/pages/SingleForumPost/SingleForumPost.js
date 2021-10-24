@@ -35,6 +35,8 @@ function SingleForumPost() {
   const comments = useSelector((state) => state.comment.comments);
   const dispatch = useDispatch();
 
+  console.log("comments: ", comments);
+
   const handleOnComment = () => {
     setUserComment("");
     dispatch(handleCreateComment(userComment, post._id));
