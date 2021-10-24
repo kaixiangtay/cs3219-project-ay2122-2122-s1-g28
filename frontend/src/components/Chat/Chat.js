@@ -57,8 +57,6 @@ function Chat() {
       message: "Yooo thanks for the message man!!! hehehe!",
     },
   ];
-  //Remove state when backend sync up completes
-  const [messages, setMessages] = useState(textMessages);
 
   return (
     <Container className="primary-font">
@@ -71,7 +69,7 @@ function Chat() {
             <h2>You have matched with {matchInfo.name}!</h2>
           </Grid>
           <Grid item md={9} className={styles.chatSection}>
-            <ChatMessage messages={messages} setMessages={setMessages} />
+            <ChatMessage />
           </Grid>
           <Grid
             direction="column"
@@ -98,9 +96,5 @@ function Chat() {
     </Container>
   );
 }
-
-Chat.propTypes = {
-  handleMatchState: PropTypes.func,
-};
 
 export default Chat;

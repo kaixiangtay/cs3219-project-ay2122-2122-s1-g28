@@ -1,6 +1,15 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+
+// import Redux
+import {
+  initiateSocket,
+  subscribeToChat,
+  disconnectSocket,
+  sendMessage,
+} from "../../actions/match";
+import { useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -11,23 +20,43 @@ import Paper from "@material-ui/core/Paper";
 // Import CSS
 import styles from "./ChatMessage.module.css";
 
-function ChatMessage({ messages, setMessages }) {
+function ChatMessage() {
   const [inputText, setInputText] = useState("");
+  const [messages, setMessages] = useState("");
 
-  //Can rework on this implementation after sync up with backend
-  const sendMessage = () => {
+  const auth = useSelector((state) => state.auth);
+
+  const handleSendMessage = () => {
     if (inputText !== "") {
-      setMessages([...messages, { party: "You", message: inputText }]);
+      setMessages([...messages, { token: auth.token, message: inputText }]);
+      sendMessage(auth.token, inputText);
       setInputText("");
     }
   };
 
+  const handleReceiveMessage = (token, msg) => {
+    setMessages([...messages, { token: token, message: msg }]);
+  };
+
+  //Triggers when ENTER key is pressed
   const handleSendKeypress = (e) => {
-    //Triggers when ENTER key is pressed
     if (e.which === 13) {
       sendMessage();
     }
   };
+
+  useEffect(() => {
+    initiateSocket("A"); // add in roomId here after revised findfriends implementation
+    subscribeToChat((err, data) => {
+      if (err) {
+        disconnectSocket();
+        return;
+      }
+      if (data.token != auth.token) {
+        handleReceiveMessage(data.token, data.message);
+      }
+    });
+  }, []);
 
   return (
     <div>
@@ -37,7 +66,7 @@ function ChatMessage({ messages, setMessages }) {
             <ListItem key={index}>
               <div
                 className={
-                  message.party === "You"
+                  message.token === auth.token
                     ? `${styles.textBubble} ${styles.receiverText}`
                     : `${styles.textBubble} ${styles.senderText}`
                 }
@@ -59,7 +88,7 @@ function ChatMessage({ messages, setMessages }) {
         <Button
           variant="contained"
           className={styles.sendButton}
-          onClick={() => sendMessage()}
+          onClick={() => handleSendMessage()}
         >
           Send
         </Button>
@@ -67,10 +96,5 @@ function ChatMessage({ messages, setMessages }) {
     </div>
   );
 }
-
-ChatMessage.propTypes = {
-  messages: PropTypes.array,
-  setMessages: PropTypes.func,
-};
 
 export default ChatMessage;
