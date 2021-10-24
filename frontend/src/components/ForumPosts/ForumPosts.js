@@ -48,7 +48,6 @@ function ForumPosts(props) {
           <Grid container key={post._id} className={styles.postContainer}>
             <VoteArrows votes={post.votes} postId={post._id} />
             <Button
-              key={post}
               className={styles.postButton}
               onClick={() => onClickSelectedPost(post._id)}
             >

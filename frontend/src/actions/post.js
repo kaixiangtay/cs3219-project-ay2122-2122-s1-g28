@@ -18,6 +18,10 @@ import {
   DOWNVOTE_POST_FAILURE,
   SORT_POSTS_SUCCESS,
   SORT_POSTS_FAILURE,
+  GET_USER_POSTS_SUCCESS,
+  GET_USER_POSTS_FAILURE,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 // ===================================================================
@@ -149,9 +153,50 @@ const sortPostsFailure = (err) => {
 };
 
 // ===================================================================
+// GET USER'S POSTS
+// ===================================================================
+const getUserPostsSuccess = (topic, posts, history) => {
+  const path = "/forum/" + topic.toLowerCase() + "/manage-posts";
+  history.push(path);
+  return {
+    type: GET_USER_POSTS_SUCCESS,
+    posts: posts,
+  };
+};
+
+const getUserPostsFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: GET_USER_POSTS_FAILURE,
+  };
+};
+
+// ===================================================================
+// DELETE POST
+// ===================================================================
+const deletePostSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: DELETE_POST_SUCCESS,
+  };
+};
+
+const deletePostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: DELETE_POST_FAILURE,
+  };
+};
+
+// ===================================================================
 // HANDLE API CALLS
 // ===================================================================
-
 // Get all forum posts of a topic without sorting
 export const handleForumSelection = (topic) => (dispatch, getState) => {
   const token = getState().auth.token;
@@ -342,3 +387,59 @@ export const handlePostSorting =
         dispatch(sortPostsFailure(err));
       });
   };
+
+// Get user's posts
+export const handleGetUserPosts = (topic, history) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewUserPosts/${topic}`;
+
+  fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response
+          .json()
+          .then((res) =>
+            dispatch(getUserPostsSuccess(topic, res.data, history))
+          );
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((err) => dispatch(getUserPostsFailure(err)));
+      }
+    })
+    .catch((err) => {
+      dispatch(getUserPostsFailure(err));
+    });
+};
+
+// Delete post
+export const handleDeletePost = (postId) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/deletePost/${postId}`;
+
+  fetch(requestUrl, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((res) => dispatch(deletePostSuccess(res)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((err) => dispatch(deletePostFailure(err)));
+      }
+    })
+    .catch((err) => {
+      dispatch(deletePostFailure(err));
+    });
+};

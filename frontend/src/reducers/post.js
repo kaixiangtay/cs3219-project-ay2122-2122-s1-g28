@@ -13,6 +13,10 @@ import {
   DOWNVOTE_POST_FAILURE,
   SORT_POSTS_SUCCESS,
   SORT_POSTS_FAILURE,
+  GET_USER_POSTS_SUCCESS,
+  GET_USER_POSTS_FAILURE,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -28,6 +32,10 @@ const defaultState = {
   downvotePostFailure: false,
   sortPostsSuccess: false,
   sortPostsFailure: false,
+  getUserPostsSuccess: false,
+  getUserPostsFailure: false,
+  deletePostSuccess: false,
+  deletePostFailure: false,
   forumTopic: "",
   posts: [],
   singlePost: {},
@@ -117,6 +125,8 @@ function postReducer(state = defaultState, action) {
         sortPostsFailure: false,
         createPostSuccess: false,
         createPostFailure: false,
+        getUserPostsSuccess: false,
+        getUserPostsFailure: false,
         posts: action.posts,
       };
     case SORT_POSTS_FAILURE:
@@ -126,6 +136,33 @@ function postReducer(state = defaultState, action) {
         sortPostsFailure: true,
         createPostSuccess: false,
         createPostFailure: false,
+      };
+    case GET_USER_POSTS_SUCCESS:
+      return {
+        ...state,
+        getUserPostsSuccess: true,
+        getUserPostsFailure: false,
+        deletePostSuccess: false,
+        deletePostFailure: false,
+        posts: action.posts,
+      };
+    case GET_USER_POSTS_FAILURE:
+      return {
+        ...state,
+        getUserPostsSuccess: false,
+        getUserPostsFailure: true,
+      };
+    case DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        deletePostSuccess: true,
+        deletePostFailure: false,
+      };
+    case DELETE_POST_FAILURE:
+      return {
+        ...state,
+        deletePostSuccess: false,
+        deletePostFailure: true,
       };
     default:
       return state;

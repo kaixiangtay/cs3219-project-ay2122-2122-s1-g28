@@ -1,10 +1,10 @@
 // Import Settings
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handlePostSorting } from "../../actions/post";
+import { handlePostSorting, handleGetUserPosts } from "../../actions/post";
 
 // Import Material-ui
 import {
@@ -37,6 +37,7 @@ import {
 
 function ForumTopic() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -63,6 +64,10 @@ function ForumTopic() {
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
+  };
+
+  const handleManagePost = () => {
+    dispatch(handleGetUserPosts(topic, history));
   };
 
   useEffect(() => {
@@ -115,7 +120,10 @@ function ForumTopic() {
           </Grid>
           <Grid item xs={6} sm={6} md={6}>
             <Grid container direction="row-reverse">
-              <Button className={styles.createManageButton}>
+              <Button
+                className={styles.createManageButton}
+                onClick={handleManagePost}
+              >
                 Manage Posts/Comments
               </Button>
             </Grid>
