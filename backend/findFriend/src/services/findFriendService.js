@@ -248,8 +248,7 @@ async function createMatch(interests, userId) {
   const isEmptyMusic = isEmptySelection(musicChoices);
   const isEmptySport = isEmptySelection(sportChoices);
   const isEmptyFaculty = isEmptySelection(facultyChoices);
-
-  const existingUser = await getUser(findFriend.userId);
+  const existingUser = await getUser(userId);
 
   if (existingUser !== null && existingUser.isMatched) {
     return existingUser.roomId;
@@ -314,7 +313,6 @@ async function createMatch(interests, userId) {
   const isSameUser = findFriend.userId == findFriend.matchUserId;
   const noMatchingUser = matchedPersonId == "";
 
-  
   if (isSameUser || existingUser) {
     // Do not save in FindFriend database, data exists already
     return "";
