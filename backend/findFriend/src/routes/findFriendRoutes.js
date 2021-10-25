@@ -8,7 +8,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.route('/api/findFriend')
+router.route('/api/findFriend/getAllFindFriendUsers')
     .get(findFriendController.index)
     
 router.route('/api/findFriend/clearMatch')
