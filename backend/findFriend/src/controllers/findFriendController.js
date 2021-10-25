@@ -40,6 +40,7 @@ const clearMatch = [userAuth.decodeToken,
                 });
             } 
         } catch (err) {
+            console.log(err);
             return res.status(400).json({
                 status: "error",
                 msg: err.toString(),
