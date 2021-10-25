@@ -10,6 +10,10 @@ var CommentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  topic: {
+    type: String,
+    required: true,
+  },
   content: {
     type: String,
     required: true,
@@ -18,7 +22,8 @@ var CommentSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-  votedUsers: [String],
+  upvotedUsers: [String],
+  downvotedUsers: [String],
   postId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'

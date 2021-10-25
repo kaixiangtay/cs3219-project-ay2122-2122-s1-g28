@@ -1,12 +1,12 @@
 const { check } = require('express-validator')
 
-exports.userNameValidator = () => {
+const userNameValidator = () => {
     return [
         check('name').notEmpty().withMessage("Name is a compulsory field"),
     ]
 }
 
-exports.userEmailValidator = () => {
+const userEmailValidator = () => {
     return [
     check('email')
     .custom(value => {
@@ -21,29 +21,31 @@ exports.userEmailValidator = () => {
     ]
 }
 
-exports.userPasswordValidator = () => {
+const userPasswordValidator = () => {
     return [
         check('password').isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
     ]
 }
 
-exports.userRegisterValidator = () => {
+const userRegisterValidator = () => {
     return [
-       this.userNameValidator(),
-       this.userEmailValidator(),
-       this.userPasswordValidator(),
+       userNameValidator(),
+       userEmailValidator(),
+       userPasswordValidator(),
     ]
 };
 
-exports.userLoginValidator = () => {
+const userLoginValidator = () => {
     return [
-        this.userEmailValidator(),
-        this.userPasswordValidator(),
+        userEmailValidator(),
+        userPasswordValidator(),
      ]
 }
 
-exports.userUpdateValidator = () => {
+const userUpdateValidator = () => {
     return [
         check('password').optional().isStrongPassword().withMessage("Password should be of minimum length 8, consists of 1 uppercase letter, 1 lowercase letter, 1 digit and 1 special character"),
     ]
 }
+
+module.exports = { userRegisterValidator, userLoginValidator, userUpdateValidator };

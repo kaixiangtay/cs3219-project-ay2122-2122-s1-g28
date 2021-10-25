@@ -1,13 +1,25 @@
-var mongoose = require("mongoose");
+let mongoose = require("mongoose");
 
-var FindFriendSchema = mongoose.Schema({
+let FindFriendSchema = mongoose.Schema({
   userId: {
     type: String,
+    unique: true,
     required: true,
   },
   matchUserId: {
     type: String,
     default: '',
+  },
+  isMatched: {
+    type: Boolean,
+    default: false,
+  },
+  roomId:{
+    type: String,
+  },
+  isRandomSelection: {
+    type: Boolean,
+    default: false,
   },
   gender: [String],
   art: [String],
@@ -19,7 +31,3 @@ var FindFriendSchema = mongoose.Schema({
 const FindFriend = mongoose.model("FindFriend", FindFriendSchema);
 
 module.exports = FindFriend;
-
-module.exports.get = function (callback, limit) {
-    FindFriend.find(callback).limit(limit);
-}

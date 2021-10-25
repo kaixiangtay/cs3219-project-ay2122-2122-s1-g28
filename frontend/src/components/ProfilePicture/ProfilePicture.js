@@ -24,11 +24,6 @@ function ProfilePicture() {
   useEffect(() => {
     if (!profile.profileImageUrl && profile.profileImageUploadSuccess) {
       dispatch(handleProfileRetrieval());
-      // if (!initialReload) {
-      //   setInitialReload(true);
-      //   window.location.reload();
-      // }
-      alert(profile.profileImageUrl);
     }
   }, [profile]);
 

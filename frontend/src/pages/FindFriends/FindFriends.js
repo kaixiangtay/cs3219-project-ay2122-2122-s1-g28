@@ -1,9 +1,11 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
 // import Redux
-import { useSelector } from "react-redux";
+import { handleNavigation } from "../../actions/navigation";
+import { handleMatchWithRetry, resetInterests } from "../../actions/match";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import { Button, Container, Grid, Tooltip } from "@material-ui/core";
@@ -25,23 +27,28 @@ import {
   ART,
   MUSIC,
   FACULTY,
-  UNMATCHED,
-  LOADING,
-  MATCHED,
+  GENDER_ITEMS,
+  SPORT_ITEMS,
+  ART_ITEMS,
+  MUSIC_ITEMS,
+  FACULTY_ITEMS,
 } from "../../constants/FindFriendsConstants";
+import { FINDFRIENDS } from "../../constants/ReduxConstants";
 
 function FindFriends() {
-  const [matchState, setMatchState] = useState(UNMATCHED);
-
   const auth = useSelector((state) => state.auth);
+  const match = useSelector((state) => state.match);
+  const dispatch = useDispatch();
+
+  // Update navigation state when user returns to this page from previous page
+  useEffect(() => {
+    dispatch(handleNavigation(FINDFRIENDS));
+    dispatch(resetInterests());
+  }, []);
 
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
-
-  const handleMatchState = (state) => {
-    setMatchState(state);
-  };
 
   const findFriendsJsx = (
     <Container className="primary-font">
@@ -51,19 +58,27 @@ function FindFriends() {
           <h2>Choose your match requirements:</h2>
         </Grid>
         <Grid item md={4}>
-          <MatchInterest title={"Gender"} items={GENDER} />
+          <MatchInterest
+            title={"Gender"}
+            category={GENDER}
+            items={GENDER_ITEMS}
+          />
         </Grid>
         <Grid item md={4}>
-          <MatchInterest title={"Art"} items={ART} />
+          <MatchInterest title={"Art"} category={ART} items={ART_ITEMS} />
         </Grid>
         <Grid item md={4}>
-          <MatchInterest title={"Music"} items={MUSIC} />
+          <MatchInterest title={"Music"} category={MUSIC} items={MUSIC_ITEMS} />
         </Grid>
         <Grid item md={6}>
-          <MatchInterest title={"Sport"} items={SPORT} />
+          <MatchInterest title={"Sport"} category={SPORT} items={SPORT_ITEMS} />
         </Grid>
         <Grid item md={6}>
-          <MatchInterest title={"Faculty"} items={FACULTY} />
+          <MatchInterest
+            title={"Faculty"}
+            category={FACULTY}
+            items={FACULTY_ITEMS}
+          />
         </Grid>
         <Tooltip
           title={
@@ -71,12 +86,13 @@ function FindFriends() {
               Note: You will be matched with anyone if no interest is selected.
             </h2>
           }
-          className={null}
         >
           <Button
             variant="contained"
             className="orange-button"
-            onClick={() => handleMatchState(LOADING)}
+            onClick={() =>
+              dispatch(handleMatchWithRetry(auth.token, match.interests))
+            }
           >
             Match
           </Button>
@@ -88,13 +104,13 @@ function FindFriends() {
   return (
     <div>
       <Navbar />
-      {matchState === UNMATCHED ? (
+      {match.matching ? (
+        <SearchMatch />
+      ) : match.matchedSuccess ? (
+        <Chat />
+      ) : (
         findFriendsJsx
-      ) : matchState === LOADING ? (
-        <SearchMatch handleMatchState={handleMatchState} />
-      ) : matchState === MATCHED ? (
-        <Chat handleMatchState={handleMatchState} />
-      ) : null}
+      )}
     </div>
   );
 }

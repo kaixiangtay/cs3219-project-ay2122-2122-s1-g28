@@ -7,6 +7,7 @@ import auth from "./auth";
 import profile from "./profile";
 import post from "./post";
 import comment from "./comment";
+import match from "./match";
 
 const rootReducer = combineReducers({
   navigation,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   profile,
   post,
   comment,
+  match,
 });
 
 export default rootReducer;

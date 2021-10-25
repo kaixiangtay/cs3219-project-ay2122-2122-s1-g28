@@ -1,6 +1,9 @@
 // Import Settings
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+
+// import Redux
+import { handleUnmatch } from "../../actions/match";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -15,46 +18,44 @@ import ChatMessage from "../ChatMessage/ChatMessage.js";
 import PageTitle from "../PageTitle/PageTitle.js";
 import VideoPlayer from "../VideoPlayer/VideoPlayer.js";
 
-// Import Constants
-import { UNMATCHED } from "../../constants/FindFriendsConstants";
-
 // Import CSS
 import styles from "./Chat.module.css";
 
-function Chat({ handleMatchState }) {
+function Chat() {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   //Hardcoded values for testing before syncing with backend
   const matchInfo = {
     name: "John",
   };
 
-  const textMessages = [
-    {
-      party: "You",
-      message: "Hi there this is a test hahahaha!",
-    },
-    {
-      party: "John",
-      message: "Yooo thanks for the message man!!! hehehe!",
-    },
-    {
-      party: "You",
-      message: "Hi there this is a test hahahaha!",
-    },
-    {
-      party: "John",
-      message: "Yooo thanks for the message man!!! hehehe!",
-    },
-    {
-      party: "You",
-      message: "Hi there this is a test hahahaha!",
-    },
-    {
-      party: "John",
-      message: "Yooo thanks for the message man!!! hehehe!",
-    },
-  ];
-  //Remove state when backend sync up completes
-  const [messages, setMessages] = useState(textMessages);
+  // const textMessages = [
+  //   {
+  //     party: "You",
+  //     message: "Hi there this is a test hahahaha!",
+  //   },
+  //   {
+  //     party: "John",
+  //     message: "Yooo thanks for the message man!!! hehehe!",
+  //   },
+  //   {
+  //     party: "You",
+  //     message: "Hi there this is a test hahahaha!",
+  //   },
+  //   {
+  //     party: "John",
+  //     message: "Yooo thanks for the message man!!! hehehe!",
+  //   },
+  //   {
+  //     party: "You",
+  //     message: "Hi there this is a test hahahaha!",
+  //   },
+  //   {
+  //     party: "John",
+  //     message: "Yooo thanks for the message man!!! hehehe!",
+  //   },
+  // ];
 
   return (
     <Container className="primary-font">
@@ -67,7 +68,7 @@ function Chat({ handleMatchState }) {
             <h2>You have matched with {matchInfo.name}!</h2>
           </Grid>
           <Grid item md={9} className={styles.chatSection}>
-            <ChatMessage messages={messages} setMessages={setMessages} />
+            <ChatMessage />
           </Grid>
           <Grid
             direction="column"
@@ -83,7 +84,7 @@ function Chat({ handleMatchState }) {
               <Button
                 variant="contained"
                 className="red-button"
-                onClick={() => handleMatchState(UNMATCHED)}
+                onClick={() => dispatch(handleUnmatch(auth.token))}
               >
                 Unmatch
               </Button>
@@ -94,9 +95,5 @@ function Chat({ handleMatchState }) {
     </Container>
   );
 }
-
-Chat.propTypes = {
-  handleMatchState: PropTypes.func,
-};
 
 export default Chat;

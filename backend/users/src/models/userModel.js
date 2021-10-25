@@ -1,9 +1,8 @@
-var mongoose = require("mongoose");
+let mongoose = require("mongoose");
 
-var UserSchema = mongoose.Schema({
+let UserSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
@@ -12,9 +11,9 @@ var UserSchema = mongoose.Schema({
   password: {
     type: String,
   },
-  status: {
-    type: String,
-    default: "Pending",
+  isVerified: {
+    type: Boolean,
+    default: false,
   },
   profileImageUrl: {
     type: String,
@@ -22,7 +21,6 @@ var UserSchema = mongoose.Schema({
   },
   token: {
     type: String,
-    default: "",
   },
   dateCreated: {
     type: Date,
@@ -30,10 +28,6 @@ var UserSchema = mongoose.Schema({
   },
 });
 
-var User = mongoose.model("User", UserSchema);
+let User = mongoose.model("User", UserSchema);
 
 module.exports = User;
-
-module.exports.get = function (callback, limit) {
-    User.find(callback).limit(limit);
-}
