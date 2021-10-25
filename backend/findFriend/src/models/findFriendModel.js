@@ -3,11 +3,23 @@ let mongoose = require("mongoose");
 let FindFriendSchema = mongoose.Schema({
   userId: {
     type: String,
+    unique: true,
     required: true,
   },
   matchUserId: {
     type: String,
     default: '',
+  },
+  isMatched: {
+    type: Boolean,
+    default: false,
+  },
+  roomId:{
+    type: String,
+  },
+  isRandomSelection: {
+    type: Boolean,
+    default: false,
   },
   gender: [String],
   art: [String],
@@ -18,4 +30,4 @@ let FindFriendSchema = mongoose.Schema({
 
 const FindFriend = mongoose.model("FindFriend", FindFriendSchema);
 
-module.exports = { FindFriend };
+module.exports = FindFriend;

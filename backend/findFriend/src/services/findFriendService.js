@@ -1,9 +1,15 @@
 let FindFriend = require("../models/findFriendModel");
+let Room = require("../models/roomModel");
 let userAuth = require("../middlewares/userAuth");
 
 async function getAllFindFriendsUsers() {
   const users = await FindFriend.find();
   return users;
+}
+
+async function getUser(userId) {
+  const user = await FindFriend.findOne({userId: userId});
+  return user;
 }
 
 const merge = (arr1, arr2) => {
@@ -28,8 +34,14 @@ async function randomMatch() {
   let random = Math.floor(Math.random() * count);
 
   // Get a random user who is already in database
-  const randomMatch = await FindFriend.findOne().skip(random);
+  const randomMatch = await FindFriend.findOne({
+      isRandomSelection: true, 
+      isMatched: false,
+  }).skip(random);
 
+  if (randomMatch == null) {
+    return "";
+  }
   let matchedPersonId = randomMatch.userId;
   return matchedPersonId;
 }
@@ -45,7 +57,10 @@ async function findMatchbyGender(genderChoices) {
     },
     {
       $match: {
-        gender: { $in: genderChoices },
+        $and:[
+          {gender: { $in: genderChoices }},
+          {isMatched: false},
+        ]
       },
     },
     {
@@ -65,7 +80,12 @@ async function findMatchByArt(artChoices) {
       $unwind: { path: "$art", preserveNullAndEmptyArrays: true },
     },
     {
-      $match: { art: { $in: artChoices } },
+      $match: {
+        $and:[
+          {art: { $in: artChoices }},
+          {isMatched: false},
+        ]
+      },
     },
     {
       $group: {
@@ -84,7 +104,12 @@ async function findMatchBySport(sportChoices) {
       $unwind: { path: "$sport", preserveNullAndEmptyArrays: true },
     },
     {
-      $match: { sport: { $in: sportChoices } },
+      $match: {
+        $and:[
+          {sport: { $in: sportChoices }},
+          {isMatched: false},
+        ]
+      },
     },
     {
       $group: {
@@ -103,7 +128,12 @@ async function findMatchByMusic(musicChoices) {
       $unwind: { path: "$music", preserveNullAndEmptyArrays: true },
     },
     {
-      $match: { music: { $in: musicChoices } },
+      $match: {
+        $and:[
+          {music: { $in: musicChoices }},
+          {isMatched: false},
+        ]
+      },
     },
     {
       $group: {
@@ -122,7 +152,12 @@ async function findMatchByFaculty(facultyChoices) {
       $unwind: { path: "$faculty", preserveNullAndEmptyArrays: true },
     },
     {
-      $match: { faculty: { $in: facultyChoices } },
+      $match: {
+        $and:[
+          {faculty: { $in: facultyChoices }},
+          {isMatched: false},
+        ]
+      },
     },
     {
       $group: {
@@ -214,6 +249,12 @@ async function createMatch(interests, userId) {
   const isEmptySport = isEmptySelection(sportChoices);
   const isEmptyFaculty = isEmptySelection(facultyChoices);
 
+  const existingUser = await getUser(findFriend.userId);
+
+  if (existingUser !== null && existingUser.isMatched) {
+    return existingUser.roomId;
+  }
+
   const anyMatch =
     isEmptyArt &&
     isEmptyMusic &&
@@ -222,6 +263,7 @@ async function createMatch(interests, userId) {
     isEmptyFaculty;
 
   if (anyMatch) {
+    findFriend.isRandomSelection = true;
     matchedPersonId = await randomMatch();
   } else {
     // preference match
@@ -272,19 +314,30 @@ async function createMatch(interests, userId) {
   const isSameUser = findFriend.userId == findFriend.matchUserId;
   const noMatchingUser = matchedPersonId == "";
 
-  if (isSameUser) {
+  
+  if (isSameUser || existingUser) {
     // Do not save in FindFriend database, data exists already
     return "";
-  } else {
-    findFriend.save();
-
-    if (noMatchingUser) {
-      return matchedPersonId;
+  } else if (noMatchingUser) {
+    if (!existingUser) {
+      findFriend.save();
     }
-
+    return "";
+  } else {
     // Only issued matchedPerson jwt token if there is a match
-    const matchedPersonToken = userAuth.createMatchingToken(matchedPersonId);
-    return matchedPersonToken;
+    let matchedUser = await getUser(matchedPersonId);
+    matchedUser.isMatched = true;
+    matchedUser.matchUserId = findFriend.userId;
+    findFriend.isMatched = true;
+
+    let room = new Room();
+    room.users.push(findFriend.userId, matchedUser.userId);
+    findFriend.roomId = room._id;
+    matchedUser.roomId = room._id;
+    findFriend.save();
+    matchedUser.save();
+    room.save();
+    return room._id;
   }
 }
 
