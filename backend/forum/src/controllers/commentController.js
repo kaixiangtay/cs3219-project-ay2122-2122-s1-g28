@@ -3,452 +3,475 @@ const {
 	addCommentValidator,
 } = require("../validators/commentValidator");
 const { validationResult, check } = require("express-validator");
-let Comment = require("../models/commentModel");
-let Post = require("../models/postModel");
 var userAuth = require("../middlewares/userAuth");
+const postService = require("../services/postService");
+const commentService = require("../services/commentService");
 
 exports.viewPostComments = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
-		Post.findById(req.params.post_id, function (err, post) {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
 
-			Post.findById({ _id: req.params.post_id })
-				.populate("comments")
-				.then((post, err) => {
-					if (post == null) {
-						res.status(404).json({
-							status: "error",
-							msg: "Comments not found!",
-						});
-						return;
-					}
-					if (err) res.send(err);
-					if (post.comments.length == 0) {
-						res.status(200).json({
-							status: "success",
-							msg: "There are no comments in this post", // tells client that the post has no comments
-						});
-					} else {
-						res.status(200).json({
-							status: "success",
-							msg: "Comment details loading..",
-							data: post.comments,
-						});
-					}
+			const comments = await commentService.getAllComments(req.params.post_id);
+			if (comments == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
 				});
-		});
+			} else if (comments.length == 0) {
+				return res.status(200).json({
+					status: "success",
+					msg: "There are no comments in this post!", // tells client that the post has no comments
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully!",
+					data: comments,
+				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
-exports.createComment = [
-	userAuth.authenticateToken,
-	addCommentValidator(),
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader);
+exports.viewUserComments = [
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const comments = await commentService.getCommentsByUserId(userId, req.params.topic);
+			const emptyCommentsDatabase = comments.length == 0;
+			if (emptyCommentsDatabase) {
+				return res.status(200).json({
+					status: "success",
+					msg: "This user does not have any comments under this topic: " + req.params.topic,
+					data: comments,
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully!",
+					data: comments,
+				});
+			}
+		} catch (err) {
 
-		var comment = new Comment();
-		comment.userName = req.body.userName;
-		comment.userId = userId;
-		comment.content = req.body.content;
-		const errors = validationResult(req);
-
-		if (!errors.isEmpty()) {
-			return res.status(404).json(errors.array());
 		}
+	}
+];
+exports.createComment = [
+	userAuth.decodeAuthToken,
+	addCommentValidator(),
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const errors = validationResult(req);
 
-		Post.findById(req.params.post_id, function (err, post) {
+			if (!errors.isEmpty()) {
+				return res.status(404).json(errors.array());
+			}
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-			comment.postId = req.params.post_id;
-			comment.save();
-			post.comments.push(comment);
-			// save the post and check for errors
-			post.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					status: "success",
-					msg: "Comment is created!",
-					data: post,
-				});
+			const comment = commentService.createComment(
+				userId,
+				req.body,
+				post
+			);
+			return res.status(200).json({
+				status: "success",
+				msg: "New comment created!",
+				data: comment,
 			});
-		});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.viewComment = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		Comment.findById(req.params.comment_id, function (err, comment) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
+			if (post == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Post not found!",
+				});
+			}
+
+			const comment = await commentService.getCommentByID(req.params.comment_id);
 			if (comment == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Comment not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-			res.status(200).json({
+			return res.status(200).json({
 				status: "success",
-				msg: "Comment details loading..",
+				msg: "Comment retrieved successfully!",
 				data: comment,
 			});
-		});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.updateComment = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;
-
-		Comment.findById(req.params.comment_id, function (err, comment) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const post = await postService.getPostByID(req.params.post_id);
+			if (post == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Post not found!",
+				});
+			}
+			let comment = await commentService.getCommentByID(req.params.comment_id);
 			if (comment == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Comment not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-
-			if (userId == comment.userId) {
-				comment.content = req.body.content ? req.body.content : comment.content;
+			if (commentService.isUserComment(comment.userId, userId)) {
+				comment = commentService.updateComment(comment, req.body);
+				return res.status(200).json({
+					status: "success",
+					msg: "Comment has been updated!",
+					data: comment,
+				});
 			} else {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "User is not authorised to edit this comment",
 				});
-				return;
 			}
-			// save the comment and check for errors
-			comment.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					status: "success",
-					msg: "Comment content updated",
-					data: comment,
-				});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.upvoteComment = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;
-
-		Comment.findById(req.params.comment_id, function (err, comment) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const post = await postService.getPostByID(req.params.post_id);
+			if (post == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Post not found!",
+				});
+			}
+			let comment = await commentService.getCommentByID(req.params.comment_id);
 			if (comment == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Comment not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
 
-			if (userId == comment.userId) {
-				res.status(404).json({
+			if (commentService.isUserComment(comment.userId, userId)) {
+				return res.status(404).json({
 					status: "error",
-					msg: "Users are not allowed to upvote/downvote their own comments",
+					msg: "Users are not allowed to upvote their own comments!",
 				});
-				return;
 			} else {
-				if (comment.votedUsers.includes(userId)) {
-					res.status(404).json({
+				comment = commentService.upvoteComment(userId, comment);
+				if (comment == null){
+					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a comment ONCE",
+						msg: "Users can only upvote a comment ONCE!",
 					});
-					return;
+				} else {
+					return res.status(200).json({
+						status: "success",
+						msg: "Comment has been upvoted!",
+						data: comment,
+					});
 				}
-				comment.votes = comment.votes + 1;
-				comment.votedUsers.push(userId);
 			}
-			// save the comment and check for errors
-			comment.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					status: "success",
-					msg: "Comment has been upvoted!",
-					data: comment,
-				});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.downvoteComment = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;
-
-		Comment.findById(req.params.comment_id, function (err, comment) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const post = await postService.getPostByID(req.params.post_id);
+			if (post == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Post not found!",
+				});
+			}
+			let comment = await commentService.getCommentByID(req.params.comment_id);
 			if (comment == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Comment not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
 
-			if (userId == comment.userId) {
-				res.status(404).json({
+			if (commentService.isUserComment(comment.userId, userId)) {
+				return res.status(404).json({
 					status: "error",
-					msg: "Users are not allowed to upvote/downvote their own comments",
+					msg: "Users are not allowed to downvote their own comments!",
 				});
-				return;
 			} else {
-				if (comment.votedUsers.includes(userId)) {
-					res.status(404).json({
+				comment = commentService.downvoteComment(userId, comment);
+				if (comment == null){
+					return res.status(404).json({
 						status: "error",
-						msg: "Users can only upvote/downvote a comment ONCE",
+						msg: "Users can only downvote a comment ONCE!",
 					});
-					return;
+				} else {
+					return res.status(200).json({
+						status: "success",
+						msg: "Comment has been downvoted!",
+						data: comment,
+					});
 				}
-				comment.votes = comment.votes - 1;
-				comment.votedUsers.push(userId);
 			}
-			// save the comment and check for errors
-			comment.save(function (err) {
-				if (err) res.json(err);
-				res.status(200).json({
-					status: "success",
-					msg: "Comment has been downvoted!",
-					data: comment,
-				});
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.deleteComment = [
-	userAuth.authenticateToken,
-	(req, res) => {
-		const authHeader = req.headers["authorization"];
-		var userId = userAuth.decodeAuthToken(authHeader)._id;
-
-		Post.findById(req.params.post_id, function (err, post) {
+	userAuth.decodeAuthToken,
+	async (req, res) => {
+		try {
+			const userId = req.userId;
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
-			if (err) res.send(err);
-			Comment.findById(req.params.comment_id, function (err, comment) {
-				if (comment == null) {
-					res.status(404).json({
-						status: "error",
-						msg: "Comment not found!",
-					});
-					return;
-				}
-
-				if (userId == comment.userId) {
-					Comment.deleteOne(
-						{
-							_id: req.params.comment_id,
-						},
-						function (err, comment) {
-							post.comments.remove(req.params.comment_id); // removes comment in Post Collection
-							// save the post and check for errors
-							post.save(function (err) {
-								if (err) res.json(err);
-								res.status(200).json({
-									status: "success",
-									msg: "Comment deleted",
-								});
-							});
-						}
-					);
-				} else {
-					res.status(404).json({
-						status: "error",
-						msg: "User is not authorised to delete this comment",
-					});
-					return;
-				}
+			const comment = await commentService.getCommentByID(req.params.comment_id);
+			if (comment == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Comment not found!",
+				});
+			}
+			if (commentService.isUserComment(comment.userId, userId)) {
+				await commentService.deleteComment(req.params.comment_id, post);
+				res.status(200).json({
+					status: "success",
+					msg: "Comment has been deleted!",
+				});
+			} else {
+				return res.status(404).json({
+					status: "error",
+					msg: "User is not authorised to delete this comment",
+				});
+			}
+		} catch (err) {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
 			});
-		});
+		}
 	},
 ];
 
 exports.sortCommentsByAscVotes = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
-		Post.findById(req.params.post_id, function (err, post) {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
 
-			Post.findById({ _id: req.params.post_id })
-				.populate({ path: "comments", options: { sort: { votes: 1 } } })
-				.then((post, err) => {
-					if (post == null) {
-						res.status(404).json({
-							status: "error",
-							msg: "Comments not found!",
-						});
-						return;
-					}
-					if (err) res.send(err);
-					if (post.comments.length == 0) {
-						res.status(200).json({
-							status: "sucess",
-							msg: "There are no comments in this post", // tells client that the post has no comments
-						});
-					} else {
-						res.status(200).json({
-							status: "success",
-							msg: "Comment details loading..",
-							data: post.comments,
-						});
-					}
+			const comments = await commentService.sortCommentByVotes(req.params.post_id, 1);
+			if (comments == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
 				});
-		});
+			} else if (comments.legnth == 0) {
+				return res.status(200).json({
+					status: "sucess",
+					msg: "There are no comments in this post", // tells client that the post has no comments
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully!",
+					data: comments,
+				});
+			}
+		} catch {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.sortCommentsByDescVotes = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
-		Post.findById(req.params.post_id, function (err, post) {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
 
-			Post.findById({ _id: req.params.post_id })
-				.populate({ path: "comments", options: { sort: { votes: -1 } } })
-				.then((post, err) => {
-					if (post == null) {
-						res.status(404).json({
-							status: "error",
-							msg: "Comments not found!",
-						});
-						return;
-					}
-					if (err) res.send(err);
-					if (post.comments.length == 0) {
-						res.status(200).json({
-							status: "success",
-							msg: "There are no comments in this post", // tells client that the post has no comments
-						});
-					} else {
-						res.status(200).json({
-							status: "success",
-							msg: "Comment details loading..",
-							data: post.comments,
-						});
-					}
+			const comments = await commentService.sortCommentByVotes(req.params.post_id, -1);
+			if (comments == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
 				});
-		});
+			} else if (comments.legnth == 0) {
+				return res.status(200).json({
+					status: "sucess",
+					msg: "There are no comments in this post", // tells client that the post has no comments
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully!",
+					data: comments,
+				});
+			}
+		} catch {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.sortCommentsByAscDate = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
-		Post.findById(req.params.post_id, function (err, post) {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
 
-			Post.findById({ _id: req.params.post_id })
-				.populate({ path: "comments", options: { sort: { dateCreated: 1 } } })
-				.then((post, err) => {
-					if (post == null) {
-						res.status(404).json({
-							status: "error",
-							msg: "Comments not found!",
-						});
-						return;
-					}
-					if (err) res.send(err);
-					if (post.comments.length == 0) {
-						res.status(200).json({
-							status: "sucess",
-							msg: "There are no comments in this post", // tells client that the post has no comments
-						});
-					} else {
-						res.status(200).json({
-							status: "success",
-							msg: "Comment details loading..",
-							data: post.comments,
-						});
-					}
+			const comments = await commentService.sortCommentByDate(req.params.post_id, 1);
+			if (comments == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
 				});
-		});
+			} else if (comments.legnth == 0) {
+				return res.status(200).json({
+					status: "sucess",
+					msg: "There are no comments in this post", // tells client that the post has no comments
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comments retrieved successfully!",
+					data: comments,
+				});
+			}
+		} catch {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];
 
 exports.sortCommentsByDescDate = [
-	userAuth.authenticateToken,
+	userAuth.decodeAuthToken,
 	async (req, res) => {
-		Post.findById(req.params.post_id, function (err, post) {
+		try {
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
-				res.status(404).json({
+				return res.status(404).json({
 					status: "error",
 					msg: "Post not found!",
 				});
-				return;
 			}
 
-			Post.findById({ _id: req.params.post_id })
-				.populate({ path: "comments", options: { sort: { dateCreated: -1 } } })
-				.then((post, err) => {
-					if (post == null) {
-						res.status(404).json({
-							status: "error",
-							msg: "Comments not found!",
-						});
-						return;
-					}
-					if (err) res.send(err);
-					if (post.comments.length == 0) {
-						res.status(200).json({
-							status: "success",
-							msg: "There are no comments in this post", // tells client that the post has no comments
-						});
-					} else {
-						res.status(200).json({
-							status: "success",
-							msg: "Comment details loading..",
-							data: post.comments,
-						});
-					}
+			const comments = await commentService.sortCommentByDate(req.params.post_id, -1);
+			if (comments == null) {
+				return res.status(404).json({
+					status: "error",
+					msg: "Comments not found!",
 				});
-		});
+			} else if (comments.legnth == 0) {
+				return res.status(200).json({
+					status: "sucess",
+					msg: "Comments retrieved successfully!", // tells client that the post has no comments
+				});
+			} else {
+				return res.status(200).json({
+					status: "success",
+					msg: "Comment details loading..",
+					data: comments,
+				});
+			}
+		} catch {
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
+		}
 	},
 ];

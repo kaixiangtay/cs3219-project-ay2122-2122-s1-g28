@@ -2,6 +2,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+// import Redux
+import { updateInterests } from "../../actions/match";
+import { useDispatch } from "react-redux";
+
 // Import Material-ui
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -9,15 +13,23 @@ import Grid from "@material-ui/core/Grid";
 // Import CSS
 import styles from "./MatchInterest.module.css";
 
-function MatchInterest({ title, items }) {
+function MatchInterest({ title, category, items }) {
   const [selection, setSelection] = useState([]);
 
+  const dispatch = useDispatch();
+
   const handleSelection = (item) => {
+    let updatedSelection;
     if (selection.includes(item)) {
-      setSelection(selection.filter((selectedItem) => selectedItem !== item));
+      updatedSelection = selection.filter(
+        (selectedItem) => selectedItem !== item
+      );
+      setSelection(updatedSelection);
     } else {
-      setSelection((prevArray) => [...prevArray, item]);
+      updatedSelection = [...selection, item];
+      setSelection(updatedSelection);
     }
+    dispatch(updateInterests(category, updatedSelection));
   };
 
   return (
@@ -45,6 +57,7 @@ function MatchInterest({ title, items }) {
 
 MatchInterest.propTypes = {
   title: PropTypes.string,
+  key: PropTypes.number,
   items: PropTypes.array,
 };
 

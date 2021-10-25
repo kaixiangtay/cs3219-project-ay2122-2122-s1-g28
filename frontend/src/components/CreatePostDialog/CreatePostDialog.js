@@ -20,7 +20,7 @@ import CloseIcon from "@material-ui/icons/Close";
 // Import CSS
 import styles from "./CreatePostDialog.module.css";
 
-// IMport FontAwesome
+// Import FontAwesome
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -74,7 +74,7 @@ function CreatePostDialog(props) {
         <TextField
           autoFocus
           margin="dense"
-          label="Text"
+          label="Content"
           fullWidth
           variant="outlined"
           multiline
