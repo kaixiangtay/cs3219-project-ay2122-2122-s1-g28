@@ -1,6 +1,7 @@
 let FindFriend = require("../models/findFriendModel");
 let Room = require("../models/roomModel");
 let userAuth = require("../middlewares/userAuth");
+let mongoose = require('mongoose');
 
 async function getAllFindFriendsUsers() {
   const users = await FindFriend.find();
@@ -343,10 +344,15 @@ async function createMatch(interests, userId) {
 async function clearMatch(userId) {
   const user = await FindFriend.findOne({ userId: userId });
 
+  let matchedPersonId = mongoose.Types.ObjectId(user.matchUserId.str);
+  let roomId = mongoose.Types.ObjectId(user.roomId.str);
+
   if (user !== null) {
+    const matchedUser = await FindFriend.findOne({_id: matchedPersonId});
+    const room = await Room.findOne({_id: roomId});
+    const matchedUserStatus = await FindFriend.deleteOne(matchedUser);
+    const roomStatus = await Room.deleteOne(room);
     const userStatus = await FindFriend.deleteOne(user);
-    const matchedUserStatus = await FindFriend.deleteOne({_id: user.matchUserId});
-    const roomStatus = await Room.deleteOne({_id: user.roomId})
     
     // Return deleted count of 1 if user is deleted succesfully
     return userStatus.deletedCount;
