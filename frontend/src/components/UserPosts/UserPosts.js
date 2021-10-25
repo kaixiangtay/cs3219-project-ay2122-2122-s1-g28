@@ -8,6 +8,7 @@ import { handleDeletePost, handleGetUserPosts } from "../../actions/post";
 
 // Import Components
 import EditPostDialog from "../../components/EditPostDialog/EditPostDialog.js";
+import PostDialog from "../PostDialog/PostDialog";
 
 // Import Material-ui
 import { Button, Grid, Typography } from "@material-ui/core";
@@ -25,16 +26,22 @@ function UserPosts(props) {
   const history = useHistory();
   const postDeleted = useSelector((state) => state.post.deletePostSuccess);
   const postEdited = useSelector((state) => state.post.editPostSuccess);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editPost, setEditPost] = useState("");
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState("");
+  const [postDialogOpen, setPostDialogOpen] = useState(false);
 
   const onClickDeletePost = (postId) => {
     dispatch(handleDeletePost(postId));
   };
 
-  const handleDialogOpen = (post) => {
-    setEditPost(post);
-    setDialogOpen(true);
+  const handleEditDialogOpen = (post) => {
+    setSelectedPost(post);
+    setEditDialogOpen(true);
+  };
+
+  const handlePostDialogOpen = (post) => {
+    setSelectedPost(post);
+    setPostDialogOpen(true);
   };
 
   useEffect(() => {
@@ -54,7 +61,7 @@ function UserPosts(props) {
             <Button
               className={styles.postButton}
               variant="outlined"
-              // onClick={() => onClickSelectedPost(post._id)}
+              onClick={() => handlePostDialogOpen(post)}
             >
               <Grid container direction="column" className={styles.postDetails}>
                 <Typography variant="h6" align="left" className={styles.title}>
@@ -89,7 +96,7 @@ function UserPosts(props) {
                 <Button
                   size="small"
                   className={styles.editButton}
-                  onClick={() => handleDialogOpen(post)}
+                  onClick={() => handleEditDialogOpen(post)}
                 >
                   Edit Post
                   <FontAwesomeIcon icon={faEdit} />
@@ -111,9 +118,14 @@ function UserPosts(props) {
         <div></div>
       )}
       <EditPostDialog
-        isOpen={dialogOpen}
-        handleClose={() => setDialogOpen(false)}
-        post={editPost}
+        isOpen={editDialogOpen}
+        handleClose={() => setEditDialogOpen(false)}
+        post={selectedPost}
+      />
+      <PostDialog
+        isOpen={postDialogOpen}
+        handleClose={() => setPostDialogOpen(false)}
+        post={selectedPost}
       />
     </Grid>
   );

@@ -1,0 +1,7 @@
+.boldFont {
+  font-weight: bold !important;
+}
+
+.closeButton {
+  background-color: var(--ORANGE) !important;
+}
