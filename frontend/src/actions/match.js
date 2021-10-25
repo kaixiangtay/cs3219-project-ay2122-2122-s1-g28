@@ -155,16 +155,27 @@ export const initiateSocket = (roomId) => {
 export const disconnectSocket = () => {
   console.log("Disconnecting socket...");
   if (socket) {
+    socket.emit("leave", true);
     socket.disconnect();
   }
 };
 
-export const subscribeToChat = (cb) => {
+export const listenForMessages = (cb) => {
   if (!socket) {
     return true;
   }
 
   socket.on("chat", (msg) => {
+    return cb(null, msg);
+  });
+};
+
+export const listenForDisconnect = (cb) => {
+  if (!socket) {
+    return true;
+  }
+
+  socket.on("leave", (msg) => {
     return cb(null, msg);
   });
 };
@@ -241,6 +252,7 @@ export const handleUnmatch = (token) => (dispatch) => {
   })
     .then((response) => {
       if (response.ok) {
+        disconnectSocket();
         response.json().then(() => dispatch(unmatchedSuccess()));
       } else if (response.status == 401) {
         dispatch(tokenExpire());

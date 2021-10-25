@@ -4,15 +4,16 @@ import React, { useState, useEffect } from "react";
 // import Redux
 import {
   initiateSocket,
-  subscribeToChat,
+  listenForMessages,
+  listenForDisconnect,
   disconnectSocket,
   sendMessage,
+  handleUnmatch,
 } from "../../actions/match";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
@@ -26,6 +27,7 @@ function ChatMessage() {
 
   const auth = useSelector((state) => state.auth);
   const match = useSelector((state) => state.match);
+  const dispatch = useDispatch();
 
   const handleSendMessage = () => {
     if (inputText !== "") {
@@ -47,12 +49,11 @@ function ChatMessage() {
   }, [match.data.roomId]);
 
   useEffect(() => {
-    subscribeToChat((err, data) => {
+    listenForMessages((err, data) => {
       if (err) {
         disconnectSocket();
         return;
       }
-
       if (data.token != auth.token) {
         setMessages([
           ...messages,
@@ -60,14 +61,20 @@ function ChatMessage() {
         ]);
       }
     });
+
+    listenForDisconnect((err, data) => {
+      if (err) {
+        disconnectSocket();
+        return;
+      }
+      if (data) {
+        dispatch(handleUnmatch(auth.token));
+      }
+    });
   }, [messages]);
 
   return (
     <div>
-      <Grid item md={12} className="center-text">
-        <h2>You have matched with John!</h2>
-        {/* Can find a way to pass in matched person's name through socket io since profile is retrieved upon login */}
-      </Grid>
       <Paper elevation={3} className={styles.chatContainer}>
         <List>
           {messages.map((message, index) => (

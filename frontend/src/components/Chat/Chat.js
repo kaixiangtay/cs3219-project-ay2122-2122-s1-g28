@@ -32,6 +32,9 @@ function Chat() {
           <PageTitle title={"Find Friends"} icon={faUserFriends} />
         </Grid>
         <Grid container item md={12} className={styles.parentGrid}>
+          <Grid item md={12} className="center-text">
+            <h2>You have matched with a new friend!</h2>
+          </Grid>
           <Grid item md={9} className={styles.chatSection}>
             <ChatMessage />
           </Grid>
