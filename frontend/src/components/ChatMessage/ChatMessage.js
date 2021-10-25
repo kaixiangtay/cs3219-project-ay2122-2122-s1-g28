@@ -29,35 +29,38 @@ function ChatMessage() {
 
   const handleSendMessage = () => {
     if (inputText !== "") {
-      setMessages([...messages, { token: auth.token, message: inputText }]);
       sendMessage(auth.token, inputText);
+      setMessages([...messages, { token: auth.token, message: inputText }]);
       setInputText("");
     }
-  };
-
-  const handleReceiveMessage = (_token, msg) => {
-    setMessages([...messages, { token: _token, message: msg }]);
   };
 
   //Triggers when ENTER key is pressed
   const handleSendKeypress = (e) => {
     if (e.which === 13) {
-      sendMessage();
+      handleSendMessage();
     }
   };
 
   useEffect(() => {
     initiateSocket(match.data.roomId);
+  }, [match.data.roomId]);
+
+  useEffect(() => {
     subscribeToChat((err, data) => {
       if (err) {
         disconnectSocket();
         return;
       }
+
       if (data.token != auth.token) {
-        handleReceiveMessage(data.token, data.message);
+        setMessages([
+          ...messages,
+          { token: data.token, message: data.message },
+        ]);
       }
     });
-  }, []);
+  }, [messages]);
 
   return (
     <div>

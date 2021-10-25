@@ -165,7 +165,6 @@ export const subscribeToChat = (cb) => {
   }
 
   socket.on("chat", (msg) => {
-    console.log("Websocket event received!");
     return cb(null, msg);
   });
 };
@@ -182,7 +181,7 @@ export const sendMessage = (token, message) => {
 
 // Handles matching between users
 export const handleMatchWithRetry =
-  (token, interests, numRetries = 6) =>
+  (token, interests, numRetries = 10) =>
   (dispatch) => {
     dispatch(matching());
 
@@ -216,7 +215,7 @@ export const handleMatchWithRetry =
                 dispatch(
                   handleMatchWithRetry(token, interests, numRetries - 1)
                 ),
-              5000
+              3000
             );
           } else {
             dispatch(
