@@ -53,9 +53,9 @@ const createMatch = [userAuth.decodeToken,
         try {
             const userId = req.userId;
             const interests = req.body.interests;
-            const matchedPersonToken = await findFriendService.createMatch(interests, userId);
-
-            const noMatch = matchedPersonToken == "";
+            // return a chat room if there is a match
+            const roomId = await findFriendService.createMatch(interests, userId);
+            const noMatch = roomId == "";
         
             if (noMatch) {
                 return res.status(404).json({
@@ -66,10 +66,11 @@ const createMatch = [userAuth.decodeToken,
                 return res.status(200).json({
                     status: "success",
                     msg: "Congratulations! You have a new match!",
-                    data: { matchedPersonToken: matchedPersonToken},
+                    data: { roomId: roomId},
                 });
             }
         } catch (err) {
+            console.log(err)
             return res.status(400).json({
                 status: "error",
                 msg: err.toString(),
