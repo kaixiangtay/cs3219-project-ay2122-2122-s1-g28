@@ -25,38 +25,6 @@ function Chat() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  //Hardcoded values for testing before syncing with backend
-  const matchInfo = {
-    name: "John",
-  };
-
-  // const textMessages = [
-  //   {
-  //     party: "You",
-  //     message: "Hi there this is a test hahahaha!",
-  //   },
-  //   {
-  //     party: "John",
-  //     message: "Yooo thanks for the message man!!! hehehe!",
-  //   },
-  //   {
-  //     party: "You",
-  //     message: "Hi there this is a test hahahaha!",
-  //   },
-  //   {
-  //     party: "John",
-  //     message: "Yooo thanks for the message man!!! hehehe!",
-  //   },
-  //   {
-  //     party: "You",
-  //     message: "Hi there this is a test hahahaha!",
-  //   },
-  //   {
-  //     party: "John",
-  //     message: "Yooo thanks for the message man!!! hehehe!",
-  //   },
-  // ];
-
   return (
     <Container className="primary-font">
       <Grid container spacing={2}>
@@ -65,7 +33,7 @@ function Chat() {
         </Grid>
         <Grid container item md={12} className={styles.parentGrid}>
           <Grid item md={12} className="center-text">
-            <h2>You have matched with {matchInfo.name}!</h2>
+            <h2>You have matched with a new friend!</h2>
           </Grid>
           <Grid item md={9} className={styles.chatSection}>
             <ChatMessage />
