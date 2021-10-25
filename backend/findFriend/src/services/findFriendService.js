@@ -324,7 +324,7 @@ async function createMatch(interests, userId) {
     }
     return "";
   } else {
-    // Only issued matchedPerson jwt token if there is a match
+    // Only issued room id if there is a match
     let matchedUser = await getUser(matchedPersonId);
     matchedUser.isMatched = true;
     matchedUser.matchUserId = findFriend.userId;
@@ -334,6 +334,7 @@ async function createMatch(interests, userId) {
     room.users.push(findFriend.userId, matchedUser.userId);
     findFriend.roomId = room._id;
     matchedUser.roomId = room._id;
+
     findFriend.save();
     matchedUser.save();
     room.save();
@@ -345,10 +346,12 @@ async function clearMatch(userId) {
   const user = await FindFriend.findOne({ userId: userId });
 
   if (user !== null) {
-    const status = await FindFriend.deleteOne(user);
-    return status.deletedCount;
-    // user.matchUserId = "";
-    // user.save();
+    const userStatus = await FindFriend.deleteOne(user);
+    const matchedUserStatus = await FindFriend.deleteOne({_id: user.matchUserId});
+    const roomStatus = await Room.deleteOne({_id: user.roomId})
+    
+    // Return deleted count of 1 if user is deleted succesfully
+    return userStatus.deletedCount;
   }
 }
 
