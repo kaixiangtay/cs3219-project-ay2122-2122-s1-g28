@@ -182,7 +182,7 @@ export const sendMessage = (token, message) => {
 
 // Handles matching between users
 export const handleMatchWithRetry =
-  (token, interests, numRetries = 4) =>
+  (token, interests, numRetries = 6) =>
   (dispatch) => {
     dispatch(matching());
 
@@ -216,7 +216,7 @@ export const handleMatchWithRetry =
                 dispatch(
                   handleMatchWithRetry(token, interests, numRetries - 1)
                 ),
-              10000
+              5000
             );
           } else {
             dispatch(

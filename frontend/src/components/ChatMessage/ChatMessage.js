@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
@@ -21,9 +22,10 @@ import styles from "./ChatMessage.module.css";
 
 function ChatMessage() {
   const [inputText, setInputText] = useState("");
-  const [messages, setMessages] = useState("");
+  const [messages, setMessages] = useState([]);
 
   const auth = useSelector((state) => state.auth);
+  const match = useSelector((state) => state.match);
 
   const handleSendMessage = () => {
     if (inputText !== "") {
@@ -33,8 +35,8 @@ function ChatMessage() {
     }
   };
 
-  const handleReceiveMessage = (token, msg) => {
-    setMessages([...messages, { token: token, message: msg }]);
+  const handleReceiveMessage = (_token, msg) => {
+    setMessages([...messages, { token: _token, message: msg }]);
   };
 
   //Triggers when ENTER key is pressed
@@ -45,7 +47,7 @@ function ChatMessage() {
   };
 
   useEffect(() => {
-    initiateSocket("A"); // add in roomId here after revised findfriends implementation
+    initiateSocket(match.data.roomId);
     subscribeToChat((err, data) => {
       if (err) {
         disconnectSocket();
@@ -59,6 +61,10 @@ function ChatMessage() {
 
   return (
     <div>
+      <Grid item md={12} className="center-text">
+        <h2>You have matched with John!</h2>
+        {/* Can find a way to pass in matched person's name through socket io since profile is retrieved upon login */}
+      </Grid>
       <Paper elevation={3} className={styles.chatContainer}>
         <List>
           {messages.map((message, index) => (
