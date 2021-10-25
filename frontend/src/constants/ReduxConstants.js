@@ -50,6 +50,8 @@ export const GET_USER_POSTS_SUCCESS = 54;
 export const GET_USER_POSTS_FAILURE = 55;
 export const DELETE_POST_SUCCESS = 56;
 export const DELETE_POST_FAILURE = 57;
+export const EDIT_POST_SUCCESS = 58;
+export const EDIT_POST_FAILURE = 59;
 
 // Comment
 export const CREATE_COMMENT_SUCCESS = 60;

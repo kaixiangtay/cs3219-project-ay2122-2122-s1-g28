@@ -22,6 +22,8 @@ import {
   GET_USER_POSTS_FAILURE,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILURE,
+  EDIT_POST_SUCCESS,
+  EDIT_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 // ===================================================================
@@ -191,6 +193,27 @@ const deletePostFailure = (err) => {
   });
   return {
     type: DELETE_POST_FAILURE,
+  };
+};
+
+// ===================================================================
+// EDIT POST
+// ===================================================================
+const editPostSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: EDIT_POST_SUCCESS,
+  };
+};
+
+const editPostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: EDIT_POST_FAILURE,
   };
 };
 
@@ -443,3 +466,31 @@ export const handleDeletePost = (postId) => (dispatch, getState) => {
       dispatch(deletePostFailure(err));
     });
 };
+
+// Edit post
+export const handleEditPost =
+  (postId, editedPostData) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/updatePost/${postId}`;
+
+    fetch(requestUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${token}`,
+      },
+      body: new URLSearchParams(editedPostData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => dispatch(editPostSuccess(res)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then((err) => dispatch(editPostFailure(err)));
+        }
+      })
+      .catch((err) => {
+        dispatch(editPostFailure(err));
+      });
+  };

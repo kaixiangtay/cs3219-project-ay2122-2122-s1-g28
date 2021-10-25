@@ -34,7 +34,6 @@ function UserComments(props) {
   // };
 
   useEffect(() => {
-    console.log("test");
     dispatch(handleGetUserComments(topic));
   }, [commentDeleted]);
 

@@ -1,6 +1,5 @@
 // Import Settings
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 
 // import Redux
 import { handleUnmatch } from "../../actions/match";
@@ -31,32 +30,32 @@ function Chat() {
     name: "John",
   };
 
-  const textMessages = [
-    {
-      party: "You",
-      message: "Hi there this is a test hahahaha!",
-    },
-    {
-      party: "John",
-      message: "Yooo thanks for the message man!!! hehehe!",
-    },
-    {
-      party: "You",
-      message: "Hi there this is a test hahahaha!",
-    },
-    {
-      party: "John",
-      message: "Yooo thanks for the message man!!! hehehe!",
-    },
-    {
-      party: "You",
-      message: "Hi there this is a test hahahaha!",
-    },
-    {
-      party: "John",
-      message: "Yooo thanks for the message man!!! hehehe!",
-    },
-  ];
+  // const textMessages = [
+  //   {
+  //     party: "You",
+  //     message: "Hi there this is a test hahahaha!",
+  //   },
+  //   {
+  //     party: "John",
+  //     message: "Yooo thanks for the message man!!! hehehe!",
+  //   },
+  //   {
+  //     party: "You",
+  //     message: "Hi there this is a test hahahaha!",
+  //   },
+  //   {
+  //     party: "John",
+  //     message: "Yooo thanks for the message man!!! hehehe!",
+  //   },
+  //   {
+  //     party: "You",
+  //     message: "Hi there this is a test hahahaha!",
+  //   },
+  //   {
+  //     party: "John",
+  //     message: "Yooo thanks for the message man!!! hehehe!",
+  //   },
+  // ];
 
   return (
     <Container className="primary-font">

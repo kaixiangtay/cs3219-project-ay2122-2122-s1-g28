@@ -1,10 +1,13 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
 import { handleDeletePost, handleGetUserPosts } from "../../actions/post";
+
+// Import Components
+import EditPostDialog from "../../components/EditPostDialog/EditPostDialog.js";
 
 // Import Material-ui
 import { Button, Grid, Typography } from "@material-ui/core";
@@ -21,18 +24,22 @@ function UserPosts(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const postDeleted = useSelector((state) => state.post.deletePostSuccess);
+  const postEdited = useSelector((state) => state.post.editPostSuccess);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editPost, setEditPost] = useState("");
 
   const onClickDeletePost = (postId) => {
     dispatch(handleDeletePost(postId));
   };
 
-  const onClickEditPost = () => {
-    // dispatch(handleEditPost(postId));
+  const handleDialogOpen = (post) => {
+    setEditPost(post);
+    setDialogOpen(true);
   };
 
   useEffect(() => {
     dispatch(handleGetUserPosts(topic, history));
-  }, [postDeleted]);
+  }, [postDeleted, postEdited]);
 
   return (
     <Grid container direction="column">
@@ -82,7 +89,7 @@ function UserPosts(props) {
                 <Button
                   size="small"
                   className={styles.editButton}
-                  onClick={() => onClickEditPost(post._id)}
+                  onClick={() => handleDialogOpen(post)}
                 >
                   Edit Post
                   <FontAwesomeIcon icon={faEdit} />
@@ -103,6 +110,11 @@ function UserPosts(props) {
       ) : (
         <div></div>
       )}
+      <EditPostDialog
+        isOpen={dialogOpen}
+        handleClose={() => setDialogOpen(false)}
+        post={editPost}
+      />
     </Grid>
   );
 }
