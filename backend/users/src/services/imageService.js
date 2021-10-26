@@ -1,9 +1,9 @@
-const aws = require("aws-sdk");
-const multer = require("multer");
-const multerS3 = require("multer-s3");
-const {
+import aws from "aws-sdk";
+import multer from "multer";
+import multerS3 from "multer-s3";
+import {
 	S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_REGION, S3_BUCKET_NAME,
-} = require("../config/config");
+} from "../config/config";
 
 const s3 = new aws.S3({
 	accessKeyId: S3_ACCESS_KEY_ID,
@@ -22,7 +22,7 @@ const multerFilter = (req, file, cb) => {
 	}
 };
 
-exports.upload = (bucketName, userID) => {
+function uploadImage(bucketName, userID) {
 	return multer({
 		storage: multerS3({
 			s3,
@@ -41,9 +41,9 @@ exports.upload = (bucketName, userID) => {
 			fileSize: 1024 * 1024 * 10,
 		},
 	});
-};
+}
 
-exports.delete = (imageUrl) => {
+function deleteImage(imageUrl) {
 	const fileName = imageUrl.split("/").slice(-1)[0];
 	const params = { Bucket: S3_BUCKET_NAME, Key: fileName };
 	// eslint-disable-next-line no-unused-vars
@@ -54,4 +54,6 @@ exports.delete = (imageUrl) => {
 			console.log("Successfully delete profile image from bucket!");
 		}
 	});
-};
+}
+
+module.exports = { uploadImage, deleteImage };

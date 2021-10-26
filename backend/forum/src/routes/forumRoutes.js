@@ -1,6 +1,8 @@
-const router = require("express").Router();
-const postController = require("../controllers/postController");
-const commentController = require("../controllers/commentController");
+import express from "express";
+import postController from "../controllers/postController";
+import commentController from "../controllers/commentController";
+
+const router = express.Router();
 
 router.get("/", (req, res) => {
 	res.json({

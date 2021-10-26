@@ -1,12 +1,10 @@
-const { validationResult } = require("express-validator");
-const {
-	addCommentValidator,
-} = require("../validators/commentValidator");
-const userAuth = require("../middlewares/userAuth");
-const postService = require("../services/postService");
-const commentService = require("../services/commentService");
+import { validationResult } from "express-validator";
+import { addCommentValidator } from "../validators/commentValidator";
+import userAuth from "../middlewares/userAuth";
+import postService from "../services/postService";
+import commentService from "../services/commentService";
 
-exports.viewPostComments = [
+const viewPostComments = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -45,7 +43,7 @@ exports.viewPostComments = [
 	},
 ];
 
-exports.viewUserComments = [
+const viewUserComments = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -110,7 +108,7 @@ exports.createComment = [
 	},
 ];
 
-exports.viewComment = [
+const viewComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -143,7 +141,7 @@ exports.viewComment = [
 	},
 ];
 
-exports.updateComment = [
+const updateComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -184,7 +182,7 @@ exports.updateComment = [
 	},
 ];
 
-exports.upvoteComment = [
+const upvoteComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -233,7 +231,7 @@ exports.upvoteComment = [
 	},
 ];
 
-exports.downvoteComment = [
+const downvoteComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -282,7 +280,7 @@ exports.downvoteComment = [
 	},
 ];
 
-exports.deleteComment = [
+const deleteComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -322,7 +320,7 @@ exports.deleteComment = [
 	},
 ];
 
-exports.sortCommentsByAscVotes = [
+const sortCommentsByAscVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -361,7 +359,7 @@ exports.sortCommentsByAscVotes = [
 	},
 ];
 
-exports.sortCommentsByDescVotes = [
+const sortCommentsByDescVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -400,7 +398,7 @@ exports.sortCommentsByDescVotes = [
 	},
 ];
 
-exports.sortCommentsByAscDate = [
+const sortCommentsByAscDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -439,7 +437,7 @@ exports.sortCommentsByAscDate = [
 	},
 ];
 
-exports.sortCommentsByDescDate = [
+const sortCommentsByDescDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -477,3 +475,5 @@ exports.sortCommentsByDescDate = [
 		}
 	},
 ];
+
+module.exports = { viewPostComments, viewUserComments, upvoteComment, viewComment, updateComment, downvoteComment, deleteComment, sortCommentsByAscVotes, sortCommentsByDescVotes, sortCommentsByAscDate, sortCommentsByDescDate }

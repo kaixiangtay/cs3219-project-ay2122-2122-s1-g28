@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const PostSchema = mongoose.Schema({
 	userName: {
@@ -46,7 +46,3 @@ const PostSchema = mongoose.Schema({
 const Post = mongoose.model("Post", PostSchema);
 
 module.exports = Post;
-
-module.exports.get = function (callback, limit) {
-	Post.find(callback).limit(limit);
-};

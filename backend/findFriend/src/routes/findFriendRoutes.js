@@ -1,5 +1,7 @@
-const router = require("express").Router();
-const findFriendController = require("../controllers/findFriendController");
+import express from "express";
+import findFriendController from "../controllers/findFriendController";
+
+const router = express.Router();
 
 router.get("/", (req, res) => {
 	res.json({

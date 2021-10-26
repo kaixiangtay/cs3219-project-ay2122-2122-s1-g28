@@ -1,15 +1,14 @@
-// eslint-disable-next-line import/order
-const { port } = require("./config/config");
 
-const express = require("express");
+import express from "express";
+import { PORT } from "./config/config";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
-
-const http = require("http");
-
+const httpServer = createServer();
 const server = http.createServer(app);
 
-const io = require("socket.io")(server, {
+const io = new Server(httpServer, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -38,6 +37,6 @@ io.on("connection", (socket) => {
 	});
 });
 
-server.listen(port, () => {
-	console.log(`Server is running at PORT ${port}`);
+server.listen(PORT, () => {
+	console.log(`Server is running at PORT ${PORT}`);
 });

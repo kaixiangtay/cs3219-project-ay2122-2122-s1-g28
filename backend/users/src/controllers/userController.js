@@ -1,13 +1,9 @@
-const { validationResult } = require("express-validator");
-const { S3_BUCKET_NAME } = require("../config/config");
-const userAuth = require("../middlewares/userAuth");
-const userService = require("../services/userService");
-const imageService = require("../services/imageService");
-const {
-	userRegisterValidator,
-	userLoginValidator,
-	userUpdateValidator,
-} = require("../middlewares/userValidator");
+import { validationResult } from "express-validator";
+import userValidator from "../middlewares/userValidator";
+import { S3_BUCKET_NAME } from "../config/config";
+import userAuth from "../middlewares/userAuth";
+import userService from "../services/userService";
+import imageService from "../services/imageService";
 
 const index = [
 	async (req, res) => {
@@ -38,7 +34,7 @@ const index = [
 
 // Register new user
 const registerUser = [
-	userRegisterValidator(),
+	userValidator.userRegisterValidator(),
 	async (req, res) => {
 		try {
 			const errors = validationResult(req);
@@ -180,7 +176,7 @@ const uploadProfileImage = [
 
 			// frontend file name put to profileImage
 			const uploadSingleImage = imageService
-				.upload(S3_BUCKET_NAME, user._id)
+				.uploadImage(S3_BUCKET_NAME, user._id)
 				.single("profileImage");
 
 			uploadSingleImage(req, res, async (err) => {
@@ -215,7 +211,7 @@ const uploadProfileImage = [
 // Change user name and password in Profile page when user logged in to account
 const updateUser = [
 	userAuth.decodeAuthToken,
-	userUpdateValidator(),
+	userValidator.userUpdateValidator(),
 	async (req, res) => {
 		try {
 			const errors = validationResult(req);
@@ -295,7 +291,7 @@ const deleteUser = [
 ];
 
 const loginUser = [
-	userLoginValidator(),
+	userValidator.userLoginValidator(),
 	async (req, res) => {
 		try {
 			const errors = validationResult(req);

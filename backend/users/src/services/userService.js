@@ -1,8 +1,8 @@
-const generator = require("generate-password");
-const User = require("../models/userModel");
-const userAuth = require("../middlewares/userAuth");
-const mailerService = require("./mailerService");
-const imageService = require("./imageService");
+import generator from "generate-password";
+import User from "../models/userModel";
+import userAuth from "../middlewares/userAuth";
+import mailerService from "./mailerService";
+import imageService from "./imageService";
 
 async function getAllUsers() {
 	const users = await User.find();
@@ -67,7 +67,7 @@ function logoutUser(user) {
 async function deleteUser(userId) {
 	const user = await getUserByID(userId);
 	if (user.profileImageUrl !== "") {
-		imageService.delete(user.profileImageUrl);
+		imageService.deleteImage(user.profileImageUrl);
 	}
 	const status = await User.deleteOne(user);
 	return status.deletedCount;
@@ -100,6 +100,7 @@ function loginUser(user) {
 	user.save();
 	return user;
 }
+
 module.exports = {
 	getAllUsers,
 	getUserByEmail,

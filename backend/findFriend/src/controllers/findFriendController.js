@@ -1,5 +1,5 @@
-const findFriendService = require("../services/findFriendService");
-const userAuth = require("../middlewares/userAuth");
+import findFriendService from "../services/findFriendService";
+import userAuth from "../middlewares/userAuth";
 
 const index = [
 	async (req, res) => {

@@ -1,5 +1,5 @@
-const nodemailer = require("nodemailer");
-const {
+import nodemailer from "nodemailer";
+import {
 	GCP_CLIENT_ID,
 	GCP_CLIENT_SECRET,
 	EMAIL,
@@ -7,7 +7,7 @@ const {
 	GCP_REFRESH_TOKEN,
 	FRONTEND_URL,
 	BACKEND_URL,
-} = require("../config/config");
+} from "../config/config";
 
 const transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -46,36 +46,22 @@ const resetPasswordEmailOptions = (email, tempPassword) => {
 	return emailOptions;
 };
 
-const sendRegisterUserEmail = async (email, token) => {
+async function sendRegisterUserEmail(email, token) {
 	try {
 		const emailOptions = registerAccountEmailOptions(email, token);
 		await transporter.sendMail(emailOptions);
 	} catch (err) {
 		console.log(err);
-
-		// return res.status(404).json([
-		// 	{
-		// 		status: "error",
-		// 		msg: "Unable to connect to Nodemailer!",
-		// 	},
-		// ]);
 	}
-};
+}
 
-const sendForgotPasswordEmail = async (email, tempPassword) => {
+async function sendForgotPasswordEmail(email, tempPassword) {
 	try {
 		const emailOptions = resetPasswordEmailOptions(email, tempPassword);
 		await transporter.sendMail(emailOptions);
 	} catch (err) {
 		console.log(err);
-
-		// return res.status(404).json([
-		// 	{
-		// 		status: "error",
-		// 		msg: "Unable to connect to Nodemailer!",
-		// 	},
-		// ]);
 	}
-};
+}
 
 module.exports = { sendForgotPasswordEmail, sendRegisterUserEmail };

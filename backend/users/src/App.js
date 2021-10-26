@@ -1,7 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const { PORT } = require("./config/config");
-const Router = require("./routes/userRoutes");
+import express from "express";
+import cors from "cors";
+import { PORT } from "./config/config";
+import Router from "./routes/userRoutes";
 
 const app = express();
 
@@ -32,4 +32,4 @@ app.listen(PORT, (err) => {
 	console.log(`Server is running at PORT ${PORT}`);
 });
 
-module.exPORTs = app;
+module.exports = app;

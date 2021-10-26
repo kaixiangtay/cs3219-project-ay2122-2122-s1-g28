@@ -1,7 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const { PORT } = require("./config/config");
-const Router = require("./routes/forumRoutes");
+import express from "express";
+import cors from "cors";
+import { PORT } from "./config/config";
+import Router from "./routes/forumRoutes";
 
 const app = express();
 
@@ -30,9 +30,6 @@ app.use((req, res, next) => {
 	);
 	next();
 });
-
-// Setup server port
-// var PORT = process.env.PORT || 3030;
 
 app.listen(PORT, (err) => {
 	if (err) {

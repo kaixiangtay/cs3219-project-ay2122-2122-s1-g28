@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const FindFriend = require("../models/findFriendModel");
-const Room = require("../models/roomModel");
+import mongoose from 'mongoose';
+import FindFriend from '../models/findFriendModel';
+import Room from "../models/roomModel";
 
 async function getAllFindFriendsUsers() {
 	const users = await FindFriend.find();
@@ -236,14 +236,11 @@ async function createMatch(interests, userId) {
 	const existingUser = await getUser(userId);
 
 	if (existingUser !== null && existingUser.isMatched) {
+    // return room id if the user is exist in FindFriend DB and has matched with someone
 		return existingUser.roomId;
 	}
 
-	const anyMatch = isEmptyArt
-		&& isEmptyMusic
-		&& isEmptySport
-		&& isEmptyGender
-		&& isEmptyFaculty;
+	const anyMatch = isEmptyArt && isEmptyMusic && isEmptySport && isEmptyGender && isEmptyFaculty;
 
 	if (anyMatch) {
 		findFriend.isRandomSelection = true;
@@ -271,13 +268,7 @@ async function createMatch(interests, userId) {
 			matchingFaculty = await findMatchByFaculty(facultyChoices);
 		}
 
-		const matchResults = merge(
-			matchingArt,
-			merge(
-				matchingSport,
-				merge(matchingMusic, merge(matchingGender, matchingFaculty)),
-			),
-		);
+		const matchResults = merge(matchingArt, merge(matchingSport, merge(matchingMusic, merge(matchingGender, matchingFaculty))));
 
 		// return match results based on total number of matching selection fields in descending order
 		const sortedMatchResults = sortMatchResults(matchResults, userId);

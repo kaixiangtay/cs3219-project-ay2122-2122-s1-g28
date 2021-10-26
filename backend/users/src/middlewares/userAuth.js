@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const { JWT_ACCESS_TOKEN } = require("../config/config");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { JWT_ACCESS_TOKEN } from "../config/config";
 
 function hashPassword(userPassword) {
 	// Use salting technique to generate a more secure hash
