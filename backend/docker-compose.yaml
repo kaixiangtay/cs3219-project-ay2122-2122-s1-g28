@@ -1,0 +1,28 @@
+version: "3"
+services:
+  users:
+    image: nusocialife/users:1.0.0
+    build: users
+    environment:
+      - DB_URL= ${USER_DB_URL}
+    ports:
+      - 5000:5000
+  forum:
+    image: nusocialife/forum:1.0.0
+    build: forum
+    environment:
+      - DB_URL= ${FORUM_DB_URL}
+    ports:
+      - 4000:4000
+  findfriend:
+    image: nusocialife/findfriend:1.0.0
+    build: findfriend
+    environment:
+      - DB_URL= ${FINDFRIEND_DB_URL}
+    ports:
+      - 7000:7000
+  mongodb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME= ${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD= ${MONGO_PASSWORD}

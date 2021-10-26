@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-  endpoint: process.env.API_URL,
-  port: process.env.PORT,
+  DB_URL: process.env.DB_URL,
+  PORT: process.env.PORT,
   JWT_ACCESS_TOKEN: process.env.JWT_ACCESS_TOKEN,
 }
