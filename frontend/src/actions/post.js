@@ -7,9 +7,9 @@ import { tokenExpire } from "./auth.js";
 import {
   GET_ALL_POSTS_SUCCESS,
   GET_ALL_POSTS_FAILURE,
+  SELECT_TOPIC,
   GET_SINGLE_POST_SUCCESS,
   GET_SINGLE_POST_FAILURE,
-  SELECT_TOPIC,
   CREATE_POST_SUCCESS,
   CREATE_POST_FAILURE,
   UPVOTE_POST_SUCCESS,
@@ -24,12 +24,10 @@ import {
   DELETE_POST_FAILURE,
   EDIT_POST_SUCCESS,
   EDIT_POST_FAILURE,
-  GET_POST_SUCCESS,
-  GET_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 // ===================================================================
-// GET ALL POSTS STATE CHANGE
+// GET ALL POSTS
 // ===================================================================
 const getAllPostsSuccess = (topic, posts) => {
   return {
@@ -49,27 +47,7 @@ const getAllPostsFailure = (err) => {
 };
 
 // ===================================================================
-// GET SINGLE POST STATE CHANGE
-// ===================================================================
-const getSinglePostSuccess = (history, path, post) => {
-  history.push(path);
-  return {
-    type: GET_SINGLE_POST_SUCCESS,
-    post: post,
-  };
-};
-
-const getSinglePostFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
-  return {
-    type: GET_SINGLE_POST_FAILURE,
-  };
-};
-
-// ===================================================================
-// SELECT TOPIC STATE CHANGE
+// SELECT TOPIC
 // ===================================================================
 const selectTopic = (topic, history) => {
   const path = "/forum/" + topic.toLowerCase();
@@ -81,7 +59,26 @@ const selectTopic = (topic, history) => {
 };
 
 // ===================================================================
-// CREATE POST STATE CHANGE
+// GET A SINGLE POST
+// ===================================================================
+const getPostSuccess = (post) => {
+  return {
+    type: GET_SINGLE_POST_SUCCESS,
+    singlePost: post,
+  };
+};
+
+const getPostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: GET_SINGLE_POST_FAILURE,
+  };
+};
+
+// ===================================================================
+// CREATE POST
 // ===================================================================
 const createPostSuccess = (res) => {
   toast.success(res.msg, {
@@ -102,7 +99,7 @@ const createPostFailure = (err) => {
 };
 
 // ===================================================================
-// UPVOTE POST STATE CHANGE
+// UPVOTE POST
 // ===================================================================
 const upvotePostSuccess = () => {
   return {
@@ -120,7 +117,7 @@ const upvotePostFailure = (err) => {
 };
 
 // ===================================================================
-// DOWNVOTE POST STATE CHANGE
+// DOWNVOTE POST
 // ===================================================================
 const downvotePostSuccess = () => {
   return {
@@ -138,7 +135,7 @@ const downvotePostFailure = (err) => {
 };
 
 // ===================================================================
-// SORT POST STATE CHANGE
+// SORT POST
 // ===================================================================
 const sortPostsSuccess = (posts) => {
   return {
@@ -220,25 +217,6 @@ const editPostFailure = (err) => {
 };
 
 // ===================================================================
-// GET SINGLE POST WITHOUT REDIRECT
-// ===================================================================
-const getPostSuccess = (post) => {
-  return {
-    type: GET_POST_SUCCESS,
-    singlePost: post,
-  };
-};
-
-const getPostFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
-  return {
-    type: GET_POST_FAILURE,
-  };
-};
-
-// ===================================================================
 // HANDLE API CALLS
 // ===================================================================
 // Get all forum posts of a topic without sorting
@@ -269,45 +247,37 @@ export const handleForumSelection = (topic) => (dispatch, getState) => {
     });
 };
 
-// Get a single forum post with redirecting
-export const handlePostSelection =
-  (history, postData) => (dispatch, getState) => {
-    const postId = postData.postId;
-    const topic = postData.topic;
-    const token = getState().auth.token;
-    const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewPost/${postId}`;
-
-    fetch(requestUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(function (response) {
-        if (response.ok) {
-          const path = topic.toLowerCase() + "/" + postId;
-          response
-            .json()
-            .then((res) =>
-              dispatch(getSinglePostSuccess(history, path, res.data))
-            );
-        } else if (response.status == 401) {
-          dispatch(tokenExpire());
-        } else {
-          response.json().then((res) => {
-            dispatch(getSinglePostFailure(res));
-          });
-        }
-      })
-      .catch((err) => {
-        dispatch(getSinglePostFailure(err));
-      });
-  };
-
 // Handle selection of a topic
 export const handleTopicSelection = (topic, history) => (dispatch) => {
   dispatch(selectTopic(topic, history));
+};
+
+// Get a single forum post
+export const handleGetSinglePost = (postId) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewPost/${postId}`;
+
+  fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then((res) => dispatch(getPostSuccess(res.data)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((res) => {
+          dispatch(getPostFailure(res));
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(getPostFailure(err));
+    });
 };
 
 // Create a post
@@ -398,39 +368,38 @@ export const handleDownvotePost = (postId) => (dispatch, getState) => {
 };
 
 // Sort posts
-export const handlePostSorting =
-  (sortByValue, topic) => (dispatch, getState) => {
-    const token = getState().auth.token;
-    const requestUrl =
-      sortByValue == "oldest"
-        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscDate/${topic}`
-        : sortByValue == "latest"
-        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescDate/${topic}`
-        : sortByValue == "ascVote"
-        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscVotes/${topic}`
-        : sortByValue == "descVote"
-        ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescVotes/${topic}`
-        : ``;
-    fetch(requestUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+export const handleSortPost = (sortByValue, topic) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl =
+    sortByValue == "oldest"
+      ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscDate/${topic}`
+      : sortByValue == "latest"
+      ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescDate/${topic}`
+      : sortByValue == "ascVote"
+      ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByAscVotes/${topic}`
+      : sortByValue == "descVote"
+      ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortPostByDescVotes/${topic}`
+      : ``;
+  fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((res) => dispatch(sortPostsSuccess(res.data)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((err) => dispatch(sortPostsFailure(err)));
+      }
     })
-      .then((response) => {
-        if (response.ok) {
-          response.json().then((res) => dispatch(sortPostsSuccess(res.data)));
-        } else if (response.status == 401) {
-          dispatch(tokenExpire());
-        } else {
-          response.json().then((err) => dispatch(sortPostsFailure(err)));
-        }
-      })
-      .catch((err) => {
-        dispatch(sortPostsFailure(err));
-      });
-  };
+    .catch((err) => {
+      dispatch(sortPostsFailure(err));
+    });
+};
 
 // Get user's posts
 export const handleGetUserPosts = (topic, history) => (dispatch, getState) => {
@@ -515,31 +484,3 @@ export const handleEditPost =
         dispatch(editPostFailure(err));
       });
   };
-
-// Get a single forum post without redirecting
-export const handleGetSinglePost = (postId) => (dispatch, getState) => {
-  const token = getState().auth.token;
-  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewPost/${postId}`;
-
-  fetch(requestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then((res) => dispatch(getPostSuccess(res.data)));
-      } else if (response.status == 401) {
-        dispatch(tokenExpire());
-      } else {
-        response.json().then((res) => {
-          dispatch(getPostFailure(res));
-        });
-      }
-    })
-    .catch((err) => {
-      dispatch(getPostFailure(err));
-    });
-};

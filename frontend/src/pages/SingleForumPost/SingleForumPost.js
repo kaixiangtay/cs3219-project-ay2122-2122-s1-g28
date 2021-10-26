@@ -30,7 +30,6 @@ import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
   const [userComment, setUserComment] = useState("");
-
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);

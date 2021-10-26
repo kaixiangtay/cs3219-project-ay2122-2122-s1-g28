@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handlePostSelection, handlePostSorting } from "../../actions/post";
+import { handleGetSinglePost, handleSortPost } from "../../actions/post";
 
 // Import Material-ui
 import { Button, Grid } from "@material-ui/core";
@@ -24,17 +24,15 @@ function ForumPosts(props) {
   const newPostCreated = useSelector((state) => state.post.createPostSuccess);
 
   const onClickSelectedPost = (postId) => {
-    const postData = {
-      postId: postId,
-      topic: topic,
-    };
-    dispatch(handlePostSelection(history, postData));
+    dispatch(handleGetSinglePost(postId));
+    let path = "/forum/:topic/" + postId;
+    history.push(path);
   };
 
   useEffect(() => {
     // Default sort by latest post
     if (newPostCreated) {
-      dispatch(handlePostSorting("latest", topic));
+      dispatch(handleSortPost("latest", topic));
     }
   }, [newPostCreated]);
 

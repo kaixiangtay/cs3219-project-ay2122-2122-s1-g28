@@ -4,7 +4,7 @@ import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handlePostSorting, handleGetUserPosts } from "../../actions/post";
+import { handleSortPost, handleGetUserPosts } from "../../actions/post";
 
 // Import Material-ui
 import {
@@ -71,7 +71,7 @@ function ForumTopic() {
   };
 
   useEffect(() => {
-    dispatch(handlePostSorting(sortByValue, topic));
+    dispatch(handleSortPost(sortByValue, topic));
   }, [sortByValue]);
 
   return (
