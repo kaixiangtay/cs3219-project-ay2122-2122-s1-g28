@@ -4,11 +4,13 @@ import React, { useState, useEffect } from "react";
 // import Redux
 import {
   initiateSocket,
-  subscribeToChat,
+  listenForMessages,
+  listenForDisconnect,
   disconnectSocket,
   sendMessage,
+  handleUnmatch,
 } from "../../actions/match";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -21,41 +23,55 @@ import styles from "./ChatMessage.module.css";
 
 function ChatMessage() {
   const [inputText, setInputText] = useState("");
-  const [messages, setMessages] = useState("");
+  const [messages, setMessages] = useState([]);
 
   const auth = useSelector((state) => state.auth);
+  const match = useSelector((state) => state.match);
+  const dispatch = useDispatch();
 
   const handleSendMessage = () => {
     if (inputText !== "") {
-      setMessages([...messages, { token: auth.token, message: inputText }]);
       sendMessage(auth.token, inputText);
+      setMessages([...messages, { token: auth.token, message: inputText }]);
       setInputText("");
     }
-  };
-
-  const handleReceiveMessage = (token, msg) => {
-    setMessages([...messages, { token: token, message: msg }]);
   };
 
   //Triggers when ENTER key is pressed
   const handleSendKeypress = (e) => {
     if (e.which === 13) {
-      sendMessage();
+      handleSendMessage();
     }
   };
 
   useEffect(() => {
-    initiateSocket("A"); // add in roomId here after revised findfriends implementation
-    subscribeToChat((err, data) => {
+    initiateSocket(match.data.roomId);
+  }, [match.data.roomId]);
+
+  useEffect(() => {
+    listenForMessages((err, data) => {
       if (err) {
         disconnectSocket();
         return;
       }
       if (data.token != auth.token) {
-        handleReceiveMessage(data.token, data.message);
+        setMessages([
+          ...messages,
+          { token: data.token, message: data.message },
+        ]);
       }
     });
-  }, []);
+
+    listenForDisconnect((err, data) => {
+      if (err) {
+        disconnectSocket();
+        return;
+      }
+      if (data) {
+        dispatch(handleUnmatch(auth.token));
+      }
+    });
+  }, [messages]);
 
   return (
     <div>

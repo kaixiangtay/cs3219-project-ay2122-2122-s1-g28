@@ -27,7 +27,7 @@ const defaultState = {
     faculty: [],
   },
   data: {
-    matchedPersonId: null,
+    roomId: null,
   },
 };
 
