@@ -33,6 +33,9 @@ function SingleForumPost() {
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
+  const createdComment = useSelector(
+    (state) => state.comment.createCommentSuccess
+  );
   const dispatch = useDispatch();
 
   const handleOnComment = () => {
@@ -42,7 +45,7 @@ function SingleForumPost() {
 
   useEffect(() => {
     dispatch(handleGetAllComments(post._id));
-  }, [handleOnComment]);
+  }, [createdComment]);
 
   if (!auth.token) {
     return <Redirect to="/login" />;

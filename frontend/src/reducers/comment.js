@@ -45,6 +45,8 @@ function commentReducer(state = defaultState, action) {
         ...state,
         getAllCommentsSuccess: true,
         getAllCommentsFailure: false,
+        createCommentSuccess: false,
+        createCommentFailure: false,
         comments: action.comments,
       };
     case GET_ALL_COMMENTS_FAILURE:
@@ -60,6 +62,8 @@ function commentReducer(state = defaultState, action) {
         getUserCommentsFailure: false,
         deleteCommentSuccess: false,
         deleteCommentFailure: false,
+        editCommentSuccess: false,
+        editCommentFailure: false,
         comments: action.comments,
       };
     case GET_USER_COMMENTS_FAILURE:
@@ -67,8 +71,6 @@ function commentReducer(state = defaultState, action) {
         ...state,
         getUserCommentsSuccess: false,
         getUserCommentsFailure: true,
-        deleteCommentSuccess: false,
-        deleteCommentFailure: false,
       };
     case DELETE_COMMENT_SUCCESS:
       return {

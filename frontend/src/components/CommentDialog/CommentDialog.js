@@ -1,5 +1,5 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -26,13 +26,18 @@ function CommentDialog(props) {
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
-  const postData = {
-    title: post.title,
-    content: post.content,
-    comments: post.comments,
-    userName: post.userName,
-    displayDate: post.displayDate,
-  };
+  const [postDetails, setPostDetails] = useState("");
+
+  useEffect(() => {
+    const postData = {
+      title: post.title,
+      content: post.content,
+      comments: post.comments,
+      userName: post.userName,
+      displayDate: post.displayDate,
+    };
+    setPostDetails(postData);
+  }, [isOpen]);
 
   useEffect(() => {
     if (postId) {
@@ -48,7 +53,7 @@ function CommentDialog(props) {
       maxWidth={"md"}
     >
       <DialogTitle>
-        <PostDetails post={postData} />
+        <PostDetails post={postDetails} />
       </DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>

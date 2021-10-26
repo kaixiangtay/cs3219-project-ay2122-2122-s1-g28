@@ -5,8 +5,6 @@ import { tokenExpire } from "./auth.js";
 
 // Import constants
 import {
-  GET_ALL_POSTS_SUCCESS,
-  GET_ALL_POSTS_FAILURE,
   SELECT_TOPIC,
   GET_SINGLE_POST_SUCCESS,
   GET_SINGLE_POST_FAILURE,
@@ -25,26 +23,6 @@ import {
   EDIT_POST_SUCCESS,
   EDIT_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
-
-// ===================================================================
-// GET ALL POSTS
-// ===================================================================
-const getAllPostsSuccess = (topic, posts) => {
-  return {
-    type: GET_ALL_POSTS_SUCCESS,
-    topic: topic,
-    posts: posts,
-  };
-};
-
-const getAllPostsFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
-  return {
-    type: GET_ALL_POSTS_FAILURE,
-  };
-};
 
 // ===================================================================
 // SELECT TOPIC
@@ -219,34 +197,6 @@ const editPostFailure = (err) => {
 // ===================================================================
 // HANDLE API CALLS
 // ===================================================================
-// Get all forum posts of a topic without sorting
-export const handleForumSelection = (topic) => (dispatch, getState) => {
-  const token = getState().auth.token;
-  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewAllPosts/${topic}`;
-
-  fetch(requestUrl, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        response
-          .json()
-          .then((res) => dispatch(getAllPostsSuccess(topic, res.data)));
-      } else if (response.status == 401) {
-        dispatch(tokenExpire());
-      } else {
-        response.json().then((res) => dispatch(getAllPostsFailure(res)));
-      }
-    })
-    .catch((err) => {
-      dispatch(getAllPostsFailure(err));
-    });
-};
-
 // Handle selection of a topic
 export const handleTopicSelection = (topic, history) => (dispatch) => {
   dispatch(selectTopic(topic, history));
