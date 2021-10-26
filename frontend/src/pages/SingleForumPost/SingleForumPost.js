@@ -24,6 +24,7 @@ import Navbar from "../../components/Navbar/Navbar.js";
 import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
 import CommentDetails from "../../components/CommentDetails/CommentDetails.js";
 import PostDetails from "../../components/PostDetails/PostDetails.js";
+import BackButton from "../../components/BackButton/BackButton.js";
 
 // Import CSS
 import styles from "./SingleForumPost.module.css";
@@ -54,6 +55,11 @@ function SingleForumPost() {
   return (
     <div>
       <Navbar />
+      <Grid container justifyContent="center" className={styles.backButton}>
+        <Grid item xs={10} sm={10} md={10}>
+          <BackButton />
+        </Grid>
+      </Grid>
       <Grid container justifyContent="center">
         <Grid item xs={10} sm={10} md={10} className={styles.grid}>
           <Paper>

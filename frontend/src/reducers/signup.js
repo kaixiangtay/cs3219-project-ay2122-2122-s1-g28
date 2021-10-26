@@ -1,4 +1,4 @@
-//Import constants
+// Import constants
 import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
