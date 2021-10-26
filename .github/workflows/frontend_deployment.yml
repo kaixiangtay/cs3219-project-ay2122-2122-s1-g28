@@ -2,9 +2,9 @@ name: Frontend Deployment (AWS Amplify)
 
 on:
   push:
-    branches: [frontend-envCD]
+    branches: [master]
   pull_request:
-    branches: [frontend-envCD]
+    branches: [master]
   workflow_dispatch:
     # Allows you to run this workflow manually from the Actions tab
 
