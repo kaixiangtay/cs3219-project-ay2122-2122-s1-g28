@@ -3,6 +3,7 @@ services:
   users:
     image: nusocialife/users:1.0.0
     build: users
+    restart: unless-stopped
     environment:
       - DB_URL= ${USER_DB_URL}
     ports:
@@ -10,6 +11,7 @@ services:
   forum:
     image: nusocialife/forum:1.0.0
     build: forum
+    restart: unless-stopped
     environment:
       - DB_URL= ${FORUM_DB_URL}
     ports:
@@ -17,12 +19,14 @@ services:
   findfriend:
     image: nusocialife/findfriend:1.0.0
     build: findfriend
+    restart: unless-stopped
     environment:
       - DB_URL= ${FINDFRIEND_DB_URL}
     ports:
       - 7000:7000
   mongodb:
     image: mongo
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME= ${MONGO_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD= ${MONGO_PASSWORD}
