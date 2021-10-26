@@ -25,18 +25,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat", (data) => {
-    var { token, message } = data;
-    // console.log(`token: ${token}, msg: ${message}, room: ${socketRoom}`);
+    //var { token, message } = data;
     io.to(socketRoom).emit("chat", data);
   });
 
   socket.on("disconnect", () => {
     console.log(`Disconnected: ${socket.id}`);
+    io.to(socketRoom).emit("leave", true);
   });
 });
 
 server.listen(port, () => {
   console.log(`Server is running at PORT ${port}`);
 });
-
-//https://levelup.gitconnected.com/handling-socketio-rooms-with-react-hooks-4723dd44692e
