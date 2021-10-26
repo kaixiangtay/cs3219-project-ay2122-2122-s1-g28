@@ -1,9 +1,8 @@
+const { validationResult } = require("express-validator");
 const {
-	resultsValidator,
 	addCommentValidator,
 } = require("../validators/commentValidator");
-const { validationResult, check } = require("express-validator");
-var userAuth = require("../middlewares/userAuth");
+const userAuth = require("../middlewares/userAuth");
 const postService = require("../services/postService");
 const commentService = require("../services/commentService");
 
@@ -56,7 +55,7 @@ exports.viewUserComments = [
 			if (emptyCommentsDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any comments under this topic: " + req.params.topic,
+					msg: `This user does not have any comments under this topic: ${req.params.topic}`,
 					data: comments,
 				});
 			} else {
@@ -67,9 +66,12 @@ exports.viewUserComments = [
 				});
 			}
 		} catch (err) {
-
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
 		}
-	}
+	},
 ];
 exports.createComment = [
 	userAuth.decodeAuthToken,
@@ -92,7 +94,7 @@ exports.createComment = [
 			const comment = commentService.createComment(
 				userId,
 				req.body,
-				post
+				post,
 			);
 			return res.status(200).json({
 				status: "success",
@@ -209,7 +211,7 @@ exports.upvoteComment = [
 				});
 			} else {
 				comment = commentService.upvoteComment(userId, comment);
-				if (comment == null){
+				if (comment == null) {
 					return res.status(404).json({
 						status: "error",
 						msg: "Users can only upvote a comment ONCE!",
@@ -258,7 +260,7 @@ exports.downvoteComment = [
 				});
 			} else {
 				comment = commentService.downvoteComment(userId, comment);
-				if (comment == null){
+				if (comment == null) {
 					return res.status(404).json({
 						status: "error",
 						msg: "Users can only downvote a comment ONCE!",
@@ -350,7 +352,7 @@ exports.sortCommentsByAscVotes = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -389,7 +391,7 @@ exports.sortCommentsByDescVotes = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -428,7 +430,7 @@ exports.sortCommentsByAscDate = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -467,7 +469,7 @@ exports.sortCommentsByDescDate = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),

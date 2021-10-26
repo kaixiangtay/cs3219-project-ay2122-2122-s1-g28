@@ -1,8 +1,7 @@
+const { validationResult } = require("express-validator");
 const {
-	resultsPostValidator,
 	addPostValidator,
 } = require("../validators/postValidator");
-const { validationResult, check } = require("express-validator");
 const userAuth = require("../middlewares/userAuth");
 const postService = require("../services/postService");
 
@@ -16,7 +15,7 @@ exports.index = [
 			if (emptyPostDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			}
@@ -97,7 +96,7 @@ exports.viewUserPosts = [
 			if (emptyPostDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any posts under this topic: " + req.params.topic,
+					msg: `This user does not have any posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			}
@@ -112,7 +111,7 @@ exports.viewUserPosts = [
 				msg: err.toString(),
 			});
 		}
-	}
+	},
 ];
 
 exports.updatePost = [
@@ -237,7 +236,7 @@ exports.deletePost = [
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			let post = await postService.getPostByID(req.params.post_id);
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
 					status: "error",
@@ -273,7 +272,7 @@ exports.sortPostByAscVotes = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -300,7 +299,7 @@ exports.sortPostByDescVotes = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -327,7 +326,7 @@ exports.sortPostByAscDate = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -354,7 +353,7 @@ exports.sortPostByDescDate = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
