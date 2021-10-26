@@ -22,9 +22,6 @@ import Navbar from "../../components/Navbar/Navbar.js";
 import ForumPosts from "../../components/ForumPosts/ForumPosts.js";
 import CreatePostDialog from "../../components/CreatePostDialog/CreatePostDialog.js";
 
-// Import CSS
-import styles from "./ForumTopic.module.css";
-
 // Import FontAwesome
 import {
   faFileAlt,
@@ -34,6 +31,9 @@ import {
   faComments,
   faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
+
+// Import CSS
+import styles from "./ForumTopic.module.css";
 
 function ForumTopic() {
   const dispatch = useDispatch();
@@ -80,61 +80,63 @@ function ForumTopic() {
       <Grid item md={12} className="center-text">
         <PageTitle title={topic} icon={icon} />
       </Grid>
-      <Grid container className={styles.container}>
-        <Grid container direction="row-reverse">
-          <Grid item className={styles.sortButtonContainer}>
-            <Typography
-              variant="button"
-              align="left"
-              className={styles.sortText}
+      <Grid container justifyContent="center">
+        <Grid item xs={10} sm={10} md={10}>
+          <Grid container direction="row-reverse">
+            <Grid
+              item
+              xs={1}
+              sm={1}
+              md={1}
+              className={styles.sortButtonContainer}
             >
-              Sort By:
-            </Typography>
-            <FormControl
-              variant="outlined"
-              size="small"
-              fullWidth
-              className={styles.sortButton}
-            >
-              <Select
-                label="Sort By"
-                value={sortByValue}
-                onChange={(e) => setSortByValue(e.target.value)}
+              <Typography
+                variant="button"
+                align="left"
+                className="primary-font"
               >
-                <MenuItem value="latest">Latest</MenuItem>
-                <MenuItem value="oldest">Oldest</MenuItem>
-                <MenuItem value="ascVote">Lowest Votes</MenuItem>
-                <MenuItem value="descVote">Highest Votes</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6} sm={6} md={6}>
-            <Button
-              className={styles.createManageButton}
-              onClick={handleDialogOpen}
-            >
-              Create Post
-            </Button>
-          </Grid>
-          <Grid item xs={6} sm={6} md={6}>
-            <Grid container direction="row-reverse">
-              <Button
-                className={styles.createManageButton}
-                onClick={handleManagePost}
+                Sort By:
+              </Typography>
+              <FormControl
+                variant="outlined"
+                size="small"
+                fullWidth
+                className={styles.sortButton}
               >
-                Manage Posts/Comments
-              </Button>
+                <Select
+                  label="Sort By"
+                  value={sortByValue}
+                  onChange={(e) => setSortByValue(e.target.value)}
+                >
+                  <MenuItem value="latest">Latest</MenuItem>
+                  <MenuItem value="oldest">Oldest</MenuItem>
+                  <MenuItem value="ascVote">Lowest Votes</MenuItem>
+                  <MenuItem value="descVote">Highest Votes</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
+          <Grid container>
+            <Grid item xs={6} sm={6} md={6}>
+              <Button className="orange-button" onClick={handleDialogOpen}>
+                Create Post
+              </Button>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6}>
+              <Grid container direction="row-reverse">
+                <Button className="orange-button" onClick={handleManagePost}>
+                  Manage Posts/Comments
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <ForumPosts topic={topic} />
+          <CreatePostDialog
+            isOpen={dialogOpen}
+            handleClose={() => setDialogOpen(false)}
+            topic={topic}
+          />
         </Grid>
-        <ForumPosts topic={topic} />
-        <CreatePostDialog
-          isOpen={dialogOpen}
-          handleClose={() => setDialogOpen(false)}
-          topic={topic}
-        />
       </Grid>
     </div>
   );

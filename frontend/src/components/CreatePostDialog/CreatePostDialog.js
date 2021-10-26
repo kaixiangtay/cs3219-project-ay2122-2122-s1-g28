@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
   IconButton,
   Button,
@@ -51,39 +52,49 @@ function CreatePostDialog(props) {
       fullWidth={true}
       maxWidth={"md"}
     >
-      <DialogTitle id="form-dialog-title">
-        Create A Post
-        <FontAwesomeIcon icon={faPen} className={styles.icon} />
-        <IconButton
-          aria-label="close"
-          className={styles.closeButton}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+      <Grid container>
+        <Grid item xs={11} sm={11} md={11}>
+          <Grid container alignItems="center">
+            <DialogTitle id="form-dialog-title">Create A Post</DialogTitle>
+            <FontAwesomeIcon icon={faPen} />
+          </Grid>
+        </Grid>
+        <Grid item xs={1} sm={1} md={1}>
+          <Grid container direction="row-reverse">
+            <IconButton aria-label="close" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Grid>
       <DialogContent dividers>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Title"
-          fullWidth
-          className={styles.title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Content"
-          fullWidth
-          variant="outlined"
-          multiline
-          rows={18}
-          onChange={(e) => setContent(e.target.value)}
-        />
+        <Grid container spacing={1} direction="column">
+          <Grid item>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Title"
+              fullWidth
+              className={styles.title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Content"
+              fullWidth
+              variant="outlined"
+              multiline
+              rows={18}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
-        <Button className={styles.postButton} onClick={() => handleCreate()}>
+        <Button className="small-orange-button" onClick={() => handleCreate()}>
           Post
         </Button>
       </DialogActions>

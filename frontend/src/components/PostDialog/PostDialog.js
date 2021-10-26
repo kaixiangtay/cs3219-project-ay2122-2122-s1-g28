@@ -5,6 +5,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetAllComments } from "../../actions/comment";
 
+// Import Components
+import CommentDetails from "../CommentDetails/CommentDetails";
+import PostDetails from "../PostDetails/PostDetails";
+
 // Import Material-ui
 import {
   Button,
@@ -15,23 +19,24 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  Typography,
 } from "@material-ui/core";
-
-// Import styles
-import styles from "./PostDialog.module.css";
 
 function PostDialog(props) {
   const { isOpen, handleClose, post } = props;
   const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [postDetails, setPostDetails] = useState("");
   const [postId, setPostId] = useState("");
   const comments = useSelector((state) => state.comment.comments);
 
   useEffect(() => {
-    setTitle(post.title);
-    setContent(post.content);
+    const postData = {
+      title: post.title,
+      content: post.content,
+      comments: post.comments,
+      userName: post.userName,
+      displayDate: post.displayDate,
+    };
+    setPostDetails(postData);
     setPostId(post._id);
   }, [isOpen]);
 
@@ -48,16 +53,8 @@ function PostDialog(props) {
       fullWidth={true}
       maxWidth={"md"}
     >
-      <DialogTitle>
-        <Typography variant="h6" className={styles.boldFont}>
-          {title}
-        </Typography>
-        <Typography>{content}</Typography>
-        <Grid container direction="row-reverse">
-          <Typography variant="caption">
-            Posted by {post.userName} on {post.displayDate}
-          </Typography>
-        </Grid>
+      <DialogTitle disableTypography>
+        <PostDetails post={postDetails} />
       </DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
@@ -66,15 +63,7 @@ function PostDialog(props) {
               <Grid item xs={12} sm={12} md={12} key={comment._id}>
                 <Card variant="outlined">
                   <CardContent>
-                    <Typography variant="body1" className={styles.boldFont}>
-                      {comment.userName}
-                    </Typography>
-                    <Typography variant="body2">{comment.content}</Typography>
-                    <Grid container direction="row-reverse">
-                      <Typography variant="caption">
-                        Commented on {comment.displayDate}
-                      </Typography>
-                    </Grid>
+                    <CommentDetails comment={comment} />
                   </CardContent>
                 </Card>
               </Grid>
@@ -85,7 +74,7 @@ function PostDialog(props) {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} className={styles.closeButton}>
+        <Button onClick={handleClose} className="small-orange-button">
           Close
         </Button>
       </DialogActions>

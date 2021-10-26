@@ -16,13 +16,14 @@ import {
   CardContent,
   Grid,
   Paper,
-  Typography,
   TextField,
 } from "@material-ui/core";
 
 // Import Components
 import Navbar from "../../components/Navbar/Navbar.js";
 import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
+import CommentDetails from "../../components/CommentDetails/CommentDetails.js";
+import PostDetails from "../../components/PostDetails/PostDetails.js";
 
 // Import CSS
 import styles from "./SingleForumPost.module.css";
@@ -57,27 +58,15 @@ function SingleForumPost() {
             <Grid
               container
               className={styles.gridContainer}
-              justifyContent="center"
+              justifyContent="flex-start"
             >
-              <Grid item>
-                <VoteArrows votes={post.votes} postId={post._id} />
-              </Grid>
+              <VoteArrows votes={post.votes} postId={post._id} />
               <Grid item xs={11} sm={11} md={11}>
-                <Typography gutterBottom variant="h6" className={styles.title}>
-                  {post.title}
-                </Typography>
-                <Typography gutterBottom variant="body1">
-                  {post.content}
-                </Typography>
+                <PostDetails post={post} />
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
-              <Grid item xs={11} sm={11} md={11}>
-                <Grid container direction="row-reverse">
-                  <Typography variant="caption">
-                    Posted by {post.userName} on {post.displayDate}
-                  </Typography>
-                </Grid>
+            <Grid container alignItems="center" direction="column">
+              <Grid item xs={11} sm={11} md={11} className={styles.fullWidth}>
                 <TextField
                   autoFocus
                   margin="dense"
@@ -91,7 +80,7 @@ function SingleForumPost() {
                 />
                 <Grid container direction="row-reverse">
                   <Button
-                    className={styles.commentButton}
+                    className="small-orange-button"
                     onClick={() => handleOnComment()}
                   >
                     Comment
@@ -102,8 +91,9 @@ function SingleForumPost() {
             <Grid
               container
               direction="column"
-              justifyContent="center"
+              alignItems="center"
               className={styles.commentContainer}
+              spacing={4}
             >
               {comments ? (
                 comments.map((comment) => (
@@ -113,21 +103,11 @@ function SingleForumPost() {
                     sm={12}
                     md={12}
                     key={comment._id}
-                    className={styles.comment}
+                    className={styles.fullWidth}
                   >
                     <Card variant="outlined">
                       <CardContent className={styles.cardContent}>
-                        <Typography variant="h6" className={styles.commentName}>
-                          {comment.userName}
-                        </Typography>
-                        <Typography variant="body1">
-                          {comment.content}
-                        </Typography>
-                        <Grid container direction="row-reverse">
-                          <Typography variant="caption">
-                            Commented on {comment.displayDate}
-                          </Typography>
-                        </Grid>
+                        <CommentDetails comment={comment} />
                       </CardContent>
                     </Card>
                   </Grid>

@@ -5,6 +5,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetSinglePost } from "../../actions/post";
 
+// Import Components
+import CommentDetails from "../CommentDetails/CommentDetails";
+import PostDetails from "../PostDetails/PostDetails";
+
 // Import Material-ui
 import {
   Button,
@@ -15,17 +19,20 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  Typography,
 } from "@material-ui/core";
-
-// Import styles
-import styles from "./CommentDialog.module.css";
 
 function CommentDialog(props) {
   const { isOpen, handleClose, postId } = props;
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
+  const postData = {
+    title: post.title,
+    content: post.content,
+    comments: post.comments,
+    userName: post.userName,
+    displayDate: post.displayDate,
+  };
 
   useEffect(() => {
     if (postId) {
@@ -41,15 +48,7 @@ function CommentDialog(props) {
       maxWidth={"md"}
     >
       <DialogTitle>
-        <Typography variant="h6" className={styles.boldFont}>
-          {post.title}
-        </Typography>
-        <Typography>{post.content}</Typography>
-        <Grid container direction="row-reverse">
-          <Typography variant="caption">
-            Posted by {post.userName} on {post.displayDate}
-          </Typography>
-        </Grid>
+        <PostDetails post={postData} />
       </DialogTitle>
       <DialogContent dividers>
         <Grid container spacing={3}>
@@ -58,15 +57,7 @@ function CommentDialog(props) {
               <Grid item xs={12} sm={12} md={12} key={comment._id}>
                 <Card variant="outlined">
                   <CardContent>
-                    <Typography variant="body1" className={styles.boldFont}>
-                      {comment.userName}
-                    </Typography>
-                    <Typography variant="body2">{comment.content}</Typography>
-                    <Grid container direction="row-reverse">
-                      <Typography variant="caption">
-                        Commented on {comment.displayDate}
-                      </Typography>
-                    </Grid>
+                    <CommentDetails comment={comment} />
                   </CardContent>
                 </Card>
               </Grid>
@@ -77,7 +68,7 @@ function CommentDialog(props) {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} className={styles.closeButton}>
+        <Button onClick={handleClose} className="small-orange-button">
           Close
         </Button>
       </DialogActions>

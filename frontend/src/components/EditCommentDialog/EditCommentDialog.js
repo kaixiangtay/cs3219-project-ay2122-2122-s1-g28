@@ -18,9 +18,6 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-// Import CSS
-import styles from "./EditCommentDialog.module.css";
-
 function EditCommentDialog(props) {
   const { isOpen, handleClose, comment, selectedPostId } = props;
   const dispatch = useDispatch();
@@ -81,7 +78,7 @@ function EditCommentDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          className={styles.saveButton}
+          className="small-orange-button"
           onClick={() => onClickSaveChanges()}
         >
           Save Changes

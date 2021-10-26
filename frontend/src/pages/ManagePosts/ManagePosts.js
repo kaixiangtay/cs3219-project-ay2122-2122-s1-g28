@@ -1,5 +1,6 @@
 // Import Settings
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 // Import Redux
 import { useSelector } from "react-redux";
@@ -42,11 +43,16 @@ function TabPanel(props) {
 }
 
 function ManagePosts() {
+  const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const posts = useSelector((state) => state.post.posts);
   const comments = useSelector((state) => state.comment.comments);
   const pageTitle = "Manage Posts & Comments - " + topic;
   const [tabValue, setTabValue] = useState(0);
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
 
   const handleTabChange = (e, newValue) => {
     setTabValue(newValue);

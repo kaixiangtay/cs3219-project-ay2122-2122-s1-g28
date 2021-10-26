@@ -7,14 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { handlePostSelection, handlePostSorting } from "../../actions/post";
 
 // Import Material-ui
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 // Import Components
 import VoteArrows from "../VoteArrows/VoteArrows";
-
-// Import FontAwesome
-import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PostDetails from "../PostDetails/PostDetails";
 
 // Import CSS
 import styles from "./ForumPosts.module.css";
@@ -51,28 +48,7 @@ function ForumPosts(props) {
               className={styles.postButton}
               onClick={() => onClickSelectedPost(post._id)}
             >
-              <Grid container direction="column" className={styles.postDetails}>
-                <Typography variant="h6" align="left" className={styles.title}>
-                  {post.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  align="left"
-                  className={styles.content}
-                >
-                  {post.content}
-                </Typography>
-              </Grid>
-              <Typography variant="caption" className={styles.comments}>
-                <FontAwesomeIcon
-                  icon={faComment}
-                  className={styles.commentIcon}
-                />
-                {post.comments.length} Comments
-              </Typography>
-              <Typography variant="caption" className={styles.userName}>
-                Posted by {post.userName} on {post.displayDate}
-              </Typography>
+              <PostDetails post={post} />
             </Button>
           </Grid>
         ))
