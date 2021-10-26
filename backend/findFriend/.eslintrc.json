@@ -29,6 +29,7 @@
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "no-continue": "off",
         "no-confusing-arrow": ["error", {"allowParens": true}],
-        "no-nested-ternary": "off"
+        "no-nested-ternary": "off",
+        "no-unused-vars": ["error", { "vars": "global" }]
     }
 }

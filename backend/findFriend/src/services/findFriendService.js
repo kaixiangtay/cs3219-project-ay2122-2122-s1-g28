@@ -333,8 +333,8 @@ async function clearMatch(userId) {
 	if (user !== null) {
 		const matchedUser = await FindFriend.findOne({ _id: matchedPersonId });
 		const room = await Room.findOne({ _id: roomId });
-		await FindFriend.deleteOne(matchedUser);
-		await Room.deleteOne(room);
+		const matchedUserStatus = await FindFriend.deleteOne(matchedUser);
+		const roomStatus = await Room.deleteOne(room);
 		const userStatus = await FindFriend.deleteOne(user);
 
 		// Return deleted count of 1 if user is deleted succesfully
