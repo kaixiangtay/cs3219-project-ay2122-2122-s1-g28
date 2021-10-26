@@ -24,6 +24,8 @@ import {
   DELETE_POST_FAILURE,
   EDIT_POST_SUCCESS,
   EDIT_POST_FAILURE,
+  GET_POST_SUCCESS,
+  GET_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 // ===================================================================
@@ -218,6 +220,25 @@ const editPostFailure = (err) => {
 };
 
 // ===================================================================
+// GET SINGLE POST WITHOUT REDIRECT
+// ===================================================================
+const getPostSuccess = (post) => {
+  return {
+    type: GET_POST_SUCCESS,
+    singlePost: post,
+  };
+};
+
+const getPostFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: GET_POST_FAILURE,
+  };
+};
+
+// ===================================================================
 // HANDLE API CALLS
 // ===================================================================
 // Get all forum posts of a topic without sorting
@@ -248,7 +269,7 @@ export const handleForumSelection = (topic) => (dispatch, getState) => {
     });
 };
 
-// Get a single forum post
+// Get a single forum post with redirecting
 export const handlePostSelection =
   (history, postData) => (dispatch, getState) => {
     const postId = postData.postId;
@@ -494,3 +515,31 @@ export const handleEditPost =
         dispatch(editPostFailure(err));
       });
   };
+
+// Get a single forum post without redirecting
+export const handleGetSinglePost = (postId) => (dispatch, getState) => {
+  const token = getState().auth.token;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/viewPost/${postId}`;
+
+  fetch(requestUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then((res) => dispatch(getPostSuccess(res.data)));
+      } else if (response.status == 401) {
+        dispatch(tokenExpire());
+      } else {
+        response.json().then((res) => {
+          dispatch(getPostFailure(res));
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(getPostFailure(err));
+    });
+};

@@ -1,5 +1,5 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,10 @@ import {
   handleDeleteComment,
   handleGetUserComments,
 } from "../../actions/comment";
+
+// Import Components
+import CommentDialog from "../CommentDialog/CommentDialog";
+import EditCommentDialog from "../EditCommentDialog/EditCommentDialog";
 
 // Import Material-ui
 import { Button, Grid, Typography } from "@material-ui/core";
@@ -24,18 +28,32 @@ function UserComments(props) {
   const commentDeleted = useSelector(
     (state) => state.comment.deleteCommentSuccess
   );
+  const commentEdited = useSelector(
+    (state) => state.comment.editCommentSuccess
+  );
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState("");
+  const [selectedComment, setSelectedComment] = useState("");
 
   const onClickDeleteComment = (commentId, postId) => {
     dispatch(handleDeleteComment(commentId, postId));
   };
 
-  // const onClickEditPost = () => {
-  // dispatch(handleEditPost(postId));
-  // };
+  const handleCommentDialogOpen = (postId) => {
+    setSelectedPostId(postId);
+    setCommentDialogOpen(true);
+  };
+
+  const handleEditDialogOpen = (comment, postId) => {
+    setSelectedComment(comment);
+    setSelectedPostId(postId);
+    setEditDialogOpen(true);
+  };
 
   useEffect(() => {
     dispatch(handleGetUserComments(topic));
-  }, [commentDeleted]);
+  }, [commentDeleted, commentEdited]);
 
   return (
     <Grid container direction="column">
@@ -50,7 +68,7 @@ function UserComments(props) {
             <Button
               className={styles.postButton}
               variant="outlined"
-              // onClick={() => onClickSelectedPost(post._id)}
+              onClick={() => handleCommentDialogOpen(comment.postId)}
             >
               <Grid container direction="column" className={styles.postDetails}>
                 <Typography
@@ -75,7 +93,7 @@ function UserComments(props) {
                 <Button
                   size="small"
                   className={styles.editButton}
-                  // onClick={() => onClickEditPost(post._id)}
+                  onClick={() => handleEditDialogOpen(comment, comment.postId)}
                 >
                   Edit Comment
                   <FontAwesomeIcon icon={faEdit} />
@@ -98,6 +116,17 @@ function UserComments(props) {
       ) : (
         <div></div>
       )}
+      <CommentDialog
+        isOpen={commentDialogOpen}
+        handleClose={() => setCommentDialogOpen(false)}
+        postId={selectedPostId}
+      />
+      <EditCommentDialog
+        isOpen={editDialogOpen}
+        handleClose={() => setEditDialogOpen(false)}
+        comment={selectedComment}
+        selectedPostId={selectedPostId}
+      />
     </Grid>
   );
 }

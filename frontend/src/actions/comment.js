@@ -13,6 +13,8 @@ import {
   GET_USER_COMMENTS_FAILURE,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_FAILURE,
 } from "../constants/ReduxConstants";
 
 // ===================================================================
@@ -92,6 +94,27 @@ const deleteCommentFailure = (err) => {
   });
   return {
     type: DELETE_COMMENT_FAILURE,
+  };
+};
+
+// ===================================================================
+// EDIT COMMENT
+// ===================================================================
+const editCommentSuccess = (res) => {
+  toast.success(res.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: EDIT_COMMENT_SUCCESS,
+  };
+};
+
+const editCommentFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: EDIT_COMMENT_FAILURE,
   };
 };
 
@@ -214,5 +237,34 @@ export const handleDeleteComment =
       })
       .catch((err) => {
         dispatch(deleteCommentFailure(err));
+      });
+  };
+
+// Edit comment
+export const handleEditComment =
+  (postId, editedComment) => (dispatch, getState) => {
+    const commentId = editedComment.commentId;
+    const token = getState().auth.token;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/updateComment/${postId}/${commentId}`;
+
+    fetch(requestUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams(editedComment),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => dispatch(editCommentSuccess(res)));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then((err) => dispatch(editCommentFailure(err)));
+        }
+      })
+      .catch((err) => {
+        dispatch(editCommentFailure(err));
       });
   };

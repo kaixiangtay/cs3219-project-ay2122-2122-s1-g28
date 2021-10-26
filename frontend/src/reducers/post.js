@@ -19,6 +19,8 @@ import {
   DELETE_POST_FAILURE,
   EDIT_POST_SUCCESS,
   EDIT_POST_FAILURE,
+  GET_POST_SUCCESS,
+  GET_POST_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -40,6 +42,8 @@ const defaultState = {
   deletePostFailure: false,
   editPostSuccess: false,
   editPostFailure: false,
+  getPostSuccess: false,
+  getPostFailure: false,
   forumTopic: "",
   posts: [],
   singlePost: {},
@@ -181,6 +185,19 @@ function postReducer(state = defaultState, action) {
         ...state,
         editPostSuccess: false,
         editPostFailure: true,
+      };
+    case GET_POST_SUCCESS:
+      return {
+        ...state,
+        getPostSuccess: true,
+        getPostFailure: false,
+        singlePost: action.singlePost,
+      };
+    case GET_POST_FAILURE:
+      return {
+        ...state,
+        getPostSuccess: false,
+        getPostFailure: true,
       };
     default:
       return state;

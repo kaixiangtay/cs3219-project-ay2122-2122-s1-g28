@@ -8,6 +8,8 @@ import {
   GET_USER_COMMENTS_FAILURE,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -19,6 +21,8 @@ const defaultState = {
   getUserCommentsFailure: false,
   deleteCommentSuccess: false,
   deleteCommentFailure: false,
+  editCommentSuccess: false,
+  editCommentFailure: false,
   comments: [],
 };
 
@@ -77,6 +81,18 @@ function commentReducer(state = defaultState, action) {
         ...state,
         deleteCommentSuccess: false,
         deleteCommentFailure: true,
+      };
+    case EDIT_COMMENT_SUCCESS:
+      return {
+        ...state,
+        editCommentSuccess: true,
+        editCommentFailure: false,
+      };
+    case EDIT_COMMENT_FAILURE:
+      return {
+        ...state,
+        editCommentSuccess: false,
+        editCommentFailure: true,
       };
     default:
       return state;

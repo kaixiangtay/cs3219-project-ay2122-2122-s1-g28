@@ -1,9 +1,9 @@
 // Import Settings
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handleGetAllComments } from "../../actions/comment";
+import { handleGetSinglePost } from "../../actions/post";
 
 // Import Material-ui
 import {
@@ -19,25 +19,17 @@ import {
 } from "@material-ui/core";
 
 // Import styles
-import styles from "./PostDialog.module.css";
+import styles from "./CommentDialog.module.css";
 
-function PostDialog(props) {
-  const { isOpen, handleClose, post } = props;
+function CommentDialog(props) {
+  const { isOpen, handleClose, postId } = props;
   const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [postId, setPostId] = useState("");
+  const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
 
   useEffect(() => {
-    setTitle(post.title);
-    setContent(post.content);
-    setPostId(post._id);
-  }, [isOpen]);
-
-  useEffect(() => {
     if (postId) {
-      dispatch(handleGetAllComments(postId));
+      dispatch(handleGetSinglePost(postId));
     }
   }, [postId]);
 
@@ -50,9 +42,9 @@ function PostDialog(props) {
     >
       <DialogTitle>
         <Typography variant="h6" className={styles.boldFont}>
-          {title}
+          {post.title}
         </Typography>
-        <Typography>{content}</Typography>
+        <Typography>{post.content}</Typography>
         <Grid container direction="row-reverse">
           <Typography variant="caption">
             Posted by {post.userName} on {post.displayDate}
@@ -93,4 +85,4 @@ function PostDialog(props) {
   );
 }
 
-export default PostDialog;
+export default CommentDialog;
