@@ -1,5 +1,5 @@
-const Post = require("../models/postModel");
-const Comment = require("../models/commentModel");
+import Post from "../models/postModel";
+import Comment from "../models/commentModel";
 
 async function getAllPosts(inputTopic) {
 	const posts = await Post.find({ topic: inputTopic });

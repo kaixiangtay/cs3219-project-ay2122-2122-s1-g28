@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const CommentSchema = mongoose.Schema({
 	userName: {
@@ -40,7 +40,3 @@ const CommentSchema = mongoose.Schema({
 const Comment = mongoose.model("Comment", CommentSchema);
 
 module.exports = Comment;
-
-module.exports.get = function (callback, limit) {
-	Comment.find(callback).limit(limit);
-};

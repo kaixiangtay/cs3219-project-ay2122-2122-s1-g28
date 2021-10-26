@@ -1,6 +1,6 @@
-const { check } = require("express-validator");
+import { check } from "express-validator";
 
-exports.addPostValidator = () => {
+const addPostValidator = () => {
 	return [
 		check("userName").notEmpty().withMessage("Name is a compulsory field"),
 		check("topic").notEmpty().withMessage("Topic is a compulsory field"),
@@ -8,3 +8,5 @@ exports.addPostValidator = () => {
 		check("content").notEmpty().withMessage("Content is a compulsory field"),
 	];
 };
+
+module.exports = { addPostValidator };

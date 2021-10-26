@@ -1,16 +1,8 @@
-const jwt = require("jsonwebtoken");
-const { JWT_ACCESS_TOKEN } = require("../config/config");
+import jwt from "jsonwebtoken";
+import { JWT_ACCESS_TOKEN } from "../config/config";
 
 function getToken(header) {
 	const token = header && header.split(" ")[1];
-	return token;
-}
-
-function createMatchingToken(userID) {
-	// Create matching token (valid for a day)
-	const token = jwt.sign({ _id: userID }, JWT_ACCESS_TOKEN, {
-		expiresIn: "24h",
-	});
 	return token;
 }
 
@@ -39,4 +31,4 @@ function decodeToken(req, res, next) {
 	}
 }
 
-module.exports = { getToken, createMatchingToken, decodeToken };
+module.exports = { getToken, decodeToken };

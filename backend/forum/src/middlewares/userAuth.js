@@ -1,12 +1,12 @@
-const jwt = require("jsonwebtoken");
-const { JWT_ACCESS_TOKEN } = require("../config/config");
+import jwt from "jsonwebtoken";
+import { JWT_ACCESS_TOKEN } from "../config/config";
 
-exports.getToken = (header) => {
+function getToken(header) {
 	const token = header && header.split(" ")[1];
 	return token;
 };
 
-exports.decodeAuthToken = (req, res, next) => {
+function decodeAuthToken(req, res, next) {
 	const token = this.getToken(req.headers["authorization"]);
 
 	if (!token) {
@@ -29,3 +29,5 @@ exports.decodeAuthToken = (req, res, next) => {
 		});
 	}
 };
+
+module.exports = { getToken, decodeAuthToken };

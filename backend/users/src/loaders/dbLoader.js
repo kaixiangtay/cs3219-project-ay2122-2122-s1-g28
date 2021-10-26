@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { DB_URL } = require("../config/config");
+import mongoose from "mongoose";
+import { DB_URL } from "../config/config";
 
 mongoose.Promise = global.Promise;
 

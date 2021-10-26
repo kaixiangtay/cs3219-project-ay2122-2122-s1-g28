@@ -1,11 +1,9 @@
-const { validationResult } = require("express-validator");
-const {
-	addPostValidator,
-} = require("../validators/postValidator");
-const userAuth = require("../middlewares/userAuth");
-const postService = require("../services/postService");
+import { validationResult } from "express-validator";
+import { addPostValidator } from "../validators/postValidator";
+import userAuth from "../middlewares/userAuth";
+import postService from "../services/postService";
 
-exports.index = [
+const index = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -33,7 +31,7 @@ exports.index = [
 	},
 ];
 
-exports.createPost = [
+const createPost = [
 	userAuth.decodeAuthToken,
 	addPostValidator(),
 	(req, res) => {
@@ -59,7 +57,7 @@ exports.createPost = [
 	},
 ];
 
-exports.viewPost = [
+const viewPost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -85,7 +83,7 @@ exports.viewPost = [
 	},
 ];
 
-exports.viewUserPosts = [
+const viewUserPosts = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -114,7 +112,7 @@ exports.viewUserPosts = [
 	},
 ];
 
-exports.updatePost = [
+const updatePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -149,7 +147,7 @@ exports.updatePost = [
 	},
 ];
 
-exports.upvotePost = [
+const upvotePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -190,7 +188,7 @@ exports.upvotePost = [
 	},
 ];
 
-exports.downvotePost = [
+const downvotePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -231,7 +229,7 @@ exports.downvotePost = [
 	},
 ];
 
-exports.deletePost = [
+const deletePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -264,7 +262,7 @@ exports.deletePost = [
 	},
 ];
 
-exports.sortPostByAscVotes = [
+const sortPostByAscVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -291,7 +289,7 @@ exports.sortPostByAscVotes = [
 	},
 ];
 
-exports.sortPostByDescVotes = [
+const sortPostByDescVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -318,7 +316,7 @@ exports.sortPostByDescVotes = [
 	},
 ];
 
-exports.sortPostByAscDate = [
+const sortPostByAscDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -345,7 +343,7 @@ exports.sortPostByAscDate = [
 	},
 ];
 
-exports.sortPostByDescDate = [
+const sortPostByDescDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -371,3 +369,6 @@ exports.sortPostByDescDate = [
 		}
 	},
 ];
+
+
+module.exports = { index, createPost, viewUserPosts, updatePost, viewPost, upvotePost, deletePost, downvotePost, sortPostByAscVotes, sortPostByDescVotes, sortPostByAscDate, sortPostByDescDate }

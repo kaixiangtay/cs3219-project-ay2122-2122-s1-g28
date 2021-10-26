@@ -1,6 +1,5 @@
 // config.js
-// eslint-disable-next-line import/no-extraneous-dependencies
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 
 dotenv.config();
 

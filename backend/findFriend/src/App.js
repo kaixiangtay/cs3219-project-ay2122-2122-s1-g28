@@ -1,7 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const { PORT } = require("./config/config");
-const Router = require("./routes/findFriendRoutes");
+import Router from "./routes/findFriendRoutes";
+import express from "express";
+import cors from "cors";
+import { PORT } from "./config/config";
 
 const app = express();
 
