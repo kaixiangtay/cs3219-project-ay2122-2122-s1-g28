@@ -5,15 +5,14 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+    # Allows you to run this workflow manually from the Actions tab
 
 env: # .env config for React
   REACT_APP_API_URL_USERS: ${{secrets.USERS_MS_URL}}
   REACT_APP_API_URL_FORUM: ${{secrets.FORUM_MS_URL}}
   REACT_APP_API_URL_FINDFRIEND: ${{secrets.FINDFRIEND_MS_URL}}
   REACT_APP_API_URL_CHAT: ${{secrets.CHAT_MS_URL}}
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 defaults:
   run:
