@@ -1,19 +1,19 @@
 version: "3"
 services:
   users:
-    image: nusocialife/users:1.0.0
+    image: users
     build: users
     restart: unless-stopped
     ports:
       - 5000:5000
   forum:
-    image: nusocialife/forum:1.0.0
+    image: forum
     build: forum
     restart: unless-stopped
     ports:
       - 4000:4000
   findfriend:
-    image: nusocialife/findfriend:1.0.0
+    image: findfriend
     build: findfriend
     restart: unless-stopped
     ports:
