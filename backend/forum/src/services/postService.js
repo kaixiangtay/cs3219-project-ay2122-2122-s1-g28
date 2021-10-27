@@ -1,5 +1,5 @@
-import Post from "../models/postModel";
-import Comment from "../models/commentModel";
+import Post from "../models/postModel.js";
+import Comment from "../models/commentModel.js";
 
 async function getAllPosts(inputTopic) {
 	const posts = await Post.find({ topic: inputTopic });
@@ -8,7 +8,7 @@ async function getAllPosts(inputTopic) {
 
 function createPost(userId, inputData) {
 	const post = new Post();
-	post.userName = inputData.userName;
+	post.name = inputData.name;
 	post.userId = userId;
 	post.topic = inputData.topic;
 	post.title = inputData.title;
@@ -86,7 +86,8 @@ async function sortPostByDate(inputTopic, order) {
 function isUserPost(postUserId, userId) {
 	return userId == postUserId;
 }
-module.exports = {
+
+export default {
 	getAllPosts,
 	createPost,
 	getPostByID,

@@ -3,7 +3,7 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import {
 	S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_REGION, S3_BUCKET_NAME,
-} from "../config/config";
+} from "../config/config.js";
 
 const s3 = new aws.S3({
 	accessKeyId: S3_ACCESS_KEY_ID,
@@ -56,4 +56,4 @@ function deleteImage(imageUrl) {
 	});
 }
 
-module.exports = { uploadImage, deleteImage };
+export { uploadImage, deleteImage };

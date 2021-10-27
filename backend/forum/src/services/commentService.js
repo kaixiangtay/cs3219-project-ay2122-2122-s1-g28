@@ -1,5 +1,5 @@
-import Post from "../models/postModel";
-import Comment from "../models/commentModel";
+import Post from "../models/postModel.js";
+import Comment from "../models/commentModel.js";
 
 async function getAllComments(postId) {
 	const post = await Post.findById({ _id: postId }).populate("comments");
@@ -16,7 +16,7 @@ async function getCommentsByUserId(userId, inputTopic) {
 
 function createComment(userId, inputData, post) {
 	const comment = new Comment();
-	comment.userName = inputData.userName;
+	comment.name = inputData.name;
 	comment.userId = userId;
 	comment.content = inputData.content;
 	comment.postId = post._id;
@@ -104,7 +104,7 @@ async function sortCommentByDate(postId, order) {
 	return post.comments;
 }
 
-module.exports = {
+export default {
 	getAllComments,
 	getCommentsByUserId,
 	createComment,

@@ -1,5 +1,5 @@
 import express from "express";
-import userController from "../controllers/userController";
+import userController from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -38,4 +38,4 @@ router.route("/api/users/uploadProfileImage").post(userController.uploadProfileI
 
 router.route("/api/users/delete").delete(userController.deleteUser);
 
-module.exports = router;
+export default router;

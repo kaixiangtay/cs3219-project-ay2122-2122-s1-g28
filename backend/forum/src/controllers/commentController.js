@@ -1,8 +1,8 @@
 import { validationResult } from "express-validator";
-import { addCommentValidator } from "../validators/commentValidator";
-import userAuth from "../middlewares/userAuth";
-import postService from "../services/postService";
-import commentService from "../services/commentService";
+import commentValidator from "../validators/commentValidator.js";
+import userAuth from "../middlewares/userAuth.js";
+import postService from "../services/postService.js";
+import commentService from "../services/commentService.js";
 
 const viewPostComments = [
 	userAuth.decodeAuthToken,
@@ -71,9 +71,10 @@ const viewUserComments = [
 		}
 	},
 ];
-exports.createComment = [
+
+const createComment = [
 	userAuth.decodeAuthToken,
-	addCommentValidator(),
+	commentValidator.addCommentValidator(),
 	async (req, res) => {
 		try {
 			const userId = req.userId;
@@ -476,4 +477,4 @@ const sortCommentsByDescDate = [
 	},
 ];
 
-module.exports = { viewPostComments, viewUserComments, upvoteComment, viewComment, updateComment, downvoteComment, deleteComment, sortCommentsByAscVotes, sortCommentsByDescVotes, sortCommentsByAscDate, sortCommentsByDescDate }
+export default { viewPostComments, viewUserComments, upvoteComment, createComment, viewComment, updateComment, downvoteComment, deleteComment, sortCommentsByAscVotes, sortCommentsByDescVotes, sortCommentsByAscDate, sortCommentsByDescDate };

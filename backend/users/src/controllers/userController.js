@@ -1,9 +1,9 @@
 import { validationResult } from "express-validator";
-import userValidator from "../middlewares/userValidator";
-import { S3_BUCKET_NAME } from "../config/config";
-import userAuth from "../middlewares/userAuth";
-import userService from "../services/userService";
-import imageService from "../services/imageService";
+import userValidator from "../middlewares/userValidator.js";
+import { S3_BUCKET_NAME } from "../config/config.js";
+import userAuth from "../middlewares/userAuth.js";
+import userService from "../services/userService.js";
+import { uploadImage } from "../services/imageService.js";
 
 const index = [
 	async (req, res) => {
@@ -175,8 +175,7 @@ const uploadProfileImage = [
 			let user = await userService.getUserByID(userId);
 
 			// frontend file name put to profileImage
-			const uploadSingleImage = imageService
-				.uploadImage(S3_BUCKET_NAME, user._id)
+			const uploadSingleImage = uploadImage(S3_BUCKET_NAME, user._id)
 				.single("profileImage");
 
 			uploadSingleImage(req, res, async (err) => {
@@ -374,7 +373,7 @@ const logoutUser = [
 	},
 ];
 
-module.exports = {
+export default {
 	index,
 	registerUser,
 	resendEmail,
