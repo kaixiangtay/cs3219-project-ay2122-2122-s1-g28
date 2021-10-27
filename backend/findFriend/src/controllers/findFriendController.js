@@ -33,13 +33,18 @@ const clearMatch = [
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			const deletedCount = await findFriendService.clearMatch(userId);
-			const isDeletedMatch = deletedCount == 1;
+			const deleted = await findFriendService.clearMatch(userId);
+			const isDeletedMatch = deleted == null;
 
 			if (isDeletedMatch) {
 				return res.status(200).json({
 					status: "success",
 					msg: "Match deleted!",
+				});
+			} else {
+				return res.status(404).json({
+					status: "error",
+					msg: "User already deleted!",
 				});
 			}
 		} catch (err) {
