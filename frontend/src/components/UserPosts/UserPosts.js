@@ -8,13 +8,12 @@ import { handleDeletePost, handleGetUserPosts } from "../../actions/post";
 
 // Import Components
 import EditPostDialog from "../../components/EditPostDialog/EditPostDialog.js";
+import PostDialog from "../PostDialog/PostDialog";
+import PostDetails from "../PostDetails/PostDetails";
+import ForumEditDelete from "../ForumEditDelete/ForumEditDelete";
 
 // Import Material-ui
-import { Button, Grid, Typography } from "@material-ui/core";
-
-// Import FontAwesome
-import { faComment, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Grid } from "@material-ui/core";
 
 // Import CSS
 import styles from "./UserPosts.module.css";
@@ -25,16 +24,22 @@ function UserPosts(props) {
   const history = useHistory();
   const postDeleted = useSelector((state) => state.post.deletePostSuccess);
   const postEdited = useSelector((state) => state.post.editPostSuccess);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editPost, setEditPost] = useState("");
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState("");
+  const [postDialogOpen, setPostDialogOpen] = useState(false);
 
   const onClickDeletePost = (postId) => {
     dispatch(handleDeletePost(postId));
   };
 
-  const handleDialogOpen = (post) => {
-    setEditPost(post);
-    setDialogOpen(true);
+  const handleEditDialogOpen = (post) => {
+    setSelectedPost(post);
+    setEditDialogOpen(true);
+  };
+
+  const handlePostDialogOpen = (post) => {
+    setSelectedPost(post);
+    setPostDialogOpen(true);
   };
 
   useEffect(() => {
@@ -45,75 +50,33 @@ function UserPosts(props) {
     <Grid container direction="column">
       {posts ? (
         posts.map((post) => (
-          <Grid
-            container
-            key={post._id}
-            className={styles.postContainer}
-            justifyContent="center"
-          >
+          <Grid container key={post._id} justifyContent="center">
             <Button
-              className={styles.postButton}
               variant="outlined"
-              // onClick={() => onClickSelectedPost(post._id)}
+              className={styles.postButton}
+              onClick={() => handlePostDialogOpen(post)}
             >
-              <Grid container direction="column" className={styles.postDetails}>
-                <Typography variant="h6" align="left" className={styles.title}>
-                  {post.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  align="left"
-                  className={styles.content}
-                >
-                  {post.content}
-                </Typography>
-              </Grid>
-              <Typography variant="caption" className={styles.comments}>
-                <FontAwesomeIcon
-                  icon={faComment}
-                  className={styles.commentIcon}
-                />
-                {post.comments.length} Comments
-              </Typography>
-              <Typography variant="caption" className={styles.userName}>
-                Posted by {post.userName} on {post.displayDate}
-              </Typography>
+              <PostDetails post={post} />
             </Button>
-            <Grid
-              container
-              direction="row-reverse"
-              spacing={2}
-              className={styles.buttonContainer}
-            >
-              <Grid item>
-                <Button
-                  size="small"
-                  className={styles.editButton}
-                  onClick={() => handleDialogOpen(post)}
-                >
-                  Edit Post
-                  <FontAwesomeIcon icon={faEdit} />
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  size="small"
-                  className={styles.deleteButton}
-                  onClick={() => onClickDeletePost(post._id)}
-                >
-                  Delete Post <FontAwesomeIcon icon={faTrash} />
-                </Button>
-              </Grid>
-            </Grid>
+            <ForumEditDelete
+              type="Post"
+              handleEdit={() => handleEditDialogOpen(post)}
+              handleDelete={() => onClickDeletePost(post._id)}
+            />
           </Grid>
         ))
       ) : (
         <div></div>
       )}
       <EditPostDialog
-        isOpen={dialogOpen}
-        handleClose={() => setDialogOpen(false)}
-        post={editPost}
+        isOpen={editDialogOpen}
+        handleClose={() => setEditDialogOpen(false)}
+        post={selectedPost}
+      />
+      <PostDialog
+        isOpen={postDialogOpen}
+        handleClose={() => setPostDialogOpen(false)}
+        post={selectedPost}
       />
     </Grid>
   );

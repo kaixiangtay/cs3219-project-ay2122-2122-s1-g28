@@ -1,0 +1,12 @@
+.buttonContainer {
+  margin-top: 0.1% !important;
+  margin-bottom: 1% !important;
+}
+
+.editButton {
+  color: var(--GREEN) !important;
+}
+
+.deleteButton {
+  color: var(--RED) !important;
+}

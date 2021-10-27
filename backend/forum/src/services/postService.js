@@ -1,5 +1,5 @@
-let Post = require("../models/postModel");
-let Comment = require("../models/commentModel");
+import Post from "../models/postModel";
+import Comment from "../models/commentModel";
 
 async function getAllPosts(inputTopic) {
 	const posts = await Post.find({ topic: inputTopic });
@@ -7,7 +7,7 @@ async function getAllPosts(inputTopic) {
 }
 
 function createPost(userId, inputData) {
-	let post = new Post();
+	const post = new Post();
 	post.userName = inputData.userName;
 	post.userId = userId;
 	post.topic = inputData.topic;
@@ -23,7 +23,7 @@ async function getPostByID(postId) {
 }
 
 async function getPostsByUserID(userId, inputTopic) {
-	const posts = await Post.find({ userId: userId, topic: inputTopic });
+	const posts = await Post.find({ userId, topic: inputTopic });
 	return posts;
 }
 
@@ -40,10 +40,10 @@ function upvotePost(userId, post) {
 	} else {
 		if (post.downvotedUsers.includes(userId)) {
 			post.downvotedUsers.remove(userId);
-			post.votes = post.votes + 2;
+			post.votes += 2;
 		} else {
-			post.votes = post.votes + 1;
-		}		
+			post.votes += 1;
+		}
 		post.upvotedUsers.push(userId);
 		post.save();
 		return post;
@@ -56,9 +56,9 @@ function downvotePost(userId, post) {
 	} else {
 		if (post.upvotedUsers.includes(userId)) {
 			post.upvotedUsers.remove(userId);
-			post.votes = post.votes - 2;
+			post.votes -= 2;
 		} else {
-			post.votes = post.votes - 1;
+			post.votes -= 1;
 		}
 		post.downvotedUsers.push(userId);
 		post.save();
@@ -72,13 +72,13 @@ async function deletePost(postId) {
 }
 
 async function sortPostByVotes(inputTopic, order) {
-	var compareByVotes = { votes: order };
+	const compareByVotes = { votes: order };
 	const posts = await Post.find({ topic: inputTopic }).sort(compareByVotes);
 	return posts;
 }
 
 async function sortPostByDate(inputTopic, order) {
-	var compareByDate = { dateCreated: order };
+	const compareByDate = { dateCreated: order };
 	const posts = await Post.find({ topic: inputTopic }).sort(compareByDate);
 	return posts;
 }

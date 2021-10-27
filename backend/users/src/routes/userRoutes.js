@@ -1,11 +1,13 @@
-const router = require("express").Router();
-const userController = require("../controllers/userController");
+import express from "express";
+import userController from "../controllers/userController";
 
-router.get("/", function (req, res) {
-  res.json({
-    status: "API Its Working",
-    message: "NUSociaLife User Microservices",
-  });
+const router = express.Router();
+
+router.get("/", (req, res) => {
+	res.json({
+		status: "API Its Working",
+		message: "NUSociaLife User Microservices",
+	});
 });
 
 router.route("/api/users/login").post(userController.loginUser);
@@ -19,16 +21,16 @@ router.route("/api/users/getAllUsers").get(userController.index);
 router.route("/api/users/getUser").get(userController.viewUser);
 
 router
-  .route("/api/users/verifyEmail/:token")
-  .get(userController.verifyUserEmail);
+	.route("/api/users/verifyEmail/:token")
+	.get(userController.verifyUserEmail);
 
 router
-  .route("/api/users/resendEmail/:token")
-  .get(userController.resendEmail);
+	.route("/api/users/resendEmail/:token")
+	.get(userController.resendEmail);
 
 router
-  .route("/api/users/resetPassword")
-  .post(userController.resetPassword);
+	.route("/api/users/resetPassword")
+	.post(userController.resetPassword);
 
 router.route("/api/users/update").patch(userController.updateUser);
 

@@ -1,8 +1,10 @@
-const { check } = require('express-validator')
+import { check } from "express-validator";
 
-exports.addCommentValidator = () => {
-    return [
-        check('userName').notEmpty().withMessage("Name is a compulsory field"),
-        check('content').notEmpty().withMessage("Content is a compulsory field"),
-    ]
+const addCommentValidator = () => {
+	return [
+		check("userName").notEmpty().withMessage("Name is a compulsory field"),
+		check("content").notEmpty().withMessage("Content is a compulsory field"),
+	];
 };
+
+module.exports = { addCommentValidator };

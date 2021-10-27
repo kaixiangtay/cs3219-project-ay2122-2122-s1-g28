@@ -32,26 +32,24 @@ export const DELETE_ACCOUNT_SUCCESS = 36;
 export const DELETE_ACCOUNT_FAILURE = 37;
 
 // Post
-export const GET_ALL_POSTS_SUCCESS = 40;
-export const GET_ALL_POSTS_FAILURE = 41;
-export const GET_SINGLE_POST_SUCCESS = 42;
-export const GET_SINGLE_POST_FAILURE = 43;
-export const SELECT_TOPIC = 44;
-export const GET_NEW_SORTED_POSTS = 45;
-export const CREATE_POST_SUCCESS = 46;
-export const CREATE_POST_FAILURE = 47;
-export const UPVOTE_POST_SUCCESS = 48;
-export const UPVOTE_POST_FAILURE = 49;
-export const DOWNVOTE_POST_SUCCESS = 50;
-export const DOWNVOTE_POST_FAILURE = 51;
-export const SORT_POSTS_SUCCESS = 52;
-export const SORT_POSTS_FAILURE = 53;
-export const GET_USER_POSTS_SUCCESS = 54;
-export const GET_USER_POSTS_FAILURE = 55;
-export const DELETE_POST_SUCCESS = 56;
-export const DELETE_POST_FAILURE = 57;
-export const EDIT_POST_SUCCESS = 58;
-export const EDIT_POST_FAILURE = 59;
+export const SELECT_TOPIC = 40;
+export const GET_SINGLE_POST_SUCCESS = 41;
+export const GET_SINGLE_POST_FAILURE = 42;
+export const GET_NEW_SORTED_POSTS = 43;
+export const CREATE_POST_SUCCESS = 44;
+export const CREATE_POST_FAILURE = 45;
+export const UPVOTE_POST_SUCCESS = 46;
+export const UPVOTE_POST_FAILURE = 47;
+export const DOWNVOTE_POST_SUCCESS = 48;
+export const DOWNVOTE_POST_FAILURE = 49;
+export const SORT_POSTS_SUCCESS = 50;
+export const SORT_POSTS_FAILURE = 51;
+export const GET_USER_POSTS_SUCCESS = 52;
+export const GET_USER_POSTS_FAILURE = 53;
+export const DELETE_POST_SUCCESS = 54;
+export const DELETE_POST_FAILURE = 55;
+export const EDIT_POST_SUCCESS = 56;
+export const EDIT_POST_FAILURE = 57;
 
 // Comment
 export const CREATE_COMMENT_SUCCESS = 60;
@@ -62,6 +60,8 @@ export const GET_USER_COMMENTS_SUCCESS = 64;
 export const GET_USER_COMMENTS_FAILURE = 65;
 export const DELETE_COMMENT_SUCCESS = 66;
 export const DELETE_COMMENT_FAILURE = 67;
+export const EDIT_COMMENT_SUCCESS = 68;
+export const EDIT_COMMENT_FAILURE = 69;
 
 // Match
 export const MATCHING = 70;

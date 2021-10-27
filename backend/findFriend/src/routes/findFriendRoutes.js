@@ -1,20 +1,25 @@
-let router = require('express').Router();
-let findFriendController = require('../controllers/findFriendController');
+import express from "express";
+import findFriendController from "../controllers/findFriendController";
 
-router.get('/', function (req, res) {
-    res.json({
-        status: 'API Its Working',
-        message: 'NUSociaLife FindFriend Microservice',
-    });
+const router = express.Router();
+
+router.get("/", (req, res) => {
+	res.json({
+		status: "API Its Working",
+		message: "NUSociaLife FindFriend Microservice",
+	});
 });
 
-router.route('/api/findFriend/getAllFindFriendUsers')
-    .get(findFriendController.index)
-    
-router.route('/api/findFriend/clearMatch')
-    .post(findFriendController.clearMatch)
+router
+	.route("/api/findFriend/getAllFindFriendUsers")
+	.get(findFriendController.index);
 
-router.route('/api/findFriend/createMatch')
-    .post(findFriendController.createMatch)
+router
+	.route("/api/findFriend/clearMatch")
+	.post(findFriendController.clearMatch);
 
-module.exports = router; 
+router
+	.route("/api/findFriend/createMatch")
+	.post(findFriendController.createMatch);
+
+module.exports = router;

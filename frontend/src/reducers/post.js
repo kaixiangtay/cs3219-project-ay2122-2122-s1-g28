@@ -1,10 +1,8 @@
 //Import constants
 import {
-  GET_ALL_POSTS_SUCCESS,
-  GET_ALL_POSTS_FAILURE,
+  SELECT_TOPIC,
   GET_SINGLE_POST_SUCCESS,
   GET_SINGLE_POST_FAILURE,
-  SELECT_TOPIC,
   CREATE_POST_SUCCESS,
   CREATE_POST_FAILURE,
   UPVOTE_POST_SUCCESS,
@@ -22,8 +20,6 @@ import {
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
-  getPostsSuccess: false,
-  getPostsFailure: false,
   getSinglePostSuccess: false,
   getSinglePostFailure: false,
   createPostSuccess: false,
@@ -47,32 +43,17 @@ const defaultState = {
 
 function postReducer(state = defaultState, action) {
   switch (action.type) {
-    case GET_ALL_POSTS_SUCCESS:
+    case SELECT_TOPIC:
       return {
         ...state,
-        getPostsSuccess: true,
-        getPostsFailure: false,
-        createPostSuccess: false,
-        createPostFailure: false,
         forumTopic: action.topic,
-        posts: action.posts,
-      };
-    case GET_ALL_POSTS_FAILURE:
-      return {
-        ...state,
-        getPostsSuccess: false,
-        getPostsFailure: true,
-        forumTopic: "",
-        posts: [],
       };
     case GET_SINGLE_POST_SUCCESS:
       return {
         ...state,
         getSinglePostSuccess: true,
         getSinglePostFailure: false,
-        getPostsSuccess: false,
-        getPostsFailure: false,
-        singlePost: action.post,
+        singlePost: action.singlePost,
       };
     case GET_SINGLE_POST_FAILURE:
       return {
@@ -80,11 +61,6 @@ function postReducer(state = defaultState, action) {
         getSinglePostSuccess: false,
         getSinglePostFailure: true,
         singlePost: {},
-      };
-    case SELECT_TOPIC:
-      return {
-        ...state,
-        forumTopic: action.topic,
       };
     case CREATE_POST_SUCCESS:
       return {

@@ -8,6 +8,8 @@ import {
   GET_USER_COMMENTS_FAILURE,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -19,6 +21,8 @@ const defaultState = {
   getUserCommentsFailure: false,
   deleteCommentSuccess: false,
   deleteCommentFailure: false,
+  editCommentSuccess: false,
+  editCommentFailure: false,
   comments: [],
 };
 
@@ -41,6 +45,8 @@ function commentReducer(state = defaultState, action) {
         ...state,
         getAllCommentsSuccess: true,
         getAllCommentsFailure: false,
+        createCommentSuccess: false,
+        createCommentFailure: false,
         comments: action.comments,
       };
     case GET_ALL_COMMENTS_FAILURE:
@@ -56,6 +62,8 @@ function commentReducer(state = defaultState, action) {
         getUserCommentsFailure: false,
         deleteCommentSuccess: false,
         deleteCommentFailure: false,
+        editCommentSuccess: false,
+        editCommentFailure: false,
         comments: action.comments,
       };
     case GET_USER_COMMENTS_FAILURE:
@@ -63,8 +71,6 @@ function commentReducer(state = defaultState, action) {
         ...state,
         getUserCommentsSuccess: false,
         getUserCommentsFailure: true,
-        deleteCommentSuccess: false,
-        deleteCommentFailure: false,
       };
     case DELETE_COMMENT_SUCCESS:
       return {
@@ -77,6 +83,18 @@ function commentReducer(state = defaultState, action) {
         ...state,
         deleteCommentSuccess: false,
         deleteCommentFailure: true,
+      };
+    case EDIT_COMMENT_SUCCESS:
+      return {
+        ...state,
+        editCommentSuccess: true,
+        editCommentFailure: false,
+      };
+    case EDIT_COMMENT_FAILURE:
+      return {
+        ...state,
+        editCommentSuccess: false,
+        editCommentFailure: true,
       };
     default:
       return state;
