@@ -153,11 +153,12 @@ export const initiateSocket = (roomId) => {
 };
 
 export const disconnectSocket = () => {
-  console.log("Disconnecting socket...");
   if (socket) {
+    console.log("Disconnecting socket...");
     socket.emit("leave", true);
     socket.disconnect();
   }
+  return true;
 };
 
 export const listenForMessages = (cb) => {
@@ -272,6 +273,7 @@ export const handleUnmatch = (token) => (dispatch) => {
     },
   })
     .then((response) => {
+      console.log(response);
       if (response.ok) {
         console.log("RESPONSE OK!");
         dispatch(unmatchedSuccess());
