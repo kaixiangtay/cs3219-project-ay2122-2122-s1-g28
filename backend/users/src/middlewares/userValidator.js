@@ -48,4 +48,4 @@ function userUpdateValidator() {
 	];
 }
 
-module.exports = { userRegisterValidator, userLoginValidator, userUpdateValidator };
+export default { userRegisterValidator, userLoginValidator, userUpdateValidator };

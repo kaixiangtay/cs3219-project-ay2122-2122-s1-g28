@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_ACCESS_TOKEN } from "../config/config";
+import { JWT_ACCESS_TOKEN } from "../config/config.js";
 
 function getToken(header) {
 	const token = header && header.split(" ")[1];
@@ -31,4 +31,4 @@ function decodeToken(req, res, next) {
 	}
 }
 
-module.exports = { getToken, decodeToken };
+export default { getToken, decodeToken };

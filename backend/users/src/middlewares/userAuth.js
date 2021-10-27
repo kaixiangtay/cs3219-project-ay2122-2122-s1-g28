@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { JWT_ACCESS_TOKEN } from "../config/config";
+import { JWT_ACCESS_TOKEN } from "../config/config.js";
 
 function hashPassword(userPassword) {
 	// Use salting technique to generate a more secure hash
@@ -87,7 +87,7 @@ function decodeAuthToken(req, res, next) {
 	}
 }
 
-module.exports = {
+export default {
 	decodeAuthToken,
 	decodeTempToken,
 	createLoginToken,

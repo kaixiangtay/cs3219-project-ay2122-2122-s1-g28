@@ -1,12 +1,12 @@
 
 import express from "express";
-import { PORT } from "./config/config";
+import { PORT } from "./config/config.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
 const app = express();
 const httpServer = createServer();
-const server = http.createServer(app);
+const server = createServer(app);
 
 const io = new Server(httpServer, {
 	cors: {
