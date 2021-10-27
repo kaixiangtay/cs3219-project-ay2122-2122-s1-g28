@@ -1,8 +1,14 @@
 // Import Settings
-import React from "react";
+import React, { useEffect } from "react";
 
 // import Redux
-import { handleUnmatch } from "../../actions/match";
+import {
+  handleUnmatch,
+  initiateSocket,
+  listenForDisconnect,
+  disconnectSocket,
+  handleMatchDisconnect,
+} from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -23,7 +29,26 @@ import styles from "./Chat.module.css";
 
 function Chat() {
   const auth = useSelector((state) => state.auth);
+  const match = useSelector((state) => state.match);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    initiateSocket(match.data.roomId);
+  }, [match.data.roomId]);
+
+  useEffect(() => {
+    listenForDisconnect((err, data) => {
+      if (err) {
+        console.log("err in disconnecting");
+        disconnectSocket();
+        return;
+      }
+      if (data) {
+        console.log("Someone disconnected");
+        dispatch(handleMatchDisconnect());
+      }
+    });
+  });
 
   return (
     <Container className="primary-font">

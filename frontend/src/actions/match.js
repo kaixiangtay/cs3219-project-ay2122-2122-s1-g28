@@ -186,6 +186,26 @@ export const sendMessage = (token, message) => {
   }
 };
 
+export const streamVideo = (token, signal) => {
+  if (socket) {
+    socket.emit("video", { token, signal });
+  }
+};
+
+export const listenForVideo = (cb) => {
+  if (!socket) {
+    return true;
+  }
+
+  socket.on("video", (msg) => {
+    return cb(null, msg);
+  });
+};
+
+// ===================================================================
+// HANDLING VIDEO STREAMING CLIENT FUNCTIONS
+// ===================================================================
+
 // ===================================================================
 // HANDLING API CALLS
 // ===================================================================
@@ -243,6 +263,7 @@ export const handleMatchWithRetry =
 // Unmatches user from other party
 export const handleUnmatch = (token) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/clearMatch`;
+  disconnectSocket();
 
   fetch(requestUrl, {
     method: "POST",
@@ -252,15 +273,22 @@ export const handleUnmatch = (token) => (dispatch) => {
   })
     .then((response) => {
       if (response.ok) {
-        disconnectSocket();
-        response.json().then(() => dispatch(unmatchedSuccess()));
+        console.log("RESPONSE OK!");
+        dispatch(unmatchedSuccess());
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
+        console.log("RESPONSE ERROR!");
         response.json().then((res) => dispatch(unmatchedFailure(res)));
       }
     })
     .catch(() => {
       dispatch(tokenExpire());
     });
+};
+
+// When the other party disconnects
+export const handleMatchDisconnect = () => (dispatch) => {
+  disconnectSocket();
+  dispatch(unmatchedSuccess());
 };

@@ -3,14 +3,11 @@ import React, { useState, useEffect } from "react";
 
 // import Redux
 import {
-  initiateSocket,
   listenForMessages,
-  listenForDisconnect,
   disconnectSocket,
   sendMessage,
-  handleUnmatch,
 } from "../../actions/match";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -26,8 +23,6 @@ function ChatMessage() {
   const [messages, setMessages] = useState([]);
 
   const auth = useSelector((state) => state.auth);
-  const match = useSelector((state) => state.match);
-  const dispatch = useDispatch();
 
   const handleSendMessage = () => {
     if (inputText !== "") {
@@ -45,10 +40,6 @@ function ChatMessage() {
   };
 
   useEffect(() => {
-    initiateSocket(match.data.roomId);
-  }, [match.data.roomId]);
-
-  useEffect(() => {
     listenForMessages((err, data) => {
       if (err) {
         disconnectSocket();
@@ -59,16 +50,6 @@ function ChatMessage() {
           ...messages,
           { token: data.token, message: data.message },
         ]);
-      }
-    });
-
-    listenForDisconnect((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data) {
-        dispatch(handleUnmatch(auth.token));
       }
     });
   }, [messages]);
