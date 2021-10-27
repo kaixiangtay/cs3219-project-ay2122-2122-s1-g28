@@ -28,8 +28,24 @@ const registerAccountEmailOptions = (email, token) => {
 		from: EMAIL,
 		to: email,
 		subject: "NUSociaLife Account Verification",
-		html: `<p>Click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to activate your account. Note: Link is only valid for 15 minutes!!!</p>
-    <p>Click <a href="${BACKEND_URL}/resendEmail/${token}">here</a> to resend another account activation email if current link has expires!</p>`,
+		html: `<p>
+		Hello!
+		</p>
+		<p>
+		Your account on NUSociaLife has been created. Please click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to verify your email address before you can login.
+		</p>
+		<p style="color:red;">
+		Do note that this link is only valid for 15 minutes.
+		</p>
+		<p>
+		However, if your current link has expired, please click <a href="${BACKEND_URL}/resendEmail/${token}">here</a> and we will get a fresh link for you!
+		</p>
+		<p>
+		Thank you,
+		</p>
+		<p>
+		NUSociaLife Team
+		</p>`,
 	};
 
 	return emailOptions;
