@@ -1,15 +1,52 @@
+// {
+//     "env": {
+//         "browser": true,
+//         "commonjs": true,
+//         "es2021": true,
+//         "node": true
+//     },
+//     "extends": [
+//         "airbnb-base"
+//     ],
+//     "parserOptions": {
+//         "ecmaVersion": "latest",
+//         "ecmaFeatures": {
+//             "jsx": true
+//           },
+//           "sourceType": "module"
+//     },
+//     "rules": {
+//         "quotes": ["error", "double"],
+//         "eqeqeq": "off",
+//         "no-else-return": "off",
+//         "consistent-return": "off",
+//         "prefer-destructuring": "off",
+//         "no-underscore-dangle": "off",
+//         "indent": ["error", "tab"],
+//         "no-tabs": "off",
+//         "no-console": "off",
+//         "dot-notation": "off",
+//         "arrow-body-style": ["error", "always"],
+//         "no-param-reassign": "off",
+//         "global-require": "off"
+//     }
+// }
+
 {
     "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true,
-        "node": true
+        "node": true,
+        "commonjs": false,
+        "es2021": true
     },
     "extends": [
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "ecmaFeatures": {
+            "jsx": true
+          },
+          "sourceType": "module"
     },
     "rules": {
         "quotes": ["error", "double"],
@@ -24,6 +61,7 @@
         "dot-notation": "off",
         "arrow-body-style": ["error", "always"],
         "no-param-reassign": "off",
-        "global-require": "off"
+        "global-require": "off",
+        // "func-names": ["error", "never"]
     }
 }

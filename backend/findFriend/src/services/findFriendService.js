@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import FindFriend from '../models/findFriendModel';
-import Room from "../models/roomModel";
+import FindFriend from '../models/findFriendModel.js';
+import Room from "../models/roomModel.js";
 
 async function getAllFindFriendsUsers() {
 	const users = await FindFriend.find();
@@ -333,4 +333,4 @@ async function clearMatch(userId) {
 	}
 }
 
-module.exports = { getAllFindFriendsUsers, createMatch, clearMatch };
+export default { getAllFindFriendsUsers, createMatch, clearMatch };

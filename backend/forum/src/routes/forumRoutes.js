@@ -1,6 +1,6 @@
 import express from "express";
-import postController from "../controllers/postController";
-import commentController from "../controllers/commentController";
+import postController from "../controllers/postController.js";
+import commentController from "../controllers/commentController.js";
 
 const router = express.Router();
 
@@ -97,4 +97,4 @@ router
 	.route("/api/forum/sortCommentsByDescDate/:post_id")
 	.get(commentController.sortCommentsByDescDate);
 
-module.exports = router;
+export default router;

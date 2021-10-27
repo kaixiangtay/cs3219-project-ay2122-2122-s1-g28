@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const CommentSchema = mongoose.Schema({
-	userName: {
+	name: {
 		type: String,
 		required: true,
 	},
@@ -39,4 +39,4 @@ const CommentSchema = mongoose.Schema({
 
 const Comment = mongoose.model("Comment", CommentSchema);
 
-module.exports = Comment;
+export default Comment;

@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
-import { addPostValidator } from "../validators/postValidator";
-import userAuth from "../middlewares/userAuth";
-import postService from "../services/postService";
+import postValidator from "../validators/postValidator.js";
+import userAuth from "../middlewares/userAuth.js";
+import postService from "../services/postService.js";
 
 const index = [
 	userAuth.decodeAuthToken,
@@ -33,7 +33,7 @@ const index = [
 
 const createPost = [
 	userAuth.decodeAuthToken,
-	addPostValidator(),
+	postValidator.addPostValidator(),
 	(req, res) => {
 		try {
 			const userId = req.userId;
@@ -371,4 +371,4 @@ const sortPostByDescDate = [
 ];
 
 
-module.exports = { index, createPost, viewUserPosts, updatePost, viewPost, upvotePost, deletePost, downvotePost, sortPostByAscVotes, sortPostByDescVotes, sortPostByAscDate, sortPostByDescDate }
+export default { index, createPost, viewUserPosts, updatePost, viewPost, upvotePost, deletePost, downvotePost, sortPostByAscVotes, sortPostByDescVotes, sortPostByAscDate, sortPostByDescDate };

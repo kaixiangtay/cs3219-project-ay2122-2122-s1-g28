@@ -7,7 +7,7 @@ import {
 	GCP_REFRESH_TOKEN,
 	FRONTEND_URL,
 	BACKEND_URL,
-} from "../config/config";
+} from "../config/config.js";
 
 const transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -64,4 +64,4 @@ async function sendForgotPasswordEmail(email, tempPassword) {
 	}
 }
 
-module.exports = { sendForgotPasswordEmail, sendRegisterUserEmail };
+export default { sendForgotPasswordEmail, sendRegisterUserEmail };

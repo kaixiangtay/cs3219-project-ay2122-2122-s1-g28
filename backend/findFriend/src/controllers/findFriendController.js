@@ -1,5 +1,5 @@
-import findFriendService from "../services/findFriendService";
-import userAuth from "../middlewares/userAuth";
+import findFriendService from "../services/findFriendService.js";
+import userAuth from "../middlewares/userAuth.js";
 
 const index = [
 	async (req, res) => {
@@ -84,4 +84,4 @@ const createMatch = [
 	},
 ];
 
-module.exports = { index, clearMatch, createMatch };
+export default { index, clearMatch, createMatch };

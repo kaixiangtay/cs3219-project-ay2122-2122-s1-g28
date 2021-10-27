@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const PostSchema = mongoose.Schema({
-	userName: {
+	name: {
 		type: String,
 		required: true,
 	},
@@ -45,4 +45,4 @@ const PostSchema = mongoose.Schema({
 
 const Post = mongoose.model("Post", PostSchema);
 
-module.exports = Post;
+export default Post;

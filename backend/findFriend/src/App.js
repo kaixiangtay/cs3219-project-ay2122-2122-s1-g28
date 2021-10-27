@@ -1,7 +1,8 @@
-import Router from "./routes/findFriendRoutes";
+import Router from "./routes/findFriendRoutes.js";
 import express from "express";
 import cors from "cors";
-import { PORT } from "./config/config";
+import { PORT } from "./config/config.js";
+import connection from "./loaders/dbLoader.js";
 
 const app = express();
 
@@ -36,8 +37,8 @@ app.listen(PORT, (err) => {
 		console.log(err);
 		process.exit(1);
 	}
-	require("./loaders/dbLoader");
+	connection;
 	console.log(`Server is running at PORT ${PORT}`);
 });
 
-module.exports = app;
+export default app;

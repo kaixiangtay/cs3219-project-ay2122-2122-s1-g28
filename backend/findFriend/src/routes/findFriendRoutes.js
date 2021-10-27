@@ -1,5 +1,5 @@
 import express from "express";
-import findFriendController from "../controllers/findFriendController";
+import findFriendController from "../controllers/findFriendController.js";
 
 const router = express.Router();
 
@@ -22,4 +22,4 @@ router
 	.route("/api/findFriend/createMatch")
 	.post(findFriendController.createMatch);
 
-module.exports = router;
+export default router;
