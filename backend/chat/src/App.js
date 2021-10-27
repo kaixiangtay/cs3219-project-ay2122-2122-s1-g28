@@ -5,8 +5,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 
 const app = express();
-const httpServer = createServer();
-const server = createServer(app);
+const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
 	cors: {
@@ -37,6 +36,6 @@ io.on("connection", (socket) => {
 	});
 });
 
-server.listen(PORT, () => {
+httpServer.listen(PORT, () => {
 	console.log(`Server is running at PORT ${PORT}`);
 });
