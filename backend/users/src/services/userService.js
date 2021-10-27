@@ -1,8 +1,8 @@
 import generator from "generate-password";
-import User from "../models/userModel";
-import userAuth from "../middlewares/userAuth";
-import mailerService from "./mailerService";
-import imageService from "./imageService";
+import User from "../models/userModel.js";
+import userAuth from "../middlewares/userAuth.js";
+import mailerService from "./mailerService.js";
+import { deleteImage } from "./imageService.js";
 
 async function getAllUsers() {
 	const users = await User.find();
@@ -67,7 +67,7 @@ function logoutUser(user) {
 async function deleteUser(userId) {
 	const user = await getUserByID(userId);
 	if (user.profileImageUrl !== "") {
-		imageService.deleteImage(user.profileImageUrl);
+		deleteImage(user.profileImageUrl);
 	}
 	const status = await User.deleteOne(user);
 	return status.deletedCount;
@@ -101,7 +101,7 @@ function loginUser(user) {
 	return user;
 }
 
-module.exports = {
+export default {
 	getAllUsers,
 	getUserByEmail,
 	getUserByToken,

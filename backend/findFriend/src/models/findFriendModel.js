@@ -30,4 +30,4 @@ const FindFriendSchema = mongoose.Schema({
 
 const FindFriend = mongoose.model("FindFriend", FindFriendSchema);
 
-module.exports = FindFriend;
+export default FindFriend;

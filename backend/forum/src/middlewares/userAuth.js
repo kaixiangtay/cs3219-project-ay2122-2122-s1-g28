@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
-import { JWT_ACCESS_TOKEN } from "../config/config";
+import { JWT_ACCESS_TOKEN } from "../config/config.js";
 
 function getToken(header) {
 	const token = header && header.split(" ")[1];
 	return token;
-};
+}
 
 function decodeAuthToken(req, res, next) {
-	const token = this.getToken(req.headers["authorization"]);
+	const token = getToken(req.headers["authorization"]);
 
 	if (!token) {
 		// No token in req header
@@ -28,6 +28,5 @@ function decodeAuthToken(req, res, next) {
 			msg: "Unauthorized to access data",
 		});
 	}
-};
-
-module.exports = { getToken, decodeAuthToken };
+}
+export default { getToken, decodeAuthToken };

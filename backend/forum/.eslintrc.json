@@ -1,14 +1,18 @@
 {
     "env": {
         "node": true,
-        "commonjs": true,
+        "commonjs": false,
         "es2021": true
     },
     "extends": [
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "ecmaFeatures": {
+            "jsx": true
+          },
+          "sourceType": "module"
     },
     "rules": {
         "quotes": ["error", "double"],
@@ -24,6 +28,6 @@
         "arrow-body-style": ["error", "always"],
         "no-param-reassign": "off",
         "global-require": "off",
-        "func-names": ["error", "never"]
+        // "func-names": ["error", "never"]
     }
 }
