@@ -6,7 +6,7 @@ import { handleUpvotePost, handleDownvotePost } from "../../actions/post";
 import { useDispatch } from "react-redux";
 
 // Import Material-ui
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid, IconButton, Typography } from "@material-ui/core";
 
 // Import FontAwesome
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
@@ -27,7 +27,7 @@ function VoteArrows(props) {
       >
         <FontAwesomeIcon icon={faArrowUp} />
       </IconButton>
-      <div className={styles.numVotes}>{votes}</div>
+      <Typography className={styles.numVotes}>{votes}</Typography>
       <IconButton
         className={styles.downvoteButton}
         onClick={() => dispatch(handleDownvotePost(postId))}

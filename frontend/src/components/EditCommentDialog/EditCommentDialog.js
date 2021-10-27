@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // Import Redux
 import { useDispatch } from "react-redux";
-import { handleEditPost } from "../../actions/post";
+import { handleEditComment } from "../../actions/comment";
 
 // Import Material-ui
 import {
@@ -18,25 +18,25 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-function EditPostDialog(props) {
-  const { isOpen, handleClose, post } = props;
+function EditCommentDialog(props) {
+  const { isOpen, handleClose, comment, selectedPostId } = props;
   const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [commentId, setCommentId] = useState("");
   const [postId, setPostId] = useState("");
 
   useEffect(() => {
-    setTitle(post.title);
-    setContent(post.content);
-    setPostId(post._id);
+    setContent(comment.content);
+    setCommentId(comment._id);
+    setPostId(selectedPostId);
   }, [isOpen]);
 
   const onClickSaveChanges = () => {
-    const editedPostData = {
-      title: title,
+    const editedCommentData = {
       content: content,
+      commentId: commentId,
     };
-    dispatch(handleEditPost(postId, editedPostData));
+    dispatch(handleEditComment(postId, editedCommentData));
     handleClose();
   };
 
@@ -53,7 +53,7 @@ function EditPostDialog(props) {
     >
       <Grid container>
         <Grid item xs={6} sm={6} md={6}>
-          <DialogTitle>Edit Post</DialogTitle>
+          <DialogTitle>Edit Comment</DialogTitle>
         </Grid>
         <Grid item xs={6} sm={6} md={6}>
           <Grid container direction="row-reverse">
@@ -64,14 +64,6 @@ function EditPostDialog(props) {
         </Grid>
       </Grid>
       <DialogContent dividers>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Title"
-          fullWidth
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
         <TextField
           autoFocus
           margin="dense"
@@ -96,4 +88,4 @@ function EditPostDialog(props) {
   );
 }
 
-export default EditPostDialog;
+export default EditCommentDialog;

@@ -1,28 +1,29 @@
 // Import Settings
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 // Import Redux
 import { useSelector } from "react-redux";
 
 // Import Material-ui
-import {
-  Box,
-  // Button,
-  Grid,
-  Paper,
-  Tab,
-  Tabs,
-  Typography,
-} from "@material-ui/core";
+import { Box, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
 
 // Import Components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
 import Navbar from "../../components/Navbar/Navbar.js";
 import UserPosts from "../../components/UserPosts/UserPosts.js";
 import UserComments from "../../components/UserComments/UserComments.js";
+import BackButton from "../../components/BackButton/BackButton.js";
 
 // Import FontAwesome
-import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFileAlt,
+  faPen,
+  faSwimmer,
+  faHome,
+  faComments,
+  faSlidersH,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Import CSS
 import styles from "./ManagePosts.module.css";
@@ -42,11 +43,31 @@ function TabPanel(props) {
 }
 
 function ManagePosts() {
+  const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const posts = useSelector((state) => state.post.posts);
   const comments = useSelector((state) => state.comment.comments);
   const pageTitle = "Manage Posts & Comments - " + topic;
   const [tabValue, setTabValue] = useState(0);
+
+  if (!auth.token) {
+    return <Redirect to="/login" />;
+  }
+
+  const icon =
+    topic == "Academic"
+      ? faFileAlt
+      : topic == "Admin"
+      ? faPen
+      : topic == "CCA"
+      ? faSwimmer
+      : topic == "Accomodation"
+      ? faHome
+      : topic == "Tips"
+      ? faComments
+      : topic == "Miscellaneous"
+      ? faSlidersH
+      : null;
 
   const handleTabChange = (e, newValue) => {
     setTabValue(newValue);
@@ -56,7 +77,12 @@ function ManagePosts() {
     <div>
       <Navbar />
       <Grid item md={12} className="center-text">
-        <PageTitle title={pageTitle} icon={faUserEdit} />
+        <PageTitle title={pageTitle} icon={icon} />
+      </Grid>
+      <Grid container justifyContent="center">
+        <Grid item xs={10} sm={10} md={10}>
+          <BackButton />
+        </Grid>
       </Grid>
       <Grid container justifyContent="center" className={styles.container}>
         <Grid item xs={10} sm={10} md={10}>
