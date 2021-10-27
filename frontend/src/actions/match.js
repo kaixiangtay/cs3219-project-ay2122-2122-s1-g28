@@ -215,9 +215,9 @@ export const listenForVideo = (cb) => {
 export const handleMatchWithRetry =
   (token, interests, numRetries = 10) =>
   (dispatch) => {
-    dispatch(matching());
-
     const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
+
+    dispatch(matching());
 
     fetch(requestUrl, {
       method: "POST",
@@ -275,12 +275,10 @@ export const handleUnmatch = (token) => (dispatch) => {
     .then((response) => {
       console.log(response);
       if (response.ok) {
-        console.log("RESPONSE OK!");
         dispatch(unmatchedSuccess());
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        console.log("RESPONSE ERROR!");
         response.json().then((res) => dispatch(unmatchedFailure(res)));
       }
     })

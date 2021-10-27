@@ -196,6 +196,8 @@ function sortMatchResults(matchResults) {
 function findBestMatch(sortedMatchResults, userId) {
   if (sortedMatchResults.length > 0) {
     let isMatched = false;
+    let i;
+
     for (i = 0; i < sortedMatchResults.length; i++) {
       const currMatchPersonId = sortedMatchResults[i]._id;
 
@@ -333,18 +335,21 @@ async function createMatch(interests, userId) {
 async function clearMatch(userId) {
   const user = await FindFriend.findOne({ userId });
 
-  const matchedPersonId = mongoose.Types.ObjectId(user.matchUserId.str);
-  const roomId = mongoose.Types.ObjectId(user.roomId.str);
-
   if (user !== null) {
+    const matchedPersonId = mongoose.Types.ObjectId(user.matchUserId.str);
+    const roomId = mongoose.Types.ObjectId(user.roomId.str);
     const matchedUser = await FindFriend.findOne({ _id: matchedPersonId });
     const room = await Room.findOne({ _id: roomId });
+
+    const userStatus = await FindFriend.deleteOne({ id: user._id });
     const matchedUserStatus = await FindFriend.deleteOne(matchedUser);
     const roomStatus = await Room.deleteOne(room);
-    const userStatus = await FindFriend.deleteOne(user);
 
-    // Return deleted count of 1 if user is deleted succesfully
-    return userStatus.deletedCount;
+    // Return null if user who cancel the match is deleted succesfully
+    return null;
+  } else {
+    // Return "" if user has already been deleted
+    return "";
   }
 }
 
