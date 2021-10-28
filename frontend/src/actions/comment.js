@@ -127,7 +127,7 @@ export const handleCreateComment =
     const token = getState().auth.token;
     const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/createComment/${postId}`;
     const commentData = {
-      userName: getState().profile.data.name,
+      name: getState().profile.data.name,
       content: comment,
     };
 

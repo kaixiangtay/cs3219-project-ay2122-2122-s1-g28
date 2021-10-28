@@ -25,7 +25,7 @@ function ForumPosts(props) {
 
   const onClickSelectedPost = (postId) => {
     dispatch(handleGetSinglePost(postId));
-    let path = "/forum/:topic/" + postId;
+    let path = "/forum/" + topic.toLowerCase() + "/" + postId;
     history.push(path);
   };
 

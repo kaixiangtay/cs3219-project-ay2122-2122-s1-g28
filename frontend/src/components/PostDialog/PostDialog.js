@@ -33,7 +33,7 @@ function PostDialog(props) {
       title: post.title,
       content: post.content,
       comments: post.comments,
-      userName: post.userName,
+      name: post.name,
       displayDate: post.displayDate,
     };
     setPostDetails(postData);

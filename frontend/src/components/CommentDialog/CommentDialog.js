@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetSinglePost } from "../../actions/post";
+import { handleGetAllComments } from "../../actions/comment";
 
 // Import Components
 import CommentDetails from "../CommentDetails/CommentDetails";
@@ -33,17 +34,18 @@ function CommentDialog(props) {
       title: post.title,
       content: post.content,
       comments: post.comments,
-      userName: post.userName,
+      name: post.name,
       displayDate: post.displayDate,
     };
     setPostDetails(postData);
-  }, [isOpen]);
+  }, [post]);
 
   useEffect(() => {
-    if (postId) {
+    if (isOpen) {
       dispatch(handleGetSinglePost(postId));
+      dispatch(handleGetAllComments(postId));
     }
-  }, [postId]);
+  }, [isOpen]);
 
   return (
     <Dialog

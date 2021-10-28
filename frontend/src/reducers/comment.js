@@ -24,6 +24,7 @@ const defaultState = {
   editCommentSuccess: false,
   editCommentFailure: false,
   comments: [],
+  userComments: [],
 };
 
 function commentReducer(state = defaultState, action) {
@@ -64,7 +65,7 @@ function commentReducer(state = defaultState, action) {
         deleteCommentFailure: false,
         editCommentSuccess: false,
         editCommentFailure: false,
-        comments: action.comments,
+        userComments: action.comments,
       };
     case GET_USER_COMMENTS_FAILURE:
       return {
