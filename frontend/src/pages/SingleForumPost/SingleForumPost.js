@@ -33,7 +33,7 @@ function SingleForumPost() {
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
-  console.log(comments);
+
   useEffect(() => {
     // Default sort by latest comment
     if (post || createdComment) {
@@ -66,35 +66,40 @@ function SingleForumPost() {
             <Grid
               container
               direction="column"
-              alignItems="center"
+              spacing={2}
               className={styles.commentContainer}
-              spacing={4}
             >
               {comments.length != 0 ? (
-                <SortButton type="Comment" postId={post._id} />
+                <Grid item>
+                  <SortButton type="Comment" postId={post._id} />
+                </Grid>
               ) : (
                 <div></div>
               )}
-              {comments ? (
-                comments.map((comment) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    key={comment._id}
-                    className={styles.fullWidth}
-                  >
-                    <Card variant="outlined">
-                      <CardContent className={styles.cardContent}>
-                        <CommentDetails comment={comment} />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
-              ) : (
-                <div></div>
-              )}
+              <Grid item>
+                <Grid container alignItems="center" spacing={4}>
+                  {comments ? (
+                    comments.map((comment) => (
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        key={comment._id}
+                        className={styles.fullWidth}
+                      >
+                        <Card variant="outlined">
+                          <CardContent className={styles.cardContent}>
+                            <CommentDetails comment={comment} />
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <div></div>
+                  )}
+                </Grid>
+              </Grid>
             </Grid>
           </Paper>
         </Grid>

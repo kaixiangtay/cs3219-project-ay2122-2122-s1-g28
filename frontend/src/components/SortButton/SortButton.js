@@ -29,34 +29,32 @@ function SortButton(props) {
     } else if (type == "Comment") {
       dispatch(handleSortComments(sortByValue, postId));
     } else {
-      console.log("invalid type");
+      return;
     }
   }, [sortByValue]);
 
   return (
-    <Grid container direction="row-reverse">
-      <Grid item xs={1} sm={1} md={1} className={styles.sortButtonContainer}>
-        <Typography variant="button" align="left" className="primary-font">
-          Sort By:
-        </Typography>
-        <FormControl
-          variant="outlined"
-          size="small"
-          fullWidth
-          className={styles.sortButton}
+    <Grid item xs={1} sm={1} md={1} className={styles.sortButtonContainer}>
+      <Typography variant="button" align="left">
+        Sort By:
+      </Typography>
+      <FormControl
+        variant="outlined"
+        size="small"
+        fullWidth
+        className={styles.sortButton}
+      >
+        <Select
+          label="Sort By"
+          value={sortByValue}
+          onChange={(e) => setSortByValue(e.target.value)}
         >
-          <Select
-            label="Sort By"
-            value={sortByValue}
-            onChange={(e) => setSortByValue(e.target.value)}
-          >
-            <MenuItem value="latest">Latest</MenuItem>
-            <MenuItem value="oldest">Oldest</MenuItem>
-            <MenuItem value="ascVote">Lowest Votes</MenuItem>
-            <MenuItem value="descVote">Highest Votes</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
+          <MenuItem value="latest">Latest</MenuItem>
+          <MenuItem value="oldest">Oldest</MenuItem>
+          <MenuItem value="ascVote">Lowest Votes</MenuItem>
+          <MenuItem value="descVote">Highest Votes</MenuItem>
+        </Select>
+      </FormControl>
     </Grid>
   );
 }

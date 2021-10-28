@@ -15,6 +15,7 @@ import Navbar from "../../components/Navbar/Navbar.js";
 import ForumPosts from "../../components/ForumPosts/ForumPosts.js";
 import CreatePostDialog from "../../components/CreatePostDialog/CreatePostDialog.js";
 import BackButton from "../../components/BackButton/BackButton";
+import SortButton from "../../components/SortButton/SortButton";
 
 // Import FontAwesome
 import {
@@ -25,7 +26,6 @@ import {
   faComments,
   faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
-import SortButton from "../../components/SortButton/SortButton";
 
 function ForumTopic() {
   const dispatch = useDispatch();
@@ -95,7 +95,9 @@ function ForumTopic() {
               </Grid>
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
-              <SortButton type="Post" topic={topic} />
+              <Grid container direction="row-reverse">
+                <SortButton type="Post" topic={topic} />
+              </Grid>
             </Grid>
           </Grid>
           <ForumPosts topic={topic} />
