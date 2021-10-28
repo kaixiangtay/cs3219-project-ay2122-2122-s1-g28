@@ -38,15 +38,15 @@ function UserComments(props) {
     dispatch(handleDeleteComment(commentId, postId));
   };
 
-  const handleCommentDialogOpen = (postId) => {
-    setSelectedPostId(postId);
-    setCommentDialogOpen(true);
-  };
-
   const handleEditDialogOpen = (comment, postId) => {
     setSelectedComment(comment);
     setSelectedPostId(postId);
     setEditDialogOpen(true);
+  };
+
+  const handleCommentDialogOpen = (postId) => {
+    setSelectedPostId(postId);
+    setCommentDialogOpen(true);
   };
 
   useEffect(() => {

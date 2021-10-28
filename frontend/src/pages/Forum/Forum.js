@@ -25,7 +25,7 @@ function Forum() {
     { topic: "Academic" },
     { topic: "Admin" },
     { topic: "CCA" },
-    { topic: "Accomodation" },
+    { topic: "Accommodation" },
     { topic: "Tips" },
     { topic: "Miscellaneous" },
   ];

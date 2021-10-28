@@ -43,7 +43,7 @@ function PostDetails(props) {
         <Grid item xs={6} sm={6} md={6}>
           <Grid container direction="row-reverse">
             <Typography variant="caption" className="text-transform">
-              Posted by {post.userName} on {post.displayDate}
+              Posted by {post.name} on {post.displayDate}
             </Typography>
           </Grid>
         </Grid>
