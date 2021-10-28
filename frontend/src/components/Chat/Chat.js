@@ -1,5 +1,5 @@
 // Import Settings
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 // import Redux
 import {
@@ -30,7 +30,7 @@ import styles from "./Chat.module.css";
 
 function Chat() {
   const [messages, setMessages] = useState([]);
-  const [videoStream, setVideoStream] = useState(null);
+  const myVideo = useRef();
 
   const auth = useSelector((state) => state.auth);
   const match = useSelector((state) => state.match);
@@ -41,13 +41,18 @@ function Chat() {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
-        setVideoStream(stream);
+        if (myVideo.current) {
+          myVideo.current.srcObject = stream;
+        }
       });
   };
 
   const stopVideoStream = () => {
-    console.log(videoStream);
-    //videoStream.getTracks().forEach((track) => track.stop());
+    if (myVideo) {
+      myVideo.current.srcObject.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
   };
 
   useEffect(() => {
@@ -105,13 +110,16 @@ function Chat() {
             className={`center-text ${styles.videoSection}`}
           >
             <Grid>
-              <VideoPlayer videoStream={videoStream} />
+              <VideoPlayer videoStream={myVideo} />
             </Grid>
             <Grid>
               <Button
                 variant="contained"
                 className="red-button"
-                onClick={() => dispatch(handleUnmatch(auth.token))}
+                onClick={() => {
+                  stopVideoStream();
+                  dispatch(handleUnmatch(auth.token));
+                }}
               >
                 Unmatch
               </Button>

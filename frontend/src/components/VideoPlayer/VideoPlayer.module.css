@@ -1,12 +1,29 @@
 .videoSize {
-    width: 250px;
-    height: 250px;
+  position: relative;
+  width: 250px;
+  height: 250px;
 }
 
 .videoSettingButton {
-    background-color: var(--WHITE) !important;
-    width: 50px !important;
-    height: 50px !important;
-    margin-left: 2% !important;
-    margin-right: 2% !important;
+  background-color: var(--WHITE) !important;
+  width: 50px !important;
+  height: 50px !important;
+  margin-left: 2% !important;
+  margin-right: 2% !important;
+}
+
+.videoOverlayTrue {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  opacity: 10;
+  z-index: 10;
+}
+
+.videoOverlayFalse {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  opacity: 0;
+  z-index: 10;
 }
