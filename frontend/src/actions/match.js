@@ -61,10 +61,7 @@ const unmatchedSuccess = () => {
   };
 };
 
-const unmatchedFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
+const unmatchedFailure = () => {
   return {
     type: UNMATCHED_FAILURE,
   };
@@ -273,13 +270,12 @@ export const handleUnmatch = (token) => (dispatch) => {
     },
   })
     .then((response) => {
-      console.log(response);
       if (response.ok) {
         dispatch(unmatchedSuccess());
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then((res) => dispatch(unmatchedFailure(res)));
+        dispatch(unmatchedFailure());
       }
     })
     .catch(() => {

@@ -1,12 +1,8 @@
 // Import Settings
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // import Redux
-import {
-  listenForMessages,
-  disconnectSocket,
-  sendMessage,
-} from "../../actions/match";
+import { sendMessage } from "../../actions/match";
 import { useSelector } from "react-redux";
 
 // Import Material-ui
@@ -18,9 +14,8 @@ import Paper from "@material-ui/core/Paper";
 // Import CSS
 import styles from "./ChatMessage.module.css";
 
-function ChatMessage() {
+function ChatMessage({ messages, setMessages }) {
   const [inputText, setInputText] = useState("");
-  const [messages, setMessages] = useState([]);
 
   const auth = useSelector((state) => state.auth);
 
@@ -38,21 +33,6 @@ function ChatMessage() {
       handleSendMessage();
     }
   };
-
-  useEffect(() => {
-    listenForMessages((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data.token != auth.token) {
-        setMessages([
-          ...messages,
-          { token: data.token, message: data.message },
-        ]);
-      }
-    });
-  }, [messages]);
 
   return (
     <div>

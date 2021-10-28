@@ -2,14 +2,15 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // Import Redux
-import // disconnectSocket,
-// streamVideo,
-// listenForVideo,
-"../../actions/match";
-// import { useSelector } from "react-redux";
+import {
+  streamVideo,
+  listenForVideo,
+  disconnectSocket,
+} from "../../actions/match";
+import { useSelector } from "react-redux";
 
 // Import Peer
-// import Peer from "simple-peer";
+import Peer from "simple-peer";
 
 // Import Material-ui
 import IconButton from "@material-ui/core/IconButton";
@@ -24,69 +25,58 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// Import Resources (Simulate Video, remove when implementing socket.io)
-// import Profile from "../../resources/Profile.png";
-
 // Import CSS
 import styles from "./VideoPlayer.module.css";
 
-function VideoPlayer() {
+function VideoPlayer({ videoStream }) {
   const [webcam, setWebcam] = useState(true);
   const [mic, setMic] = useState(false);
-  //const [stream, setStream] = useState(null);
+
   const myVideo = useRef();
   const matchedVideo = useRef();
 
-  // const auth = useSelector((state) => state.auth);
-  // // const profile = useSelector((state) => state.profile);
+  const auth = useSelector((state) => state.auth);
 
-  // const peer = new Peer({
-  //   initiator: true,
-  //   trickle: false,
-  //   stream: stream,
-  // });
+  const peer = new Peer({
+    initiator: true,
+    stream: videoStream,
+  });
 
   const handleMute = () => {
-    //stream.getAudioTracks()[0].enabled = !mic;
+    videoStream.getAudioTracks().forEach((track) => (track.enabled = !mic));
     setMic(!mic);
   };
 
   const handleWebcam = () => {
-    //stream.getVideoTracks()[0].enabled = !webcam;
+    videoStream.getVideoTracks().forEach((track) => (track.enabled = !webcam));
     setWebcam(!webcam);
   };
 
-  const startVideoStream = () => {
-    // navigator.mediaDevices
-    //   .getUserMedia({ video: true, audio: true })
-    //   .then((stream) => {
-    //     setStream(stream);
-    //     if (myVideo.current) {
-    //       myVideo.current.srcObject = stream;
-    //     }
-    //   });
-  };
+  useEffect(() => {
+    if (myVideo.current) {
+      myVideo.current.srcObject = videoStream;
+    }
+  }, [videoStream]);
 
   useEffect(() => {
-    startVideoStream();
-    // listenForVideo((err, data) => {
-    //   if (err) {
-    //     disconnectSocket();
-    //     return;
-    //   }
-    //   if (data.token != auth.token) {
-    //     peer.signal(data.signal);
-    //   }
-    // });
+    listenForVideo((err, data) => {
+      if (err) {
+        disconnectSocket();
+        return;
+      }
+      if (data.token != auth.token) {
+        peer.signal(data.signal);
+      }
+    });
 
-    // peer.on("signal", (data) => {
-    //   streamVideo(auth.token, data);
-    // });
+    peer.on("signal", (data) => {
+      streamVideo(auth.token, data);
+    });
 
-    // peer.on("stream", (stream) => {
-    //   matchedVideo.current.srcObject = stream;
-    // });
-  }, [webcam, mic]);
+    peer.on("stream", (stream) => {
+      matchedVideo.current.srcObject = stream;
+    });
+  }, []);
 
   return (
     <Grid>

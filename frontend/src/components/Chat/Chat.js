@@ -1,13 +1,14 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 // import Redux
 import {
   handleUnmatch,
+  handleMatchDisconnect,
   initiateSocket,
   listenForDisconnect,
   disconnectSocket,
-  handleMatchDisconnect,
+  listenForMessages,
 } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -28,15 +29,32 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer.js";
 import styles from "./Chat.module.css";
 
 function Chat() {
+  const [messages, setMessages] = useState([]);
+  const [videoStream, setVideoStream] = useState(null);
+
   const auth = useSelector((state) => state.auth);
   const match = useSelector((state) => state.match);
+
   const dispatch = useDispatch();
+
+  const startVideoStream = () => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        setVideoStream(stream);
+      });
+  };
+
+  const stopVideoStream = () => {
+    console.log(videoStream);
+    //videoStream.getTracks().forEach((track) => track.stop());
+  };
 
   useEffect(() => {
     initiateSocket(match.data.roomId);
-  }, [match.data.roomId]);
 
-  useEffect(() => {
+    startVideoStream();
+
     listenForDisconnect((err, data) => {
       if (err) {
         console.log("err in disconnecting");
@@ -45,10 +63,26 @@ function Chat() {
       }
       if (data) {
         console.log("Someone disconnected");
+        stopVideoStream();
         dispatch(handleMatchDisconnect());
       }
     });
-  });
+  }, []);
+
+  useEffect(() => {
+    listenForMessages((err, data) => {
+      if (err) {
+        disconnectSocket();
+        return;
+      }
+      if (data.token != auth.token) {
+        setMessages([
+          ...messages,
+          { token: data.token, message: data.message },
+        ]);
+      }
+    });
+  }, [messages]);
 
   return (
     <Container className="primary-font">
@@ -61,7 +95,7 @@ function Chat() {
             <h2>You have matched with a new friend!</h2>
           </Grid>
           <Grid item md={9} className={styles.chatSection}>
-            <ChatMessage />
+            <ChatMessage messages={messages} setMessages={setMessages} />
           </Grid>
           <Grid
             direction="column"
@@ -71,7 +105,7 @@ function Chat() {
             className={`center-text ${styles.videoSection}`}
           >
             <Grid>
-              <VideoPlayer />
+              <VideoPlayer videoStream={videoStream} />
             </Grid>
             <Grid>
               <Button

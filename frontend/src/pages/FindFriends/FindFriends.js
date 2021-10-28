@@ -4,11 +4,7 @@ import { Redirect } from "react-router-dom";
 
 // import Redux
 import { handleNavigation } from "../../actions/navigation";
-import {
-  handleMatchWithRetry,
-  resetInterests,
-  disconnectSocket,
-} from "../../actions/match";
+import { handleMatchWithRetry, resetInterests } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -46,7 +42,6 @@ function FindFriends() {
 
   // Update navigation state when user returns to this page from previous page
   useEffect(() => {
-    disconnectSocket();
     dispatch(handleNavigation(FINDFRIENDS));
     dispatch(resetInterests());
   }, []);

@@ -24,9 +24,9 @@ io.on("connection", (socket) => {
     socketRoom = roomId;
   });
 
-  //   socket.on("video", (data) => {
-  //     io.to(socketRoom).emit("video", data);
-  //   });
+  socket.on("video", (data) => {
+    io.to(socketRoom).emit("video", data);
+  });
 
   socket.on("chat", (data) => {
     // var { token, message } = data;
