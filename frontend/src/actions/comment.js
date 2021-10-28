@@ -253,6 +253,7 @@ export const handleSortComments =
         : sortByValue == "descVote"
         ? `${process.env.REACT_APP_API_URL_FORUM}/api/forum/sortCommentsByDescVotes/${postId}`
         : ``;
+
     fetch(requestUrl, {
       method: "GET",
       headers: {

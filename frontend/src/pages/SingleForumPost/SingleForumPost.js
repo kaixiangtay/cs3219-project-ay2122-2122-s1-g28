@@ -36,7 +36,7 @@ function SingleForumPost() {
 
   useEffect(() => {
     // Default sort by latest comment
-    if (post || createdComment) {
+    if (post.comments.length || createdComment) {
       dispatch(handleSortComments("latest", post._id));
     }
   }, [post, createdComment]);

@@ -61,7 +61,7 @@ function ManagePosts() {
       ? faPen
       : topic == "CCA"
       ? faSwimmer
-      : topic == "Accomodation"
+      : topic == "Accommodation"
       ? faHome
       : topic == "Tips"
       ? faComments

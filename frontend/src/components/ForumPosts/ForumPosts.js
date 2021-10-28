@@ -1,5 +1,5 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // Import Redux
@@ -22,12 +22,23 @@ function ForumPosts(props) {
   const history = useHistory();
   const posts = useSelector((state) => state.post.posts);
   const newPostCreated = useSelector((state) => state.post.createPostSuccess);
+  const getPostSuccess = useSelector(
+    (state) => state.post.getSinglePostSuccess
+  );
+  const [postId, setPostId] = useState("");
 
-  const onClickSelectedPost = (postId) => {
-    dispatch(handleGetSinglePost(postId));
-    let path = "/forum/" + topic.toLowerCase() + "/" + postId;
-    history.push(path);
-  };
+  useEffect(() => {
+    if (postId) {
+      dispatch(handleGetSinglePost(postId));
+    }
+  }, [postId]);
+
+  useEffect(() => {
+    if (getPostSuccess) {
+      let path = "/forum/" + topic.toLowerCase() + "/" + postId;
+      history.push(path);
+    }
+  }, [getPostSuccess]);
 
   useEffect(() => {
     // Default sort by latest post
@@ -44,7 +55,7 @@ function ForumPosts(props) {
             <VoteArrows votes={post.votes} postId={post._id} />
             <Button
               className={styles.postButton}
-              onClick={() => onClickSelectedPost(post._id)}
+              onClick={() => setPostId(post._id)}
             >
               <PostDetails post={post} />
             </Button>
