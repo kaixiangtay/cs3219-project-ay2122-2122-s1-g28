@@ -56,7 +56,15 @@ const resetPasswordEmailOptions = (email, tempPassword) => {
 		from: EMAIL,
 		to: email,
 		subject: "NUSociaLife Account Reset Passsword",
-		html: `<p>Here is your temporary password: ${tempPassword} </p>`,
+		html: `
+		<p> Hello! </p>
+		<p>Here is your temporary password: ${tempPassword} </p>
+		<p>
+		Thank you,
+		</p>
+		<p>
+		NUSociaLife Team
+		</p>`,
 	};
 
 	return emailOptions;
