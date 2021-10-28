@@ -10,6 +10,10 @@ import {
   EDIT_COMMENT_FAILURE,
   SORT_COMMENTS_SUCCESS,
   SORT_COMMENTS_FAILURE,
+  UPVOTE_COMMENT_SUCCESS,
+  UPVOTE_COMMENT_FAILURE,
+  DOWNVOTE_COMMENT_SUCCESS,
+  DOWNVOTE_COMMENT_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
@@ -23,6 +27,10 @@ const defaultState = {
   editCommentFailure: false,
   sortCommentsSuccess: false,
   sortCommentsFailure: false,
+  upvoteCommentSuccess: false,
+  upvoteCommentFailure: false,
+  downvoteCommentSuccess: false,
+  downvoteCommentFailure: false,
   comments: [],
   userComments: [],
 };
@@ -96,6 +104,30 @@ function commentReducer(state = defaultState, action) {
         ...state,
         sortCommentsSuccess: false,
         sortCommentsFailure: false,
+      };
+    case UPVOTE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        upvoteCommentSuccess: true,
+        upvoteCommentFailure: false,
+      };
+    case UPVOTE_COMMENT_FAILURE:
+      return {
+        ...state,
+        upvoteCommentSuccess: false,
+        upvoteCommentFailure: true,
+      };
+    case DOWNVOTE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        downvoteCommentSuccess: true,
+        downvoteCommentFailure: false,
+      };
+    case DOWNVOTE_COMMENT_FAILURE:
+      return {
+        ...state,
+        downvoteCommentSuccess: false,
+        downvoteCommentFailure: true,
       };
     default:
       return state;
