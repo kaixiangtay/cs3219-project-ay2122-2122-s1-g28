@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handleGetAllComments } from "../../actions/comment.js";
+import { handleSortComments } from "../../actions/comment.js";
 
 // Import Material-ui
 import { Card, CardContent, Grid, Paper } from "@material-ui/core";
@@ -16,6 +16,7 @@ import CommentDetails from "../../components/CommentDetails/CommentDetails.js";
 import PostDetails from "../../components/PostDetails/PostDetails.js";
 import BackButton from "../../components/BackButton/BackButton.js";
 import CommentBox from "../../components/CommentBox/CommentBox.js";
+import SortButton from "../../components/SortButton/SortButton.js";
 
 // Import CSS
 import styles from "./SingleForumPost.module.css";
@@ -29,13 +30,16 @@ function SingleForumPost() {
     (state) => state.comment.createCommentSuccess
   );
 
-  useEffect(() => {
-    dispatch(handleGetAllComments(post._id));
-  }, [post, createdComment]);
-
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
+  console.log(comments);
+  useEffect(() => {
+    // Default sort by latest comment
+    if (post || createdComment) {
+      dispatch(handleSortComments("latest", post._id));
+    }
+  }, [post, createdComment]);
 
   return (
     <div>
@@ -66,6 +70,11 @@ function SingleForumPost() {
               className={styles.commentContainer}
               spacing={4}
             >
+              {comments.length != 0 ? (
+                <SortButton type="Comment" postId={post._id} />
+              ) : (
+                <div></div>
+              )}
               {comments ? (
                 comments.map((comment) => (
                   <Grid

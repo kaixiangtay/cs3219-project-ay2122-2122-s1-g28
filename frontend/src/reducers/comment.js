@@ -2,27 +2,27 @@
 import {
   CREATE_COMMENT_SUCCESS,
   CREATE_COMMENT_FAILURE,
-  GET_ALL_COMMENTS_SUCCESS,
-  GET_ALL_COMMENTS_FAILURE,
   GET_USER_COMMENTS_SUCCESS,
   GET_USER_COMMENTS_FAILURE,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
   EDIT_COMMENT_SUCCESS,
   EDIT_COMMENT_FAILURE,
+  SORT_COMMENTS_SUCCESS,
+  SORT_COMMENTS_FAILURE,
 } from "../constants/ReduxConstants.js";
 
 const defaultState = {
   createCommentSuccess: false,
   createCommentFailure: false,
-  getAllCommentsSuccess: false,
-  getAllCommentsFailure: false,
   getUserCommentsSuccess: false,
   getUserCommentsFailure: false,
   deleteCommentSuccess: false,
   deleteCommentFailure: false,
   editCommentSuccess: false,
   editCommentFailure: false,
+  sortCommentsSuccess: false,
+  sortCommentsFailure: false,
   comments: [],
   userComments: [],
 };
@@ -40,21 +40,6 @@ function commentReducer(state = defaultState, action) {
         ...state,
         createCommentSuccess: false,
         createCommentFailure: true,
-      };
-    case GET_ALL_COMMENTS_SUCCESS:
-      return {
-        ...state,
-        getAllCommentsSuccess: true,
-        getAllCommentsFailure: false,
-        createCommentSuccess: false,
-        createCommentFailure: false,
-        comments: action.comments,
-      };
-    case GET_ALL_COMMENTS_FAILURE:
-      return {
-        ...state,
-        getAllCommentsSuccess: false,
-        getAllCommentsFailure: true,
       };
     case GET_USER_COMMENTS_SUCCESS:
       return {
@@ -96,6 +81,21 @@ function commentReducer(state = defaultState, action) {
         ...state,
         editCommentSuccess: false,
         editCommentFailure: true,
+      };
+    case SORT_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        sortCommentsSuccess: true,
+        sortCommentsFailure: false,
+        createCommentSuccess: false,
+        createCommentFailure: false,
+        comments: action.comments,
+      };
+    case SORT_COMMENTS_FAILURE:
+      return {
+        ...state,
+        sortCommentsSuccess: false,
+        sortCommentsFailure: false,
       };
     default:
       return state;

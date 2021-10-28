@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
 import { handleGetSinglePost } from "../../actions/post";
-import { handleGetAllComments } from "../../actions/comment";
+import { handleSortComments } from "../../actions/comment";
 
 // Import Components
 import CommentDetails from "../CommentDetails/CommentDetails";
@@ -43,7 +43,8 @@ function CommentDialog(props) {
   useEffect(() => {
     if (isOpen) {
       dispatch(handleGetSinglePost(postId));
-      dispatch(handleGetAllComments(postId));
+      // Default sort by latest comment
+      dispatch(handleSortComments("latest", postId));
     }
   }, [isOpen]);
 

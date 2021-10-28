@@ -14,8 +14,6 @@ import styles from "./PostDetails.module.css";
 function PostDetails(props) {
   const { post } = props;
 
-  console.log(post);
-
   return (
     <Grid container>
       <Grid container direction="column" className={styles.postDetails}>
