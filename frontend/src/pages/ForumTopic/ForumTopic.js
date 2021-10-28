@@ -37,7 +37,6 @@ function ForumTopic() {
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
-
   const icon =
     topic == "Academic"
       ? faFileAlt
@@ -74,30 +73,21 @@ function ForumTopic() {
       </Grid>
       <Grid container justifyContent="center">
         <Grid item xs={10} sm={10} md={10}>
-          <Grid container alignItems="center" justifyContent="center">
-            <Grid item xs={6} sm={6} md={6}>
-              <Grid container spacing={4}>
-                <Grid item>
-                  <Button className="orange-button" onClick={handleDialogOpen}>
-                    Create Post
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Grid container>
-                    <Button
-                      className="orange-button"
-                      onClick={handleManagePost}
-                    >
-                      Manage Posts/Comments
-                    </Button>
-                  </Grid>
-                </Grid>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item container xs={6} sm={6} md={6} spacing={4}>
+              <Grid item>
+                <Button className="orange-button" onClick={handleDialogOpen}>
+                  Create Post
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button className="orange-button" onClick={handleManagePost}>
+                  Manage Posts/Comments
+                </Button>
               </Grid>
             </Grid>
-            <Grid item xs={6} sm={6} md={6}>
-              <Grid container direction="row-reverse">
-                <SortButton type="Post" topic={topic} />
-              </Grid>
+            <Grid item container xs={6} sm={6} md={6} direction="row-reverse">
+              <SortButton type="Post" topic={topic} />
             </Grid>
           </Grid>
           <ForumPosts topic={topic} />
