@@ -1,20 +1,13 @@
 // Import Settings
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handleSortPost, handleGetUserPosts } from "../../actions/post";
+import { handleGetUserPosts } from "../../actions/post";
 
 // Import Material-ui
-import {
-  Grid,
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-  Typography,
-} from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 
 // Import Components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
@@ -22,6 +15,7 @@ import Navbar from "../../components/Navbar/Navbar.js";
 import ForumPosts from "../../components/ForumPosts/ForumPosts.js";
 import CreatePostDialog from "../../components/CreatePostDialog/CreatePostDialog.js";
 import BackButton from "../../components/BackButton/BackButton";
+import SortButton from "../../components/SortButton/SortButton";
 
 // Import FontAwesome
 import {
@@ -33,16 +27,12 @@ import {
   faSlidersH,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Import CSS
-import styles from "./ForumTopic.module.css";
-
 function ForumTopic() {
   const dispatch = useDispatch();
   const history = useHistory();
   const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [sortByValue, setSortByValue] = useState("latest");
 
   if (!auth.token) {
     return <Redirect to="/login" />;
@@ -55,7 +45,7 @@ function ForumTopic() {
       ? faPen
       : topic == "CCA"
       ? faSwimmer
-      : topic == "Accomodation"
+      : topic == "Accommodation"
       ? faHome
       : topic == "Tips"
       ? faComments
@@ -70,10 +60,6 @@ function ForumTopic() {
   const handleManagePost = () => {
     dispatch(handleGetUserPosts(topic, history));
   };
-
-  useEffect(() => {
-    dispatch(handleSortPost(sortByValue, topic));
-  }, [sortByValue]);
 
   return (
     <div>
@@ -110,38 +96,7 @@ function ForumTopic() {
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
               <Grid container direction="row-reverse">
-                <Grid
-                  item
-                  xs={1}
-                  sm={1}
-                  md={1}
-                  className={styles.sortButtonContainer}
-                >
-                  <Typography
-                    variant="button"
-                    align="left"
-                    className="primary-font"
-                  >
-                    Sort By:
-                  </Typography>
-                  <FormControl
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    className={styles.sortButton}
-                  >
-                    <Select
-                      label="Sort By"
-                      value={sortByValue}
-                      onChange={(e) => setSortByValue(e.target.value)}
-                    >
-                      <MenuItem value="latest">Latest</MenuItem>
-                      <MenuItem value="oldest">Oldest</MenuItem>
-                      <MenuItem value="ascVote">Lowest Votes</MenuItem>
-                      <MenuItem value="descVote">Highest Votes</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+                <SortButton type="Post" topic={topic} />
               </Grid>
             </Grid>
           </Grid>

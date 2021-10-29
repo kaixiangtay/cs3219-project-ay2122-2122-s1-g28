@@ -1,7 +1,7 @@
 // Import Settings
 import React from "react";
 
-// import Redux
+// Import Redux
 import { handleUnmatch } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
 
