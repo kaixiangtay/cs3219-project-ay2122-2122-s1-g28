@@ -15,15 +15,19 @@
 .videoOverlayTrue {
   position: absolute;
   width: 250px;
-  height: 250px;
+  height: 220px;
   opacity: 10;
   z-index: 10;
+  border-style: solid;
+  border-width: 2%;
 }
 
 .videoOverlayFalse {
   position: absolute;
   width: 250px;
-  height: 250px;
+  height: 220px;
   opacity: 0;
   z-index: 10;
+  border-style: solid;
+  border-width: 2%;
 }

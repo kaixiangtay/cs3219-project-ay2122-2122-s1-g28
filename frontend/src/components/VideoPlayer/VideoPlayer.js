@@ -26,14 +26,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Import Resources
-import defaultProfileImage from "../../resources/NUSociaLife_Login_Logo.png";
+import defaultProfileImage from "../../resources/NUSocialLife_Default_Profile.png";
 
 // Import CSS
 import styles from "./VideoPlayer.module.css";
 
 function VideoPlayer({ myVideo }) {
   const [webcam, setWebcam] = useState(true);
-  const [mic, setMic] = useState(false);
+  const [mic, setMic] = useState(true);
 
   const matchedVideo = useRef();
 
@@ -82,7 +82,6 @@ function VideoPlayer({ myVideo }) {
   return (
     <Grid>
       <Grid>
-        {/* <img alt="Profile1" src={Profile} className={styles.videoSize} /> */}
         <video
           playsInline
           ref={matchedVideo}
@@ -105,7 +104,6 @@ function VideoPlayer({ myVideo }) {
         <video
           playsInline
           ref={myVideo}
-          poster={defaultProfileImage}
           autoPlay
           className={styles.videoSize}
         />

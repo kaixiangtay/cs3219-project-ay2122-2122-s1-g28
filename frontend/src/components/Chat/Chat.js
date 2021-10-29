@@ -48,7 +48,7 @@ function Chat() {
   };
 
   const stopVideoStream = () => {
-    if (myVideo) {
+    if (myVideo.current) {
       myVideo.current.srcObject.getTracks().forEach((track) => {
         track.stop();
       });
@@ -57,9 +57,7 @@ function Chat() {
 
   useEffect(() => {
     initiateSocket(match.data.roomId);
-
     startVideoStream();
-
     listenForDisconnect((err, data) => {
       if (err) {
         console.log("err in disconnecting");
@@ -110,7 +108,7 @@ function Chat() {
             className={`center-text ${styles.videoSection}`}
           >
             <Grid>
-              <VideoPlayer videoStream={myVideo} />
+              <VideoPlayer myVideo={myVideo} />
             </Grid>
             <Grid>
               <Button
