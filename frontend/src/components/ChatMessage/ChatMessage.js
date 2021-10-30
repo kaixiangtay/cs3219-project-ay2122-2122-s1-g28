@@ -1,16 +1,9 @@
 // Import Settings
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // import Redux
-import {
-  initiateSocket,
-  listenForMessages,
-  listenForDisconnect,
-  disconnectSocket,
-  sendMessage,
-  handleUnmatch,
-} from "../../actions/match";
-import { useDispatch, useSelector } from "react-redux";
+import { sendMessage } from "../../actions/match";
+import { useSelector } from "react-redux";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -21,13 +14,10 @@ import Paper from "@material-ui/core/Paper";
 // Import CSS
 import styles from "./ChatMessage.module.css";
 
-function ChatMessage() {
+function ChatMessage({ messages, setMessages }) {
   const [inputText, setInputText] = useState("");
-  const [messages, setMessages] = useState([]);
 
   const auth = useSelector((state) => state.auth);
-  const match = useSelector((state) => state.match);
-  const dispatch = useDispatch();
 
   const handleSendMessage = () => {
     if (inputText !== "") {
@@ -43,35 +33,6 @@ function ChatMessage() {
       handleSendMessage();
     }
   };
-
-  useEffect(() => {
-    initiateSocket(match.data.roomId);
-  }, [match.data.roomId]);
-
-  useEffect(() => {
-    listenForMessages((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data.token != auth.token) {
-        setMessages([
-          ...messages,
-          { token: data.token, message: data.message },
-        ]);
-      }
-    });
-
-    listenForDisconnect((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data) {
-        dispatch(handleUnmatch(auth.token));
-      }
-    });
-  }, [messages]);
 
   return (
     <div>
