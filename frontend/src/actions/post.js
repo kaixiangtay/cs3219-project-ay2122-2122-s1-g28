@@ -235,7 +235,7 @@ export const handleCreatePost = (postData) => (dispatch, getState) => {
   const token = getState().auth.token;
   const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/createPost`;
   const newPost = {
-    userName: getState().profile.data.name,
+    name: getState().profile.data.name,
     topic: postData.topic,
     title: postData.title,
     content: postData.content,

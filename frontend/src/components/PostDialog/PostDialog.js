@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handleGetAllComments } from "../../actions/comment";
+import { handleSortComments } from "../../actions/comment";
 
 // Import Components
 import CommentDetails from "../CommentDetails/CommentDetails";
@@ -33,7 +33,7 @@ function PostDialog(props) {
       title: post.title,
       content: post.content,
       comments: post.comments,
-      userName: post.userName,
+      name: post.name,
       displayDate: post.displayDate,
     };
     setPostDetails(postData);
@@ -42,7 +42,7 @@ function PostDialog(props) {
 
   useEffect(() => {
     if (postId) {
-      dispatch(handleGetAllComments(postId));
+      dispatch(handleSortComments("latest", postId));
     }
   }, [postId]);
 
