@@ -1,6 +1,6 @@
 // Import Settings
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
 import { useSelector } from "react-redux";
@@ -43,6 +43,7 @@ function TabPanel(props) {
 }
 
 function ManagePosts() {
+  const history = useHistory();
   const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const posts = useSelector((state) => state.post.posts);
@@ -69,6 +70,11 @@ function ManagePosts() {
       ? faSlidersH
       : null;
 
+  const handleOnBack = () => {
+    const path = "/forum/" + topic;
+    history.push(path);
+  };
+
   const handleTabChange = (e, newValue) => {
     setTabValue(newValue);
   };
@@ -81,7 +87,7 @@ function ManagePosts() {
       </Grid>
       <Grid container justifyContent="center">
         <Grid item xs={10} sm={10} md={10}>
-          <BackButton />
+          <BackButton handleOnBack={handleOnBack} />
         </Grid>
       </Grid>
       <Grid container justifyContent="center" className={styles.container}>
