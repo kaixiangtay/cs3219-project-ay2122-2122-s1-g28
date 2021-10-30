@@ -46,7 +46,7 @@ function ManagePosts() {
   const auth = useSelector((state) => state.auth);
   const topic = useSelector((state) => state.post.forumTopic);
   const posts = useSelector((state) => state.post.posts);
-  const comments = useSelector((state) => state.comment.comments);
+  const comments = useSelector((state) => state.comment.userComments);
   const pageTitle = "Manage Posts & Comments - " + topic;
   const [tabValue, setTabValue] = useState(0);
 
@@ -61,7 +61,7 @@ function ManagePosts() {
       ? faPen
       : topic == "CCA"
       ? faSwimmer
-      : topic == "Accomodation"
+      : topic == "Accommodation"
       ? faHome
       : topic == "Tips"
       ? faComments

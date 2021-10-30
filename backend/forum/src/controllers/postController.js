@@ -242,11 +242,13 @@ const deletePost = [
 				});
 			}
 			if (postService.isUserPost(post.userId, userId)) {
-				await postService.deletePost(post.id);
-				return res.status(200).json({
-					status: "success",
-					msg: "Post has been deleted!",
-				});
+				const deletedCount = await postService.deletePost(req.params.post_id);
+				if (deletedCount == 1) {
+					return res.status(200).json({
+						status: "success",
+						msg: "Post has been deleted!",
+					});
+				} 
 			} else {
 				return res.status(404).json({
 					status: "error",

@@ -67,8 +67,9 @@ function downvotePost(userId, post) {
 }
 
 async function deletePost(postId) {
-	await Post.deleteOne({ _id: postId });
-	await Comment.deleteMany({ post_id: postId });
+	const statusPost = await Post.deleteOne({ _id: postId });
+	const statusComment = await Comment.deleteMany({ postId: postId });
+	return statusPost.deletedCount;
 }
 
 async function sortPostByVotes(inputTopic, order) {

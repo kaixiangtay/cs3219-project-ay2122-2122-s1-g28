@@ -18,7 +18,7 @@ function CommentDetails(props) {
       <Grid item xs={12} sm={12} md={12}>
         <Grid container direction="row-reverse">
           <Typography variant="caption" className="text-transform">
-            Commented by {comment.userName} on {comment.displayDate}
+            Commented by {comment.name} on {comment.displayDate}
           </Typography>
         </Grid>
       </Grid>

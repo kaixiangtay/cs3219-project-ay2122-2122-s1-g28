@@ -107,6 +107,8 @@ function postReducer(state = defaultState, action) {
         createPostFailure: false,
         getUserPostsSuccess: false,
         getUserPostsFailure: false,
+        getSinglePostSuccess: false,
+        getSinglePostFailure: false,
         posts: action.posts,
       };
     case SORT_POSTS_FAILURE:
