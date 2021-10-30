@@ -17,22 +17,26 @@ io.on("connection", (socket) => {
   console.log(`Connected: ${socket.id}`);
 
   let socketRoom;
-  let socketId = socket.id;
 
   socket.on("join", (data) => {
-    const { roomId, token } = data;
+    const { roomId } = data;
     console.log(`Socket ${socket.id} joining ${roomId}`);
     socket.join(roomId);
     socketRoom = roomId;
 
-    // let roomSize = io.sockets.adapter.rooms.get(socketRoom).size;
-    // io.to(socketRoom).emit("roomSize", { roomSize, token, socketId });
+    let roomSize = io.sockets.adapter.rooms.get(socketRoom).size;
+
+    if (roomSize == 2) {
+      io.to(socketRoom).emit(
+        "profileRequest",
+        "Please send your profile request"
+      );
+    }
   });
 
-  //   socket.on("roomSize", (data) => {
-  //     // var { token, message } = data;
-  //     io.to(socketRoom).emit("roomSize", data);
-  //   });
+  socket.on("profileRetrieval", (data) => {
+    io.to(socketRoom).emit("profileRetrieval", data);
+  });
 
   socket.on("chat", (data) => {
     // var { token, message } = data;

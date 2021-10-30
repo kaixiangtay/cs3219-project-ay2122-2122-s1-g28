@@ -140,12 +140,13 @@ export const updateInterests = (category, items) => (dispatch) => {
 
 export let socket;
 
-export const initiateSocket = (roomId, token) => {
+export const initiateSocket = (roomId) => {
   socket = io(`${process.env.REACT_APP_API_URL_CHAT}`);
+
   console.log(`Connecting socket...`);
 
   if (socket && roomId) {
-    socket.emit("join", { roomId, token });
+    socket.emit("join", roomId);
   }
 };
 
@@ -156,6 +157,16 @@ export const disconnectSocket = () => {
     socket.disconnect();
   }
   return true;
+};
+
+export const listenForMessages = (cb) => {
+  if (!socket) {
+    return true;
+  }
+
+  socket.on("chat", (msg) => {
+    return cb(null, msg);
+  });
 };
 
 export const listenForDisconnect = (cb) => {

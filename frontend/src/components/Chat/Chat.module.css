@@ -6,6 +6,11 @@
   padding: 2%;
 }
 
-.videoSection {
+.profilePictureSection {
   padding: 2%;
+}
+
+.profilePicture {
+  width: 250px;
+  height: 250px;
 }
