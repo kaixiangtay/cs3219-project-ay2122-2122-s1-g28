@@ -84,21 +84,22 @@ function Chat() {
 
   return (
     <Container className="primary-font">
-      <Grid container spacing={2}>
-        <Grid item md={12} className="center-text">
+      <Grid container>
+        <Grid item sm={12} className="center-text">
           <PageTitle title={"Find Friends"} icon={faUserFriends} />
         </Grid>
-        <Grid container item md={12} className={styles.parentGrid}>
-          <Grid item md={12} className="center-text">
+        <Grid container item sm={12} className={styles.parentGrid}>
+          <Grid item sm={12} className="center-text">
             <h2>You have matched with {matchedName}!</h2>
           </Grid>
-          <Grid item md={9} className={styles.chatSection}>
+          <Grid item sm={7} md={9} className={styles.chatSection}>
             <ChatMessage messages={messages} setMessages={setMessages} />
           </Grid>
           <Grid
             direction="column"
             container
             item
+            sm={5}
             md={3}
             className={`center-text ${styles.profilePictureSection}`}
           >
