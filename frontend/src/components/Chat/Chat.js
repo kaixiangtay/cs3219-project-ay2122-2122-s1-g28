@@ -1,6 +1,9 @@
 // Import Settings
 import React, { useState, useRef, useEffect } from "react";
 
+// Import Peer
+//import Peer from "simple-peer"
+
 // import Redux
 import {
   handleUnmatch,
@@ -8,7 +11,7 @@ import {
   initiateSocket,
   listenForDisconnect,
   disconnectSocket,
-  listenForMessages,
+  socket,
 } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,7 +33,10 @@ import styles from "./Chat.module.css";
 
 function Chat() {
   const [messages, setMessages] = useState([]);
+
+  // Video Call
   const myVideo = useRef();
+  const matchedVideo = useRef();
 
   const auth = useSelector((state) => state.auth);
   const match = useSelector((state) => state.match);
@@ -53,11 +59,20 @@ function Chat() {
         track.stop();
       });
     }
+    // if (matchedVideo.current) {
+    //   matchedVideo.current.srcObject.getTracks().forEach((track) => {
+    //     track.stop();
+    //   });
+    // }
   };
 
+  // const callPeer = () => {};
+
+  // const receivePeer = () => {};
+
   useEffect(() => {
-    initiateSocket(match.data.roomId);
-    startVideoStream();
+    initiateSocket(match.data.roomId, auth.token);
+
     listenForDisconnect((err, data) => {
       if (err) {
         console.log("err in disconnecting");
@@ -70,15 +85,23 @@ function Chat() {
         dispatch(handleMatchDisconnect());
       }
     });
+
+    // socket.on("roomSize", (data) => {
+    //   if (data.roomSize === 1 && auth.token !== data.token) {
+    //     callPeer();
+    //     console.log(data);
+    //   } else if (data.roomSize === 2 && auth.token !== data.token) {
+    //     receivePeer();
+    //     console.log(data);
+    //   }
+    // });
+
+    startVideoStream();
   }, []);
 
   useEffect(() => {
-    listenForMessages((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data.token != auth.token) {
+    socket.on("chat", (data) => {
+      if (data.token !== auth.token) {
         setMessages([
           ...messages,
           { token: data.token, message: data.message },
@@ -108,7 +131,7 @@ function Chat() {
             className={`center-text ${styles.videoSection}`}
           >
             <Grid>
-              <VideoPlayer myVideo={myVideo} />
+              <VideoPlayer myVideo={myVideo} matchedVideo={matchedVideo} />
             </Grid>
             <Grid>
               <Button

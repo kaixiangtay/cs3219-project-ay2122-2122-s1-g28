@@ -1,16 +1,8 @@
 // Import Settings
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
 // Import Redux
-import {
-  // streamVideo,
-  listenForVideo,
-  disconnectSocket,
-} from "../../actions/match";
 import { useSelector } from "react-redux";
-
-// Import Peer
-// import Peer from "simple-peer";
 
 // Import Material-ui
 import IconButton from "@material-ui/core/IconButton";
@@ -31,19 +23,12 @@ import defaultProfileImage from "../../resources/NUSocialLife_Default_Profile.pn
 // Import CSS
 import styles from "./VideoPlayer.module.css";
 
-function VideoPlayer({ myVideo }) {
+function VideoPlayer({ myVideo, matchedVideo }) {
   const [webcam, setWebcam] = useState(true);
   const [mic, setMic] = useState(true);
 
-  const matchedVideo = useRef();
-
-  const auth = useSelector((state) => state.auth);
+  // const auth = useSelector((state) => state.auth);
   const profile = useSelector((state) => state.profile);
-
-  // const peer = new Peer({
-  //   initiator: true,
-  //   stream: videoStream,
-  // });
 
   const handleMute = () => {
     myVideo.current.srcObject
@@ -58,26 +43,6 @@ function VideoPlayer({ myVideo }) {
     });
     setWebcam(!webcam);
   };
-
-  useEffect(() => {
-    listenForVideo((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data.token != auth.token) {
-        //peer.signal(data.signal);
-      }
-    });
-  }, []);
-
-  // peer.on("signal", (data) => {
-  //   streamVideo(auth.token, data);
-  // });
-
-  // peer.on("stream", (stream) => {
-  //   matchedVideo.current.srcObject = stream;
-  // });
 
   return (
     <Grid>

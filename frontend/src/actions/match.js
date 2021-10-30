@@ -138,14 +138,14 @@ export const updateInterests = (category, items) => (dispatch) => {
 // HANDLING SOCKET CLIENT FUNCTIONS
 // ===================================================================
 
-let socket;
+export let socket;
 
-export const initiateSocket = (roomId) => {
+export const initiateSocket = (roomId, token) => {
   socket = io(`${process.env.REACT_APP_API_URL_CHAT}`);
   console.log(`Connecting socket...`);
 
   if (socket && roomId) {
-    socket.emit("join", roomId);
+    socket.emit("join", { roomId, token });
   }
 };
 
@@ -156,16 +156,6 @@ export const disconnectSocket = () => {
     socket.disconnect();
   }
   return true;
-};
-
-export const listenForMessages = (cb) => {
-  if (!socket) {
-    return true;
-  }
-
-  socket.on("chat", (msg) => {
-    return cb(null, msg);
-  });
 };
 
 export const listenForDisconnect = (cb) => {
@@ -183,26 +173,6 @@ export const sendMessage = (token, message) => {
     socket.emit("chat", { token, message });
   }
 };
-
-export const streamVideo = (token, signal) => {
-  if (socket) {
-    socket.emit("video", { token, signal });
-  }
-};
-
-export const listenForVideo = (cb) => {
-  if (!socket) {
-    return true;
-  }
-
-  socket.on("video", (msg) => {
-    return cb(null, msg);
-  });
-};
-
-// ===================================================================
-// HANDLING VIDEO STREAMING CLIENT FUNCTIONS
-// ===================================================================
 
 // ===================================================================
 // HANDLING API CALLS
