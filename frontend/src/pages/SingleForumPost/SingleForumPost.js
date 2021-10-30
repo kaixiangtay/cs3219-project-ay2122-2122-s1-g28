@@ -76,29 +76,36 @@ function SingleForumPost() {
               ) : (
                 <div></div>
               )}
-              <Grid item>
-                <Grid container alignItems="center" spacing={4}>
-                  {comments ? (
-                    comments.map((comment) => (
-                      <Grid
-                        item
-                        xs={12}
-                        sm={12}
-                        md={12}
-                        key={comment._id}
-                        className={styles.fullWidth}
-                      >
-                        <Card variant="outlined">
-                          <CardContent className={styles.cardContent}>
-                            <CommentDetails comment={comment} />
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))
-                  ) : (
-                    <div></div>
-                  )}
-                </Grid>
+              <Grid container alignItems="center" spacing={4}>
+                {comments ? (
+                  comments.map((comment) => (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={12}
+                      key={comment._id}
+                      className={styles.fullWidth}
+                    >
+                      <Card variant="outlined">
+                        <CardContent className={styles.cardContent}>
+                          <Grid container>
+                            <VoteArrows
+                              votes={comment.votes}
+                              postId={comment.postId}
+                              commentId={comment._id}
+                            />
+                            <Grid item xs={11} sm={11} md={11}>
+                              <CommentDetails comment={comment} />
+                            </Grid>
+                          </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))
+                ) : (
+                  <div></div>
+                )}
               </Grid>
             </Grid>
           </Paper>

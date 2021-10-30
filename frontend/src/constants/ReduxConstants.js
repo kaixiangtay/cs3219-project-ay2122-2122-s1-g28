@@ -62,6 +62,10 @@ export const EDIT_COMMENT_SUCCESS = 66;
 export const EDIT_COMMENT_FAILURE = 67;
 export const SORT_COMMENTS_SUCCESS = 68;
 export const SORT_COMMENTS_FAILURE = 69;
+export const UPVOTE_COMMENT_SUCCESS = 70;
+export const UPVOTE_COMMENT_FAILURE = 71;
+export const DOWNVOTE_COMMENT_SUCCESS = 72;
+export const DOWNVOTE_COMMENT_FAILURE = 73;
 
 // Match
 export const MATCHING = 80;
