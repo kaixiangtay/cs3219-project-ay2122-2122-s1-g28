@@ -17,15 +17,19 @@ import PostDetails from "../PostDetails/PostDetails";
 import styles from "./ForumPosts.module.css";
 
 function ForumPosts(props) {
+  const [postId, setPostId] = useState("");
+
   const { topic } = props;
-  const dispatch = useDispatch();
+
   const history = useHistory();
+
   const posts = useSelector((state) => state.post.posts);
   const newPostCreated = useSelector((state) => state.post.createPostSuccess);
   const getPostSuccess = useSelector(
     (state) => state.post.getSinglePostSuccess
   );
-  const [postId, setPostId] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (postId) {
@@ -62,7 +66,7 @@ function ForumPosts(props) {
           </Grid>
         ))
       ) : (
-        <div></div>
+        <div />
       )}
     </Grid>
   );

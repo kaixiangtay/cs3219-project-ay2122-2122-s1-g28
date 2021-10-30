@@ -18,18 +18,10 @@ import PageTitle from "../../components/PageTitle/PageTitle.js";
 import ForumGroup from "../../components/ForumGroup/ForumGroup.js";
 
 // Import Constants
+import { FORUM_GROUPS } from "../../constants/ForumConstants";
 import { FORUM } from "../../constants/ReduxConstants";
 
 function Forum() {
-  const forumGroups = [
-    { topic: "Academic" },
-    { topic: "Admin" },
-    { topic: "CCA" },
-    { topic: "Accommodation" },
-    { topic: "Tips" },
-    { topic: "Miscellaneous" },
-  ];
-
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -50,7 +42,7 @@ function Forum() {
       </Grid>
       <Container>
         <Grid container spacing={5} justifyContent="center">
-          {forumGroups.map((forum) => (
+          {FORUM_GROUPS.map((forum) => (
             <Grid item xs={4} sm={4} md={4} key={forum.topic}>
               <ForumGroup topic={forum.topic} />
             </Grid>

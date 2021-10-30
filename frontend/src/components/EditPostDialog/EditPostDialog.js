@@ -19,11 +19,13 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 
 function EditPostDialog(props) {
-  const { isOpen, handleClose, post } = props;
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [postId, setPostId] = useState("");
+
+  const { isOpen, handleClose, post } = props;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTitle(post.title);
@@ -73,7 +75,6 @@ function EditPostDialog(props) {
           onChange={(e) => setTitle(e.target.value)}
         />
         <TextField
-          autoFocus
           margin="dense"
           label="Content"
           fullWidth

@@ -19,9 +19,11 @@ import {
 import styles from "./SortButton.module.css";
 
 function SortButton(props) {
-  const { type, topic, postId } = props;
-  const dispatch = useDispatch();
   const [sortByValue, setSortByValue] = useState("latest");
+
+  const { type, topic, postId } = props;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type == "Post") {

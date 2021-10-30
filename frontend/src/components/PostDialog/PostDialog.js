@@ -22,11 +22,13 @@ import {
 } from "@material-ui/core";
 
 function PostDialog(props) {
-  const { isOpen, handleClose, post } = props;
-  const dispatch = useDispatch();
   const [postDetails, setPostDetails] = useState("");
   const [postId, setPostId] = useState("");
+
+  const { isOpen, handleClose, post } = props;
+
   const comments = useSelector((state) => state.comment.comments);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const postData = {
@@ -69,7 +71,7 @@ function PostDialog(props) {
               </Grid>
             ))
           ) : (
-            <div></div>
+            <div />
           )}
         </Grid>
       </DialogContent>
