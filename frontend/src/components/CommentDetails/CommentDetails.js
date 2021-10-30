@@ -6,14 +6,13 @@ import { Grid, Typography } from "@material-ui/core";
 
 function CommentDetails(props) {
   const { comment } = props;
+
   return (
     <Grid container spacing={3}>
       <Grid item>
-        <Grid container direction="column">
-          <Typography variant="body1" align="left" className="text-transform">
-            {comment.content}
-          </Typography>
-        </Grid>
+        <Typography variant="body1" align="left" className="text-transform">
+          {comment.content}
+        </Typography>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container direction="row-reverse">

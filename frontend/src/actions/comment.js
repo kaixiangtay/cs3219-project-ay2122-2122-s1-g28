@@ -15,6 +15,10 @@ import {
   EDIT_COMMENT_FAILURE,
   SORT_COMMENTS_SUCCESS,
   SORT_COMMENTS_FAILURE,
+  UPVOTE_COMMENT_SUCCESS,
+  UPVOTE_COMMENT_FAILURE,
+  DOWNVOTE_COMMENT_SUCCESS,
+  DOWNVOTE_COMMENT_FAILURE,
 } from "../constants/ReduxConstants";
 
 // ===================================================================
@@ -115,6 +119,42 @@ const sortCommentsFailure = (err) => {
   });
   return {
     type: SORT_COMMENTS_FAILURE,
+  };
+};
+
+// ===================================================================
+// UPVOTE COMMENT
+// ===================================================================
+const upvoteCommentSuccess = () => {
+  return {
+    type: UPVOTE_COMMENT_SUCCESS,
+  };
+};
+
+const upvoteCommentFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: UPVOTE_COMMENT_FAILURE,
+  };
+};
+
+// ===================================================================
+// DOWNVOTE COMMENT
+// ===================================================================
+const downvoteCommentSuccess = () => {
+  return {
+    type: DOWNVOTE_COMMENT_SUCCESS,
+  };
+};
+
+const downvoteCommentFailure = (err) => {
+  toast.error(err.msg, {
+    position: toast.POSITION.TOP_RIGHT,
+  });
+  return {
+    type: DOWNVOTE_COMMENT_FAILURE,
   };
 };
 
@@ -274,5 +314,59 @@ export const handleSortComments =
       })
       .catch((err) => {
         dispatch(sortCommentsFailure(err));
+      });
+  };
+
+// Upvote a comment
+export const handleUpvoteComment =
+  (postId, commentId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/upvoteComment/${postId}/${commentId}`;
+
+    fetch(requestUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then(() => dispatch(upvoteCommentSuccess()));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then((err) => dispatch(upvoteCommentFailure(err)));
+        }
+      })
+      .catch((err) => {
+        dispatch(upvoteCommentFailure(err));
+      });
+  };
+
+// Downvote a comment
+export const handleDownvoteComment =
+  (postId, commentId) => (dispatch, getState) => {
+    const token = getState().auth.token;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FORUM}/api/forum/downvoteComment/${postId}/${commentId}`;
+
+    fetch(requestUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then(() => dispatch(downvoteCommentSuccess()));
+        } else if (response.status == 401) {
+          dispatch(tokenExpire());
+        } else {
+          response.json().then((err) => dispatch(downvoteCommentFailure(err)));
+        }
+      })
+      .catch((err) => {
+        dispatch(downvoteCommentFailure(err));
       });
   };
