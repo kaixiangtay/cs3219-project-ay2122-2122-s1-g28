@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // import Redux
-import { handleUnmatch } from "../../actions/match";
+import { handleMatchDisconnect } from "../../actions/match";
 import { useDispatch } from "react-redux";
 
 // Import Material-ui
@@ -39,7 +39,7 @@ function SearchMatch() {
         <Button
           variant="contained"
           className="red-button"
-          onClick={() => dispatch(handleUnmatch())}
+          onClick={() => dispatch(handleMatchDisconnect())}
         >
           Cancel Matching
         </Button>

@@ -118,6 +118,7 @@ export default function matchReducer(state = defaultState, action) {
       return {
         ...state,
         matching: false,
+        matchedSuccess: false,
         unmatchedFailure: true,
         data: {},
       };
