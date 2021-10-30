@@ -13,15 +13,19 @@ async function getUser(userId) {
 }
 
 const merge = (arr1, arr2) => {
-  const hash = new Map();
+	const map = new Map();
 
-  arr1.concat(arr2).forEach((obj) => {
-    hash.set(obj._id, Object.assign(hash.get(obj._id) || {}, obj));
-  });
-
-  const a3 = Array.from(hash.values());
-  return a3;
-};
+	if (arr1 !== undefined) {
+		arr1.forEach(item => map.set(item.id, item));
+	}
+	
+	if (arr2 !== undefined) {
+		arr2.forEach(item => map.set(item.id, {...map.get(item.id), ...item}));
+	}
+	
+	const mergedArr = Array.from(map.values());
+	return mergedArr;
+}
 
 async function randomMatch() {
   const count = await FindFriend.count();
