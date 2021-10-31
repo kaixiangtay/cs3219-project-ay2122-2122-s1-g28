@@ -45,28 +45,73 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Create Users env file
+        run: |
+          touch ./users/.env
+          echo USERS_DB_URL=${{ env.USERS_DB_URL }} >> .env
+          echo FRONTEND_URL=${{ env.FRONTEND_URL }} >> .env
+          echo USERS_BACKEND_URL=${{ env.USERS_BACKEND_URL }} >> .env
+          echo USERS_PORT=${{ env.USERS_PORT }} >> .env
+          echo EMAIL=${{ env.EMAIL }} >> .env
+          echo GCP_ACCESS_TOKEN=${{ env.GCP_ACCESS_TOKEN }} >> .env
+          echo GCP_REFRESH_TOKEN=${{ env.GCP_REFRESH_TOKEN }} >> .env
+          echo GCP_CLIENT_SECRET=${{ env.GCP_CLIENT_SECRET }} >> .env
+          echo GCP_CLIENT_ID=${{ env.GCP_CLIENT_ID }} >> .env
+          echo JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }} >> .env
+          echo S3_ACCESS_KEY_ID=${{ env.S3_ACCESS_KEY_ID }} >> .env
+          echo S3_SECRET_ACCESS_KEY=${{ env.S3_SECRET_ACCESS_KEY }} >> .env
+          echo S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }} >> .env
+          echo S3_BUCKET_REGION=${{ env.S3_BUCKET_REGION }} >> .env
+          cat .env
+
+      - name: Create Forum env file
+        run: |
+          touch ./forum/.env
+          echo FORUM_DB_URL=${{ env.FORUM_DB_URL }} >> .env
+          echo FORUM_PORT=${{ env.FORUM_PORT }} >> .env
+          echo JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }} >> .env
+          cat .env
+
+      - name: Create findFriend env file
+        run: |
+          touch ./findFriend/.env
+          echo FINDFRIEND_DB_URL=${{ env.FINDFRIEND_DB_URL }} >> .env
+          echo FINDFRIEND_PORT=${{ env.FINDFRIEND_PORT }} >> .env
+          echo JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }} >> .env
+          cat .env
+
+      - name: Create chat env file
+        run: |
+          touch ./chat/.env
+          echo CHAT_PORT=${{ env.CHAT_PORT }} >> .env
+          cat .env
+
       - name: Docker Build
-        run: >
-          docker-compose build 
-          --build-arg JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }}
-          --build-arg S3_ACCESS_KEY_ID=${{ env.S3_ACCESS_KEY_ID }}
-          --build-arg S3_SECRET_ACCESS_KEY=${{ env.S3_SECRET_ACCESS_KEY }}
-          --build-arg S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }}
-          --build-arg S3_BUCKET_REGION=${{ env.S3_BUCKET_REGION }}
-          --build-arg USERS_DB_URL=${{ env.USERS_DB_URL }}
-          --build-arg FRONTEND_URL=${{ env.FRONTEND_URL }}
-          --build-arg USERS_BACKEND_URL=${{ env.USERS_BACKEND_URL }}
-          --build-arg USERS_PORT=${{ env.USERS_PORT }}
-          --build-arg EMAIL=${{ env.EMAIL }}
-          --build-arg GCP_ACCESS_TOKEN=${{ env.GCP_ACCESS_TOKEN }}
-          --build-arg GCP_REFRESH_TOKEN=${{ env.GCP_REFRESH_TOKEN }}
-          --build-arg GCP_CLIENT_SECRET=${{ env.GCP_CLIENT_SECRET }}
-          --build-arg GCP_CLIENT_ID=${{ env.GCP_CLIENT_ID }}
-          --build-arg FORUM_DB_URL=${{ env.FORUM_DB_URL }}
-          --build-arg FORUM_PORT=${{ env.FORUM_PORT }}
-          --build-arg FINDFRIEND_DB_URL=${{ env.FINDFRIEND_DB_URL }}
-          --build-arg FINDFRIEND_PORT=${{ env.FINDFRIEND_PORT }}
-          --build-arg CHAT_PORT=${{ env.CHAT_PORT }}
+        run: |
+          docker-compose build
+
+      # - name: Docker Build
+      #   run: >
+      #     docker-compose build
+      #     --build-arg JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }}
+      #     --build-arg S3_ACCESS_KEY_ID=${{ env.S3_ACCESS_KEY_ID }}
+      #     --build-arg S3_SECRET_ACCESS_KEY=${{ env.S3_SECRET_ACCESS_KEY }}
+      #     --build-arg S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }}
+      #     --build-arg S3_BUCKET_REGION=${{ env.S3_BUCKET_REGION }}
+      #     --build-arg USERS_DB_URL=${{ env.USERS_DB_URL }}
+      #     --build-arg FRONTEND_URL=${{ env.FRONTEND_URL }}
+      #     --build-arg USERS_BACKEND_URL=${{ env.USERS_BACKEND_URL }}
+      #     --build-arg USERS_PORT=${{ env.USERS_PORT }}
+      #     --build-arg EMAIL=${{ env.EMAIL }}
+      #     --build-arg GCP_ACCESS_TOKEN=${{ env.GCP_ACCESS_TOKEN }}
+      #     --build-arg GCP_REFRESH_TOKEN=${{ env.GCP_REFRESH_TOKEN }}
+      #     --build-arg GCP_CLIENT_SECRET=${{ env.GCP_CLIENT_SECRET }}
+      #     --build-arg GCP_CLIENT_ID=${{ env.GCP_CLIENT_ID }}
+      #     --build-arg FORUM_DB_URL=${{ env.FORUM_DB_URL }}
+      #     --build-arg FORUM_PORT=${{ env.FORUM_PORT }}
+      #     --build-arg FINDFRIEND_DB_URL=${{ env.FINDFRIEND_DB_URL }}
+      #     --build-arg FINDFRIEND_PORT=${{ env.FINDFRIEND_PORT }}
+      #     --build-arg CHAT_PORT=${{ env.CHAT_PORT }}
 
       - name: AWS Configure
         run: |
