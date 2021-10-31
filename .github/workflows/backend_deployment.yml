@@ -67,6 +67,7 @@ jobs:
           --build-arg FINDFRIEND_DB_URL=${{ env.FINDFRIEND_DB_URL }} \
           --build-arg FINDFRIEND_PORT=${{ env.FINDFRIEND_PORT }} \
           --build-arg CHAT_PORT=${{ env.CHAT_PORT }} \
+          --no-cache .
 
       - name: AWS Configure
         run: |
