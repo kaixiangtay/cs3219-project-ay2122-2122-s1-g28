@@ -191,7 +191,7 @@ export const sendMessage = (token, message) => {
 
 // Handles matching between users
 export const handleMatchWithRetry =
-  (token, interests, numRetries = 10) =>
+  (token, _interests, numRetries = 10) =>
   (dispatch) => {
     const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
 
@@ -204,13 +204,7 @@ export const handleMatchWithRetry =
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        interests: {
-          gender: interests.gender,
-          art: interests.art,
-          music: interests.music,
-          sport: interests.sport,
-          faculty: interests.faculty,
-        },
+        interests: _interests,
       }),
     })
       .then((response) => {
@@ -223,7 +217,7 @@ export const handleMatchWithRetry =
             setTimeout(
               () =>
                 dispatch(
-                  handleMatchWithRetry(token, interests, numRetries - 1)
+                  handleMatchWithRetry(token, _interests, numRetries - 1)
                 ),
               3000
             );

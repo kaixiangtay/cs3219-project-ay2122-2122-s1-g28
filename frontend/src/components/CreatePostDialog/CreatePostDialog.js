@@ -26,10 +26,12 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CreatePostDialog(props) {
-  const { isOpen, handleClose, topic } = props;
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const { isOpen, handleClose, topic } = props;
+
+  const dispatch = useDispatch();
 
   const handleCreate = () => {
     let postData = {
@@ -81,7 +83,6 @@ function CreatePostDialog(props) {
           </Grid>
           <Grid item>
             <TextField
-              autoFocus
               margin="dense"
               label="Content"
               fullWidth
