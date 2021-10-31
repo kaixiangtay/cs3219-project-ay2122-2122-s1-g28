@@ -9,10 +9,10 @@ on:
     # Allows you to run this workflow manually from the Actions tab
 
 env: # .env config for React
-  REACT_APP_API_URL_USERS: ${{secrets.USERS_MS_URL}}
-  REACT_APP_API_URL_FORUM: ${{secrets.FORUM_MS_URL}}
-  REACT_APP_API_URL_FINDFRIEND: ${{secrets.FINDFRIEND_MS_URL}}
-  REACT_APP_API_URL_CHAT: ${{secrets.CHAT_MS_URL}}
+  REACT_APP_API_URL_USERS: http://nusocialife.net
+  REACT_APP_API_URL_FORUM: http://nusocialife.net
+  REACT_APP_API_URL_FINDFRIEND: http://nusocialife.net
+  REACT_APP_API_URL_CHAT: http://nusocialife.net
 
 defaults:
   run:
@@ -54,7 +54,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: ap-southeast-1
 
       # Deployment to Amplify
       - name: deploy to amplify
@@ -67,4 +67,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: ap-southeast-1
