@@ -16,14 +16,14 @@ services:
       - ./forum/.env
     ports:
       - 4000:4000
-  # findfriend:
-  #   image: findfriend
-  #   build: findfriend
-  #   restart: unless-stopped
-  #   env_file:
-  #     - ./findFriend/.env
-  #   ports:
-  #     - 7000:7000
+  findfriend:
+    image: findfriend
+    build: findfriend
+    restart: unless-stopped
+    env_file:
+      - ./findfriend/.env
+    ports:
+      - 7000:7000
   chat:
     image: chat
     build: chat
