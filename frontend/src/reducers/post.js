@@ -79,6 +79,8 @@ function postReducer(state = defaultState, action) {
         ...state,
         upvotePostSuccess: true,
         upvotePostFailure: false,
+        sortPostsSuccess: false,
+        sortPostsFailure: false,
       };
     case UPVOTE_POST_FAILURE:
       return {
@@ -91,6 +93,8 @@ function postReducer(state = defaultState, action) {
         ...state,
         downvotePostSuccess: true,
         downvotePostFailure: false,
+        sortPostsSuccess: false,
+        sortPostsFailure: false,
       };
     case DOWNVOTE_POST_FAILURE:
       return {
@@ -109,6 +113,10 @@ function postReducer(state = defaultState, action) {
         getUserPostsFailure: false,
         getSinglePostSuccess: false,
         getSinglePostFailure: false,
+        upvotePostSuccess: false,
+        upvotePostFailure: false,
+        downvotePostSuccess: false,
+        downvotePostFailure: false,
         posts: action.posts,
       };
     case SORT_POSTS_FAILURE:
