@@ -8,32 +8,32 @@ on:
   workflow_dispatch:
     # Allows you to run this workflow manually from the Actions tab
 
-  env: # .env config for backend
-    # JWT
-    JWT_ACCESS_TOKEN: ${{secrets.JWT_ACCESS_TOKEN}}
-    # S3
-    S3_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY_ID}}
-    S3_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_ACCESS_KEY}}
-    S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}
-    S3_BUCKET_REGION: ap-southeast-1
-    # USERS MS
-    USERS_DB_URL: mongodb+srv://user:users123@cluster0.xfyg0.mongodb.net/UserDatabase?retryWrites=true&w=majority
-    FRONTEND_URL: http://nusocialife.net
-    USERS_BACKEND_URL: http://localhost:5000/api/users
-    USERS_PORT: 5000
-    EMAIL: nusocialife28@gmail.com
-    GCP_ACCESS_TOKEN: ${{secrets.GCP_ACCESS_TOKEN}}
-    GCP_REFRESH_TOKEN: ${{secrets.GCP_REFRESH_TOKEN}}
-    GCP_CLIENT_SECRET: ${{secrets.GCP_CLIENT_SECRET}}
-    GCP_CLIENT_ID: ${{secrets.GCP_CLIENT_ID}}
-    # FORUM MS
-    FORUM_DB_URL: mongodb+srv://user:users123@cluster0.xfyg0.mongodb.net/ForumDatabase?retryWrites=true&w=majority
-    FORUM_PORT: 4000
-    # FINDFRIEND MS
-    FINDFRIEND_DB_URL: mongodb+srv://user:users123@cluster0.xfyg0.mongodb.net/FindFriendDatabase?retryWrites=true&w=majority
-    FINDFRIEND_PORT: 7000
-    # CHAT MS
-    CHAT_PORT: 9000
+env: # .env config for backend
+  # JWT
+  JWT_ACCESS_TOKEN: ${{secrets.JWT_ACCESS_TOKEN}}
+  # S3
+  S3_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY_ID}}
+  S3_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_ACCESS_KEY}}
+  S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}
+  S3_BUCKET_REGION: ap-southeast-1
+  # USERS MS
+  USERS_DB_URL: ${{secrets.USERS_DB_URL}}
+  FRONTEND_URL: http://nusocialife.net
+  USERS_BACKEND_URL: http://localhost:5000/api/users
+  USERS_PORT: 5000
+  EMAIL: nusocialife28@gmail.com
+  GCP_ACCESS_TOKEN: ${{secrets.GCP_ACCESS_TOKEN}}
+  GCP_REFRESH_TOKEN: ${{secrets.GCP_REFRESH_TOKEN}}
+  GCP_CLIENT_SECRET: ${{secrets.GCP_CLIENT_SECRET}}
+  GCP_CLIENT_ID: ${{secrets.GCP_CLIENT_ID}}
+  # FORUM MS
+  FORUM_DB_URL: ${{secrets.FORUM_DB_URL}}
+  FORUM_PORT: 4000
+  # FINDFRIEND MS
+  FINDFRIEND_DB_URL: ${{secrets.FINDFRIEND_DB_URL}}
+  FINDFRIEND_PORT: 7000
+  # CHAT MS
+  CHAT_PORT: 9000
 
 defaults:
   run:
