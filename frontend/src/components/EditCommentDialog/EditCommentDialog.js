@@ -19,11 +19,12 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 
 function EditCommentDialog(props) {
-  const { isOpen, handleClose, comment, selectedPostId } = props;
-  const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const [commentId, setCommentId] = useState("");
   const [postId, setPostId] = useState("");
+
+  const { isOpen, handleClose, comment, selectedPostId } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setContent(comment.content);

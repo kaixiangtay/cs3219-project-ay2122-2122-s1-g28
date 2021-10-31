@@ -12,9 +12,11 @@ import { Button, Grid, TextField } from "@material-ui/core";
 import styles from "./CommentBox.module.css";
 
 function CommentBox(props) {
-  const dispatch = useDispatch();
-  const { post } = props;
   const [userComment, setUserComment] = useState("");
+
+  const { post } = props;
+
+  const dispatch = useDispatch();
 
   const handleOnComment = () => {
     setUserComment("");

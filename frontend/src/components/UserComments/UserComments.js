@@ -21,18 +21,20 @@ import { Button, Grid } from "@material-ui/core";
 import styles from "./UserComments.module.css";
 
 function UserComments(props) {
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState("");
+  const [selectedComment, setSelectedComment] = useState("");
+
   const { comments, topic } = props;
-  const dispatch = useDispatch();
+
   const commentDeleted = useSelector(
     (state) => state.comment.deleteCommentSuccess
   );
   const commentEdited = useSelector(
     (state) => state.comment.editCommentSuccess
   );
-  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [selectedPostId, setSelectedPostId] = useState("");
-  const [selectedComment, setSelectedComment] = useState("");
+  const dispatch = useDispatch();
 
   const onClickDeleteComment = (commentId, postId) => {
     dispatch(handleDeleteComment(commentId, postId));
@@ -75,7 +77,7 @@ function UserComments(props) {
           </Grid>
         ))
       ) : (
-        <div></div>
+        <div />
       )}
       <CommentDialog
         isOpen={commentDialogOpen}
