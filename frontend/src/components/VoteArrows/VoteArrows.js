@@ -13,7 +13,10 @@ import {
 import { Grid, IconButton, Typography } from "@material-ui/core";
 
 // Import FontAwesome
-import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowAltCircleUp,
+  faArrowAltCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Import CSS
@@ -56,7 +59,7 @@ function VoteArrows(props) {
           className={styles.upvoteButton}
           onClick={() => handleUpvote()}
         >
-          <FontAwesomeIcon icon={faArrowUp} />
+          <FontAwesomeIcon icon={faArrowAltCircleUp} />
         </IconButton>
       </Grid>
       <Grid item>
@@ -67,7 +70,7 @@ function VoteArrows(props) {
           className={styles.downvoteButton}
           onClick={() => handleDownvote(postId)}
         >
-          <FontAwesomeIcon icon={faArrowDown} />
+          <FontAwesomeIcon icon={faArrowAltCircleDown} />
         </IconButton>
       </Grid>
     </Grid>

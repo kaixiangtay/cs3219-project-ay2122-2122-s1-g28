@@ -97,6 +97,10 @@ function commentReducer(state = defaultState, action) {
         sortCommentsFailure: false,
         createCommentSuccess: false,
         createCommentFailure: false,
+        upvoteCommentSuccess: false,
+        upvoteCommentFailure: false,
+        downvoteCommentSuccess: false,
+        downvoteCommentFailure: false,
         comments: action.comments,
       };
     case SORT_COMMENTS_FAILURE:
@@ -110,6 +114,8 @@ function commentReducer(state = defaultState, action) {
         ...state,
         upvoteCommentSuccess: true,
         upvoteCommentFailure: false,
+        sortCommentsSuccess: false,
+        sortCommentsFailure: false,
       };
     case UPVOTE_COMMENT_FAILURE:
       return {
@@ -122,6 +128,8 @@ function commentReducer(state = defaultState, action) {
         ...state,
         downvoteCommentSuccess: true,
         downvoteCommentFailure: false,
+        sortCommentsSuccess: false,
+        sortCommentsFailure: false,
       };
     case DOWNVOTE_COMMENT_FAILURE:
       return {

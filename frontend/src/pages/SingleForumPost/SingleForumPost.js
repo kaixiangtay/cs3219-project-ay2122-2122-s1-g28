@@ -1,5 +1,5 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
@@ -23,6 +23,7 @@ import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
@@ -31,11 +32,22 @@ function SingleForumPost() {
   const createdComment = useSelector(
     (state) => state.comment.createCommentSuccess
   );
-  const dispatch = useDispatch();
+  const upvoteCommentSuccess = useSelector(
+    (state) => state.comment.upvoteCommentSuccess
+  );
+  const downvoteCommentSuccess = useSelector(
+    (state) => state.comment.downvoteCommentSuccess
+  );
+
+  const [sortValue, setSortValue] = useState("");
 
   const handleOnBack = () => {
     const path = "/forum/" + topic;
     history.push(path);
+  };
+
+  const handleSortValue = (sortValue) => {
+    setSortValue(sortValue);
   };
 
   if (!auth.token) {
@@ -44,10 +56,14 @@ function SingleForumPost() {
 
   useEffect(() => {
     // Default sort by latest comment
-    if (post.comments.length || createdComment) {
+    if (createdComment || upvoteCommentSuccess || downvoteCommentSuccess) {
+      dispatch(handleSortComments(sortValue, post._id));
+    } else if (post.comments.length) {
       dispatch(handleSortComments("latest", post._id));
+    } else {
+      return;
     }
-  }, [post, createdComment]);
+  }, [post, createdComment, upvoteCommentSuccess, downvoteCommentSuccess]);
 
   return (
     <div>
@@ -65,7 +81,11 @@ function SingleForumPost() {
               className={styles.gridContainer}
               justifyContent="flex-start"
             >
-              <VoteArrows votes={post.votes} postId={post._id} />
+              <VoteArrows
+                votes={post.votes}
+                postId={post._id}
+                sortBy={sortValue}
+              />
               <Grid item xs={11} sm={11} md={11}>
                 <PostDetails post={post} />
               </Grid>
@@ -79,7 +99,11 @@ function SingleForumPost() {
             >
               {comments.length != 0 ? (
                 <Grid item>
-                  <SortButton type="Comment" postId={post._id} />
+                  <SortButton
+                    type="Comment"
+                    postId={post._id}
+                    sortBy={handleSortValue}
+                  />
                 </Grid>
               ) : (
                 <Grid item />
