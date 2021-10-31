@@ -21,7 +21,7 @@ services:
     build: findfriend
     restart: unless-stopped
     env_file:
-      - ./findFriend/.env
+      - ./findfriend/.env
     ports:
       - 7000:7000
   chat:
