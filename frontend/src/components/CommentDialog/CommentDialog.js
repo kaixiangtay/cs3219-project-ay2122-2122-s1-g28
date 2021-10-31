@@ -23,11 +23,13 @@ import {
 } from "@material-ui/core";
 
 function CommentDialog(props) {
+  const [postDetails, setPostDetails] = useState("");
+
   const { isOpen, handleClose, postId } = props;
-  const dispatch = useDispatch();
+
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
-  const [postDetails, setPostDetails] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const postData = {
@@ -43,6 +45,7 @@ function CommentDialog(props) {
   useEffect(() => {
     if (isOpen) {
       dispatch(handleGetSinglePost(postId));
+
       // Default sort by latest comment
       dispatch(handleSortComments("latest", postId));
     }
@@ -71,7 +74,7 @@ function CommentDialog(props) {
               </Grid>
             ))
           ) : (
-            <div></div>
+            <div />
           )}
         </Grid>
       </DialogContent>

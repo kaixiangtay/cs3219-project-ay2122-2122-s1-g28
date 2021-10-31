@@ -14,8 +14,10 @@ import styles from "./ForumGroup.module.css";
 
 function ForumGroup(props) {
   const { topic } = props;
-  const dispatch = useDispatch();
+
   const history = useHistory();
+
+  const dispatch = useDispatch();
 
   return (
     <div>

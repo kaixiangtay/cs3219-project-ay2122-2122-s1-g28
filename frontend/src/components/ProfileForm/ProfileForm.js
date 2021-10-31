@@ -50,7 +50,7 @@ function ProfileForm() {
   return (
     <Container className="primary-font">
       <Grid container spacing={1} alignItems="center" justifyContent="center">
-        <Grid item md={12}>
+        <Grid item sm={12}>
           <h2>Account Information</h2>
           <h3>Email</h3>
           <TextField
@@ -61,7 +61,7 @@ function ProfileForm() {
             className={styles.inputBox}
           />
         </Grid>
-        <Grid item md={12}>
+        <Grid item sm={12}>
           <h3>Name</h3>
           <TextField
             required
@@ -72,7 +72,7 @@ function ProfileForm() {
             className={styles.inputBox}
           />
         </Grid>
-        <Grid item md={12}>
+        <Grid item sm={12}>
           <h2>Change Password</h2>
           <RadioGroup
             row
@@ -99,7 +99,7 @@ function ProfileForm() {
             <div />
           )}
         </Grid>
-        <Grid item md={12} className={styles.buttonContainer}>
+        <Grid item sm={12} className={styles.buttonContainer}>
           <Button
             className="red-button"
             onClick={() => dispatch(handleDeleteAccount(auth.token))}

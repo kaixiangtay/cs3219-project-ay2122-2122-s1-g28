@@ -3,7 +3,15 @@ import findFriendController from "../controllers/findFriendController.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+// Loopback API to return AWS EC2 health
+router.get("/health", (req, res) => {
+	res.json({
+		status: "API Its Working",
+		message: "EC2 Instance is healthy",
+	});
+});
+
+router.get("/api/findFriend", (req, res) => {
 	res.json({
 		status: "API Its Working",
 		message: "NUSociaLife FindFriend Microservice",

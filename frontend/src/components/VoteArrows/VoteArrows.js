@@ -24,6 +24,7 @@ import styles from "./VoteArrows.module.css";
 
 function VoteArrows(props) {
   const { votes, postId, commentId } = props;
+
   const dispatch = useDispatch();
 
   const handleUpvote = () => {

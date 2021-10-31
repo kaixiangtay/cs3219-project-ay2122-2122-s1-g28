@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /usr/src/findfriend
+WORKDIR /usr/src/chat
 
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -15,6 +15,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 7000
+EXPOSE 9000
 
 CMD [ "npm", "start" ]
