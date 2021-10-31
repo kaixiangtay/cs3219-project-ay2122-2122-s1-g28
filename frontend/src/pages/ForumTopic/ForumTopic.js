@@ -22,6 +22,7 @@ import { FORUM_ICONS } from "../../constants/ForumConstants.js";
 
 function ForumTopic() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [sortValue, setSortValue] = useState("");
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -43,6 +44,10 @@ function ForumTopic() {
   const handleOnBack = () => {
     const path = "/forum";
     history.push(path);
+  };
+
+  const handleSortValue = (sortValue) => {
+    setSortValue(sortValue);
   };
 
   return (
@@ -72,10 +77,10 @@ function ForumTopic() {
               </Grid>
             </Grid>
             <Grid item container xs={6} sm={6} md={6} direction="row-reverse">
-              <SortButton type="Post" topic={topic} />
+              <SortButton type="Post" topic={topic} sortBy={handleSortValue} />
             </Grid>
           </Grid>
-          <ForumPosts topic={topic} />
+          <ForumPosts topic={topic} sortBy={sortValue} />
           <CreatePostDialog
             isOpen={dialogOpen}
             handleClose={() => setDialogOpen(false)}

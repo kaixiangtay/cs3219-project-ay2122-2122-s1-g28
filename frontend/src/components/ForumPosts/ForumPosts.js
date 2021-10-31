@@ -19,7 +19,7 @@ import styles from "./ForumPosts.module.css";
 function ForumPosts(props) {
   const [postId, setPostId] = useState("");
 
-  const { topic } = props;
+  const { topic, sortBy } = props;
 
   const history = useHistory();
 
@@ -27,6 +27,12 @@ function ForumPosts(props) {
   const newPostCreated = useSelector((state) => state.post.createPostSuccess);
   const getPostSuccess = useSelector(
     (state) => state.post.getSinglePostSuccess
+  );
+  const upvotePostSuccess = useSelector(
+    (state) => state.post.upvotePostSuccess
+  );
+  const downvotePostSuccess = useSelector(
+    (state) => state.post.downvotePostSuccess
   );
 
   const dispatch = useDispatch();
@@ -45,11 +51,11 @@ function ForumPosts(props) {
   }, [getPostSuccess]);
 
   useEffect(() => {
-    // Default sort by latest post
-    if (newPostCreated) {
-      dispatch(handleSortPost("latest", topic));
+    if (newPostCreated || upvotePostSuccess || downvotePostSuccess) {
+      const sortValue = sortBy;
+      dispatch(handleSortPost(sortValue, topic));
     }
-  }, [newPostCreated]);
+  }, [newPostCreated, upvotePostSuccess, downvotePostSuccess]);
 
   return (
     <Grid container direction="column">

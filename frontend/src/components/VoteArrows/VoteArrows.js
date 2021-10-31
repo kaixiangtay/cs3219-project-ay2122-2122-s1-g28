@@ -2,7 +2,7 @@
 import React from "react";
 
 // Import Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleUpvotePost, handleDownvotePost } from "../../actions/post";
 import {
   handleUpvoteComment,

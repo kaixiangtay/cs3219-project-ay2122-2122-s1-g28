@@ -21,7 +21,7 @@ import styles from "./SortButton.module.css";
 function SortButton(props) {
   const [sortByValue, setSortByValue] = useState("latest");
 
-  const { type, topic, postId } = props;
+  const { type, topic, postId, sortBy } = props;
 
   const dispatch = useDispatch();
 
@@ -33,6 +33,7 @@ function SortButton(props) {
     } else {
       return;
     }
+    sortBy(sortByValue);
   }, [sortByValue]);
 
   return (
