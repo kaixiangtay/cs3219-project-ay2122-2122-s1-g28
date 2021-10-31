@@ -18,6 +18,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Docker build
+        run: |
+          docker-compose build
+
+      - name: AWS Configure
+        run: |
+          aws configure
+
       - name: Run script file
         shell: bash
         run: |
