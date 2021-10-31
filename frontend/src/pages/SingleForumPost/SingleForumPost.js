@@ -1,6 +1,6 @@
 // Import Settings
 import React, { useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
 import { handleSortComments } from "../../actions/comment.js";
@@ -22,13 +22,21 @@ import SortButton from "../../components/SortButton/SortButton.js";
 import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
+  const history = useHistory();
+
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
+  const topic = useSelector((state) => state.post.topic);
   const createdComment = useSelector(
     (state) => state.comment.createCommentSuccess
   );
   const dispatch = useDispatch();
+
+  const handleOnBack = () => {
+    const path = "/forum/" + topic;
+    history.push(path);
+  };
 
   if (!auth.token) {
     return <Redirect to="/login" />;
@@ -46,7 +54,7 @@ function SingleForumPost() {
       <Navbar />
       <Grid container justifyContent="center" className={styles.backButton}>
         <Grid item xs={10} sm={10} md={10}>
-          <BackButton />
+          <BackButton handleOnBack={handleOnBack} />
         </Grid>
       </Grid>
       <Grid container justifyContent="center">

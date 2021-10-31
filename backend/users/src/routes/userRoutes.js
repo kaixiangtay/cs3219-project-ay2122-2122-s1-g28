@@ -3,7 +3,15 @@ import userController from "../controllers/userController.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+// Loopback API to return AWS EC2 health
+router.get("/health", (req, res) => {
+	res.json({
+		status: "API Its Working",
+		message: "EC2 Instance is healthy",
+	});
+});
+
+router.get("/api/users", (req, res) => {
 	res.json({
 		status: "API Its Working",
 		message: "NUSociaLife User Microservices",

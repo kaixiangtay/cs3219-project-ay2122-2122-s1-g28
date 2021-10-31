@@ -40,6 +40,11 @@ function ForumTopic() {
     dispatch(handleGetUserPosts(topic, history));
   };
 
+  const handleOnBack = () => {
+    const path = "/forum";
+    history.push(path);
+  };
+
   return (
     <div>
       <Navbar />
@@ -48,7 +53,7 @@ function ForumTopic() {
       </Grid>
       <Grid container justifyContent="center">
         <Grid item xs={10} sm={10} md={10}>
-          <BackButton />
+          <BackButton handleOnBack={handleOnBack} />
         </Grid>
       </Grid>
       <Grid container justifyContent="center">
