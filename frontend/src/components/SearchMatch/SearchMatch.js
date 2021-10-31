@@ -1,10 +1,6 @@
 // Import Settings
 import React from "react";
-import PropTypes from "prop-types";
-
-// import Redux
-import { handleMatchDisconnect } from "../../actions/match";
-import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 // Import Material-ui
 import Button from "@material-ui/core/Button";
@@ -22,7 +18,7 @@ import PageTitle from "../PageTitle/PageTitle.js";
 import styles from "./SearchMatch.module.css";
 
 function SearchMatch() {
-  const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <Container className="primary-font">
@@ -39,7 +35,7 @@ function SearchMatch() {
         <Button
           variant="contained"
           className="red-button"
-          onClick={() => dispatch(handleMatchDisconnect())}
+          onClick={() => history.go(0)}
         >
           Cancel Matching
         </Button>
@@ -47,9 +43,5 @@ function SearchMatch() {
     </Container>
   );
 }
-
-SearchMatch.propTypes = {
-  handleMatchState: PropTypes.func,
-};
 
 export default SearchMatch;

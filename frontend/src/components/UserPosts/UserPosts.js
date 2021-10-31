@@ -19,14 +19,17 @@ import { Button, Grid } from "@material-ui/core";
 import styles from "./UserPosts.module.css";
 
 function UserPosts(props) {
-  const { posts, topic } = props;
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const postDeleted = useSelector((state) => state.post.deletePostSuccess);
-  const postEdited = useSelector((state) => state.post.editPostSuccess);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState("");
   const [postDialogOpen, setPostDialogOpen] = useState(false);
+
+  const { posts, topic } = props;
+
+  const history = useHistory();
+
+  const postDeleted = useSelector((state) => state.post.deletePostSuccess);
+  const postEdited = useSelector((state) => state.post.editPostSuccess);
+  const dispatch = useDispatch();
 
   const onClickDeletePost = (postId) => {
     dispatch(handleDeletePost(postId));
