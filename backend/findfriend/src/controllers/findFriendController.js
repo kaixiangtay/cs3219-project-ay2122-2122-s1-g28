@@ -1,4 +1,4 @@
-import findFriendService from "../services/findFriendService.js";
+import findFriendService from "../services/findfriendService.js";
 import userAuth from "../middlewares/userAuth.js";
 
 const index = [
@@ -15,7 +15,7 @@ const index = [
 			} else {
 				return res.status(200).json({
 					status: "success",
-					msg: "FindFind Users retrieved successfully",
+					msg: "FindFriend Users retrieved successfully",
 					data: findFriendUsers,
 				});
 			}
