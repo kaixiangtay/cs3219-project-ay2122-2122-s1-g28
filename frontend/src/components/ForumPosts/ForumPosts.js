@@ -1,45 +1,61 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
-import { handlePostSelection, handlePostSorting } from "../../actions/post";
+import { handleGetSinglePost, handleSortPost } from "../../actions/post";
 
 // Import Material-ui
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 // Import Components
 import VoteArrows from "../VoteArrows/VoteArrows";
-
-// Import FontAwesome
-import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PostDetails from "../PostDetails/PostDetails";
 
 // Import CSS
 import styles from "./ForumPosts.module.css";
 
 function ForumPosts(props) {
-  const { topic } = props;
-  const dispatch = useDispatch();
+  const [postId, setPostId] = useState("");
+
+  const { topic, sortBy } = props;
+
   const history = useHistory();
+
   const posts = useSelector((state) => state.post.posts);
   const newPostCreated = useSelector((state) => state.post.createPostSuccess);
+  const getPostSuccess = useSelector(
+    (state) => state.post.getSinglePostSuccess
+  );
+  const upvotePostSuccess = useSelector(
+    (state) => state.post.upvotePostSuccess
+  );
+  const downvotePostSuccess = useSelector(
+    (state) => state.post.downvotePostSuccess
+  );
 
-  const onClickSelectedPost = (postId) => {
-    const postData = {
-      postId: postId,
-      topic: topic,
-    };
-    dispatch(handlePostSelection(history, postData));
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Default sort by latest post
-    if (newPostCreated) {
-      dispatch(handlePostSorting("latest", topic));
+    if (postId) {
+      dispatch(handleGetSinglePost(postId));
     }
-  }, [newPostCreated]);
+  }, [postId]);
+
+  useEffect(() => {
+    if (getPostSuccess) {
+      let path = "/forum/" + topic.toLowerCase() + "/" + postId;
+      history.push(path);
+    }
+  }, [getPostSuccess]);
+
+  useEffect(() => {
+    if (newPostCreated || upvotePostSuccess || downvotePostSuccess) {
+      const sortValue = sortBy;
+      dispatch(handleSortPost(sortValue, topic));
+    }
+  }, [newPostCreated, upvotePostSuccess, downvotePostSuccess]);
 
   return (
     <Grid container direction="column">
@@ -49,35 +65,14 @@ function ForumPosts(props) {
             <VoteArrows votes={post.votes} postId={post._id} />
             <Button
               className={styles.postButton}
-              onClick={() => onClickSelectedPost(post._id)}
+              onClick={() => setPostId(post._id)}
             >
-              <Grid container direction="column" className={styles.postDetails}>
-                <Typography variant="h6" align="left" className={styles.title}>
-                  {post.title}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  align="left"
-                  className={styles.content}
-                >
-                  {post.content}
-                </Typography>
-              </Grid>
-              <Typography variant="caption" className={styles.comments}>
-                <FontAwesomeIcon
-                  icon={faComment}
-                  className={styles.commentIcon}
-                />
-                {post.comments.length} Comments
-              </Typography>
-              <Typography variant="caption" className={styles.userName}>
-                Posted by {post.userName} on {post.displayDate}
-              </Typography>
+              <PostDetails post={post} />
             </Button>
           </Grid>
         ))
       ) : (
-        <div></div>
+        <div />
       )}
     </Grid>
   );

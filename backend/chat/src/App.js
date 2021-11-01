@@ -1,12 +1,41 @@
-const { port } = require("./config/config");
+import express from "express";
+import { PORT } from "./config/config.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import Router from "./routes/chatRoutes.js";
+import cors from "cors";
 
-const express = require("express");
 const app = express();
+const httpServer = createServer(app);
 
-const http = require("http");
-const server = http.createServer(app);
+app.use(cors()); // setup cross origin resource sharing
 
-const io = require("socket.io")(server, {
+app.use(
+	express.urlencoded({
+		extended: true,
+	}),
+);
+
+app.use(express.json());
+
+app.use(Router);
+
+// Enable cors
+app.use((req, res, next) => {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header(
+		"Access-Control-Allow-Methods",
+		"GET,PUT,POST,DELETE,PATCH,OPTIONS",
+	);
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Content-Type, Authorization, Content-Length, X-Requested-With",
+	);
+	next();
+});
+
+
+const io = new Server(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -18,25 +47,37 @@ io.on("connection", (socket) => {
 
   let socketRoom;
 
-  socket.on("join", (roomId) => {
+  socket.on("join", (data) => {
+    const { roomId } = data;
     console.log(`Socket ${socket.id} joining ${roomId}`);
     socket.join(roomId);
     socketRoom = roomId;
+
+    let roomSize = io.sockets.adapter.rooms.get(socketRoom).size;
+
+    if (roomSize == 2) {
+      io.to(socketRoom).emit(
+        "profileRequest",
+        "Please send your profile request"
+      );
+    }
+  });
+
+  socket.on("profileRetrieval", (data) => {
+    io.to(socketRoom).emit("profileRetrieval", data);
   });
 
   socket.on("chat", (data) => {
-    var { token, message } = data;
-    // console.log(`token: ${token}, msg: ${message}, room: ${socketRoom}`);
+    // var { token, message } = data;
     io.to(socketRoom).emit("chat", data);
   });
 
   socket.on("disconnect", () => {
     console.log(`Disconnected: ${socket.id}`);
+    io.to(socketRoom).emit("leave", true);
   });
 });
 
-server.listen(port, () => {
-  console.log(`Server is running at PORT ${port}`);
+httpServer.listen(PORT, () => {
+  console.log(`Server is running at PORT ${PORT}`);
 });
-
-//https://levelup.gitconnected.com/handling-socketio-rooms-with-react-hooks-4723dd44692e

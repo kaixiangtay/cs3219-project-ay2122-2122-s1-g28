@@ -1,18 +1,3 @@
 .title {
   margin-top: 0% !important;
-  margin-bottom: 2% !important;
-}
-
-.closeButton {
-  position: absolute !important;
-  right: 1%;
-  top: 2%;
-}
-
-.postButton {
-  background-color: var(--ORANGE) !important;
-}
-
-.icon {
-  margin-left: 1%;
 }

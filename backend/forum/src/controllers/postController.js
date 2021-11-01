@@ -1,12 +1,9 @@
-const {
-	resultsPostValidator,
-	addPostValidator,
-} = require("../validators/postValidator");
-const { validationResult, check } = require("express-validator");
-const userAuth = require("../middlewares/userAuth");
-const postService = require("../services/postService");
+import { validationResult } from "express-validator";
+import postValidator from "../validators/postValidator.js";
+import userAuth from "../middlewares/userAuth.js";
+import postService from "../services/postService.js";
 
-exports.index = [
+const index = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -16,7 +13,7 @@ exports.index = [
 			if (emptyPostDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			}
@@ -34,9 +31,9 @@ exports.index = [
 	},
 ];
 
-exports.createPost = [
+const createPost = [
 	userAuth.decodeAuthToken,
-	addPostValidator(),
+	postValidator.addPostValidator(),
 	(req, res) => {
 		try {
 			const userId = req.userId;
@@ -60,7 +57,7 @@ exports.createPost = [
 	},
 ];
 
-exports.viewPost = [
+const viewPost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -86,7 +83,7 @@ exports.viewPost = [
 	},
 ];
 
-exports.viewUserPosts = [
+const viewUserPosts = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -97,7 +94,7 @@ exports.viewUserPosts = [
 			if (emptyPostDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any posts under this topic: " + req.params.topic,
+					msg: `This user does not have any posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			}
@@ -112,10 +109,10 @@ exports.viewUserPosts = [
 				msg: err.toString(),
 			});
 		}
-	}
+	},
 ];
 
-exports.updatePost = [
+const updatePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -150,7 +147,7 @@ exports.updatePost = [
 	},
 ];
 
-exports.upvotePost = [
+const upvotePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -191,7 +188,7 @@ exports.upvotePost = [
 	},
 ];
 
-exports.downvotePost = [
+const downvotePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -232,12 +229,12 @@ exports.downvotePost = [
 	},
 ];
 
-exports.deletePost = [
+const deletePost = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			let post = await postService.getPostByID(req.params.post_id);
+			const post = await postService.getPostByID(req.params.post_id);
 			if (post == null) {
 				return res.status(404).json({
 					status: "error",
@@ -245,11 +242,13 @@ exports.deletePost = [
 				});
 			}
 			if (postService.isUserPost(post.userId, userId)) {
-				await postService.deletePost(post.id);
-				return res.status(200).json({
-					status: "success",
-					msg: "Post has been deleted!",
-				});
+				const deletedCount = await postService.deletePost(req.params.post_id);
+				if (deletedCount == 1) {
+					return res.status(200).json({
+						status: "success",
+						msg: "Post has been deleted!",
+					});
+				} 
 			} else {
 				return res.status(404).json({
 					status: "error",
@@ -265,7 +264,7 @@ exports.deletePost = [
 	},
 ];
 
-exports.sortPostByAscVotes = [
+const sortPostByAscVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -273,7 +272,7 @@ exports.sortPostByAscVotes = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -292,7 +291,7 @@ exports.sortPostByAscVotes = [
 	},
 ];
 
-exports.sortPostByDescVotes = [
+const sortPostByDescVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -300,7 +299,7 @@ exports.sortPostByDescVotes = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -319,7 +318,7 @@ exports.sortPostByDescVotes = [
 	},
 ];
 
-exports.sortPostByAscDate = [
+const sortPostByAscDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -327,7 +326,7 @@ exports.sortPostByAscDate = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -346,7 +345,7 @@ exports.sortPostByAscDate = [
 	},
 ];
 
-exports.sortPostByDescDate = [
+const sortPostByDescDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -354,7 +353,7 @@ exports.sortPostByDescDate = [
 			if (posts.length == 0) {
 				return res.status(200).json({
 					status: "success",
-					msg: "There are no posts under this topic: " + req.params.topic,
+					msg: `There are no posts under this topic: ${req.params.topic}`,
 					data: posts,
 				});
 			} else {
@@ -372,3 +371,6 @@ exports.sortPostByDescDate = [
 		}
 	},
 ];
+
+
+export default { index, createPost, viewUserPosts, updatePost, viewPost, upvotePost, deletePost, downvotePost, sortPostByAscVotes, sortPostByDescVotes, sortPostByAscDate, sortPostByDescDate };

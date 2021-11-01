@@ -29,6 +29,10 @@
   color: var(--WHITE);
 }
 
+.text-transform {
+  text-transform: none;
+}
+
 /* Buttons */
 .green-button {
   color: var(--WHITE) !important;
@@ -41,7 +45,11 @@
   color: var(--WHITE) !important;
   background-color: var(--ORANGE) !important;
   width: 250px !important;
-  margin: 3% !important;
+}
+
+.small-orange-button {
+  margin-top: 1% !important;
+  background-color: var(--ORANGE) !important;
 }
 
 .red-button {

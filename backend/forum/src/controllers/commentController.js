@@ -1,13 +1,10 @@
-const {
-	resultsValidator,
-	addCommentValidator,
-} = require("../validators/commentValidator");
-const { validationResult, check } = require("express-validator");
-var userAuth = require("../middlewares/userAuth");
-const postService = require("../services/postService");
-const commentService = require("../services/commentService");
+import { validationResult } from "express-validator";
+import commentValidator from "../validators/commentValidator.js";
+import userAuth from "../middlewares/userAuth.js";
+import postService from "../services/postService.js";
+import commentService from "../services/commentService.js";
 
-exports.viewPostComments = [
+const viewPostComments = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -46,7 +43,7 @@ exports.viewPostComments = [
 	},
 ];
 
-exports.viewUserComments = [
+const viewUserComments = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -56,7 +53,7 @@ exports.viewUserComments = [
 			if (emptyCommentsDatabase) {
 				return res.status(200).json({
 					status: "success",
-					msg: "This user does not have any comments under this topic: " + req.params.topic,
+					msg: `This user does not have any comments under this topic: ${req.params.topic}`,
 					data: comments,
 				});
 			} else {
@@ -67,13 +64,17 @@ exports.viewUserComments = [
 				});
 			}
 		} catch (err) {
-
+			return res.status(404).json({
+				status: "error",
+				msg: err.toString(),
+			});
 		}
-	}
+	},
 ];
-exports.createComment = [
+
+const createComment = [
 	userAuth.decodeAuthToken,
-	addCommentValidator(),
+	commentValidator.addCommentValidator(),
 	async (req, res) => {
 		try {
 			const userId = req.userId;
@@ -92,7 +93,7 @@ exports.createComment = [
 			const comment = commentService.createComment(
 				userId,
 				req.body,
-				post
+				post,
 			);
 			return res.status(200).json({
 				status: "success",
@@ -108,7 +109,7 @@ exports.createComment = [
 	},
 ];
 
-exports.viewComment = [
+const viewComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -141,7 +142,7 @@ exports.viewComment = [
 	},
 ];
 
-exports.updateComment = [
+const updateComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -182,7 +183,7 @@ exports.updateComment = [
 	},
 ];
 
-exports.upvoteComment = [
+const upvoteComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -209,7 +210,7 @@ exports.upvoteComment = [
 				});
 			} else {
 				comment = commentService.upvoteComment(userId, comment);
-				if (comment == null){
+				if (comment == null) {
 					return res.status(404).json({
 						status: "error",
 						msg: "Users can only upvote a comment ONCE!",
@@ -231,7 +232,7 @@ exports.upvoteComment = [
 	},
 ];
 
-exports.downvoteComment = [
+const downvoteComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -258,7 +259,7 @@ exports.downvoteComment = [
 				});
 			} else {
 				comment = commentService.downvoteComment(userId, comment);
-				if (comment == null){
+				if (comment == null) {
 					return res.status(404).json({
 						status: "error",
 						msg: "Users can only downvote a comment ONCE!",
@@ -280,7 +281,7 @@ exports.downvoteComment = [
 	},
 ];
 
-exports.deleteComment = [
+const deleteComment = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -320,7 +321,7 @@ exports.deleteComment = [
 	},
 ];
 
-exports.sortCommentsByAscVotes = [
+const sortCommentsByAscVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -350,7 +351,7 @@ exports.sortCommentsByAscVotes = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -359,7 +360,7 @@ exports.sortCommentsByAscVotes = [
 	},
 ];
 
-exports.sortCommentsByDescVotes = [
+const sortCommentsByDescVotes = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -389,7 +390,7 @@ exports.sortCommentsByDescVotes = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -398,7 +399,7 @@ exports.sortCommentsByDescVotes = [
 	},
 ];
 
-exports.sortCommentsByAscDate = [
+const sortCommentsByAscDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -428,7 +429,7 @@ exports.sortCommentsByAscDate = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -437,7 +438,7 @@ exports.sortCommentsByAscDate = [
 	},
 ];
 
-exports.sortCommentsByDescDate = [
+const sortCommentsByDescDate = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
@@ -467,7 +468,7 @@ exports.sortCommentsByDescDate = [
 					data: comments,
 				});
 			}
-		} catch {
+		} catch (err) {
 			return res.status(404).json({
 				status: "error",
 				msg: err.toString(),
@@ -475,3 +476,5 @@ exports.sortCommentsByDescDate = [
 		}
 	},
 ];
+
+export default { viewPostComments, viewUserComments, upvoteComment, createComment, viewComment, updateComment, downvoteComment, deleteComment, sortCommentsByAscVotes, sortCommentsByDescVotes, sortCommentsByAscDate, sortCommentsByDescDate };

@@ -61,10 +61,7 @@ const unmatchedSuccess = () => {
   };
 };
 
-const unmatchedFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
+const unmatchedFailure = () => {
   return {
     type: UNMATCHED_FAILURE,
   };
@@ -141,10 +138,11 @@ export const updateInterests = (category, items) => (dispatch) => {
 // HANDLING SOCKET CLIENT FUNCTIONS
 // ===================================================================
 
-let socket;
+export let socket;
 
 export const initiateSocket = (roomId) => {
   socket = io(`${process.env.REACT_APP_API_URL_CHAT}`);
+
   console.log(`Connecting socket...`);
 
   if (socket && roomId) {
@@ -153,19 +151,30 @@ export const initiateSocket = (roomId) => {
 };
 
 export const disconnectSocket = () => {
-  console.log("Disconnecting socket...");
   if (socket) {
+    console.log("Disconnecting socket...");
+    socket.emit("leave", true);
     socket.disconnect();
   }
+  return true;
 };
 
-export const subscribeToChat = (cb) => {
+export const listenForMessages = (cb) => {
   if (!socket) {
     return true;
   }
 
   socket.on("chat", (msg) => {
-    console.log("Websocket event received!");
+    return cb(null, msg);
+  });
+};
+
+export const listenForDisconnect = (cb) => {
+  if (!socket) {
+    return true;
+  }
+
+  socket.on("leave", (msg) => {
     return cb(null, msg);
   });
 };
@@ -182,11 +191,11 @@ export const sendMessage = (token, message) => {
 
 // Handles matching between users
 export const handleMatchWithRetry =
-  (token, interests, numRetries = 4) =>
+  (token, _interests, numRetries = 10) =>
   (dispatch) => {
-    dispatch(matching());
-
     const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
+
+    dispatch(matching());
 
     fetch(requestUrl, {
       method: "POST",
@@ -195,13 +204,7 @@ export const handleMatchWithRetry =
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        interests: {
-          gender: interests.gender,
-          art: interests.art,
-          music: interests.music,
-          sport: interests.sport,
-          faculty: interests.faculty,
-        },
+        interests: _interests,
       }),
     })
       .then((response) => {
@@ -214,9 +217,9 @@ export const handleMatchWithRetry =
             setTimeout(
               () =>
                 dispatch(
-                  handleMatchWithRetry(token, interests, numRetries - 1)
+                  handleMatchWithRetry(token, _interests, numRetries - 1)
                 ),
-              10000
+              3000
             );
           } else {
             dispatch(
@@ -233,6 +236,7 @@ export const handleMatchWithRetry =
 // Unmatches user from other party
 export const handleUnmatch = (token) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/clearMatch`;
+  disconnectSocket();
 
   fetch(requestUrl, {
     method: "POST",
@@ -242,14 +246,20 @@ export const handleUnmatch = (token) => (dispatch) => {
   })
     .then((response) => {
       if (response.ok) {
-        response.json().then(() => dispatch(unmatchedSuccess()));
+        dispatch(unmatchedSuccess());
       } else if (response.status == 401) {
         dispatch(tokenExpire());
       } else {
-        response.json().then((res) => dispatch(unmatchedFailure(res)));
+        dispatch(unmatchedFailure());
       }
     })
     .catch(() => {
       dispatch(tokenExpire());
     });
+};
+
+// When the other party disconnects
+export const handleMatchDisconnect = () => (dispatch) => {
+  disconnectSocket();
+  dispatch(unmatchedSuccess());
 };
