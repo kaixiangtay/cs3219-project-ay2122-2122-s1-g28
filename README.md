@@ -34,7 +34,7 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 ### Backend Architecture
 
-![Backend Architecture](./resources/backend_architecture.jpg)
+![Backend Architecture](./resources/backend_architecture.png)
 
 ## Development Process
 
