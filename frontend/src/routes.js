@@ -16,7 +16,6 @@ import SingleForumPost from "./pages/SingleForumPost/SingleForumPost.js";
 const Routes = () => {
   return (
     <Switch>
-      {/* Use <ProtectedRoute> for paths after login  */}
       <Route
         exact
         path="/"

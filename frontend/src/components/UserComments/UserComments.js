@@ -1,5 +1,5 @@
 // Import Settings
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -8,96 +8,88 @@ import {
   handleGetUserComments,
 } from "../../actions/comment";
 
-// Import Material-ui
-import { Button, Grid, Typography } from "@material-ui/core";
+// Import Components
+import CommentDialog from "../CommentDialog/CommentDialog";
+import EditCommentDialog from "../EditCommentDialog/EditCommentDialog";
+import CommentDetails from "../CommentDetails/CommentDetails";
+import ForumEditDelete from "../ForumEditDelete/ForumEditDelete";
 
-// Import FontAwesome
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// Import Material-ui
+import { Button, Grid } from "@material-ui/core";
 
 // Import CSS
 import styles from "./UserComments.module.css";
 
 function UserComments(props) {
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState("");
+  const [selectedComment, setSelectedComment] = useState("");
+
   const { comments, topic } = props;
-  const dispatch = useDispatch();
+
   const commentDeleted = useSelector(
     (state) => state.comment.deleteCommentSuccess
   );
+  const commentEdited = useSelector(
+    (state) => state.comment.editCommentSuccess
+  );
+  const dispatch = useDispatch();
 
   const onClickDeleteComment = (commentId, postId) => {
     dispatch(handleDeleteComment(commentId, postId));
   };
 
-  // const onClickEditPost = () => {
-  // dispatch(handleEditPost(postId));
-  // };
+  const handleEditDialogOpen = (comment, postId) => {
+    setSelectedComment(comment);
+    setSelectedPostId(postId);
+    setEditDialogOpen(true);
+  };
+
+  const handleCommentDialogOpen = (postId) => {
+    setSelectedPostId(postId);
+    setCommentDialogOpen(true);
+  };
 
   useEffect(() => {
     dispatch(handleGetUserComments(topic));
-  }, [commentDeleted]);
+  }, [commentDeleted, commentEdited]);
 
   return (
     <Grid container direction="column">
       {comments ? (
         comments.map((comment) => (
-          <Grid
-            container
-            key={comment._id}
-            className={styles.commentsContainer}
-            justifyContent="center"
-          >
+          <Grid container key={comment._id} justifyContent="center">
             <Button
-              className={styles.postButton}
+              className={styles.commentButton}
               variant="outlined"
-              // onClick={() => onClickSelectedPost(post._id)}
+              onClick={() => handleCommentDialogOpen(comment.postId)}
             >
-              <Grid container direction="column" className={styles.postDetails}>
-                <Typography
-                  variant="body1"
-                  align="left"
-                  className={styles.content}
-                >
-                  {comment.content}
-                </Typography>
-              </Grid>
-              <Typography variant="caption" className={styles.userName}>
-                Commented by {comment.userName} on {comment.displayDate}
-              </Typography>
+              <CommentDetails comment={comment} />
             </Button>
-            <Grid
-              container
-              direction="row-reverse"
-              spacing={2}
-              className={styles.buttonContainer}
-            >
-              <Grid item>
-                <Button
-                  size="small"
-                  className={styles.editButton}
-                  // onClick={() => onClickEditPost(post._id)}
-                >
-                  Edit Comment
-                  <FontAwesomeIcon icon={faEdit} />
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  size="small"
-                  className={styles.deleteButton}
-                  onClick={() =>
-                    onClickDeleteComment(comment._id, comment.postId)
-                  }
-                >
-                  Delete Comment <FontAwesomeIcon icon={faTrash} />
-                </Button>
-              </Grid>
-            </Grid>
+            <ForumEditDelete
+              type="Comment"
+              handleEdit={() => handleEditDialogOpen(comment, comment.postId)}
+              handleDelete={() =>
+                onClickDeleteComment(comment._id, comment.postId)
+              }
+            />
           </Grid>
         ))
       ) : (
-        <div></div>
+        <div />
       )}
+      <CommentDialog
+        isOpen={commentDialogOpen}
+        handleClose={() => setCommentDialogOpen(false)}
+        postId={selectedPostId}
+      />
+      <EditCommentDialog
+        isOpen={editDialogOpen}
+        handleClose={() => setEditDialogOpen(false)}
+        comment={selectedComment}
+        selectedPostId={selectedPostId}
+      />
     </Grid>
   );
 }

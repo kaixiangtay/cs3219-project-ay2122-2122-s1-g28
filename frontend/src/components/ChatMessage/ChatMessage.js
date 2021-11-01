@@ -1,13 +1,8 @@
 // Import Settings
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // import Redux
-import {
-  initiateSocket,
-  subscribeToChat,
-  disconnectSocket,
-  sendMessage,
-} from "../../actions/match";
+import { sendMessage } from "../../actions/match";
 import { useSelector } from "react-redux";
 
 // Import Material-ui
@@ -19,43 +14,25 @@ import Paper from "@material-ui/core/Paper";
 // Import CSS
 import styles from "./ChatMessage.module.css";
 
-function ChatMessage() {
+function ChatMessage({ messages, setMessages }) {
   const [inputText, setInputText] = useState("");
-  const [messages, setMessages] = useState("");
 
   const auth = useSelector((state) => state.auth);
 
   const handleSendMessage = () => {
     if (inputText !== "") {
-      setMessages([...messages, { token: auth.token, message: inputText }]);
       sendMessage(auth.token, inputText);
+      setMessages([...messages, { token: auth.token, message: inputText }]);
       setInputText("");
     }
-  };
-
-  const handleReceiveMessage = (token, msg) => {
-    setMessages([...messages, { token: token, message: msg }]);
   };
 
   //Triggers when ENTER key is pressed
   const handleSendKeypress = (e) => {
     if (e.which === 13) {
-      sendMessage();
+      handleSendMessage();
     }
   };
-
-  useEffect(() => {
-    initiateSocket("A"); // add in roomId here after revised findfriends implementation
-    subscribeToChat((err, data) => {
-      if (err) {
-        disconnectSocket();
-        return;
-      }
-      if (data.token != auth.token) {
-        handleReceiveMessage(data.token, data.message);
-      }
-    });
-  }, []);
 
   return (
     <div>

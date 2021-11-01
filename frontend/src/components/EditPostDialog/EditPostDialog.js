@@ -18,15 +18,14 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-// Import CSS
-import styles from "./EditPostDialog.module.css";
-
 function EditPostDialog(props) {
-  const { isOpen, handleClose, post } = props;
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [postId, setPostId] = useState("");
+
+  const { isOpen, handleClose, post } = props;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTitle(post.title);
@@ -76,7 +75,6 @@ function EditPostDialog(props) {
           onChange={(e) => setTitle(e.target.value)}
         />
         <TextField
-          autoFocus
           margin="dense"
           label="Content"
           fullWidth
@@ -89,7 +87,7 @@ function EditPostDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          className={styles.saveButton}
+          className="small-orange-button"
           onClick={() => onClickSaveChanges()}
         >
           Save Changes

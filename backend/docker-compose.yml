@@ -1,0 +1,34 @@
+version: "3"
+services:
+  users:
+    image: users
+    build: users
+    restart: unless-stopped
+    env_file:
+      - ./users/.env
+    ports:
+      - 5000:5000
+  forum:
+    image: forum
+    build: forum
+    restart: unless-stopped
+    env_file:
+      - ./forum/.env
+    ports:
+      - 4000:4000
+  findfriend:
+    image: findfriend
+    build: findfriend
+    restart: unless-stopped
+    env_file:
+      - ./findfriend/.env
+    ports:
+      - 7000:7000
+  chat:
+    image: chat
+    build: chat
+    restart: unless-stopped
+    env_file:
+      - ./chat/.env
+    ports:
+      - 9000:9000

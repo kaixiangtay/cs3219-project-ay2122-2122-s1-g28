@@ -15,15 +15,13 @@ import { Avatar, Button, Grid } from "@material-ui/core";
 import styles from "./ProfilePicture.module.css";
 
 function ProfilePicture() {
-  // const [initialReload, setInitialReload] = useState(false);
-
   const auth = useSelector((state) => state.auth);
   const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!profile.profileImageUrl && profile.profileImageUploadSuccess) {
-      dispatch(handleProfileRetrieval());
+      dispatch(handleProfileRetrieval(auth.token));
     }
   }, [profile]);
 

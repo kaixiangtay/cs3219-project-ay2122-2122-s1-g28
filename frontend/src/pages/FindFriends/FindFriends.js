@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 // import Redux
 import { handleNavigation } from "../../actions/navigation";
 import { handleMatchWithRetry, resetInterests } from "../../actions/match";
+import { handleProfileRetrieval } from "../../actions/profile";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -44,6 +45,7 @@ function FindFriends() {
   useEffect(() => {
     dispatch(handleNavigation(FINDFRIENDS));
     dispatch(resetInterests());
+    dispatch(handleProfileRetrieval(auth.token));
   }, []);
 
   if (!auth.token) {
@@ -80,23 +82,26 @@ function FindFriends() {
             items={FACULTY_ITEMS}
           />
         </Grid>
-        <Tooltip
-          title={
-            <h2>
-              Note: You will be matched with anyone if no interest is selected.
-            </h2>
-          }
-        >
-          <Button
-            variant="contained"
-            className="orange-button"
-            onClick={() =>
-              dispatch(handleMatchWithRetry(auth.token, match.interests))
+        <Grid item>
+          <Tooltip
+            title={
+              <h2>
+                Note: You will be matched with anyone if no interest is
+                selected.
+              </h2>
             }
           >
-            Match
-          </Button>
-        </Tooltip>
+            <Button
+              variant="contained"
+              className="orange-button"
+              onClick={() =>
+                dispatch(handleMatchWithRetry(auth.token, match.interests))
+              }
+            >
+              Match
+            </Button>
+          </Tooltip>
+        </Grid>
       </Grid>
     </Container>
   );

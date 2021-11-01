@@ -1,142 +1,144 @@
 // Import Settings
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
+import { handleSortComments } from "../../actions/comment.js";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  handleCreateComment,
-  handleGetAllComments,
-} from "../../actions/comment.js";
 
 // Import Material-ui
-import {
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Paper,
-  Typography,
-  TextField,
-} from "@material-ui/core";
+import { Card, CardContent, Grid, Paper } from "@material-ui/core";
 
 // Import Components
 import Navbar from "../../components/Navbar/Navbar.js";
 import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
+import CommentDetails from "../../components/CommentDetails/CommentDetails.js";
+import PostDetails from "../../components/PostDetails/PostDetails.js";
+import BackButton from "../../components/BackButton/BackButton.js";
+import CommentBox from "../../components/CommentBox/CommentBox.js";
+import SortButton from "../../components/SortButton/SortButton.js";
 
 // Import CSS
 import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
-  const [userComment, setUserComment] = useState("");
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
-  const dispatch = useDispatch();
+  const topic = useSelector((state) => state.post.topic);
+  const createdComment = useSelector(
+    (state) => state.comment.createCommentSuccess
+  );
+  const upvoteCommentSuccess = useSelector(
+    (state) => state.comment.upvoteCommentSuccess
+  );
+  const downvoteCommentSuccess = useSelector(
+    (state) => state.comment.downvoteCommentSuccess
+  );
 
-  console.log("comments: ", comments);
+  const [sortValue, setSortValue] = useState("");
 
-  const handleOnComment = () => {
-    setUserComment("");
-    dispatch(handleCreateComment(userComment, post._id));
+  const handleOnBack = () => {
+    const path = "/forum/" + topic;
+    history.push(path);
   };
 
-  useEffect(() => {
-    dispatch(handleGetAllComments(post._id));
-  }, [handleOnComment]);
+  const handleSortValue = (sortValue) => {
+    setSortValue(sortValue);
+  };
 
   if (!auth.token) {
     return <Redirect to="/login" />;
   }
 
+  useEffect(() => {
+    // Default sort by latest comment
+    if (createdComment || upvoteCommentSuccess || downvoteCommentSuccess) {
+      dispatch(handleSortComments(sortValue, post._id));
+    } else if (post.comments.length) {
+      dispatch(handleSortComments("latest", post._id));
+    } else {
+      return;
+    }
+  }, [post, createdComment, upvoteCommentSuccess, downvoteCommentSuccess]);
+
   return (
     <div>
       <Navbar />
+      <Grid container justifyContent="center" className={styles.backButton}>
+        <Grid item xs={10} sm={10} md={10}>
+          <BackButton handleOnBack={handleOnBack} />
+        </Grid>
+      </Grid>
       <Grid container justifyContent="center">
         <Grid item xs={10} sm={10} md={10} className={styles.grid}>
           <Paper>
             <Grid
               container
               className={styles.gridContainer}
-              justifyContent="center"
+              justifyContent="flex-start"
             >
-              <Grid item>
-                <VoteArrows votes={post.votes} postId={post._id} />
-              </Grid>
+              <VoteArrows
+                votes={post.votes}
+                postId={post._id}
+                sortBy={sortValue}
+              />
               <Grid item xs={11} sm={11} md={11}>
-                <Typography gutterBottom variant="h6" className={styles.title}>
-                  {post.title}
-                </Typography>
-                <Typography gutterBottom variant="body1">
-                  {post.content}
-                </Typography>
+                <PostDetails post={post} />
               </Grid>
             </Grid>
-            <Grid container justifyContent="center">
-              <Grid item xs={11} sm={11} md={11}>
-                <Grid container direction="row-reverse">
-                  <Typography variant="caption">
-                    Posted by {post.userName} on {post.displayDate}
-                  </Typography>
-                </Grid>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  label="Comment here"
-                  variant="outlined"
-                  multiline
-                  rows={12}
-                  fullWidth
-                  value={userComment}
-                  onChange={(e) => setUserComment(e.target.value)}
-                />
-                <Grid container direction="row-reverse">
-                  <Button
-                    className={styles.commentButton}
-                    onClick={() => handleOnComment()}
-                  >
-                    Comment
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
+            <CommentBox post={post} />
             <Grid
               container
               direction="column"
-              justifyContent="center"
+              spacing={2}
               className={styles.commentContainer}
             >
-              {comments ? (
-                comments.map((comment) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    key={comment._id}
-                    className={styles.comment}
-                  >
-                    <Card variant="outlined">
-                      <CardContent className={styles.cardContent}>
-                        <Typography variant="h6" className={styles.commentName}>
-                          {comment.userName}
-                        </Typography>
-                        <Typography variant="body1">
-                          {comment.content}
-                        </Typography>
-                        <Grid container direction="row-reverse">
-                          <Typography variant="caption">
-                            Commented on {comment.displayDate}
-                          </Typography>
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))
+              {comments.length != 0 ? (
+                <Grid item>
+                  <SortButton
+                    type="Comment"
+                    postId={post._id}
+                    sortBy={handleSortValue}
+                  />
+                </Grid>
               ) : (
-                <div></div>
+                <Grid item />
               )}
+              <Grid container alignItems="center" spacing={4}>
+                {comments ? (
+                  comments.map((comment) => (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={12}
+                      md={12}
+                      key={comment._id}
+                      className={styles.fullWidth}
+                    >
+                      <Card variant="outlined">
+                        <CardContent className={styles.cardContent}>
+                          <Grid container>
+                            <VoteArrows
+                              votes={comment.votes}
+                              postId={comment.postId}
+                              commentId={comment._id}
+                            />
+                            <Grid item xs={11} sm={11} md={11}>
+                              <CommentDetails comment={comment} />
+                            </Grid>
+                          </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))
+                ) : (
+                  <div />
+                )}
+              </Grid>
             </Grid>
           </Paper>
         </Grid>

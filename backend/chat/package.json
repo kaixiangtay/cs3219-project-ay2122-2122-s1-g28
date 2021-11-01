@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/App.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon App"
   },
@@ -13,5 +14,10 @@
     "express": "^4.17.1",
     "nodemon": "^2.0.14",
     "socket.io": "^4.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2"
   }
 }
