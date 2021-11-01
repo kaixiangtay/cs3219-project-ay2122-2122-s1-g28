@@ -55,25 +55,25 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
    - backend/findfriend/.env
    - backend/forum/.env
    - backend/chat/.env
-3. Open a Terminal instance for MongoDB
-   - Start MongoDB server: `mongod --dbpath /usr/local/var/mongodb `
+3. Open a Terminal instance for and start the MongoDB server
+   - `mongod --dbpath /usr/local/var/mongodb `
 4. Open a Terminal instance for Users Microservice:
-   - Go into Microservice directory: `cd backend/users`
-   - Install dependencies: `npm install`
-   - Start running with: `npm start`
+   - `cd backend/users`
+   - `npm install`
+   - `npm start`
 5. Open a Terminal instance for FindFriend Microservice:
-   - Go into Microservice directory: `cd backend/findfriend`
-   - Install dependencies: `npm install`
-   - Start running with: `npm start`
+   - `cd backend/findfriend`
+   - `npm install`
+   - `npm start`
 6. Open a Terminal instance for Forum Microservice:
-   - Go into Microservice directory: `cd backend/forum`
-   - Install dependencies: `npm install`
-   - Start running with: `npm start`
+   - `cd backend/forum`
+   - `npm install`
+   - `npm start`
 7. Open a Terminal instance for Chat Microservice:
-   - Go into Microservice directory: `cd backend/chat`
-   - Install dependencies: `npm install`
-   - Start running with: `npm start`
+   - `cd backend/chat`
+   - `npm install`
+   - `npm start`
 8. Open a Terminal instance for Frontend:
-   - Go into Microservice directory: `cd frontend`
-   - Install dependencies: `npm install`
-   - Start running with: `npm start`
+   - `cd frontend`
+   - `npm install`
+   - `npm start`
