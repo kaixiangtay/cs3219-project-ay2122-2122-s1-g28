@@ -35,9 +35,9 @@ aws cloudformation deploy \
    --capabilities CAPABILITY_NAMED_IAM
 
 aws cloudformation deploy \
-   --template-file findFriendService.yml \
+   --template-file findfriendService.yml \
    --region ap-southeast-1 \
-   --stack-name findFriendMicroservice \
+   --stack-name findfriendMicroservice \
    --capabilities CAPABILITY_NAMED_IAM
 
 aws cloudformation deploy \

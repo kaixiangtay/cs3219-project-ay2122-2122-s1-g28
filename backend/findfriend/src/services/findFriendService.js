@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import FindFriend from "../models/findFriendModel.js";
+import FindFriend from "../models/findfriendModel.js";
 import Room from "../models/roomModel.js";
 
 async function getAllFindFriendsUsers() {

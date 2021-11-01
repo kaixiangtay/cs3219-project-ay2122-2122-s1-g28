@@ -1,5 +1,5 @@
 import express from "express";
-import findFriendController from "../controllers/findFriendController.js";
+import findFriendController from "../controllers/findfriendController.js";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get("/health", (req, res) => {
 	});
 });
 
-router.get("/api/findFriend", (req, res) => {
+router.get("/api/findfriend", (req, res) => {
 	res.json({
 		status: "API Its Working",
 		message: "NUSociaLife FindFriend Microservice",
@@ -19,15 +19,15 @@ router.get("/api/findFriend", (req, res) => {
 });
 
 router
-	.route("/api/findFriend/getAllFindFriendUsers")
+	.route("/api/findfriend/getAllFindFriendUsers")
 	.get(findFriendController.index);
 
 router
-	.route("/api/findFriend/clearMatch")
+	.route("/api/findfriend/clearMatch")
 	.post(findFriendController.clearMatch);
 
 router
-	.route("/api/findFriend/createMatch")
+	.route("/api/findfriend/createMatch")
 	.post(findFriendController.createMatch);
 
 export default router;
