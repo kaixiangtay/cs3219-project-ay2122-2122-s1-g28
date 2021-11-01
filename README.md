@@ -1,7 +1,7 @@
 # NUSociaLife
 
 <p align="center">
-  <img width=50% src="./frontend/src/resources/NUSocialLife_Default_Profile.png">
+  <img width=50% src="./resources/nusocialife_logo.png">
 </p>
 
 ## Introduction
@@ -21,6 +21,28 @@ Find a Friend allows 1-1 real time communication between 2 students through chat
 Forum allows students to interact in a group based setting with other registered users. A student can participate in group interactions through forum discussions. He/she is able to start a new discussion topic by creating a new forum post. He is also able to add on to existing discussion topics by adding comments. In addition, the student can edit or delete posts/comments created by them. Other actions include filtering discussion posts by the list of topics available (shown below) and upvoting/downing a post.
 
 Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
+
+## Architecture
+
+### Overall Architecture
+
+![Overall Architecture](./resources/overall_architecture.jpg)
+
+### Frontend Architecture
+
+![Frontend Architecture](./resources/frontend_architecture.png)
+
+### Backend Architecture
+
+![Backend Architecture](./resources/backend_architecture.jpg)
+
+## Development Process
+
+![Development Process](./resources/developer_workflow.jpg)
+
+## DevOps Process
+
+![Devops Process](./resources/devops.png)
 
 ## Instructions for Set Up
 
