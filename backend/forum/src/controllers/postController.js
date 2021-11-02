@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import postValidator from "../validators/postValidator.js";
+import postValidator from "../middlewares/postValidator";
 import userAuth from "../middlewares/userAuth.js";
 import postService from "../services/postService.js";
 
