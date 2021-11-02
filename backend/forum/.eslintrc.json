@@ -14,14 +14,6 @@
           },
           "sourceType": "module"
     },
-    "settings": {
-        "import/extensions": [".js", ".mjs", ".jsx", ".ts", ".tsx"],
-        "import/resolver": {
-            "node": {
-              "extensions": [".js", ".jsx", ".ts", ".tsx"]
-            }
-        } 
-    },
     "rules": {
         "quotes": ["error", "double"],
         "eqeqeq": "off",
