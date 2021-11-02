@@ -2,17 +2,17 @@ name: Frontend Deployment (AWS Amplify)
 
 on:
   push:
-    branches: [master]
+    branches: [frontend-chatRoute]
   pull_request:
-    branches: [master]
+    branches: [frontend-chatRoute]
   workflow_dispatch:
     # Allows you to run this workflow manually from the Actions tab
 
 env: # .env config for React
-  REACT_APP_API_URL_USERS: http://nusocialife.net
-  REACT_APP_API_URL_FORUM: http://nusocialife.net
-  REACT_APP_API_URL_FINDFRIEND: http://nusocialife.net
-  REACT_APP_API_URL_CHAT: http://nusocialife.net
+  REACT_APP_API_URL_USERS: http://server.nusocialife.net
+  REACT_APP_API_URL_FORUM: http://server.nusocialife.net
+  REACT_APP_API_URL_FINDFRIEND: http://server.nusocialife.net
+  REACT_APP_API_URL_CHAT: http://server.nusocialife.net
 
 defaults:
   run:
