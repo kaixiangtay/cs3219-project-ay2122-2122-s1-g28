@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import commentValidator from "../validators/commentValidator.js";
+import commentValidator from "../middlewares/commentValidator.js";
 import userAuth from "../middlewares/userAuth.js";
 import postService from "../services/postService.js";
 import commentService from "../services/commentService.js";
@@ -48,7 +48,10 @@ const viewUserComments = [
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			const comments = await commentService.getCommentsByUserId(userId, req.params.topic);
+			const comments = await commentService.getCommentsByUserId(
+				userId,
+				req.params.topic,
+			);
 			const emptyCommentsDatabase = comments.length == 0;
 			if (emptyCommentsDatabase) {
 				return res.status(200).json({
@@ -90,11 +93,7 @@ const createComment = [
 					msg: "Post not found!",
 				});
 			}
-			const comment = commentService.createComment(
-				userId,
-				req.body,
-				post,
-			);
+			const comment = commentService.createComment(userId, req.body, post);
 			return res.status(200).json({
 				status: "success",
 				msg: "New comment created!",
@@ -121,7 +120,9 @@ const viewComment = [
 				});
 			}
 
-			const comment = await commentService.getCommentByID(req.params.comment_id);
+			const comment = await commentService.getCommentByID(
+				req.params.comment_id,
+			);
 			if (comment == null) {
 				return res.status(404).json({
 					status: "error",
@@ -293,7 +294,9 @@ const deleteComment = [
 					msg: "Post not found!",
 				});
 			}
-			const comment = await commentService.getCommentByID(req.params.comment_id);
+			const comment = await commentService.getCommentByID(
+				req.params.comment_id,
+			);
 			if (comment == null) {
 				return res.status(404).json({
 					status: "error",
@@ -333,7 +336,10 @@ const sortCommentsByAscVotes = [
 				});
 			}
 
-			const comments = await commentService.sortCommentByVotes(req.params.post_id, 1);
+			const comments = await commentService.sortCommentByVotes(
+				req.params.post_id,
+				1,
+			);
 			if (comments == null) {
 				return res.status(404).json({
 					status: "error",
@@ -372,7 +378,10 @@ const sortCommentsByDescVotes = [
 				});
 			}
 
-			const comments = await commentService.sortCommentByVotes(req.params.post_id, -1);
+			const comments = await commentService.sortCommentByVotes(
+				req.params.post_id,
+				-1,
+			);
 			if (comments == null) {
 				return res.status(404).json({
 					status: "error",
@@ -411,7 +420,10 @@ const sortCommentsByAscDate = [
 				});
 			}
 
-			const comments = await commentService.sortCommentByDate(req.params.post_id, 1);
+			const comments = await commentService.sortCommentByDate(
+				req.params.post_id,
+				1,
+			);
 			if (comments == null) {
 				return res.status(404).json({
 					status: "error",
@@ -450,7 +462,10 @@ const sortCommentsByDescDate = [
 				});
 			}
 
-			const comments = await commentService.sortCommentByDate(req.params.post_id, -1);
+			const comments = await commentService.sortCommentByDate(
+				req.params.post_id,
+				-1,
+			);
 			if (comments == null) {
 				return res.status(404).json({
 					status: "error",
@@ -477,4 +492,17 @@ const sortCommentsByDescDate = [
 	},
 ];
 
-export default { viewPostComments, viewUserComments, upvoteComment, createComment, viewComment, updateComment, downvoteComment, deleteComment, sortCommentsByAscVotes, sortCommentsByDescVotes, sortCommentsByAscDate, sortCommentsByDescDate };
+export default {
+	viewPostComments,
+	viewUserComments,
+	upvoteComment,
+	createComment,
+	viewComment,
+	updateComment,
+	downvoteComment,
+	deleteComment,
+	sortCommentsByAscVotes,
+	sortCommentsByDescVotes,
+	sortCommentsByAscDate,
+	sortCommentsByDescDate,
+};

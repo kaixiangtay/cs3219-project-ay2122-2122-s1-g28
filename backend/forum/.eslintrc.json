@@ -28,6 +28,9 @@
         "arrow-body-style": ["error", "always"],
         "no-param-reassign": "off",
         "global-require": "off",
-        // "func-names": ["error", "never"]
+        "import/extensions": [
+            "error",
+            "ignorePackages"
+        ]
     }
 }
