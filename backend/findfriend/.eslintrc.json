@@ -28,5 +28,16 @@
         "arrow-body-style": ["error", "always"],
         "no-param-reassign": "off",
         "global-require": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages"
+        ],
+        "no-undef": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "no-continue": "off",
+        "no-confusing-arrow": ["error", {"allowParens": true}],
+        "no-nested-ternary": "off",
+        "no-unused-vars": ["error", { "vars": "global" }]
     }
 }
+
