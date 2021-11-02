@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import postValidator from "../validators/postValidator.js";
+import postValidator from "../middlewares/postValidator.js";
 import userAuth from "../middlewares/userAuth.js";
 import postService from "../services/postService.js";
 
@@ -88,7 +88,10 @@ const viewUserPosts = [
 	async (req, res) => {
 		try {
 			const userId = req.userId;
-			const posts = await postService.getPostsByUserID(userId, req.params.topic);
+			const posts = await postService.getPostsByUserID(
+				userId,
+				req.params.topic,
+			);
 			const emptyPostDatabase = posts.length == 0;
 
 			if (emptyPostDatabase) {
@@ -125,7 +128,8 @@ const updatePost = [
 				});
 			}
 
-			if (postService.isUserPost(post.userId, userId)) { // userId == postId
+			if (postService.isUserPost(post.userId, userId)) {
+				// userId == postId
 				post = await postService.updatePost(post, req.body);
 				return res.status(200).json({
 					status: "success",
@@ -248,7 +252,7 @@ const deletePost = [
 						status: "success",
 						msg: "Post has been deleted!",
 					});
-				} 
+				}
 			} else {
 				return res.status(404).json({
 					status: "error",
@@ -372,5 +376,17 @@ const sortPostByDescDate = [
 	},
 ];
 
-
-export default { index, createPost, viewUserPosts, updatePost, viewPost, upvotePost, deletePost, downvotePost, sortPostByAscVotes, sortPostByDescVotes, sortPostByAscDate, sortPostByDescDate };
+export default {
+	index,
+	createPost,
+	viewUserPosts,
+	updatePost,
+	viewPost,
+	upvotePost,
+	deletePost,
+	downvotePost,
+	sortPostByAscVotes,
+	sortPostByDescVotes,
+	sortPostByAscDate,
+	sortPostByDescDate,
+};
