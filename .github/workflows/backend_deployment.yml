@@ -18,7 +18,7 @@ env: # .env config for backend
   S3_BUCKET_REGION: ap-southeast-1
   # USERS MS
   USERS_DB_URL: ${{secrets.USERS_DB_URL}}
-  FRONTEND_URL: http://nusocialife.net
+  FRONTEND_URL: https://nusocialife.net
   USERS_BACKEND_URL: http://localhost:5000/api/users
   USERS_PORT: 5000
   EMAIL: nusocialife28@gmail.com
