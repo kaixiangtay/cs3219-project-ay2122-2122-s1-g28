@@ -476,6 +476,18 @@ Resources:
       Port: 80
       Protocol: HTTP
 
+  myDNS:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: nusocialife.net.
+      Comment: Zone apex alias targeted to LoadBalancer.
+      RecordSets:
+        - Name: server.nusocialife.net.
+          Type: A
+          AliasTarget:
+            HostedZoneId: !GetAtt "PublicLoadBalancer.CanonicalHostedZoneID"
+            DNSName: !GetAtt "PublicLoadBalancer.DNSName"
+
   # This is an IAM role which authorizes ECS to manage resources on your
   # account on your behalf, such as updating your load balancer with the
   # details of where your containers are, so that traffic can reach your
