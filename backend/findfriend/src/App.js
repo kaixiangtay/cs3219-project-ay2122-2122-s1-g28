@@ -1,4 +1,4 @@
-import Router from "./routes/findFriendRoutes.js";
+import Router from "./routes/findfriendRoutes.js";
 import express from "express";
 import cors from "cors";
 import { PORT } from "./config/config.js";
