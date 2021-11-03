@@ -38,7 +38,7 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 ## Development Process
 
-![Development Process](./resources/developer_workflow.jpg)
+![Development Process](./resources/developer_workflow.png)
 
 ## DevOps Process
 
@@ -57,23 +57,20 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
    - backend/chat/.env
 3. Open a Terminal instance for and start the MongoDB server
    - `mongod --dbpath /usr/local/var/mongodb `
-4. Open a Terminal instance for Users Microservice:
-   - `cd backend/users`
-   - `npm install`
-   - `npm start`
-5. Open a Terminal instance for FindFriend Microservice:
-   - `cd backend/findfriend`
-   - `npm install`
-   - `npm start`
-6. Open a Terminal instance for Forum Microservice:
-   - `cd backend/forum`
-   - `npm install`
-   - `npm start`
-7. Open a Terminal instance for Chat Microservice:
-   - `cd backend/chat`
-   - `npm install`
-   - `npm start`
-8. Open a Terminal instance for Frontend:
+4. Open a Terminal instance for
+   Backend microservices deployment:
+
+   - `cd backend`
+   - `docker-compose build`
+   - `aws configure`
+     \*\* Pls contact us via MS Teams to request for AWS credentials
+   - Once obtaining credentials, enter the access key id and press ENTER.
+   - Next, enter the secret access key and press ENTER.
+   - For next 2 options, press ENTER to use default selection.
+   - `chmod +x deploy.sh`
+   - `./deploy.sh`
+
+5. Open a Terminal instance for Frontend:
    - `cd frontend`
    - `npm install`
    - `npm start`
