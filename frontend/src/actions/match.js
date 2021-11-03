@@ -193,7 +193,7 @@ export const sendMessage = (token, message) => {
 export const handleMatchWithRetry =
   (token, _interests, numRetries = 10) =>
   (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findfriend/createMatch`;
 
     dispatch(matching());
 
@@ -235,7 +235,7 @@ export const handleMatchWithRetry =
 
 // Unmatches user from other party
 export const handleUnmatch = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/clearMatch`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findfriend/clearMatch`;
   disconnectSocket();
 
   fetch(requestUrl, {
