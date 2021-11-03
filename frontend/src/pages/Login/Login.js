@@ -16,10 +16,6 @@ import LoginForm from "../../components/LoginForm/LoginForm.js";
 
 // Import Resources
 import NUSociaLifeLogo from "../../resources/NUSociaLife_Login_Logo.png";
-import RandomScribble from "../../resources/RandomScribble.png";
-
-// Import CSS
-import styles from "./Login.module.css";
 
 function Login() {
   const auth = useSelector((state) => state.auth);
@@ -52,13 +48,6 @@ function Login() {
           </Grid>
         </Grid>
       </Container>
-      <Grid item md={12}>
-        <img
-          alt="RandomScribble"
-          src={RandomScribble}
-          className={styles.randomScribble}
-        />
-      </Grid>
     </div>
   );
 }

@@ -66,6 +66,19 @@
   margin: 3% !important;
 }
 
+/* Side Design */
+.sideDesignLeft {
+  position: absolute;
+  left: 0;
+  transform: scaleX(-1);
+}
+
+.sideDesignRight {
+  position: absolute;
+  right: 0;
+  /* transform: scale(-1, -1); */
+}
+
 /* Href Links */
 .hrefLink {
   cursor: pointer;

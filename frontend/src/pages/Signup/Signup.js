@@ -13,10 +13,6 @@ import SignupForm from "../../components/SignupForm/SignupForm.js";
 
 // Import Resources
 import NUSociaLifeLogo from "../../resources/NUSociaLife_Login_Logo.png";
-import RandomScribble from "../../resources/RandomScribble.png";
-
-// Import CSS
-import styles from "./Signup.module.css";
 
 function Signup() {
   const signup = useSelector((state) => state.signup);
@@ -42,13 +38,6 @@ function Signup() {
           </Grid>
         </Grid>
       </Container>
-      <Grid item md={12}>
-        <img
-          alt="RandomScribble"
-          src={RandomScribble}
-          className={styles.randomScribble}
-        />
-      </Grid>
     </div>
   );
 }
