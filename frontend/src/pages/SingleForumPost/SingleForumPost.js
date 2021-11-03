@@ -56,9 +56,9 @@ function SingleForumPost() {
 
   useEffect(() => {
     // Default sort by latest comment
-    if (createdComment || upvoteCommentSuccess || downvoteCommentSuccess) {
+    if (upvoteCommentSuccess || downvoteCommentSuccess) {
       dispatch(handleSortComments(sortValue, post._id));
-    } else if (post.comments.length) {
+    } else if (post.comments.length || createdComment) {
       dispatch(handleSortComments("latest", post._id));
     } else {
       return;
