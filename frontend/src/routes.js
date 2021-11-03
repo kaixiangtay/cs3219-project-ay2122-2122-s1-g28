@@ -23,6 +23,7 @@ const Routes = () => {
           return <Redirect to="/login" />;
         }}
       />
+      <Redirect from="/:url*(/+)" to={window.location.pathname.slice(0, -1)} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/verify-email/:token" component={VerifyEmail} />
