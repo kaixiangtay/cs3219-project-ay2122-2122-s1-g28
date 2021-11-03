@@ -401,12 +401,12 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 6
       HealthCheckPath: /
-      HealthCheckProtocol: HTTP
+      HealthCheckProtocol: HTTPS
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       Name: !Join ["-", [!Ref "AWS::StackName", "drop-1"]]
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
       UnhealthyThresholdCount: 2
       VpcId: !Ref "VPC"
   PublicLoadBalancerListener:
@@ -417,9 +417,11 @@ Resources:
       DefaultActions:
         - TargetGroupArn: !Ref "DummyTargetGroupPublic"
           Type: "forward"
+      Certificates:
+        - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
       LoadBalancerArn: !Ref "PublicLoadBalancer"
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
 
   # An internal load balancer, this would be used for a service that is not
   # directly accessible to the public, but instead should only receive traffic
@@ -456,12 +458,12 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 6
       HealthCheckPath: /
-      HealthCheckProtocol: HTTP
+      HealthCheckProtocol: HTTPS
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       Name: !Join ["-", [!Ref "AWS::StackName", "drop-2"]]
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
       UnhealthyThresholdCount: 2
       VpcId: !Ref "VPC"
   PrivateLoadBalancerListener:
@@ -472,9 +474,11 @@ Resources:
       DefaultActions:
         - TargetGroupArn: !Ref "DummyTargetGroupPrivate"
           Type: "forward"
+      Certificates:
+        - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
       LoadBalancerArn: !Ref "PrivateLoadBalancer"
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
 
   myDNS:
     Type: AWS::Route53::RecordSetGroup
@@ -538,12 +542,12 @@ Outputs:
       Name: !Join [":", [!Ref "AWS::StackName", "ClusterName"]]
   InternalUrl:
     Description: The url of the internal load balancer
-    Value: !Join ["", ["http://", !GetAtt "PrivateLoadBalancer.DNSName"]]
+    Value: !Join ["", ["https://", !GetAtt "PrivateLoadBalancer.DNSName"]]
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "InternalUrl"]]
   ExternalUrl:
     Description: The url of the external load balancer
-    Value: !Join ["", ["http://", !GetAtt "PublicLoadBalancer.DNSName"]]
+    Value: !Join ["", ["https://", !GetAtt "PublicLoadBalancer.DNSName"]]
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "ExternalUrl"]]
   ECSRole:
