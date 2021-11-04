@@ -43,25 +43,25 @@ async function updateUser(userId, inputData) {
 	if (inputData.password !== undefined) {
 		user.password = userAuth.hashPassword(inputData.password);
 	}
-	user.save();
+	await user.save();
 	return user;
 }
 
 async function verifyUser(user) {
 	user.isVerified = true;
-	user.save();
+	await user.save();
 	return user;
 }
 
-function saveProfileImageUrl(user, imageLink) {
+async function saveProfileImageUrl(user, imageLink) {
 	user.profileImageUrl = imageLink;
-	user.save();
+	await user.save();
 	return user;
 }
 
-function logoutUser(user) {
+async function logoutUser(user) {
 	user.token = "";
-	user.save();
+	await user.save();
 }
 
 async function deleteUser(userId) {
@@ -81,23 +81,23 @@ async function resetPassword(user) {
 		strict: true,
 	});
 
-	user.save();
-	// temporary password will be issued
-	mailerService.sendForgotPasswordEmail(user.email, tempPassword);
 	user.token = userAuth.createSignUpToken(user.email);
 	user.password = userAuth.hashPassword(tempPassword);
+	await user.save();
+	// temporary password will be issued
+	mailerService.sendForgotPasswordEmail(user.email, tempPassword);
 }
 
 async function resendEmail(user) {
 	user.token = userAuth.createSignUpToken(user.email);
-	user.save();
+	await user.save();
 	mailerService.sendRegisterUserEmail(user.email, user.token);
 }
 
 async function loginUser(user) {
 	// Allow token access for a day
 	user.token = userAuth.createLoginToken(user._id);
-	user.save();
+	await user.save();
 	return user;
 }
 

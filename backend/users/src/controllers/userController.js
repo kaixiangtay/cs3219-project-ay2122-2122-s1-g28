@@ -91,7 +91,7 @@ const resendEmail = [
 				});
 			}
 
-			userService.resendEmail(user);
+			await userService.resendEmail(user);
 
 			return res.status(200).json({
 				status: "success",
@@ -122,7 +122,7 @@ const verifyUserEmail = [
 				});
 			}
 
-			user = userService.verifyUser(user);
+			user = await userService.verifyUser(user);
 
 			return res.status(200).json({
 				status: "success",
@@ -150,7 +150,7 @@ const resetPassword = [
 					msg: "Invalid email detected!",
 				});
 			} else {
-				userService.resetPassword(user);
+				await userService.resetPassword(user);
 
 				return res.status(200).json({
 					status: "success",
@@ -190,7 +190,7 @@ const uploadProfileImage = [
 						msg: "File cannot be found!",
 					});
 				} else {
-					user = userService.saveProfileImageUrl(user, req.file.location);
+					user = await userService.saveProfileImageUrl(user, req.file.location);
 
 					return res.status(200).json({
 						status: "success",
@@ -338,7 +338,7 @@ const loginUser = [
 				]);
 			}
 
-			user = userService.loginUser(user);
+			user = await userService.loginUser(user);
 
 			return res.status(200).json({
 				token: user.token,
@@ -363,7 +363,7 @@ const logoutUser = [
 			const userId = req.userId;
 			const user = await userService.getUserByID(userId);
 
-			userService.logoutUser(user);
+			await userService.logoutUser(user);
 
 			return res.status(200).json({
 				status: "success",
