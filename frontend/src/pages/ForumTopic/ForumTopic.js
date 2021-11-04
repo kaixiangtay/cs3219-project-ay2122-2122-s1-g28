@@ -79,7 +79,7 @@ function ForumTopic() {
           <Grid item xs={12} md={4} className="center-text">
             <SortButton type="Post" topic={topic} sortBy={handleSortValue} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} className="scrollable">
             <ForumPosts topic={topic} sortBy={sortValue} />
           </Grid>
         </Grid>

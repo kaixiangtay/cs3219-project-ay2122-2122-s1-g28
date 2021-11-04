@@ -13,6 +13,8 @@
   --GREY: #e7e7e7;
   --DEEPGREEN: #39c16c;
   --WHITE: #ffffff;
+  /* FORUM */
+  --DULLGREY: #616161;
 }
 
 /* Alignment */
@@ -77,6 +79,13 @@
   position: absolute;
   right: 0;
   height: 90%;
+}
+
+/* Forum */
+.scrollable {
+  max-height: 60vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Side Design */

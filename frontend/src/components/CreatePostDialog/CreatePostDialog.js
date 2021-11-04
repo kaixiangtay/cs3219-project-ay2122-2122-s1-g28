@@ -38,6 +38,7 @@ function CreatePostDialog(props) {
       content: content,
     };
     dispatch(handleCreatePost(postData));
+    handleClose();
   };
 
   return (

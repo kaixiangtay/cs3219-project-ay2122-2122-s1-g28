@@ -7,10 +7,11 @@ import { handleSortComments } from "../../actions/comment.js";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
-import { Card, CardContent, Grid, Paper } from "@material-ui/core";
+import { Card, CardContent, Container, Grid, Paper } from "@material-ui/core";
 
 // Import Components
 import Navbar from "../../components/Navbar/Navbar.js";
+import PageTitle from "../../components/PageTitle/PageTitle.js";
 import VoteArrows from "../../components/VoteArrows/VoteArrows.js";
 import CommentDetails from "../../components/CommentDetails/CommentDetails.js";
 import PostDetails from "../../components/PostDetails/PostDetails.js";
@@ -18,17 +19,25 @@ import BackButton from "../../components/BackButton/BackButton.js";
 import CommentBox from "../../components/CommentBox/CommentBox.js";
 import SortButton from "../../components/SortButton/SortButton.js";
 
+// Import Constants
+import { FORUM_ICONS } from "../../constants/ForumConstants.js";
+
+// Import Resources
+import SideDesign from "../../resources/Side-Design.png";
+
 // Import CSS
 import styles from "./SingleForumPost.module.css";
 
 function SingleForumPost() {
+  const [sortValue, setSortValue] = useState("");
+
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
   const post = useSelector((state) => state.post.singlePost);
   const comments = useSelector((state) => state.comment.comments);
   const topic = useSelector((state) => state.post.topic);
+  const forumTopic = useSelector((state) => state.post.forumTopic);
   const createdComment = useSelector(
     (state) => state.comment.createCommentSuccess
   );
@@ -38,8 +47,7 @@ function SingleForumPost() {
   const downvoteCommentSuccess = useSelector(
     (state) => state.comment.downvoteCommentSuccess
   );
-
-  const [sortValue, setSortValue] = useState("");
+  const dispatch = useDispatch();
 
   const handleOnBack = () => {
     const path = "/forum/" + topic;
@@ -68,37 +76,34 @@ function SingleForumPost() {
   return (
     <div>
       <Navbar />
-      <Grid container justifyContent="center" className={styles.backButton}>
-        <Grid item xs={10} sm={10} md={10}>
-          <BackButton handleOnBack={handleOnBack} />
-        </Grid>
-      </Grid>
-      <Grid container justifyContent="center">
-        <Grid item xs={10} sm={10} md={10} className={styles.grid}>
-          <Paper>
-            <Grid
-              container
-              className={styles.gridContainer}
-              justifyContent="flex-start"
-            >
-              <VoteArrows
-                votes={post.votes}
-                postId={post._id}
-                sortBy={sortValue}
-              />
-              <Grid item xs={11} sm={11} md={11}>
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignLeft"} />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignRight"} />
+      <Container>
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid item xs={12} className="center-text">
+            <PageTitle title={forumTopic} icon={FORUM_ICONS[forumTopic]} />
+          </Grid>
+          <Grid item xs={12}>
+            <BackButton handleOnBack={handleOnBack} />
+          </Grid>
+          <Paper className={styles.paperPadding}>
+            <Grid container spacing={2} className="scrollable">
+              <Grid item xs={1}>
+                <VoteArrows
+                  votes={post.votes}
+                  postId={post._id}
+                  sortBy={sortValue}
+                />
+              </Grid>
+              <Grid item xs={11}>
                 <PostDetails post={post} />
               </Grid>
-            </Grid>
-            <CommentBox post={post} />
-            <Grid
-              container
-              direction="column"
-              spacing={2}
-              className={styles.commentContainer}
-            >
+              <Grid item xs={12}>
+                <CommentBox post={post} />
+              </Grid>
+
               {comments.length != 0 ? (
-                <Grid item>
+                <Grid item xs={12} align="left">
                   <SortButton
                     type="Comment"
                     postId={post._id}
@@ -106,27 +111,23 @@ function SingleForumPost() {
                   />
                 </Grid>
               ) : (
-                <Grid item />
+                <Grid item xs={12} />
               )}
+
               <Grid container alignItems="center" spacing={4}>
                 {comments ? (
                   comments.map((comment) => (
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      md={12}
-                      key={comment._id}
-                      className={styles.fullWidth}
-                    >
+                    <Grid item xs={12} key={comment._id}>
                       <Card variant="outlined">
                         <CardContent className={styles.cardContent}>
-                          <Grid container>
-                            <VoteArrows
-                              votes={comment.votes}
-                              postId={comment.postId}
-                              commentId={comment._id}
-                            />
+                          <Grid container spacing={2}>
+                            <Grid item xs={1}>
+                              <VoteArrows
+                                votes={comment.votes}
+                                postId={comment.postId}
+                                commentId={comment._id}
+                              />
+                            </Grid>
                             <Grid item xs={11} sm={11} md={11}>
                               <CommentDetails comment={comment} />
                             </Grid>
@@ -142,7 +143,7 @@ function SingleForumPost() {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
+      </Container>
     </div>
   );
 }
