@@ -65,7 +65,6 @@ export const handleUserLogin = (_email, _password) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/login`;
 
   fetch(requestUrl, {
-    mode: "no-cors",
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",

@@ -60,5 +60,6 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.26.1",
     "prettier": "^2.4.1"
-  }
+  },
+  "proxy": "https://server.nusocialife.net"
 }
