@@ -11,14 +11,20 @@ const s3 = new aws.S3({
 	region: S3_BUCKET_REGION,
 });
 
-const allowedFileTypes = ["jpeg", "png"];
+const allowedFileTypes = ["jpeg", "jpg", "png"];
 
 const multerFilter = (req, file, cb) => {
+	const fileSize = req.headers["content-length"];
 	const ext = file.mimetype.split("/")[1];
-	if (allowedFileTypes.includes(ext)) {
-		cb(null, true);
-	} else {
+	const isFileSizeExceed = fileSize > 10000000;
+	const isInvalidFileType = !allowedFileTypes.includes(ext);
+
+	if (isFileSizeExceed) {
+		cb(new Error("File size exceeded!"), false);
+	} else if (isInvalidFileType) {
 		cb(new Error("Unrecognised image file type!"), false);
+	} else {
+		cb(null, true);
 	}
 };
 
@@ -36,10 +42,6 @@ function uploadImage(bucketName, userID) {
 			},
 		}),
 		fileFilter: multerFilter,
-		limits: {
-		// set to 10MB
-			fileSize: 1024 * 1024 * 10,
-		},
 	});
 }
 

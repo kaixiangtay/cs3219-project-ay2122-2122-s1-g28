@@ -401,12 +401,12 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 6
       HealthCheckPath: /
-      HealthCheckProtocol: HTTPS
+      HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       Name: !Join ["-", [!Ref "AWS::StackName", "drop-1"]]
-      Port: 443
-      Protocol: HTTPS
+      Port: 80
+      Protocol: HTTP
       UnhealthyThresholdCount: 2
       VpcId: !Ref "VPC"
   PublicLoadBalancerListener:
@@ -458,12 +458,12 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 6
       HealthCheckPath: /
-      HealthCheckProtocol: HTTPS
+      HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       Name: !Join ["-", [!Ref "AWS::StackName", "drop-2"]]
-      Port: 443
-      Protocol: HTTPS
+      Port: 80
+      Protocol: HTTP
       UnhealthyThresholdCount: 2
       VpcId: !Ref "VPC"
   PrivateLoadBalancerListener:
@@ -474,11 +474,11 @@ Resources:
       DefaultActions:
         - TargetGroupArn: !Ref "DummyTargetGroupPrivate"
           Type: "forward"
-      Certificates:
-        - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
+      # Certificates:
+      #   - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
       LoadBalancerArn: !Ref "PrivateLoadBalancer"
-      Port: 443
-      Protocol: HTTPS
+      Port: 80
+      Protocol: HTTP
 
   myDNS:
     Type: AWS::Route53::RecordSetGroup
@@ -542,12 +542,12 @@ Outputs:
       Name: !Join [":", [!Ref "AWS::StackName", "ClusterName"]]
   InternalUrl:
     Description: The url of the internal load balancer
-    Value: !Join ["", ["https://", !GetAtt "PrivateLoadBalancer.DNSName"]]
+    Value: !Join ["", ["http://", !GetAtt "PrivateLoadBalancer.DNSName"]]
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "InternalUrl"]]
   ExternalUrl:
     Description: The url of the external load balancer
-    Value: !Join ["", ["https://", !GetAtt "PublicLoadBalancer.DNSName"]]
+    Value: !Join ["", ["http://", !GetAtt "PublicLoadBalancer.DNSName"]]
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "ExternalUrl"]]
   ECSRole:

@@ -182,7 +182,12 @@ const uploadProfileImage = [
 				if (err) {
 					return res.status(400).json({
 						status: "error",
-						msg: "Invalid file type, must be an image file!",
+						msg: err.toString(),
+					});
+				} else if (req.file == undefined) {
+					return res.status(400).json({
+						status: "error",
+						msg: "File cannot be found!",
 					});
 				} else {
 					user = userService.saveProfileImageUrl(user, req.file.location);
