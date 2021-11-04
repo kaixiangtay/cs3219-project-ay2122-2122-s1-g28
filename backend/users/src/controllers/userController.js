@@ -53,7 +53,6 @@ const registerUser = [
 				]);
 			} else {
 				user = userService.createUser(req.body);
-
 				return res.status(200).json({
 					status: "success",
 					msg: "New user created!",
