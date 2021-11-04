@@ -21,6 +21,9 @@ import ForumGroup from "../../components/ForumGroup/ForumGroup.js";
 import { FORUM_GROUPS } from "../../constants/ForumConstants";
 import { FORUM } from "../../constants/ReduxConstants";
 
+// Import Resources
+import SideDesign from "../../resources/Side-Design.png";
+
 function Forum() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -37,6 +40,8 @@ function Forum() {
   return (
     <div>
       <Navbar />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignLeft"} />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignRight"} />
       <Grid item md={12} className="center-text">
         <PageTitle title={"Forum"} icon={faCommentAlt} />
       </Grid>
