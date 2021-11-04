@@ -14,6 +14,9 @@ import SignupForm from "../../components/SignupForm/SignupForm.js";
 // Import Resources
 import NUSociaLifeLogo from "../../resources/NUSociaLife_Login_Logo.png";
 
+// CSS
+import styles from "./Signup.module.css";
+
 function Signup() {
   const signup = useSelector((state) => state.signup);
 
@@ -31,7 +34,11 @@ function Signup() {
           className="empty-navbar-gap"
         >
           <Grid item md={6}>
-            <img alt="NUSociaLifeLogo" src={NUSociaLifeLogo} />
+            <img
+              alt="NUSociaLifeLogo"
+              src={NUSociaLifeLogo}
+              className={styles.logo}
+            />
           </Grid>
           <Grid item md={6} xs={12} sm={12}>
             <SignupForm />

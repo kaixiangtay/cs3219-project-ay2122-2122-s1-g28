@@ -18,7 +18,7 @@ import PageTitle from "../../components/PageTitle/PageTitle.js";
 import ForumGroup from "../../components/ForumGroup/ForumGroup.js";
 
 // Import Constants
-import { FORUM_GROUPS } from "../../constants/ForumConstants";
+import { FORUM_GROUPS, FORUM_ICONS } from "../../constants/ForumConstants";
 import { FORUM } from "../../constants/ReduxConstants";
 
 // Import Resources
@@ -42,14 +42,14 @@ function Forum() {
       <Navbar />
       <img alt="SideDesign" src={SideDesign} className={"sideDesignLeft"} />
       <img alt="SideDesign" src={SideDesign} className={"sideDesignRight"} />
-      <Grid item md={12} className="center-text">
+      <Grid item xs={12} className="center-text">
         <PageTitle title={"Forum"} icon={faCommentAlt} />
       </Grid>
       <Container>
         <Grid container spacing={5} justifyContent="center">
           {FORUM_GROUPS.map((forum) => (
-            <Grid item xs={4} sm={4} md={4} key={forum.topic}>
-              <ForumGroup topic={forum.topic} />
+            <Grid item xs={6} md={4} key={forum.topic}>
+              <ForumGroup topic={forum.topic} icon={FORUM_ICONS[forum.topic]} />
             </Grid>
           ))}
         </Grid>

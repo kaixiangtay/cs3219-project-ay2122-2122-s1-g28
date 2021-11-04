@@ -1,17 +1,16 @@
 :root {
   /* Colour Theme */
+  --NAVBAR: #27344d;
   --MIDBLUE: #415a77;
-  --DARKBLUE: #1b263b;
-  --LIGHTBLUE: #03a9f4;
   /* Button colours */
-  --PINK: #d288a2;
+  --PINK: #efafc6;
   --GREEN: #67ad5b;
   --RED: #e15241;
   --ORANGE: #f9ab55;
-  --DEEPBLUE: #0277bd;
   /* Text message */
   --GREY: #e7e7e7;
   --DEEPGREEN: #39c16c;
+  --CHATCONTAINER: #415a77;
   --WHITE: #ffffff;
   /* FORUM */
   --DULLGREY: #616161;
@@ -19,7 +18,7 @@
 
 /* Alignment */
 .empty-navbar-gap {
-  margin-top: 5%;
+  margin-top: 10%;
 }
 
 .center-text {
