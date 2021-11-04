@@ -4,45 +4,6 @@ import userAuth from "../middlewares/userAuth.js";
 import postService from "../services/postService.js";
 import commentService from "../services/commentService.js";
 
-const viewPostComments = [
-	userAuth.decodeAuthToken,
-	async (req, res) => {
-		try {
-			const post = await postService.getPostByID(req.params.post_id);
-			if (post == null) {
-				return res.status(404).json({
-					status: "error",
-					msg: "Post not found!",
-				});
-			}
-
-			const comments = await commentService.getAllComments(req.params.post_id);
-			if (comments == null) {
-				return res.status(404).json({
-					status: "error",
-					msg: "Comments not found!",
-				});
-			} else if (comments.length == 0) {
-				return res.status(200).json({
-					status: "success",
-					msg: "There are no comments in this post!", // tells client that the post has no comments
-				});
-			} else {
-				return res.status(200).json({
-					status: "success",
-					msg: "Comments retrieved successfully!",
-					data: comments,
-				});
-			}
-		} catch (err) {
-			return res.status(404).json({
-				status: "error",
-				msg: err.toString(),
-			});
-		}
-	},
-];
-
 const viewUserComments = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
@@ -97,41 +58,6 @@ const createComment = [
 			return res.status(200).json({
 				status: "success",
 				msg: "New comment created!",
-				data: comment,
-			});
-		} catch (err) {
-			return res.status(404).json({
-				status: "error",
-				msg: err.toString(),
-			});
-		}
-	},
-];
-
-const viewComment = [
-	userAuth.decodeAuthToken,
-	async (req, res) => {
-		try {
-			const post = await postService.getPostByID(req.params.post_id);
-			if (post == null) {
-				return res.status(404).json({
-					status: "error",
-					msg: "Post not found!",
-				});
-			}
-
-			const comment = await commentService.getCommentByID(
-				req.params.comment_id,
-			);
-			if (comment == null) {
-				return res.status(404).json({
-					status: "error",
-					msg: "Comment not found!",
-				});
-			}
-			return res.status(200).json({
-				status: "success",
-				msg: "Comment retrieved successfully!",
 				data: comment,
 			});
 		} catch (err) {
@@ -493,11 +419,9 @@ const sortCommentsByDescDate = [
 ];
 
 export default {
-	viewPostComments,
 	viewUserComments,
 	upvoteComment,
 	createComment,
-	viewComment,
 	updateComment,
 	downvoteComment,
 	deleteComment,

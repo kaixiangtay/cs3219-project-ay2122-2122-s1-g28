@@ -3,34 +3,6 @@ import postValidator from "../middlewares/postValidator.js";
 import userAuth from "../middlewares/userAuth.js";
 import postService from "../services/postService.js";
 
-const index = [
-	userAuth.decodeAuthToken,
-	async (req, res) => {
-		try {
-			const posts = await postService.getAllPosts(req.params.topic);
-			const emptyPostDatabase = posts.length == 0;
-
-			if (emptyPostDatabase) {
-				return res.status(200).json({
-					status: "success",
-					msg: `There are no posts under this topic: ${req.params.topic}`,
-					data: posts,
-				});
-			}
-			return res.status(200).json({
-				status: "success",
-				msg: "Posts retrieved successfully!",
-				data: posts,
-			});
-		} catch (err) {
-			return res.status(404).json({
-				status: "error",
-				msg: err.toString(),
-			});
-		}
-	},
-];
-
 const createPost = [
 	userAuth.decodeAuthToken,
 	postValidator.addPostValidator(),
@@ -377,7 +349,6 @@ const sortPostByDescDate = [
 ];
 
 export default {
-	index,
 	createPost,
 	viewUserPosts,
 	updatePost,
