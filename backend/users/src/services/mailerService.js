@@ -47,7 +47,6 @@ const registerAccountEmailOptions = (email, token) => {
 		NUSociaLife Team
 		</p>`,
 	};
-
 	return emailOptions;
 };
 
@@ -74,8 +73,10 @@ async function sendRegisterUserEmail(email, token) {
 	try {
 		const emailOptions = registerAccountEmailOptions(email, token);
 		await transporter.sendMail(emailOptions);
+		transporter.close();
 	} catch (err) {
 		console.log(err);
+		transporter.close();
 	}
 }
 
@@ -83,8 +84,10 @@ async function sendForgotPasswordEmail(email, tempPassword) {
 	try {
 		const emailOptions = resetPasswordEmailOptions(email, tempPassword);
 		await transporter.sendMail(emailOptions);
+		transporter.close();
 	} catch (err) {
 		console.log(err);
+		transporter.close();
 	}
 }
 

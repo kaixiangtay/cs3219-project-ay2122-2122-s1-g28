@@ -3,10 +3,9 @@ Description:
   A stack for deploying containerized applications onto a cluster of EC2
   hosts using Elastic Container Service. This stack runs containers on
   hosts that are in a private VPC subnet. Outbound network traffic from the
-  hosts must go out through a NAT gateway. There are two load balancers, one
+  hosts must go out through a NAT gateway. There is a load balancer
   inside the public subnet, which can be used to send traffic to the
-  containers in the private subnet, and one in the private subnet, which can
-  be used for private internal traffic between internal services.
+  containers in the private subnet.
 Parameters:
   DesiredCapacity:
     Type: Number
@@ -236,10 +235,6 @@ Resources:
   # Two rules, allowing network traffic from a public facing load
   # balancer and from other hosts in the security group.
   #
-  # Remove any of the following ingress rules that are not needed.
-  # If you want to make direct requests to a container using its
-  # public IP address you'll need to add a security group rule
-  # to allow traffic from all IP addresses.
   EcsHostSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -252,20 +247,6 @@ Resources:
       GroupId: !Ref "EcsHostSecurityGroup"
       IpProtocol: -1
       SourceSecurityGroupId: !Ref "PublicLoadBalancerSG"
-  EcsSecurityGroupIngressFromPrivateALB:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      Description: Ingress from the private ALB
-      GroupId: !Ref "EcsHostSecurityGroup"
-      IpProtocol: -1
-      SourceSecurityGroupId: !Ref "PrivateLoadBalancerSG"
-  EcsSecurityGroupIngressFromSelf:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      Description: Ingress from other containers in the same security group
-      GroupId: !Ref "EcsHostSecurityGroup"
-      IpProtocol: -1
-      SourceSecurityGroupId: !Ref "EcsHostSecurityGroup"
 
   # Autoscaling group. This launches the actual EC2 instances that will register
   # themselves as members of the cluster, and run the docker containers.
@@ -365,10 +346,6 @@ Resources:
   # - One public load balancer, hosted in public subnets that is accessible
   #   to the public, and is intended to route traffic to one or more public
   #   facing services.
-  # - One private load balancer, hosted in private subnets, that only
-  #   accepts traffic from other containers in the cluster, and is
-  #   intended for private services that should not be accessed directly
-  #   by the public.
 
   # A public facing load balancer, this is used for accepting traffic from the public
   # internet and directing it to public facing microservices
@@ -420,63 +397,6 @@ Resources:
       Certificates:
         - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
       LoadBalancerArn: !Ref "PublicLoadBalancer"
-      Port: 443
-      Protocol: HTTPS
-
-  # An internal load balancer, this would be used for a service that is not
-  # directly accessible to the public, but instead should only receive traffic
-  # from your other services.
-  PrivateLoadBalancerSG:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Access to the internal load balancer
-      VpcId: !Ref "VPC"
-  PrivateLoadBalancerIngressFromECS:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      Description: Only accept traffic from a container in the container host security group
-      GroupId: !Ref "PrivateLoadBalancerSG"
-      IpProtocol: -1
-      SourceSecurityGroupId: !Ref "EcsHostSecurityGroup"
-  PrivateLoadBalancer:
-    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties:
-      Scheme: internal
-      LoadBalancerAttributes:
-        - Key: idle_timeout.timeout_seconds
-          Value: "30"
-      Subnets:
-        # This load balancer is put into the private subnet, so that there is no
-        # route for the public to even be able to access the private load balancer.
-        - !Ref PrivateSubnetOne
-        - !Ref PrivateSubnetTwo
-      SecurityGroups: [!Ref "PrivateLoadBalancerSG"]
-  # This dummy target group is used to setup the ALB to just drop traffic
-  # initially, before any real service target groups have been added.
-  DummyTargetGroupPrivate:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties:
-      HealthCheckIntervalSeconds: 6
-      HealthCheckPath: /
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
-      HealthyThresholdCount: 2
-      Name: !Join ["-", [!Ref "AWS::StackName", "drop-2"]]
-      Port: 443
-      Protocol: HTTPS
-      UnhealthyThresholdCount: 2
-      VpcId: !Ref "VPC"
-  PrivateLoadBalancerListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    DependsOn:
-      - PrivateLoadBalancer
-    Properties:
-      DefaultActions:
-        - TargetGroupArn: !Ref "DummyTargetGroupPrivate"
-          Type: "forward"
-      Certificates:
-        - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
-      LoadBalancerArn: !Ref "PrivateLoadBalancer"
       Port: 443
       Protocol: HTTPS
 
@@ -540,11 +460,6 @@ Outputs:
     Value: !Ref "ECSCluster"
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "ClusterName"]]
-  InternalUrl:
-    Description: The url of the internal load balancer
-    Value: !Join ["", ["https://", !GetAtt "PrivateLoadBalancer.DNSName"]]
-    Export:
-      Name: !Join [":", [!Ref "AWS::StackName", "InternalUrl"]]
   ExternalUrl:
     Description: The url of the external load balancer
     Value: !Join ["", ["https://", !GetAtt "PublicLoadBalancer.DNSName"]]
@@ -560,11 +475,6 @@ Outputs:
     Value: !Ref PublicLoadBalancerListener
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "PublicListener"]]
-  PrivateListener:
-    Description: The ARN of the public load balancer's Listener
-    Value: !Ref PrivateLoadBalancerListener
-    Export:
-      Name: !Join [":", [!Ref "AWS::StackName", "PrivateListener"]]
   VPCId:
     Description: The ID of the VPC that this stack is deployed in
     Value: !Ref "VPC"
