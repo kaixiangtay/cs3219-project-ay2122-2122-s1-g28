@@ -70,11 +70,13 @@
   position: absolute;
   left: 0;
   transform: scaleX(-1);
+  height: 90%;
 }
 
 .sideDesignRight {
   position: absolute;
   right: 0;
+  height: 90%;
 }
 
 /* Side Design */

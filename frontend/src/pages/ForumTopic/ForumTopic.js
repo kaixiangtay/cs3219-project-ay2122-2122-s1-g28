@@ -60,7 +60,7 @@ function ForumTopic() {
       <img alt="SideDesign" src={SideDesign} className={"sideDesignRight"} />
       <Container>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
-          <Grid item xs={12}>
+          <Grid item xs={12} className="center-text">
             <PageTitle title={topic} icon={FORUM_ICONS[topic]} />
           </Grid>
           <Grid item xs={12}>
@@ -79,7 +79,7 @@ function ForumTopic() {
           <Grid item xs={12} md={4} className="center-text">
             <SortButton type="Post" topic={topic} sortBy={handleSortValue} />
           </Grid>
-          <Grid item md={12}>
+          <Grid item xs={12}>
             <ForumPosts topic={topic} sortBy={sortValue} />
           </Grid>
         </Grid>

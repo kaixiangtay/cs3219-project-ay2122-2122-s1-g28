@@ -32,14 +32,11 @@ function SortButton(props) {
 
   return (
     <div>
-      <FormControl
-        variant="outlined"
-        size="small"
-        className={styles.sortButton}
-      >
+      <FormControl variant="outlined" size="small">
         <Select
           value={sortByValue}
           onChange={(e) => setSortByValue(e.target.value)}
+          className={styles.sortButton}
         >
           <MenuItem value="latest">Latest</MenuItem>
           <MenuItem value="oldest">Oldest</MenuItem>
