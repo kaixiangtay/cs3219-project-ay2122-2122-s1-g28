@@ -6,7 +6,6 @@ import {
 	GCP_ACCESS_TOKEN,
 	GCP_REFRESH_TOKEN,
 	FRONTEND_URL,
-	BACKEND_URL,
 } from "../config/config.js";
 
 const transporter = nodemailer.createTransport({
@@ -36,9 +35,6 @@ const registerAccountEmailOptions = (email, token) => {
 		</p>
 		<p style="color:red;">
 		Do note that this link is only valid for 15 minutes.
-		</p>
-		<p>
-		However, if your current link has expired, please click <a href="${BACKEND_URL}/resendEmail/${token}">here</a> and we will get a fresh link for you!
 		</p>
 		<p>
 		Thank you,
