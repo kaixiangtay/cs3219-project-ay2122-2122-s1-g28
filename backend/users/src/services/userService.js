@@ -24,14 +24,14 @@ async function getUserByID(userId) {
 	return user;
 }
 
-function createUser(inputData) {
+async function createUser(inputData) {
 	const user = new User();
 	user.name = inputData.name;
 	user.email = inputData.email;
 	user.password = userAuth.hashPassword(inputData.password);
 	user.token = userAuth.createSignUpToken(user.email);
 
-	user.save();
+	await user.save();
 	mailerService.sendRegisterUserEmail(user.email, user.token);
 	return user;
 }
@@ -47,7 +47,7 @@ async function updateUser(userId, inputData) {
 	return user;
 }
 
-function verifyUser(user) {
+async function verifyUser(user) {
 	user.isVerified = true;
 	user.save();
 	return user;
@@ -73,7 +73,7 @@ async function deleteUser(userId) {
 	return status.deletedCount;
 }
 
-function resetPassword(user) {
+async function resetPassword(user) {
 	const tempPassword = generator.generate({
 		length: 15,
 		numbers: true,
@@ -81,20 +81,20 @@ function resetPassword(user) {
 		strict: true,
 	});
 
+	user.save();
 	// temporary password will be issued
 	mailerService.sendForgotPasswordEmail(user.email, tempPassword);
 	user.token = userAuth.createSignUpToken(user.email);
 	user.password = userAuth.hashPassword(tempPassword);
-	user.save();
 }
 
-function resendEmail(user) {
+async function resendEmail(user) {
 	user.token = userAuth.createSignUpToken(user.email);
 	user.save();
 	mailerService.sendRegisterUserEmail(user.email, user.token);
 }
 
-function loginUser(user) {
+async function loginUser(user) {
 	// Allow token access for a day
 	user.token = userAuth.createLoginToken(user._id);
 	user.save();
