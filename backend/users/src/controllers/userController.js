@@ -32,16 +32,11 @@ const index = [
 	},
 ];
 
-const dummyCache = {};
-
 // Register new user
 const registerUser = [
 	userValidator.userRegisterValidator(),
 	async (req, res) => {
 		try {
-			if (dummyCache[req.headers["x-idempotence-key"]]) {
-				return res.status(304).send("Not Modified");
-			}
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return res.status(404).json(errors.array());
@@ -57,15 +52,13 @@ const registerUser = [
 					},
 				]);
 			} else {
-				const response = {
+				user = await userService.createUser(req.body);
+
+				return res.status(200).json({
 					status: "success",
 					msg: "New user created!",
 					data: user,
-				};
-				// Store in cache
-				dummyCache[req.headers["x-idempotence-key"]] = response;
-				user = userService.createUser(req.body);
-				return res.status(200).json(response);
+				});
 			}
 		} catch (err) {
 			return res.status(400).json({
@@ -178,9 +171,6 @@ const uploadProfileImage = [
 	userAuth.decodeAuthToken,
 	async (req, res) => {
 		try {
-			if (dummyCache[req.headers["x-idempotence-key"]]) {
-				return res.status(304).send("Not Modified");
-			}
 			const userId = req.userId;
 			let user = await userService.getUserByID(userId);
 
@@ -201,7 +191,8 @@ const uploadProfileImage = [
 					});
 				} else {
 					user = userService.saveProfileImageUrl(user, req.file.location);
-					const response = {
+
+					return res.status(200).json({
 						status: "success",
 						msg: "Profile uploaded successfully!",
 						data: {
@@ -209,11 +200,7 @@ const uploadProfileImage = [
 							email: user.email,
 							profileImageUrl: user.profileImageUrl,
 						},
-					};
-
-					// Store in cache
-					dummyCache[req.headers["x-idempotence-key"]] = response;
-					return res.status(200).json(response);
+					});
 				}
 			});
 		} catch (err) {
