@@ -34,7 +34,7 @@ router
 
 router
 	.route("/api/users/resendEmail/:token")
-	.get(userController.resendEmail);
+	.post(userController.resendEmail);
 
 router
 	.route("/api/users/resetPassword")
