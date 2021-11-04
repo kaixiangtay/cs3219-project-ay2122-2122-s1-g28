@@ -19,8 +19,6 @@ router.get("/api/forum", (req, res) => {
 	});
 });
 
-router.route("/api/forum/viewAllPosts/:topic").get(postController.index);
-
 router
 	.route("/api/forum/viewUserPosts/:topic")
 	.get(postController.viewUserPosts);
@@ -42,20 +40,12 @@ router
 	.delete(postController.deletePost);
 
 router
-	.route("/api/forum/viewAllComments/:post_id")
-	.get(commentController.viewPostComments);
-
-router
 	.route("/api/forum/viewUserComments/:topic")
 	.get(commentController.viewUserComments);
 
 router
 	.route("/api/forum/createComment/:post_id")
 	.post(commentController.createComment);
-
-router
-	.route("/api/forum/viewComment/:post_id/:comment_id")
-	.get(commentController.viewComment);
 
 router
 	.route("/api/forum/updateComment/:post_id/:comment_id")

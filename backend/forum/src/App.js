@@ -37,7 +37,6 @@ app.listen(PORT, (err) => {
 		console.log(err);
 		process.exit(1);
 	}
-	// eslint-disable-next-line no-unused-expressions
 	connection;
 	console.log(`Server is running at PORT ${PORT}`);
 });
