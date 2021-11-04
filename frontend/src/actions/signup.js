@@ -1,8 +1,5 @@
 import { toast } from "react-toastify";
 
-// Import UUID
-import { v4 as uuidv4 } from "uuid";
-
 // Import constants
 import {
   SIGNUP_SUCCESS,
@@ -85,7 +82,6 @@ export const handleUserSignUp = (_name, _email, _password) => (dispatch) => {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "x-idempotence-key": `${uuidv4()}`,
     },
     body: new URLSearchParams({
       name: _name,
