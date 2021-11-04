@@ -24,16 +24,16 @@ const Routes = () => {
           return <Redirect to="/login/" />;
         }}
       />
-      <Route exact path="/login/" component={Login} />
-      <Route exact path="/signup/" component={Signup} />
-      <Route exact path="/verify-email/:token/" component={VerifyEmail} />
-      <Route exact path="/verify-email/" component={VerifyEmail} />
-      <Route exact path="/profile/" component={Profile} />
-      <Route exact path="/findfriends/" component={FindFriends} />
-      <Route exact path="/forum/" component={Forum} />
-      <Route exact path="/forum/:topic/" component={ForumTopic} />
-      <Route exact path="/forum/:topic/manage-posts/" component={ManagePosts} />
-      <Route exact path="/forum/:topic/:id/" component={SingleForumPost} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/verify-email/:token" component={VerifyEmail} />
+      <Route path="/verify-email" component={VerifyEmail} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/findfriends" component={FindFriends} />
+      <Route exact path="/forum" component={Forum} />
+      <Route exact path="/forum/:topic" component={ForumTopic} />
+      <Route exact path="/forum/:topic/manage-posts" component={ManagePosts} />
+      <Route exact path="/forum/:topic/:id" component={SingleForumPost} />
     </Switch>
   );
 };
