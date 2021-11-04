@@ -16,24 +16,24 @@ import SingleForumPost from "./pages/SingleForumPost/SingleForumPost.js";
 const Routes = () => {
   return (
     <Switch>
-      <Redirect from="/:url*(/+)" to={window.location.pathname.slice(0, -1)} />
+      {/* <Redirect from="/:url*(/+)" to={window.location.pathname.slice(0, -1)} /> */}
       <Route
         exact
         path="/"
         render={() => {
-          return <Redirect to="/login" />;
+          return <Redirect to="/login/" />;
         }}
       />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/signup" component={Signup} />
-      <Route exact path="/verify-email/:token" component={VerifyEmail} />
-      <Route exact path="/verify-email" component={VerifyEmail} />
-      <Route exact path="/profile" component={Profile} />
-      <Route exact path="/findfriends" component={FindFriends} />
-      <Route exact path="/forum" component={Forum} />
-      <Route exact path="/forum/:topic" component={ForumTopic} />
-      <Route exact path="/forum/:topic/manage-posts" component={ManagePosts} />
-      <Route exact path="/forum/:topic/:id" component={SingleForumPost} />
+      <Route exact path="/login/" component={Login} />
+      <Route exact path="/signup/" component={Signup} />
+      <Route exact path="/verify-email/:token/" component={VerifyEmail} />
+      <Route exact path="/verify-email/" component={VerifyEmail} />
+      <Route exact path="/profile/" component={Profile} />
+      <Route exact path="/findfriends/" component={FindFriends} />
+      <Route exact path="/forum/" component={Forum} />
+      <Route exact path="/forum/:topic/" component={ForumTopic} />
+      <Route exact path="/forum/:topic/manage-posts/" component={ManagePosts} />
+      <Route exact path="/forum/:topic/:id/" component={SingleForumPost} />
     </Switch>
   );
 };
