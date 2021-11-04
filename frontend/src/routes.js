@@ -21,7 +21,7 @@ const Routes = () => {
         exact
         path="/"
         render={() => {
-          return <Redirect to="/login/" />;
+          return <Redirect to="/login" />;
         }}
       />
       <Route path="/login" component={Login} />
