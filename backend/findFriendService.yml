@@ -157,22 +157,3 @@ Resources:
         ScaleOutCooldown: 60
         PredefinedMetricSpecification:
           PredefinedMetricType: ECSServiceAverageCPUUtilization
-
-  CPUAlarm:
-    Type: AWS::CloudWatch::Alarm
-    Properties:
-      AlarmDescription: Scale-up if CPU is greater than 50% for 2 minutes
-      AlarmActions:
-        - !Ref ServiceScalingPolicyCPU
-      MetricName: CPUUtilization
-      Namespace: AWS/ECS
-      Statistic: Average
-      Period: "60"
-      EvaluationPeriods: "2"
-      Threshold: "50"
-      ComparisonOperator: GreaterThanOrEqualToThreshold
-      Dimensions:
-        - Name: ClusterName
-          Value: Service.Cluster
-        - Name: ServiceName
-          Value: Service.Name
