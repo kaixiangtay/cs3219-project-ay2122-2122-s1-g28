@@ -2,9 +2,9 @@ name: Backend Deployment (AWS EC2)
 
 on:
   push:
-    branches: [frontend-chatRoute]
+    branches: [frontend-design]
   pull_request:
-    branches: [frontend-chatRoute]
+    branches: [frontend-design]
   workflow_dispatch:
     # Allows you to run this workflow manually from the Actions tab
 

@@ -1,5 +1,8 @@
 import { toast } from "react-toastify";
 
+// Import UUID
+import { v4 as uuidv4 } from "uuid";
+
 // Import tokenExpire to update if token expired
 import { tokenExpire } from "./auth.js";
 
@@ -174,6 +177,7 @@ export const handleProfileImageUpload =
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
+        "x-idempotence-key": `${uuidv4()}`,
         headers: { "Content-Type": "multipart/form-data" },
       },
       body: formData,
