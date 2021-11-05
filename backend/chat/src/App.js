@@ -1,7 +1,6 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import cors from "cors";
 import Router from "./routes/chatRoutes.js";
 import { PORT } from "./config/config.js";
