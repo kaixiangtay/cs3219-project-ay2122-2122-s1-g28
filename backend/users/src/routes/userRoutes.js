@@ -33,7 +33,7 @@ router
 	.get(userController.verifyUserEmail);
 
 router
-	.route("/api/users/resendEmail/:token")
+	.route("/api/users/resendEmail")
 	.post(userController.resendEmail);
 
 router
