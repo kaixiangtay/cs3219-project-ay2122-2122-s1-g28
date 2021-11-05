@@ -141,7 +141,9 @@ export const updateInterests = (category, items) => (dispatch) => {
 export let socket;
 
 export const initiateSocket = (roomId) => {
-  socket = io(`${process.env.REACT_APP_API_URL_CHAT}`);
+  socket = io(`${process.env.REACT_APP_API_URL_CHAT}`, {
+    path: "/api/chat/socket.io",
+  });
 
   console.log(`Connecting socket...`);
 
