@@ -74,7 +74,7 @@ const resendEmail = [
 	async (req, res) => {
 		try {
 			const userEmail = req.email;
-			let user = await userService.getUserByEmail(req.email);
+			let user = await userService.getUserByEmail(req.body.email);
 
 			if (!userEmail) {
 				return res.status(404).json({
