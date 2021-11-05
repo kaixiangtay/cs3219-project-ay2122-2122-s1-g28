@@ -16,11 +16,15 @@ const merge = (arr1, arr2) => {
 	const map = new Map();
 
 	if (arr1 !== undefined) {
-		arr1.forEach((item) => { return map.set(item.id, item); });
+		arr1.forEach((item) => {
+			return map.set(item.id, item);
+		});
 	}
 
 	if (arr2 !== undefined) {
-		arr2.forEach((item) => { return map.set(item.id, { ...map.get(item.id), ...item }); });
+		arr2.forEach((item) => {
+			return map.set(item.id, { ...map.get(item.id), ...item });
+		});
 	}
 
 	const mergedArr = Array.from(map.values());
@@ -187,12 +191,11 @@ function sortMatchResults(matchResults) {
 	});
 
 	const sortedMatchResults = matchResults.sort((c1, c2) => {
-		// eslint-disable-next-line no-nested-ternary
 		return c1.totalCount < c2.totalCount
 			? 1
 			: c1.totalCount > c2.totalCount
-				? -1
-				: 0;
+			? -1
+			: 0;
 	});
 
 	return sortedMatchResults;
