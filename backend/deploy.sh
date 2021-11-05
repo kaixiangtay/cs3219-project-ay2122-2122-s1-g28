@@ -14,6 +14,8 @@ docker push public.ecr.aws/a0f1y0x2/forum:latest
 
 docker push public.ecr.aws/a0f1y0x2/findfriend:latest
 
+docker push public.ecr.aws/a0f1y0x2/chat:latest
+
 docker-compose up -d
 
 aws cloudformation deploy \
