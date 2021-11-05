@@ -2,6 +2,10 @@
 import React from "react";
 import { useHistory } from "react-router";
 
+// Import Redux
+import { handleUnmatch } from "../../actions/match.js";
+import { useDispatch, useSelector } from "react-redux";
+
 // Import Material-ui
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -20,6 +24,9 @@ import styles from "./SearchMatch.module.css";
 function SearchMatch() {
   const history = useHistory();
 
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   return (
     <Container className="primary-font">
       <Grid container spacing={2} alignItems="center" justifyContent="center">
@@ -35,7 +42,10 @@ function SearchMatch() {
         <Button
           variant="contained"
           className="red-button"
-          onClick={() => history.go(0)}
+          onClick={() => {
+            dispatch(handleUnmatch(auth.token));
+            history.go(0);
+          }}
         >
           Cancel Matching
         </Button>
