@@ -73,8 +73,8 @@ const registerUser = [
 const resendEmail = [
 	async (req, res) => {
 		try {
-			const userEmail = req.email;
-			let user = await userService.getUserByEmail(req.body.email);
+			const userEmail = req.body.email;
+			let user = await userService.getUserByEmail(userEmail);
 
 			if (!userEmail) {
 				return res.status(404).json({
