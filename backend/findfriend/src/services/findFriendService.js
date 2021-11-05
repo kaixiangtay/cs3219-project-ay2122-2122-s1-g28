@@ -315,7 +315,7 @@ async function createMatch(interests, userId) {
 		return "";
 	} else if (noMatchingUser) {
 		if (!existingUser) {
-			findFriend.save();
+			await findFriend.save();
 		}
 		return "";
 	} else {
@@ -330,9 +330,9 @@ async function createMatch(interests, userId) {
 		findFriend.roomId = room._id;
 		matchedUser.roomId = room._id;
 
-		findFriend.save();
-		matchedUser.save();
-		room.save();
+		await findFriend.save();
+		await matchedUser.save();
+		await room.save();
 		return room._id;
 	}
 }
@@ -346,9 +346,9 @@ async function clearMatch(userId) {
 		const matchedUser = await FindFriend.findOne({ _id: matchedPersonId });
 		const room = await Room.findOne({ _id: roomId });
 
-		const userStatus = await FindFriend.deleteOne({ id: user._id });
-		const matchedUserStatus = await FindFriend.deleteOne(matchedUser);
-		const roomStatus = await Room.deleteOne(room);
+		await FindFriend.deleteOne({ id: user._id });
+		await FindFriend.deleteOne(matchedUser);
+		await Room.deleteOne(room);
 
 		// Return null if user who cancel the match is deleted succesfully
 		return null;
