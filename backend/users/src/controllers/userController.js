@@ -73,8 +73,8 @@ const registerUser = [
 const resendEmail = [
   async (req, res) => {
     try {
-      const userEmail = req.email;
-      let user = await userService.getUserByEmail(req.email);
+      const userEmail = req.body.email;
+      let user = await userService.getUserByEmail(userEmail);
 
       if (!userEmail) {
         return res.status(404).json({
@@ -95,7 +95,6 @@ const resendEmail = [
       return res.status(200).json({
         status: "success",
         msg: "New account sign up email link have been resend!",
-        token: user.token,
       });
     } catch (err) {
       return res.status(400).json({

@@ -61,9 +61,9 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 4.  Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-5.  Install [AWS CLI](https://aws.amazon.com/cli/)
+5.  Install [AWS CLI](https://aws.amazon.com/cli/) to view AWS resources.
 
-6.  Install [hey] (https://github.com/rakyll/hey)
+6.  Install [hey](https://github.com/rakyll/hey) for load testing.
 
 7.  Open a Terminal instance for
     Backend microservices deployment:
