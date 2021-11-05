@@ -28,39 +28,42 @@ const io = new Server(httpServer, {
   path: "/api/chat/socket.io",
 });
 
+var clients = {};
+
 io.on("connection", (socket) => {
   console.log(`Connected: ${socket.id}`);
 
-  let socketRoom;
-
   socket.on("join", (data) => {
-    const { roomId } = data;
+    const roomId = data;
+    console.log(roomId);
     console.log(`Socket ${socket.id} joining ${roomId}`);
     socket.join(roomId);
-    socketRoom = roomId;
+    // Add user to clients
+    clients[socket.id] = roomId;
 
-    const roomSize = io.sockets.adapter.rooms.get(socketRoom).size;
+    const roomSize = io.sockets.adapter.rooms.get(roomId).size;
 
     if (roomSize == 2) {
-      io.to(socketRoom).emit(
-        "profileRequest",
-        "Please send your profile request"
-      );
+      io.to(roomId).emit("profileRequest", "Please send your profile request");
     }
   });
 
   socket.on("profileRetrieval", (data) => {
-    io.to(socketRoom).emit("profileRetrieval", data);
+    const { roomId, token, profile } = data;
+    io.to(roomId).emit("profileRetrieval", data);
   });
 
   socket.on("chat", (data) => {
-    // var { token, message } = data;
-    io.to(socketRoom).emit("chat", data);
+    const { roomId, token, message } = data;
+    io.to(roomId).emit("chat", data);
   });
 
   socket.on("disconnect", () => {
+    const roomId = clients[socket.id];
     console.log(`Disconnected: ${socket.id}`);
-    io.to(socketRoom).emit("leave", true);
+    io.to(roomId).emit("leave", roomId);
+    // Delete user from clients
+    delete clients[socket.id];
   });
 });
 

@@ -6,8 +6,6 @@ import {
   handleUnmatch,
   handleMatchDisconnect,
   initiateSocket,
-  listenForDisconnect,
-  disconnectSocket,
   socket,
 } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,28 +42,29 @@ function Chat() {
   useEffect(() => {
     initiateSocket(match.data.roomId);
 
+    // Request for matched party's profile
     socket.on("profileRequest", () => {
       socket.emit("profileRetrieval", {
+        roomId: match.data.roomId,
         token: auth.token,
         profile: profile.data,
       });
     });
 
+    // Receive matched party's profile
     socket.on("profileRetrieval", (data) => {
-      if (data.token != auth.token) {
-        setMatchedName(data.profile.name);
-        setMatchedDisplayPic(data.profile.profileImageUrl);
+      const { roomId, token, profile } = data;
+      if (roomId === match.data.roomId && token != auth.token) {
+        setMatchedName(profile.name);
+        setMatchedDisplayPic(profile.profileImageUrl);
       }
     });
 
-    listenForDisconnect((err, data) => {
-      if (err) {
-        console.log("err in disconnecting");
-        disconnectSocket();
-        return;
-      }
-      if (data) {
-        console.log("Someone disconnected");
+    // When match party leaves the room
+    socket.on("leave", (data) => {
+      console.log(data);
+      let roomId = data;
+      if (roomId === match.data.roomId) {
         dispatch(handleMatchDisconnect());
       }
     });
@@ -73,11 +72,9 @@ function Chat() {
 
   useEffect(() => {
     socket.on("chat", (data) => {
-      if (data.token !== auth.token) {
-        setMessages([
-          ...messages,
-          { token: data.token, message: data.message },
-        ]);
+      const { roomId, token, message } = data;
+      if (data && roomId === match.data.roomId && token !== auth.token) {
+        setMessages([...messages, { token: token, message: message }]);
       }
     });
   }, [messages]);
