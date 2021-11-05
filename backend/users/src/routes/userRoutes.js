@@ -32,7 +32,7 @@ router
   .route("/api/users/verifyEmail/:token")
   .post(userController.verifyUserEmail);
 
-router.route("/api/users/resendEmail/:token").post(userController.resendEmail);
+router.route("/api/users/resendEmail").post(userController.resendEmail);
 
 router.route("/api/users/resetPassword").post(userController.resetPassword);
 

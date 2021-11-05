@@ -69,13 +69,12 @@ const registerUser = [
   },
 ];
 
-// Resend verification email when token has expired after 15 mins
+// Resend verification email
 const resendEmail = [
-  userAuth.decodeTempToken,
   async (req, res) => {
     try {
       const userEmail = req.email;
-      const user = await userService.getUserByEmail(req.email);
+      let user = await userService.getUserByEmail(req.email);
 
       if (!userEmail) {
         return res.status(404).json({
@@ -91,7 +90,7 @@ const resendEmail = [
         });
       }
 
-      await userService.resendEmail(user);
+      user = await userService.resendEmail(user);
 
       return res.status(200).json({
         status: "success",
