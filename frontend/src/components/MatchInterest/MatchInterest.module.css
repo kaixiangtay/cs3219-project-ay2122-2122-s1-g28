@@ -1,17 +1,17 @@
 .div {
-    border: solid var(--WHITE);
-    border-radius: 25px;
-    padding-bottom: 5%;
-    text-align:center;
+  border: solid var(--WHITE);
+  border-radius: 25px;
+  padding-bottom: 5%;
+  text-align: center;
 }
 
 .buttonUnselected {
-    background-color: var(--WHITE) !important;
-    margin: 1% !important;
+  background-color: var(--WHITE) !important;
+  margin: 1% !important;
 }
 
 .buttonSelected {
-    color: #FFFFFF var(--WHITE);
-    background-color: var(--ORANGE) !important;
-    margin: 1% !important;
+  color: #ffffff var(--WHITE);
+  background-color: var(--PINK) !important;
+  margin: 1% !important;
 }

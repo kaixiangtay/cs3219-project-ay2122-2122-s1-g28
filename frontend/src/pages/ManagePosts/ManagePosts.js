@@ -6,7 +6,15 @@ import { Redirect, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // Import Material-ui
-import { Box, Grid, Paper, Tab, Tabs, Typography } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Grid,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+} from "@material-ui/core";
 
 // Import Components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
@@ -17,6 +25,9 @@ import BackButton from "../../components/BackButton/BackButton.js";
 
 // Import Constants
 import { FORUM_ICONS } from "../../constants/ForumConstants.js";
+
+// Import Resources
+import SideDesign from "../../resources/Side-Design.png";
 
 // Import CSS
 import styles from "./ManagePosts.module.css";
@@ -63,37 +74,39 @@ function ManagePosts() {
   return (
     <div>
       <Navbar />
-      <Grid item md={12} className="center-text">
-        <PageTitle title={pageTitle} icon={FORUM_ICONS[topic]} />
-      </Grid>
-      <Grid container justifyContent="center">
-        <Grid item xs={10} sm={10} md={10}>
-          <BackButton handleOnBack={handleOnBack} />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignLeft"} />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignRight"} />
+      <Container>
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid item md={12} className="center-text">
+            <PageTitle title={pageTitle} icon={FORUM_ICONS[topic]} />
+          </Grid>
+          <Grid item xs={12}>
+            <BackButton handleOnBack={handleOnBack} />
+          </Grid>
+          <Grid item xs={12} className="scrollable">
+            <Paper>
+              <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                variant="fullWidth"
+                TabIndicatorProps={{
+                  className: styles.tabIndicator,
+                }}
+              >
+                <Tab label="Posts" />
+                <Tab label="Comments" />
+              </Tabs>
+              <TabPanel value={tabValue} index={0}>
+                <UserPosts posts={posts} topic={topic} />
+              </TabPanel>
+              <TabPanel value={tabValue} index={1}>
+                <UserComments comments={comments} topic={topic} />{" "}
+              </TabPanel>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container justifyContent="center" className={styles.container}>
-        <Grid item xs={10} sm={10} md={10}>
-          <Paper>
-            <Tabs
-              value={tabValue}
-              onChange={handleTabChange}
-              variant="fullWidth"
-              TabIndicatorProps={{
-                className: styles.tabIndicator,
-              }}
-            >
-              <Tab label="Posts" />
-              <Tab label="Comments" />
-            </Tabs>
-            <TabPanel value={tabValue} index={0}>
-              <UserPosts posts={posts} topic={topic} />
-            </TabPanel>
-            <TabPanel value={tabValue} index={1}>
-              <UserComments comments={comments} topic={topic} />{" "}
-            </TabPanel>
-          </Paper>
-        </Grid>
-      </Grid>
+      </Container>
     </div>
   );
 }

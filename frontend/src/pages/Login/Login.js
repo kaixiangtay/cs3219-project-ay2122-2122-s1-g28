@@ -16,9 +16,8 @@ import LoginForm from "../../components/LoginForm/LoginForm.js";
 
 // Import Resources
 import NUSociaLifeLogo from "../../resources/NUSociaLife_Login_Logo.png";
-import RandomScribble from "../../resources/RandomScribble.png";
 
-// Import CSS
+// CSS
 import styles from "./Login.module.css";
 
 function Login() {
@@ -45,20 +44,17 @@ function Login() {
           className="empty-navbar-gap"
         >
           <Grid item md={6}>
-            <img alt="NUSociaLifeLogo" src={NUSociaLifeLogo} />
+            <img
+              alt="NUSociaLifeLogo"
+              src={NUSociaLifeLogo}
+              className={styles.logo}
+            />
           </Grid>
           <Grid item md={6} xs={12} sm={12}>
             <LoginForm />
           </Grid>
         </Grid>
       </Container>
-      <Grid item md={12}>
-        <img
-          alt="RandomScribble"
-          src={RandomScribble}
-          className={styles.randomScribble}
-        />
-      </Grid>
     </div>
   );
 }
