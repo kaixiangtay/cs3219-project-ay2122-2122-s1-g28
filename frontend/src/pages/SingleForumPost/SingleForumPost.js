@@ -4,6 +4,7 @@ import { Redirect, useHistory } from "react-router-dom";
 
 // Import Redux
 import { handleSortComments } from "../../actions/comment.js";
+import { handleGetSinglePost } from "../../actions/post.js";
 import { useDispatch, useSelector } from "react-redux";
 
 // Import Material-ui
@@ -68,6 +69,7 @@ function SingleForumPost() {
       dispatch(handleSortComments(sortValue, post._id));
     } else if (post.comments.length || createdComment) {
       dispatch(handleSortComments("latest", post._id));
+      dispatch(handleGetSinglePost(post._id));
     } else {
       return;
     }
