@@ -86,62 +86,64 @@ function SingleForumPost() {
           <Grid item xs={12}>
             <BackButton handleOnBack={handleOnBack} />
           </Grid>
-          <Paper className={styles.paperPadding}>
-            <Grid container spacing={2} className="scrollable">
-              <Grid item xs={1}>
-                <VoteArrows
-                  votes={post.votes}
-                  postId={post._id}
-                  sortBy={sortValue}
-                />
-              </Grid>
-              <Grid item xs={11}>
-                <PostDetails post={post} />
-              </Grid>
-              <Grid item xs={12}>
-                <CommentBox post={post} />
-              </Grid>
-
-              {comments.length != 0 ? (
-                <Grid item xs={12} align="left">
-                  <SortButton
-                    type="Comment"
+          <Grid item xs={12}>
+            <Paper className={styles.paperPadding}>
+              <Grid container spacing={2} className="scrollable">
+                <Grid item xs={1}>
+                  <VoteArrows
+                    votes={post.votes}
                     postId={post._id}
-                    sortBy={handleSortValue}
+                    sortBy={sortValue}
                   />
                 </Grid>
-              ) : (
-                <Grid item xs={12} />
-              )}
+                <Grid item xs={11}>
+                  <PostDetails post={post} />
+                </Grid>
+                <Grid item xs={12}>
+                  <CommentBox post={post} />
+                </Grid>
 
-              <Grid container alignItems="center" spacing={4}>
-                {comments ? (
-                  comments.map((comment) => (
-                    <Grid item xs={12} key={comment._id}>
-                      <Card variant="outlined">
-                        <CardContent className={styles.cardContent}>
-                          <Grid container spacing={2}>
-                            <Grid item xs={1}>
-                              <VoteArrows
-                                votes={comment.votes}
-                                postId={comment.postId}
-                                commentId={comment._id}
-                              />
-                            </Grid>
-                            <Grid item xs={11} sm={11} md={11}>
-                              <CommentDetails comment={comment} />
-                            </Grid>
-                          </Grid>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))
+                {comments.length != 0 ? (
+                  <Grid item xs={12} align="left">
+                    <SortButton
+                      type="Comment"
+                      postId={post._id}
+                      sortBy={handleSortValue}
+                    />
+                  </Grid>
                 ) : (
-                  <div />
+                  <Grid item xs={12} />
                 )}
+
+                <Grid container alignItems="center" spacing={4}>
+                  {comments ? (
+                    comments.map((comment) => (
+                      <Grid item xs={12} key={comment._id}>
+                        <Card variant="outlined">
+                          <CardContent className={styles.cardContent}>
+                            <Grid container spacing={2}>
+                              <Grid item xs={1}>
+                                <VoteArrows
+                                  votes={comment.votes}
+                                  postId={comment.postId}
+                                  commentId={comment._id}
+                                />
+                              </Grid>
+                              <Grid item xs={11} sm={11} md={11}>
+                                <CommentDetails comment={comment} />
+                              </Grid>
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  ) : (
+                    <div />
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
+            </Paper>
+          </Grid>
         </Grid>
       </Container>
     </div>
