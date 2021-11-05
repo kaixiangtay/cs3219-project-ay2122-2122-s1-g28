@@ -23,7 +23,6 @@ function LoginForm() {
     <Container>
       <Paper elevation={5} className={styles.paperStyle}>
         <form noValidate autoComplete="off">
-          <h2 className={styles.header}>Login</h2>
           <Grid>
             <h3 className={styles.inputLabel}>NUS Email:</h3>
             <TextField
