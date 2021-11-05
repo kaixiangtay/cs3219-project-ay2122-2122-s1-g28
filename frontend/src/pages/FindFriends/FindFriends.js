@@ -4,7 +4,11 @@ import { Redirect } from "react-router-dom";
 
 // import Redux
 import { handleNavigation } from "../../actions/navigation";
-import { handleMatchWithRetry, resetInterests } from "../../actions/match";
+import {
+  handleMatchWithRetry,
+  resetInterests,
+  // handleUnmatch,
+} from "../../actions/match";
 import { handleProfileRetrieval } from "../../actions/profile";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -49,6 +53,7 @@ function FindFriends() {
     dispatch(handleNavigation(FINDFRIENDS));
     dispatch(resetInterests());
     dispatch(handleProfileRetrieval(auth.token));
+    // dispatch(handleUnmatch(auth.token));
   }, []);
 
   if (!auth.token) {
