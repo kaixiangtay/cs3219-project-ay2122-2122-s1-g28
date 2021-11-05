@@ -161,29 +161,9 @@ export const disconnectSocket = () => {
   return true;
 };
 
-export const listenForMessages = (cb) => {
-  if (!socket) {
-    return true;
-  }
-
-  socket.on("chat", (msg) => {
-    return cb(null, msg);
-  });
-};
-
-export const listenForDisconnect = (cb) => {
-  if (!socket) {
-    return true;
-  }
-
-  socket.on("leave", (msg) => {
-    return cb(null, msg);
-  });
-};
-
-export const sendMessage = (token, message) => {
+export const sendMessage = (roomId, token, message) => {
   if (socket) {
-    socket.emit("chat", { token, message });
+    socket.emit("chat", { roomId, token, message });
   }
 };
 
@@ -224,6 +204,7 @@ export const handleMatchWithRetry =
               3000
             );
           } else {
+            dispatch(handleUnmatch(token));
             dispatch(
               matchedFailure({ msg: "No suitable match found at the moment" })
             );

@@ -18,10 +18,11 @@ function ChatMessage({ messages, setMessages }) {
   const [inputText, setInputText] = useState("");
 
   const auth = useSelector((state) => state.auth);
+  const match = useSelector((state) => state.match);
 
   const handleSendMessage = () => {
     if (inputText !== "") {
-      sendMessage(auth.token, inputText);
+      sendMessage(match.data.roomId, auth.token, inputText);
       setMessages([...messages, { token: auth.token, message: inputText }]);
       setInputText("");
     }
