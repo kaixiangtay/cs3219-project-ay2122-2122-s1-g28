@@ -95,7 +95,6 @@ const resendEmail = [
 			return res.status(200).json({
 				status: "success",
 				msg: "New account sign up email link have been resend!",
-				token: user.token,
 			});
 		} catch (err) {
 			return res.status(400).json({
