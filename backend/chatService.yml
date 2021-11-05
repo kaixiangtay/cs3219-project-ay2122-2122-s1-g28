@@ -43,7 +43,7 @@ Parameters:
       assigned to different paths on the load balancer.
   DesiredCount:
     Type: Number
-    Default: 1
+    Default: 2
     Description: How many copies of the service task to run
   Role:
     Type: String

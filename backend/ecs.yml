@@ -9,7 +9,7 @@ Description:
 Parameters:
   DesiredCapacity:
     Type: Number
-    Default: "3"
+    Default: "4"
     Description: Number of EC2 instances to launch in your ECS cluster.
   MaxSize:
     Type: Number
