@@ -1,7 +1,4 @@
-.sortButtonContainer {
-  min-width: 150px !important;
-}
-
 .sortButton {
   background-color: var(--WHITE) !important;
+  width: 250px !important;
 }

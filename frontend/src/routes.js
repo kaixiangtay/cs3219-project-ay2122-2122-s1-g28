@@ -16,6 +16,7 @@ import SingleForumPost from "./pages/SingleForumPost/SingleForumPost.js";
 const Routes = () => {
   return (
     <Switch>
+      {/* <Redirect from="/:url*(/+)" to={window.location.pathname.slice(0, -1)} /> */}
       <Route
         exact
         path="/"

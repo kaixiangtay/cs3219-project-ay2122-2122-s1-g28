@@ -25,7 +25,7 @@ import ChatMessage from "../ChatMessage/ChatMessage.js";
 import PageTitle from "../PageTitle/PageTitle.js";
 
 // Import resources
-import defaultProfilePicture from "../../resources/NUSocialLife_Default_Profile.png";
+import defaultProfilePicture from "../../resources/NUSociaLife_Logo.png";
 
 // Import CSS
 import styles from "./Chat.module.css";

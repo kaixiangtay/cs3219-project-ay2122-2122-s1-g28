@@ -21,6 +21,9 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture.js";
 // Import Constants
 import { PROFILE } from "../../constants/ReduxConstants";
 
+// Import Resources
+import SideDesign from "../../resources/Side-Design.png";
+
 function Profile() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -37,6 +40,8 @@ function Profile() {
   return (
     <div>
       <Navbar />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignLeft"} />
+      <img alt="SideDesign" src={SideDesign} className={"sideDesignRight"} />
       <Container>
         <Grid item md={12} className="center-text">
           <PageTitle title={"Profile"} icon={faUserCircle} />
