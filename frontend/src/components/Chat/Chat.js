@@ -62,7 +62,6 @@ function Chat() {
 
     // When match party leaves the room
     socket.on("leave", (data) => {
-      console.log(data);
       let roomId = data;
       if (roomId === match.data.roomId) {
         dispatch(handleMatchDisconnect());
