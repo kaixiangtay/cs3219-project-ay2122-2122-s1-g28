@@ -37,10 +37,10 @@ Parameters:
       traffic to this service.
   Priority:
     Type: Number
-    Default: 2
+    Default: 1
     Description: The priority for the routing rule added to the load balancer.
       This only applies if your have multiple services which have been
-      assigned to different paths on the load balancer.
+      assigned to different paths on the load ßbalancer.
   DesiredCount:
     Type: Number
     Default: 1
@@ -144,7 +144,6 @@ Resources:
       ListenerArn:
         Fn::ImportValue: !Join [":", [!Ref "StackName", "PublicListener"]]
       Priority: !Ref "Priority"
-<<<<<<< Updated upstream
 
   ECSScalableTarget:
     Type: AWS::ApplicationAutoScaling::ScalableTarget
@@ -173,5 +172,3 @@ Resources:
         ScaleOutCooldown: 60
         PredefinedMetricSpecification:
           PredefinedMetricType: ECSServiceAverageCPUUtilization
-=======
->>>>>>> Stashed changes
