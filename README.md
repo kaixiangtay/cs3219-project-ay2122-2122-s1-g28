@@ -24,21 +24,9 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 ## Demo
 
-### Sign Up Demo
-
-<img width=80% src="./resources/demo_signup.gif">
-
-### Find Friend Demo
-
-  <img width=80% src="./resources/demo_findfriend.gif">
-
-### Forum Demo
-
-  <img width=80% src="./resources/demo_forum.gif">
-
-### Profile Demo
-
-  <img width=80% src="./resources/demo_profile.gif">
+<a href="https://youtu.be/rnTQsJvS6X4" target="_blank">
+  <img src="./resources/demo_thumbnail.png" height="300">
+</a>
 
 ## Architecture
 
@@ -73,9 +61,9 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
     - backend/forum/.env
     - backend/chat/.env
 
-3.  Install [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+3.  Install [MongoDB Community Server](https://www.mongodb.com/try/download/community) for MongoDB.
 
-4.  Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
+4.  Install [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
 5.  Install [AWS CLI](https://aws.amazon.com/cli/) to view AWS resources.
 
