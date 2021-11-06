@@ -14,11 +14,6 @@ async function getUserByEmail(inputEmail) {
 	return user;
 }
 
-async function getUserByToken(inputToken) {
-	const user = await User.findOne({ token: inputToken });
-	return user;
-}
-
 async function getUserByID(userId) {
 	const user = await User.findById(userId);
 	return user;
@@ -32,7 +27,7 @@ async function createUser(inputData) {
 	user.token = userAuth.createSignUpToken(user.email);
 
 	await user.save();
-	mailerService.sendRegisterUserEmail(user.email, user.token);
+	await mailerService.sendRegisterUserEmail(user.email, user.token);
 	return user;
 }
 
@@ -85,13 +80,13 @@ async function resetPassword(user) {
 	user.password = userAuth.hashPassword(tempPassword);
 	await user.save();
 	// temporary password will be issued
-	mailerService.sendForgotPasswordEmail(user.email, tempPassword);
+	await mailerService.sendForgotPasswordEmail(user.email, tempPassword);
 }
 
 async function resendEmail(user) {
 	user.token = userAuth.createSignUpToken(user.email);
 	await user.save();
-	mailerService.sendRegisterUserEmail(user.email, user.token);
+	await mailerService.sendRegisterUserEmail(user.email, user.token);
 }
 
 async function loginUser(user) {
@@ -104,7 +99,6 @@ async function loginUser(user) {
 export default {
 	getAllUsers,
 	getUserByEmail,
-	getUserByToken,
 	getUserByID,
 	createUser,
 	updateUser,
