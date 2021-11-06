@@ -88,15 +88,15 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 10.  Using the same Terminal from Step 6, we can perform the list of terminal commands:
 
-    - List stacks in AWS Cloudformation: `aws cloudformation list-stacks`
-    - Check a particular stack details: `aws cloudformation describe-stacks --stack-name userMicroservice`
+  - List stacks in AWS Cloudformation: `aws cloudformation list-stacks`
+  - Check a particular stack details: `aws cloudformation describe-stacks --stack-name userMicroservice`
 
-        (userMicroservice is a stack name example here)
+    (userMicroservice is a stack name example here)
 
-    - See AWS autoscaling groups for Cluster autoscaling configuration: `aws autoscaling describe-auto-scaling-groups`
-    - See AWS Application Load Balancer and get ALB Amazon Resource Number (ARN): `aws elbv2 describe-load-balancers`
+  - See AWS autoscaling groups for Cluster autoscaling configuration: `aws autoscaling describe-auto-scaling-groups`
+  - See AWS Application Load Balancer and get ALB Amazon Resource Number (ARN): `aws elbv2 describe-load-balancers`
 
-    - To test high availability based on ECS service:
+  - To test high availability based on ECS service:
 
     1. List AWS ECS cluster and get ECS Amazon Resource Number (ARN): `aws ecs list-clusters`
     2. List ECS service: `aws ecs list-services --cluster nusocialife-ECSCluster-uKCGPQtQ1j18`
@@ -119,7 +119,7 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
         You can verify by executing List running task by ECS service command in step 3.
 
-    - To test high availability based on ECS cluster:
+   - To test high availability based on ECS cluster:
 
      1. List AWS EC2 instances in AWS ECS and get EC2 instance id: `aws ec2 describe-instances`
      2. Stop running EC2 instance: `aws ec2 terminate-instances --instance-ids i-01c1adc46c9e05b32`
