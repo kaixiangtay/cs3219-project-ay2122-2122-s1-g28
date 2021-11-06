@@ -344,10 +344,10 @@ async function clearMatch(userId) {
 	const user = await FindFriend.findOne({ userId });
 
 	if (user !== null) {
-		const matchedPersonId = mongoose.Types.ObjectId(user.matchUserId.str);
+		const matchedPersonId = user.matchUserId;
 
 		if (matchedPersonId !== "") {
-			const roomId = mongoose.Types.ObjectId(user.roomId.str);
+			const roomId = user.roomId;
 			const matchedUser = await FindFriend.findOne({ _id: matchedPersonId });
 			const room = await Room.findOne({ _id: roomId });
 
