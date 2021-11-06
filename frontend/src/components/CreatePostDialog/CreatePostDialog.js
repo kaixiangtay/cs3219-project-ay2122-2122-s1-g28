@@ -1,8 +1,8 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleCreatePost } from "../../actions/post";
 
 // Import Material-ui
@@ -30,6 +30,9 @@ function CreatePostDialog(props) {
   const { isOpen, handleClose, topic } = props;
 
   const dispatch = useDispatch();
+  const createPostSuccess = useSelector(
+    (state) => state.post.createPostSuccess
+  );
 
   const handleCreate = () => {
     let postData = {
@@ -38,8 +41,13 @@ function CreatePostDialog(props) {
       content: content,
     };
     dispatch(handleCreatePost(postData));
-    handleClose();
   };
+
+  useEffect(() => {
+    if (createPostSuccess) {
+      handleClose();
+    }
+  }, [createPostSuccess]);
 
   return (
     <Dialog
