@@ -106,7 +106,7 @@ export const handleEmailVerification = (_token) => (dispatch) => {
   const requestUrl = `${process.env.REACT_APP_API_URL_USERS}/api/users/verifyEmail/${_token}`;
 
   fetch(requestUrl, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
