@@ -2,7 +2,10 @@ import aws from "aws-sdk";
 import multer from "multer";
 import multerS3 from "multer-s3";
 import {
-	S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, S3_BUCKET_REGION, S3_BUCKET_NAME,
+	S3_ACCESS_KEY_ID,
+	S3_SECRET_ACCESS_KEY,
+	S3_BUCKET_REGION,
+	S3_BUCKET_NAME,
 } from "../config/config.js";
 
 const s3 = new aws.S3({
@@ -48,8 +51,7 @@ function uploadImage(bucketName, userID) {
 function deleteImage(imageUrl) {
 	const fileName = imageUrl.split("/").slice(-1)[0];
 	const params = { Bucket: S3_BUCKET_NAME, Key: fileName };
-	// eslint-disable-next-line no-unused-vars
-	s3.deleteObject(params, (err, data) => {
+	s3.deleteObject(params, (err) => {
 		if (err) {
 			console.log(err);
 		} else {
