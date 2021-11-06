@@ -65,9 +65,11 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 6.  Install [hey](https://github.com/rakyll/hey) for load testing.
 
-7.  Open a Terminal instance for
-    Backend microservices deployment:
+7.  Run Docker Desktop on computer.
 
+8.  Open a Terminal instance for
+    Backend microservices deployment:
+    
     - `cd backend`
     - `docker-compose build`
     - `aws configure`
@@ -78,53 +80,57 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
     - `chmod +x deploy.sh`
     - `./deploy.sh`
 
-8.  Open a Terminal instance for Frontend:
+9.  Open a Terminal instance for Frontend:
 
     - `cd frontend`
     - `npm install`
     - `npm start`
 
-9.  Using the same Terminal from Step 6, we can perform the list of terminal commands:
+10.  Using the same Terminal from Step 6, we can perform the list of terminal commands:
 
-    - List stacks in AWS Cloudformation: `aws cloudformation list-stacks`
-    - Check a particular stack details: `aws cloudformation describe-stacks --stack-name userMicroservice`
+  - List stacks in AWS Cloudformation: `aws cloudformation list-stacks`
+  - Check a particular stack details: `aws cloudformation describe-stacks --stack-name userMicroservice`
 
-          (userMicroservice is a stack name example here)
+    (userMicroservice is a stack name example here)
 
-    - See AWS autoscaling groups for Cluster autoscaling configuration: `aws autoscaling describe-auto-scaling-groups`
-    - See AWS Application Load Balancer and get ALB Amazon Resource Number (ARN): `aws elbv2 describe-load-balancers`
+  - See AWS autoscaling groups for Cluster autoscaling configuration: `aws autoscaling describe-auto-scaling-groups`
+  - See AWS Application Load Balancer and get ALB Amazon Resource Number (ARN): `aws elbv2 describe-load-balancers`
 
-    - To test high availability based on ECS service:
+  - To test high availability based on ECS service:
 
-      1. List AWS ECS cluster and get ECS Amazon Resource Number (ARN): `aws ecs list-clusters`
-      2. List ECS service: `aws ecs list-services --cluster nusocialife-ECSCluster-uKCGPQtQ1j18`
+    1. List AWS ECS cluster and get ECS Amazon Resource Number (ARN): `aws ecs list-clusters`
+    2. List ECS service: `aws ecs list-services --cluster nusocialife-ECSCluster-uKCGPQtQ1j18`
+      
+        (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here)
 
-         (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here)
+    3. List running task (container) by ECS service and get task Amazon Resource Number (ARN): `aws ecs list-tasks --cluster 
+       nusocialife-ECSCluster-uKCGPQtQ1j18 --service-name users`
 
-      3. List running task (container) by ECS service and get task Amazon Resource Number (ARN): `aws ecs list-tasks --cluster nusocialife-ECSCluster-uKCGPQtQ1j18 --service-name users`
+        (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here and users is the ECS service name here)
 
-         (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here and users is the ECS service name here)
+    4. Stop running task: `aws ecs stop-task --cluster nusocialife-ECSCluster-uKCGPQtQ1j18 
+       --task arn:aws:ecs:ap-southeast-1:081744254661:task/nusocialife-ECSCluster-uKCGPQtQ1j18/389f759ff01d411c9a41dd4594fe8d5c`
 
-      4. Stop running task: `aws ecs stop-task --cluster nusocialife-ECSCluster-uKCGPQtQ1j18 --task arn:aws:ecs:ap-southeast-1:081744254661:task/nusocialife-ECSCluster-uKCGPQtQ1j18/389f759ff01d411c9a41dd4594fe8d5c`
+        (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here 
+        and arn:aws:ecs:ap-southeast-1:081744254661:task/nusocialife-ECSCluster-uKCGPQtQ1j18/389f759ff01d411c9a41dd4594fe8d5c 
+        is the task ARN example here)
 
-         (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here and arn:aws:ecs:ap-southeast-1:081744254661:task/nusocialife-ECSCluster-uKCGPQtQ1j18/389f759ff01d411c9a41dd4594fe8d5c is the task ARN example here)
+        In a while, the running task in ECS users service will stopped and AWS autoscaling will spin up a new running container for the ECS users service.
 
-      In a while, the running task in ECS users service will stopped and AWS autoscaling will spin up a new running container for the ECS users service.
+        You can verify by executing List running task by ECS service command in step 3.
 
-      5. You can verify by executing List running task by ECS service command in step 3.
+   - To test high availability based on ECS cluster:
 
-    - To test high availability based on ECS cluster:
+     1. List AWS EC2 instances in AWS ECS and get EC2 instance id: `aws ec2 describe-instances`
+     2. Stop running EC2 instance: `aws ec2 terminate-instances --instance-ids i-01c1adc46c9e05b32`
 
-      1. List AWS EC2 instances in AWS ECS and get EC2 instance id: `aws ec2 describe-instances`
-      2. Stop running EC2 instance: `aws ec2 terminate-instances --instance-ids i-01c1adc46c9e05b32`
+        (i-1234567890abcdef0 is a EC2 instance id example here)
 
-         (i-1234567890abcdef0 is a EC2 instance id example here)
+        In a while, the running EC2 instance in AWS ECS will stopped and AWS autoscaling will spin up a new EC2 instance for the ECS cluster.
 
-      In a while, the running EC2 instance in AWS ECS will stopped and AWS autoscaling will spin up a new EC2 instance for the ECS cluster.
+        You can verify by executing List AWS EC2 instances in AWS ECS command from step 1.
 
-      3. You can verify by executing List AWS EC2 instances in AWS ECS command from step 1.
-
-10. Open another Terminal to test autoscaling:
+11. Open another Terminal to test autoscaling:
 
     - `hey -n 30000 -t 0 https://server.nusocialife.net/api/users`
 
