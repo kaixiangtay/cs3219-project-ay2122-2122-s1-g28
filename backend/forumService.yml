@@ -56,6 +56,15 @@ Conditions:
   HasCustomRole: !Not [!Equals [!Ref "Role", ""]]
 
 Resources:
+  CloudwatchLogsGroup:
+    Type: "AWS::Logs::LogGroup"
+    Properties:
+      LogGroupName: !Join
+        - "-"
+        - - ECSLogGroup
+          - !Ref "ServiceName"
+      RetentionInDays: 14
+
   # The task definition. This is a simple metadata description of what
   # container to run, and what resource requirements it has.
   TaskDefinition:
@@ -76,6 +85,12 @@ Resources:
           Image: !Ref "ImageUrl"
           PortMappings:
             - ContainerPort: !Ref "ContainerPort"
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudwatchLogsGroup
+              awslogs-region: "ap-southeast-1"
+              awslogs-stream-prefix: "ecs"
 
   # The service. The service is a resource which allows you to run multiple
   # copies of a type of task, and gather up their logs and metrics, as well
@@ -130,31 +145,3 @@ Resources:
       ListenerArn:
         Fn::ImportValue: !Join [":", [!Ref "StackName", "PublicListener"]]
       Priority: !Ref "Priority"
-
-  ECSScalableTarget:
-    Type: AWS::ApplicationAutoScaling::ScalableTarget
-    Properties:
-      MaxCapacity: "4"
-      MinCapacity: "1"
-      RoleARN:
-        Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
-      ServiceNamespace: ecs
-      ScalableDimension: "ecs:service:DesiredCount"
-      ResourceId: !Join
-        - /
-        - - service
-          - Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
-          - !GetAtt Service.Name
-
-  ServiceScalingPolicyCPU:
-    Type: AWS::ApplicationAutoScaling::ScalingPolicy
-    Properties:
-      PolicyName: !Sub ${AWS::StackName}-target-tracking-cpu50
-      PolicyType: TargetTrackingScaling
-      ScalingTargetId: !Ref ECSScalableTarget
-      TargetTrackingScalingPolicyConfiguration:
-        TargetValue: 50.0
-        ScaleInCooldown: 180
-        ScaleOutCooldown: 60
-        PredefinedMetricSpecification:
-          PredefinedMetricType: ECSServiceAverageCPUUtilization
