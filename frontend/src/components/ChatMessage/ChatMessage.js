@@ -20,7 +20,10 @@ function ChatMessage({ messages, setMessages }) {
   const handleSendMessage = () => {
     if (inputText !== "") {
       sendMessage(match.data.roomId, auth.token, inputText);
-      setMessages([...messages, { token: auth.token, message: inputText }]);
+      setMessages((oldMessages) => [
+        ...oldMessages,
+        { token: auth.token, message: inputText },
+      ]);
       setInputText("");
     }
   };

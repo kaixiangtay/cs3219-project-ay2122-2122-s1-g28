@@ -196,15 +196,10 @@ export const handleMatchWithRetry =
           dispatch(tokenExpire());
         } else {
           if (numRetries > 0) {
-            setTimeout(
-              () =>
-                dispatch(
-                  handleMatchWithRetry(token, _interests, numRetries - 1)
-                ),
-              3000
-            );
+            setTimeout(() => {
+              dispatch(handleMatchWithRetry(token, _interests, numRetries - 1));
+            }, 3000);
           } else {
-            dispatch(handleUnmatch(token));
             dispatch(
               matchedFailure({ msg: "No suitable match found at the moment" })
             );

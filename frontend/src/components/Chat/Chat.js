@@ -60,6 +60,16 @@ function Chat() {
       }
     });
 
+    socket.on("chat", (data) => {
+      const { roomId, token, message } = data;
+      if (data && roomId === match.data.roomId && token !== auth.token) {
+        setMessages((oldMessages) => [
+          ...oldMessages,
+          { token: token, message: message },
+        ]);
+      }
+    });
+
     // When match party leaves the room
     socket.on("leave", (data) => {
       let roomId = data;
@@ -68,15 +78,6 @@ function Chat() {
       }
     });
   }, []);
-
-  useEffect(() => {
-    socket.on("chat", (data) => {
-      const { roomId, token, message } = data;
-      if (data && roomId === match.data.roomId && token !== auth.token) {
-        setMessages([...messages, { token: token, message: message }]);
-      }
-    });
-  }, [messages]);
 
   return (
     <Container className="primary-font">
