@@ -27,20 +27,26 @@ const registerAccountEmailOptions = (email, token) => {
 		from: EMAIL,
 		to: email,
 		subject: "NUSociaLife Account Verification",
-		html: `<p>
+		html: `
+    	<p>
 		Hello!
 		</p>
 		<p>
-		Your account on NUSociaLife has been created. Please click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to verify your email address before you can login.
+		Your account on NUSociaLife has been created. 
+    	</p> 
+    
+    	<p>
+		Please click <a href="${FRONTEND_URL}/verify-email/${token}">
+		here</a> to verify your email address before you can login.
 		</p>
+    
 		<p style="color:red;">
 		Do note that this link is only valid for 15 minutes.
 		</p>
-		<p>
 		Thank you,
-		</p>
-		<p>
+		<br>
 		NUSociaLife Team
+		<br>
 		</p>`,
 	};
 	return emailOptions;
@@ -56,9 +62,9 @@ const resetPasswordEmailOptions = (email, tempPassword) => {
 		<p>Here is your temporary password: ${tempPassword} </p>
 		<p>
 		Thank you,
-		</p>
-		<p>
+    	<br>
 		NUSociaLife Team
+    	</br>
 		</p>`,
 	};
 
