@@ -6,10 +6,7 @@ import { sendMessage } from "../../actions/match";
 import { useSelector } from "react-redux";
 
 // Import Material-ui
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Paper from "@material-ui/core/Paper";
+import { Button, Grid, List, ListItem, Paper } from "@material-ui/core";
 
 // Import CSS
 import styles from "./ChatMessage.module.css";
@@ -55,20 +52,26 @@ function ChatMessage({ messages, setMessages }) {
         </List>
       </Paper>
       <Paper className={`${styles.messageInputSection}`}>
-        <input
-          autoFocus
-          value={inputText}
-          onKeyPress={handleSendKeypress}
-          onChange={(e) => setInputText(e.target.value)}
-          className={styles.sendText}
-        />
-        <Button
-          variant="contained"
-          className={styles.sendButton}
-          onClick={() => handleSendMessage()}
-        >
-          Send
-        </Button>
+        <Grid container>
+          <Grid item xs={11}>
+            <input
+              autoFocus
+              value={inputText}
+              onKeyPress={handleSendKeypress}
+              onChange={(e) => setInputText(e.target.value)}
+              className={styles.sendText}
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <Button
+              variant="contained"
+              className={styles.sendButton}
+              onClick={() => handleSendMessage()}
+            >
+              Send
+            </Button>
+          </Grid>
+        </Grid>
       </Paper>
     </div>
   );
