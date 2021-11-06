@@ -36,6 +36,7 @@ function userLoginValidator() {
 
 function userUpdateValidator() {
 	return [
+		check("name").optional().notEmpty().withMessage("Name should not be empty"),
 		check("password")
 			.optional()
 			.isStrongPassword()
