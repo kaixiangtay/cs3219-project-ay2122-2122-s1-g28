@@ -106,7 +106,7 @@ function Chat() {
                   src={
                     matchedDisplayPic === ""
                       ? defaultProfilePicture
-                      : matchedDisplayPic
+                      : `${matchedDisplayPic}?timestamp=${new Date().getTime()}}`
                   }
                   className={styles.profilePicture}
                 />
@@ -117,7 +117,9 @@ function Chat() {
                   src={
                     profile.data.profileImageUrl === ""
                       ? defaultProfilePicture
-                      : profile.data.profileImageUrl
+                      : `${
+                          profile.data.profileImageUrl
+                        }?timestamp=${new Date().getTime()}}`
                   }
                   className={styles.profilePicture}
                 />

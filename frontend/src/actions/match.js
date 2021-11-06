@@ -234,7 +234,6 @@ export const handleUnmatch = (token) => (dispatch) => {
         dispatch(tokenExpire());
       } else {
         dispatch(unmatchedFailure());
-        response.json().then((err) => console.log(err));
       }
     })
     .catch(() => {
