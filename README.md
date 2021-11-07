@@ -137,7 +137,7 @@ Forum Topics: Academic, Admin, Accommodations, CCA, Tips, Misc
 
 11. To test autoscaling:
 
-    1. Use existing Backend Terminal, List AWS ECS cluster and get ECS Amazon Resource Number (ARN): `aws ecs list-clusters`
+    1. Using existing Backend Terminal, List AWS ECS cluster and get ECS Amazon Resource Number (ARN): `aws ecs list-clusters`
     2. List ECS service: `aws ecs list-services --cluster nusocialife-ECSCluster-uKCGPQtQ1j18`
   
        (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here)
