@@ -12,7 +12,11 @@ async function getUser(userId) {
 	return user;
 }
 
-const merge = (arr1, arr2) => {
+function isEmptySelection(selection) {
+	return selection === undefined || selection.length === 0;
+}
+
+function merge(arr1, arr2) {
 	const map = new Map();
 
 	if (arr1 !== undefined) {
@@ -23,19 +27,19 @@ const merge = (arr1, arr2) => {
 
 	if (arr2 !== undefined) {
 		arr2.forEach((item) => {
-			s;
 			return map.set(item.id, { ...map.get(item.id), ...item });
 		});
 	}
 
 	const mergedArr = Array.from(map.values());
 	return mergedArr;
-};
+}
 
 async function randomMatch() {
 	const count = await FindFriend.count();
+	const emptyFindFriendDB = count === 0;
 
-	if (count === 0) {
+	if (emptyFindFriendDB) {
 		// No user in database to be matched
 		return "";
 	}
@@ -51,10 +55,6 @@ async function randomMatch() {
 	}
 	const matchedPersonId = randomMatchUser.userId;
 	return matchedPersonId;
-}
-
-function isEmptySelection(selection) {
-	return selection === undefined || selection.length === 0;
 }
 
 async function findMatchbyGender(genderChoices) {
@@ -313,11 +313,10 @@ async function createMatch(interests, userId) {
 	const noMatchingUser = matchedPersonId === "";
 
 	if (noMatchingUser || isSameUser) {
-		//no matching user return ""
 		if (!existingUser) {
-			// not existing user
 			await findFriend.save();
 		}
+
 		return "";
 	} else {
 		// Only issued room id if there is a match
@@ -343,13 +342,14 @@ async function clearMatch(userId) {
 
 	if (user !== null) {
 		const matchedPersonId = user.matchUserId;
+		const matchingFriend = matchedPersonId !== "";
 
-		if (matchedPersonId !== "") {
+		if (matchingFriend) {
 			const roomId = user.roomId;
-			const matchedUser = await FindFriend.findOne({ _id: matchedPersonId });
+			const matchedFriend = await FindFriend.findOne({ _id: matchedPersonId });
 			const room = await Room.findOne({ _id: roomId });
 
-			const matchStatus = await FindFriend.deleteOne(matchedUser);
+			const matchStatus = await FindFriend.deleteOne(matchedFriend);
 			const roomStatus = await Room.deleteOne(room);
 		}
 

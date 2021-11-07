@@ -43,7 +43,7 @@ Parameters:
       assigned to different paths on the load balancer.
   DesiredCount:
     Type: Number
-    Default: 1
+    Default: 2
     Description: How many copies of the service task to run
   Role:
     Type: String
@@ -145,3 +145,31 @@ Resources:
       ListenerArn:
         Fn::ImportValue: !Join [":", [!Ref "StackName", "PublicListener"]]
       Priority: !Ref "Priority"
+
+  ECSScalableTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MaxCapacity: "4"
+      MinCapacity: "1"
+      RoleARN:
+        Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ServiceNamespace: ecs
+      ScalableDimension: "ecs:service:DesiredCount"
+      ResourceId: !Join
+        - /
+        - - service
+          - Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
+          - !GetAtt Service.Name
+
+  ServiceScalingPolicyCPU:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub ${AWS::StackName}-target-tracking-cpu40
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref ECSScalableTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: 40.0
+        ScaleInCooldown: 90
+        ScaleOutCooldown: 30
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
