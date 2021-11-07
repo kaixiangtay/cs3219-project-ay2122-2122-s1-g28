@@ -8,6 +8,8 @@
 
 NUSociaLife is a social media platform for NUS students to meet new people, giving them the opportunity to find activity groups that they are interested in and to interact with those who share similar interests in a very fun manner.
 
+Website hosted at: [https://www.nusocialife.net/](https://www.nusocialife.net/)
+
 ## Features:
 
 The app consists of 2 main features - Find Friends and Forum. These 2 features allow students to interact with one another on a personal level (Find a Friend) and in a group based setting (Forum).
@@ -20,7 +22,7 @@ Find Friends allows 1-1 real time communication between 2 students through chat.
 
 Forum allows students to interact in a group based setting with other registered users. A student can participate in group interactions through forum discussions. He/she is able to start a new discussion topic by creating a new forum post. He is also able to add on to existing discussion topics by adding comments. In addition, the student can edit or delete posts/comments created by them. Other actions include filtering discussion posts by the list of topics available (shown below) and upvoting/downing a post.
 
-Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
+Forum Topics: Academic, Admin, Accommodations, CCA, Tips, Misc
 
 ## Demo
 
@@ -114,7 +116,7 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
   4. Stop running task: `aws ecs stop-task --cluster nusocialife-ECSCluster-uKCGPQtQ1j18 --task arn:aws:ecs:ap-southeast-1:081744254661:task/nusocialife-ECSCluster-uKCGPQtQ1j18/389f759ff01d411c9a41dd4594fe8d5c`
 
-     (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here
+     (nusocialife-ECSCluster-uKCGPQtQ1j18 is an ECS ARN example here
      and arn:aws:ecs:ap-southeast-1:081744254661:task/nusocialife-ECSCluster-uKCGPQtQ1j18/389f759ff01d411c9a41dd4594fe8d5c
      is the task ARN example here)
 
@@ -127,7 +129,7 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
   1.  List AWS EC2 instances in AWS ECS and get EC2 instance id: `aws ec2 describe-instances`
   2.  Stop running EC2 instance: `aws ec2 terminate-instances --instance-ids i-01c1adc46c9e05b32`
 
-      (i-1234567890abcdef0 is a EC2 instance id example here)
+      (i-1234567890abcdef0 is an EC2 instance id example here)
 
       In a while, the running EC2 instance in AWS ECS will stopped and AWS autoscaling will spin up a new EC2 instance for the ECS cluster.
 
