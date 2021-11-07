@@ -137,4 +137,4 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
     - `hey -n 30000 -t 0 https://server.nusocialife.net/api/users`
 
-      (Users Microservice exmaple is being load tested here https://server.nusocialife.net/api/users)
+      (Users Microservice example is being load tested here https://server.nusocialife.net/api/users)
