@@ -139,10 +139,7 @@ Forum Topics: Academic, Admin, Accommodations, CCA, Tips, Misc
 
     1. Use existing Backend Terminal, List AWS ECS cluster and get ECS Amazon Resource Number (ARN): `aws ecs list-clusters`
     2. List ECS service: `aws ecs list-services --cluster nusocialife-ECSCluster-uKCGPQtQ1j18`
-
-<<<<<<< Updated upstream
-      (Users Microservice example is being load tested here https://server.nusocialife.net/api/users)
-=======
+  
        (nusocialife-ECSCluster-uKCGPQtQ1j18 is a ECS ARN example here)
 
     3. List running task (container) by ECS service and get task Amazon Resource Number (ARN): `aws ecs list-tasks --cluster nusocialife-ECSCluster-uKCGPQtQ1j18 --service-name users`
@@ -151,9 +148,8 @@ Forum Topics: Academic, Admin, Accommodations, CCA, Tips, Misc
 
     4. Open another new Terminal, `hey -n 40000 -z 3m -t 0 https://server.nusocialife.net/api/users`
 
-       (Users Microservice exmaple is being load tested here https://server.nusocialife.net/api/users)
+       (Users Microservice example is being load tested here https://server.nusocialife.net/api/users)
 
     5. In the Backend Terminal, repeat step 3 to see update of the number of running tasks.
 
        In a while, the number of running tasks for the Users ECS service should increase.
->>>>>>> Stashed changes
