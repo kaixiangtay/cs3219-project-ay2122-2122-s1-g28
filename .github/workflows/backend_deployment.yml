@@ -2,9 +2,9 @@ name: Backend Deployment (AWS EC2)
 
 on:
   push:
-    branches: [Sprint-6]
+    branches: [master]
   pull_request:
-    branches: [Sprint-6]
+    branches: [master]
   workflow_dispatch:
     # Allows you to run this workflow manually from the Actions tab
 
