@@ -149,27 +149,108 @@ Resources:
   ECSScalableTarget:
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
-      MaxCapacity: "4"
-      MinCapacity: "1"
+      MaxCapacity: "5"
+      MinCapacity: "2"
       RoleARN:
         Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
       ServiceNamespace: ecs
       ScalableDimension: "ecs:service:DesiredCount"
-      ResourceId: !Join
-        - /
-        - - service
-          - Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
-          - !GetAtt Service.Name
+      ResourceId:
+        Fn::Join:
+          - "/"
+          - - service
+            - Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
+            - !GetAtt Service.Name
 
-  ServiceScalingPolicyCPU:
+  ScaleUpPolicy:
     Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    DependsOn: ECSScalableTarget
     Properties:
-      PolicyName: !Sub ${AWS::StackName}-target-tracking-cpu50
-      PolicyType: TargetTrackingScaling
-      ScalingTargetId: !Ref ECSScalableTarget
-      TargetTrackingScalingPolicyConfiguration:
-        TargetValue: 40.0
-        ScaleInCooldown: 90
-        ScaleOutCooldown: 30
-        PredefinedMetricSpecification:
-          PredefinedMetricType: ECSServiceAverageCPUUtilization
+      PolicyName: ScaleUpPolicy
+      PolicyType: StepScaling
+      ResourceId:
+        Fn::Join:
+          - "/"
+          - - service
+            - Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
+            - !GetAtt Service.Name
+
+      ScalableDimension: "ecs:service:DesiredCount"
+      ServiceNamespace: "ecs"
+      StepScalingPolicyConfiguration:
+        AdjustmentType: "ChangeInCapacity"
+        StepAdjustments:
+          - MetricIntervalLowerBound: 0
+            MetricIntervalUpperBound: 15
+            ScalingAdjustment: 1
+          - MetricIntervalLowerBound: 15
+            MetricIntervalUpperBound: 25
+            ScalingAdjustment: 2
+          - MetricIntervalLowerBound: 25
+            ScalingAdjustment: 3
+        MetricAggregationType: "Average"
+        Cooldown: 60
+
+  ScaleDownPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    DependsOn: ECSScalableTarget
+    Properties:
+      PolicyName: ScaleDownPolicy
+      PolicyType: StepScaling
+      ResourceId:
+        Fn::Join:
+          - "/"
+          - - service
+            - Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
+            - !GetAtt Service.Name
+      ScalableDimension: "ecs:service:DesiredCount"
+      ServiceNamespace: "ecs"
+      StepScalingPolicyConfiguration:
+        AdjustmentType: "ChangeInCapacity"
+        StepAdjustments:
+          - MetricIntervalUpperBound: 0
+            ScalingAdjustment: -1
+        MetricAggregationType: "Average"
+        Cooldown: 60
+
+  HighCpuUsageAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub high-cpu-${AWS::StackName}-${ServiceName}
+      AlarmDescription: "Scale-up if CPU > 50% for 2 minutes"
+      MetricName: CPUUtilization
+      Namespace: AWS/ECS
+      Dimensions:
+        - Name: ServiceName
+          Value: !Ref "ServiceName"
+        - Name: ClusterName
+          Value:
+            Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 2
+      Threshold: 40
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      AlarmActions:
+        - !Ref ScaleUpPolicy
+
+  LowCpuUsageAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub low-cpu-${AWS::StackName}-${ServiceName}
+      AlarmDescription: "Scale-down if CPU < 50% for 3 minutes"
+      MetricName: CPUUtilization
+      Namespace: AWS/ECS
+      Dimensions:
+        - Name: ServiceName
+          Value: !Ref "ServiceName"
+        - Name: ClusterName
+          Value:
+            Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 2
+      Threshold: 40
+      ComparisonOperator: LessThanOrEqualToThreshold
+      AlarmActions:
+        - !Ref ScaleDownPolicy
