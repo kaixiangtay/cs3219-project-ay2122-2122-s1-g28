@@ -24,7 +24,8 @@ Forum Topics: Academic, Admin, Accomodations, CCA, Tips, Misc
 
 ## Demo
 
-<a href="https://youtu.be/rnTQsJvS6X4" target="_blank">
+<p align="center">
+  <a href="https://youtu.be/rnTQsJvS6X4" target="_blank">
   <img src="./resources/demo_thumbnail.png" height="300">
 </a>
 

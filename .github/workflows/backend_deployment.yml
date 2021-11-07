@@ -9,7 +9,7 @@ on:
     # Allows you to run this workflow manually from the Actions tab
 
 env: # .env config for backend
-  # JWT
+  #JWT
   JWT_ACCESS_TOKEN: ${{secrets.JWT_ACCESS_TOKEN}}
   # S3
   S3_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY_ID}}
@@ -48,43 +48,51 @@ jobs:
       - name: Create Users env file
         run: |
           touch ./users/.env
-          echo USERS_DB_URL=$USERS_DB_URL >> .env
-          echo FRONTEND_URL=$FRONTEND_URL >> .env
-          echo USERS_BACKEND_URL=$USERS_BACKEND_URL >> .env
-          echo USERS_PORT=$USERS_PORT >> .env
-          echo EMAIL=$EMAIL >> .env
-          echo GCP_ACCESS_TOKEN=$GCP_ACCESS_TOKEN >> .env
-          echo GCP_REFRESH_TOKEN=$GCP_REFRESH_TOKEN >> .env
-          echo GCP_CLIENT_SECRET=$GCP_CLIENT_SECRET >> .env
-          echo GCP_CLIENT_ID=$GCP_CLIENT_ID >> .env
-          echo JWT_ACCESS_TOKEN=$JWT_ACCESS_TOKEN >> .env
-          echo S3_ACCESS_KEY_ID=$S3_ACCESS_KEY_ID >> .env
-          echo S3_SECRET_ACCESS_KEY=$S3_SECRET_ACCESS_KEY >> .env
-          echo S3_BUCKET_NAME=$S3_BUCKET_NAME >> .env
-          echo S3_BUCKET_REGION=$S3_BUCKET_REGION >> .env
-          cat .env
+          cat << EOF > ./users/.env
+          USERS_DB_URL=${{ env.USERS_DB_URL }}
+          FRONTEND_URL=${{ env.FRONTEND_URL }}
+          USERS_BACKEND_URL=${{ env.USERS_BACKEND_URL }}
+          USERS_PORT=${{ env.USERS_PORT }}
+          EMAIL=${{ env.EMAIL }}
+          GCP_ACCESS_TOKEN=${{ env.GCP_ACCESS_TOKEN }}
+          GCP_REFRESH_TOKEN=${{ env.GCP_REFRESH_TOKEN }}
+          GCP_CLIENT_SECRET=${{ env.GCP_CLIENT_SECRET }}
+          GCP_CLIENT_ID=${{ env.GCP_CLIENT_ID }}
+          JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }}
+          S3_ACCESS_KEY_ID=${{ env.S3_ACCESS_KEY_ID }}
+          S3_SECRET_ACCESS_KEY=${{ env.S3_SECRET_ACCESS_KEY }}
+          S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }}
+          S3_BUCKET_REGION=${{ env.S3_BUCKET_REGION }}
+          EOF
+          cat ./users/.env
 
       - name: Create Forum env file
         run: |
           touch ./forum/.env
-          echo FORUM_DB_URL=$FORUM_DB_URL >> .env
-          echo FORUM_PORT=$FORUM_PORT >> .env
-          echo JWT_ACCESS_TOKEN=$JWT_ACCESS_TOKEN >> .env
-          cat .env
+          cat << EOF > ./forum/.env
+          FORUM_DB_URL=${{ env.FORUM_DB_URL }}
+          FORUM_PORT=${{ env.FORUM_PORT }}
+          JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }}
+          EOF
+          cat ./forum/.env
 
       - name: Create findFriend env file
         run: |
           touch ./findfriend/.env
-          echo FINDFRIEND_DB_URL=$FINDFRIEND_DB_URL >> .env
-          echo FINDFRIEND_PORT=$FINDFRIEND_PORT >> .env
-          echo JWT_ACCESS_TOKEN=$JWT_ACCESS_TOKEN >> .env
-          cat .env
+          cat << EOF > ./findfriend/.env
+          FINDFRIEND_DB_URL=${{ env.FINDFRIEND_DB_URL }}
+          FINDFRIEND_PORT=${{ env.FINDFRIEND_PORT }}
+          JWT_ACCESS_TOKEN=${{ env.JWT_ACCESS_TOKEN }}
+          EOF
+          cat ./findfriend/.env
 
       - name: Create chat env file
         run: |
           touch ./chat/.env
-          echo CHAT_PORT=$CHAT_PORT >> .env
-          cat .env
+          cat << EOF > ./chat/.env
+          CHAT_PORT=${{ env.CHAT_PORT }}
+          EOF
+          cat ./chat/.env
 
       - name: Docker Build
         run: |
