@@ -6,7 +6,6 @@ import {
 	GCP_ACCESS_TOKEN,
 	GCP_REFRESH_TOKEN,
 	FRONTEND_URL,
-	BACKEND_URL,
 } from "../config/config.js";
 
 const transporter = nodemailer.createTransport({
@@ -28,26 +27,28 @@ const registerAccountEmailOptions = (email, token) => {
 		from: EMAIL,
 		to: email,
 		subject: "NUSociaLife Account Verification",
-		html: `<p>
+		html: `
+    	<p>
 		Hello!
 		</p>
 		<p>
-		Your account on NUSociaLife has been created. Please click <a href="${FRONTEND_URL}/verify-email/${token}">here</a> to verify your email address before you can login.
+		Your account on NUSociaLife has been created. 
+    	</p> 
+    
+    	<p>
+		Please click <a href="${FRONTEND_URL}/verify-email/${token}">
+		here</a> to verify your email address before you can login.
 		</p>
+    
 		<p style="color:red;">
 		Do note that this link is only valid for 15 minutes.
 		</p>
-		<p>
-		However, if your current link has expired, please click <a href="${BACKEND_URL}/resendEmail/${token}">here</a> and we will get a fresh link for you!
-		</p>
-		<p>
 		Thank you,
-		</p>
-		<p>
+		<br>
 		NUSociaLife Team
+		<br>
 		</p>`,
 	};
-
 	return emailOptions;
 };
 
@@ -61,9 +62,9 @@ const resetPasswordEmailOptions = (email, tempPassword) => {
 		<p>Here is your temporary password: ${tempPassword} </p>
 		<p>
 		Thank you,
-		</p>
-		<p>
+    	<br>
 		NUSociaLife Team
+    	</br>
 		</p>`,
 	};
 
@@ -74,8 +75,10 @@ async function sendRegisterUserEmail(email, token) {
 	try {
 		const emailOptions = registerAccountEmailOptions(email, token);
 		await transporter.sendMail(emailOptions);
+		transporter.close();
 	} catch (err) {
 		console.log(err);
+		transporter.close();
 	}
 }
 
@@ -83,8 +86,10 @@ async function sendForgotPasswordEmail(email, tempPassword) {
 	try {
 		const emailOptions = resetPasswordEmailOptions(email, tempPassword);
 		await transporter.sendMail(emailOptions);
+		transporter.close();
 	} catch (err) {
 		console.log(err);
+		transporter.close();
 	}
 }
 

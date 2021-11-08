@@ -1,9 +1,9 @@
 import express from "express";
-import { PORT } from "./config/config.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import Router from "./routes/chatRoutes.js";
 import cors from "cors";
+import Router from "./routes/chatRoutes.js";
+import { PORT } from "./config/config.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -11,70 +11,59 @@ const httpServer = createServer(app);
 app.use(cors()); // setup cross origin resource sharing
 
 app.use(
-	express.urlencoded({
-		extended: true,
-	}),
+  express.urlencoded({
+    extended: true,
+  })
 );
 
 app.use(express.json());
 
 app.use(Router);
 
-// Enable cors
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header(
-		"Access-Control-Allow-Methods",
-		"GET,PUT,POST,DELETE,PATCH,OPTIONS",
-	);
-	res.header(
-		"Access-Control-Allow-Headers",
-		"Content-Type, Authorization, Content-Length, X-Requested-With",
-	);
-	next();
-});
-
-
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    methods: ["GET", "POST"],
   },
+  path: "/api/chat/socket.io",
 });
+
+var clients = {};
 
 io.on("connection", (socket) => {
   console.log(`Connected: ${socket.id}`);
 
-  let socketRoom;
-
   socket.on("join", (data) => {
-    const { roomId } = data;
+    const roomId = data;
+    console.log(roomId);
     console.log(`Socket ${socket.id} joining ${roomId}`);
     socket.join(roomId);
-    socketRoom = roomId;
+    // Add user to clients
+    clients[socket.id] = roomId;
 
-    let roomSize = io.sockets.adapter.rooms.get(socketRoom).size;
+    const roomSize = io.sockets.adapter.rooms.get(roomId).size;
 
     if (roomSize == 2) {
-      io.to(socketRoom).emit(
-        "profileRequest",
-        "Please send your profile request"
-      );
+      io.to(roomId).emit("profileRequest", "Please send your profile request");
     }
   });
 
   socket.on("profileRetrieval", (data) => {
-    io.to(socketRoom).emit("profileRetrieval", data);
+    const { roomId, token, profile } = data;
+    io.to(roomId).emit("profileRetrieval", data);
   });
 
   socket.on("chat", (data) => {
-    // var { token, message } = data;
-    io.to(socketRoom).emit("chat", data);
+    const { roomId, token, message } = data;
+    io.to(roomId).emit("chat", data);
   });
 
   socket.on("disconnect", () => {
+    const roomId = clients[socket.id];
     console.log(`Disconnected: ${socket.id}`);
-    io.to(socketRoom).emit("leave", true);
+    io.to(roomId).emit("leave", roomId);
+    // Delete user from clients
+    delete clients[socket.id];
   });
 });
 

@@ -32,7 +32,7 @@ function CommentBox(props) {
           label="Comment here"
           variant="outlined"
           multiline
-          rows={12}
+          rows={5}
           fullWidth
           value={userComment}
           onChange={(e) => setUserComment(e.target.value)}

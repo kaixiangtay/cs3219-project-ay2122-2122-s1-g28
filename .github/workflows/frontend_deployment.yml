@@ -9,10 +9,10 @@ on:
     # Allows you to run this workflow manually from the Actions tab
 
 env: # .env config for React
-  REACT_APP_API_URL_USERS: http://nusocialife.net
-  REACT_APP_API_URL_FORUM: http://nusocialife.net
-  REACT_APP_API_URL_FINDFRIEND: http://nusocialife.net
-  REACT_APP_API_URL_CHAT: http://nusocialife.net
+  REACT_APP_API_URL_USERS: https://server.nusocialife.net
+  REACT_APP_API_URL_FORUM: https://server.nusocialife.net
+  REACT_APP_API_URL_FINDFRIEND: https://server.nusocialife.net
+  REACT_APP_API_URL_CHAT: https://server.nusocialife.net
 
 defaults:
   run:

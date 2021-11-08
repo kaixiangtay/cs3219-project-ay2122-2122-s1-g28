@@ -1,8 +1,8 @@
 // Import Settings
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Import Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleCreatePost } from "../../actions/post";
 
 // Import Material-ui
@@ -10,13 +10,11 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Grid,
   TextField,
-  IconButton,
   Button,
+  DialogTitle,
 } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
 
 // Import CSS
 import styles from "./CreatePostDialog.module.css";
@@ -32,6 +30,9 @@ function CreatePostDialog(props) {
   const { isOpen, handleClose, topic } = props;
 
   const dispatch = useDispatch();
+  const createPostSuccess = useSelector(
+    (state) => state.post.createPostSuccess
+  );
 
   const handleCreate = () => {
     let postData = {
@@ -40,37 +41,26 @@ function CreatePostDialog(props) {
       content: content,
     };
     dispatch(handleCreatePost(postData));
-    handleClose();
   };
+
+  useEffect(() => {
+    if (createPostSuccess) {
+      handleClose();
+    }
+  }, [createPostSuccess]);
 
   return (
     <Dialog
       open={isOpen}
-      onClose={(event, reason) => {
-        if (reason !== "backdropClick") {
-          handleClose(event, reason);
-        }
-      }}
+      onClose={handleClose}
       fullWidth={true}
       maxWidth={"md"}
     >
-      <Grid container>
-        <Grid item xs={11} sm={11} md={11}>
-          <Grid container alignItems="center">
-            <DialogTitle id="form-dialog-title">Create A Post</DialogTitle>
-            <FontAwesomeIcon icon={faPen} />
-          </Grid>
-        </Grid>
-        <Grid item xs={1} sm={1} md={1}>
-          <Grid container direction="row-reverse">
-            <IconButton aria-label="close" onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-      </Grid>
+      <DialogTitle className="center-text">
+        Create A Post <FontAwesomeIcon icon={faPen} />
+      </DialogTitle>
       <DialogContent dividers>
-        <Grid container spacing={1} direction="column">
+        <Grid container spacing={2} direction="column">
           <Grid item>
             <TextField
               autoFocus

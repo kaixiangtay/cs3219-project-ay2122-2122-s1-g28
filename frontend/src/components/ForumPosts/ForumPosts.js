@@ -58,23 +58,27 @@ function ForumPosts(props) {
   }, [newPostCreated, upvotePostSuccess, downvotePostSuccess]);
 
   return (
-    <Grid container direction="column">
+    <div>
       {posts ? (
         posts.map((post) => (
-          <Grid container key={post._id} className={styles.postContainer}>
-            <VoteArrows votes={post.votes} postId={post._id} />
-            <Button
-              className={styles.postButton}
-              onClick={() => setPostId(post._id)}
-            >
-              <PostDetails post={post} />
-            </Button>
+          <Grid container key={post._id} className={styles.postGap}>
+            <Grid item xs={1}>
+              <VoteArrows votes={post.votes} postId={post._id} />
+            </Grid>
+            <Grid item xs={11}>
+              <Button
+                className={styles.postButton}
+                onClick={() => setPostId(post._id)}
+              >
+                <PostDetails post={post} />
+              </Button>
+            </Grid>
           </Grid>
         ))
       ) : (
         <div />
       )}
-    </Grid>
+    </div>
   );
 }
 

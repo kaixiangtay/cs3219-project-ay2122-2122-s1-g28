@@ -68,9 +68,11 @@ const createPostSuccess = (res) => {
 };
 
 const createPostFailure = (err) => {
-  toast.error(err.msg, {
-    position: toast.POSITION.TOP_RIGHT,
-  });
+  for (var i = 0; i < err.length; i++) {
+    toast.error(err[i].msg, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  }
   return {
     type: CREATE_POST_FAILURE,
   };

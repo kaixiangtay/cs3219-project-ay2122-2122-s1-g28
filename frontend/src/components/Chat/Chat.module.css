@@ -1,5 +1,5 @@
 .parentGrid {
-  background-color: #53718a;
+  background-color: var(--CHATCONTAINER) !important;
 }
 
 .chatSection {

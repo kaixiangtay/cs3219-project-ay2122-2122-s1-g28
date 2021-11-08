@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 // Import Redux
 import { handleNavigation } from "../../actions/navigation";
 import { handleUserLogout } from "../../actions/auth";
+import { handleUnmatch } from "../../actions/match";
 import { useSelector, useDispatch } from "react-redux";
 
 // Import Material-ui
@@ -91,7 +92,10 @@ function Navbar() {
               }
               component={Link}
               to={item.link}
-              onClick={() => handleNavClick(item.selection)}
+              onClick={() => {
+                dispatch(handleUnmatch(auth.token));
+                handleNavClick(item.selection);
+              }}
             >
               <div className={styles.navIcon}>
                 <FontAwesomeIcon icon={item.icon} />

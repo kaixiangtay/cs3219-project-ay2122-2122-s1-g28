@@ -6,8 +6,6 @@ import {
   handleUnmatch,
   handleMatchDisconnect,
   initiateSocket,
-  listenForDisconnect,
-  disconnectSocket,
   socket,
 } from "../../actions/match";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +23,7 @@ import ChatMessage from "../ChatMessage/ChatMessage.js";
 import PageTitle from "../PageTitle/PageTitle.js";
 
 // Import resources
-import defaultProfilePicture from "../../resources/NUSocialLife_Default_Profile.png";
+import defaultProfilePicture from "../../resources/NUSociaLife_Logo.png";
 
 // Import CSS
 import styles from "./Chat.module.css";
@@ -44,43 +42,42 @@ function Chat() {
   useEffect(() => {
     initiateSocket(match.data.roomId);
 
+    // Request for matched party's profile
     socket.on("profileRequest", () => {
       socket.emit("profileRetrieval", {
+        roomId: match.data.roomId,
         token: auth.token,
         profile: profile.data,
       });
     });
 
+    // Receive matched party's profile
     socket.on("profileRetrieval", (data) => {
-      if (data.token != auth.token) {
-        setMatchedName(data.profile.name);
-        setMatchedDisplayPic(data.profile.profileImageUrl);
+      const { roomId, token, profile } = data;
+      if (roomId === match.data.roomId && token != auth.token) {
+        setMatchedName(profile.name);
+        setMatchedDisplayPic(profile.profileImageUrl);
       }
     });
 
-    listenForDisconnect((err, data) => {
-      if (err) {
-        console.log("err in disconnecting");
-        disconnectSocket();
-        return;
+    socket.on("chat", (data) => {
+      const { roomId, token, message } = data;
+      if (data && roomId === match.data.roomId && token !== auth.token) {
+        setMessages((oldMessages) => [
+          ...oldMessages,
+          { token: token, message: message },
+        ]);
       }
-      if (data) {
-        console.log("Someone disconnected");
+    });
+
+    // When match party leaves the room
+    socket.on("leave", (data) => {
+      let roomId = data;
+      if (roomId === match.data.roomId) {
         dispatch(handleMatchDisconnect());
       }
     });
   }, []);
-
-  useEffect(() => {
-    socket.on("chat", (data) => {
-      if (data.token !== auth.token) {
-        setMessages([
-          ...messages,
-          { token: data.token, message: data.message },
-        ]);
-      }
-    });
-  }, [messages]);
 
   return (
     <Container className="primary-font">
@@ -110,7 +107,7 @@ function Chat() {
                   src={
                     matchedDisplayPic === ""
                       ? defaultProfilePicture
-                      : matchedDisplayPic
+                      : `${matchedDisplayPic}?timestamp=${new Date().getTime()}}`
                   }
                   className={styles.profilePicture}
                 />
@@ -121,7 +118,9 @@ function Chat() {
                   src={
                     profile.data.profileImageUrl === ""
                       ? defaultProfilePicture
-                      : profile.data.profileImageUrl
+                      : `${
+                          profile.data.profileImageUrl
+                        }?timestamp=${new Date().getTime()}}`
                   }
                   className={styles.profilePicture}
                 />

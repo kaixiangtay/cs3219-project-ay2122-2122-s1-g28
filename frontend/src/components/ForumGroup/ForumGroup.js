@@ -6,6 +6,9 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { handleTopicSelection } from "../../actions/post";
 
+// Import FontAwesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 // Import Material-ui
 import { Button } from "@material-ui/core";
 
@@ -13,7 +16,7 @@ import { Button } from "@material-ui/core";
 import styles from "./ForumGroup.module.css";
 
 function ForumGroup(props) {
-  const { topic } = props;
+  const { topic, icon } = props;
 
   const history = useHistory();
 
@@ -25,7 +28,9 @@ function ForumGroup(props) {
         className={styles.button}
         onClick={() => dispatch(handleTopicSelection(topic, history))}
       >
-        {topic}
+        <h2>
+          {topic} <FontAwesomeIcon icon={icon} size="lg" />
+        </h2>
       </Button>
     </div>
   );

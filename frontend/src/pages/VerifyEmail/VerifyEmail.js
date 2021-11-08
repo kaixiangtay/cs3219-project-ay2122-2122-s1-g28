@@ -47,12 +47,12 @@ function VerifyEmail() {
         {signup.email}
         <p>
           Didn’t receive the email?{" "}
-          <a
-            href=""
+          <span
+            className="hrefLink"
             onClick={() => handleResendEmailVerification(signup.email)}
           >
             Resend Email
-          </a>
+          </span>
         </p>
       </Grid>
       <Grid item md={12}>
@@ -92,7 +92,7 @@ function VerifyEmail() {
   );
 
   return (
-    <Container className="empty-navbar-gap">
+    <Container>
       <Paper elevation={3} variant="outlined" className={styles.paper}>
         {signup.verified ? verifiedJsx : unverifiedJsx}
       </Paper>

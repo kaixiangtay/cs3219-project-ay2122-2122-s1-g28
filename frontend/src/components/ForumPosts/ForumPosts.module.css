@@ -1,9 +1,9 @@
-.postContainer {
-  padding-top: 2% !important;
-}
-
 .postButton {
   background-color: var(--WHITE) !important;
   width: 95% !important;
   border-radius: 0% !important;
+}
+
+.postGap {
+  margin: 1%;
 }
