@@ -24,6 +24,7 @@ const io = new Server(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
+    credentials: true,
   },
   path: "/api/chat/socket.io",
 });

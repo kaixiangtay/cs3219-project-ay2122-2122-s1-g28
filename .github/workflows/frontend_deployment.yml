@@ -2,7 +2,7 @@ name: Frontend Deployment (AWS Amplify)
 
 on:
   push:
-    branches: [master]
+    branches: [Sprint-6]
   pull_request:
     branches: [master]
   workflow_dispatch:
