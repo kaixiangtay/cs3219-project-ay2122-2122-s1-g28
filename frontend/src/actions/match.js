@@ -141,7 +141,9 @@ export const updateInterests = (category, items) => (dispatch) => {
 export let socket;
 
 export const initiateSocket = (roomId) => {
-  socket = io(`${process.env.REACT_APP_API_URL_CHAT}`);
+  socket = io(`${process.env.REACT_APP_API_URL_CHAT}`, {
+    path: "/api/chat/socket.io",
+  });
 
   console.log(`Connecting socket...`);
 
@@ -159,29 +161,9 @@ export const disconnectSocket = () => {
   return true;
 };
 
-export const listenForMessages = (cb) => {
-  if (!socket) {
-    return true;
-  }
-
-  socket.on("chat", (msg) => {
-    return cb(null, msg);
-  });
-};
-
-export const listenForDisconnect = (cb) => {
-  if (!socket) {
-    return true;
-  }
-
-  socket.on("leave", (msg) => {
-    return cb(null, msg);
-  });
-};
-
-export const sendMessage = (token, message) => {
+export const sendMessage = (roomId, token, message) => {
   if (socket) {
-    socket.emit("chat", { token, message });
+    socket.emit("chat", { roomId, token, message });
   }
 };
 
@@ -193,7 +175,7 @@ export const sendMessage = (token, message) => {
 export const handleMatchWithRetry =
   (token, _interests, numRetries = 10) =>
   (dispatch) => {
-    const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/createMatch`;
+    const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findfriend/createMatch`;
 
     dispatch(matching());
 
@@ -214,13 +196,9 @@ export const handleMatchWithRetry =
           dispatch(tokenExpire());
         } else {
           if (numRetries > 0) {
-            setTimeout(
-              () =>
-                dispatch(
-                  handleMatchWithRetry(token, _interests, numRetries - 1)
-                ),
-              3000
-            );
+            setTimeout(() => {
+              dispatch(handleMatchWithRetry(token, _interests, numRetries - 1));
+            }, 3000);
           } else {
             dispatch(
               matchedFailure({ msg: "No suitable match found at the moment" })
@@ -235,7 +213,7 @@ export const handleMatchWithRetry =
 
 // Unmatches user from other party
 export const handleUnmatch = (token) => (dispatch) => {
-  const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findFriend/clearMatch`;
+  const requestUrl = `${process.env.REACT_APP_API_URL_FINDFRIEND}/api/findfriend/clearMatch`;
   disconnectSocket();
 
   fetch(requestUrl, {

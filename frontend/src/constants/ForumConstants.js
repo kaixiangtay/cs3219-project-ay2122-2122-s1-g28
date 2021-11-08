@@ -2,10 +2,10 @@
 import {
   faFileAlt,
   faPen,
-  faSwimmer,
   faHome,
   faComments,
   faSlidersH,
+  faRunning,
 } from "@fortawesome/free-solid-svg-icons";
 
 // ===================================================================
@@ -15,7 +15,7 @@ import {
 export const FORUM_ICONS = {
   Academic: faFileAlt,
   Admin: faPen,
-  CCA: faSwimmer,
+  CCA: faRunning,
   Accommodation: faHome,
   Tips: faComments,
   Miscellaneous: faSlidersH,

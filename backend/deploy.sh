@@ -14,6 +14,8 @@ docker push public.ecr.aws/a0f1y0x2/forum:latest
 
 docker push public.ecr.aws/a0f1y0x2/findfriend:latest
 
+docker push public.ecr.aws/a0f1y0x2/chat:latest
+
 docker-compose up -d
 
 aws cloudformation deploy \
@@ -35,9 +37,9 @@ aws cloudformation deploy \
    --capabilities CAPABILITY_NAMED_IAM
 
 aws cloudformation deploy \
-   --template-file findFriendService.yml \
+   --template-file findfriendService.yml \
    --region ap-southeast-1 \
-   --stack-name findFriendMicroservice \
+   --stack-name findfriendMicroservice \
    --capabilities CAPABILITY_NAMED_IAM
 
 aws cloudformation deploy \

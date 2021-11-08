@@ -1,14 +1,5 @@
-.grid {
-  margin-top: 1% !important;
-  margin-bottom: 3% !important;
-}
-
-.gridContainer {
-  padding-top: 2%;
-}
-
-.fullWidth {
-  width: 100%;
+.paperPadding {
+  padding: 3%;
 }
 
 .commentContainer {

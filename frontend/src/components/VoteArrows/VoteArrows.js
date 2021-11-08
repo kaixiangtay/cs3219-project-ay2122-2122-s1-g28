@@ -51,8 +51,9 @@ function VoteArrows(props) {
     <Grid
       container
       direction="column"
+      justifyContent="center"
       alignItems="center"
-      className={styles.voteContainer}
+      className={styles.background}
     >
       <Grid item>
         <IconButton
@@ -63,7 +64,7 @@ function VoteArrows(props) {
         </IconButton>
       </Grid>
       <Grid item>
-        <Typography>{votes}</Typography>
+        <Typography className={styles.voteColor}>{votes}</Typography>
       </Grid>
       <Grid item>
         <IconButton

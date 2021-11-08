@@ -7,13 +7,7 @@ import { handleSortPost } from "../../actions/post";
 import { handleSortComments } from "../../actions/comment";
 
 // Import Material-ui
-import {
-  Grid,
-  FormControl,
-  MenuItem,
-  Select,
-  Typography,
-} from "@material-ui/core";
+import { FormControl, MenuItem, Select } from "@material-ui/core";
 
 // Import CSS
 import styles from "./SortButton.module.css";
@@ -37,20 +31,12 @@ function SortButton(props) {
   }, [sortByValue]);
 
   return (
-    <Grid item xs={1} sm={1} md={1} className={styles.sortButtonContainer}>
-      <Typography variant="button" align="left">
-        Sort By:
-      </Typography>
-      <FormControl
-        variant="outlined"
-        size="small"
-        fullWidth
-        className={styles.sortButton}
-      >
+    <div>
+      <FormControl variant="outlined" size="small">
         <Select
-          label="Sort By"
           value={sortByValue}
           onChange={(e) => setSortByValue(e.target.value)}
+          className={styles.sortButton}
         >
           <MenuItem value="latest">Latest</MenuItem>
           <MenuItem value="oldest">Oldest</MenuItem>
@@ -58,7 +44,7 @@ function SortButton(props) {
           <MenuItem value="descVote">Highest Votes</MenuItem>
         </Select>
       </FormControl>
-    </Grid>
+    </div>
   );
 }
 

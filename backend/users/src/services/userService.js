@@ -14,25 +14,20 @@ async function getUserByEmail(inputEmail) {
 	return user;
 }
 
-async function getUserByToken(inputToken) {
-	const user = await User.findOne({ token: inputToken });
-	return user;
-}
-
 async function getUserByID(userId) {
 	const user = await User.findById(userId);
 	return user;
 }
 
-function createUser(inputData) {
+async function createUser(inputData) {
 	const user = new User();
 	user.name = inputData.name;
 	user.email = inputData.email;
 	user.password = userAuth.hashPassword(inputData.password);
 	user.token = userAuth.createSignUpToken(user.email);
 
-	user.save();
-	mailerService.sendRegisterUserEmail(user.email, user.token);
+	await user.save();
+	await mailerService.sendRegisterUserEmail(user.email, user.token);
 	return user;
 }
 
@@ -43,25 +38,25 @@ async function updateUser(userId, inputData) {
 	if (inputData.password !== undefined) {
 		user.password = userAuth.hashPassword(inputData.password);
 	}
-	user.save();
+	await user.save();
 	return user;
 }
 
-function verifyUser(user) {
+async function verifyUser(user) {
 	user.isVerified = true;
-	user.save();
+	await user.save();
 	return user;
 }
 
-function saveProfileImageUrl(user, imageLink) {
+async function saveProfileImageUrl(user, imageLink) {
 	user.profileImageUrl = imageLink;
-	user.save();
+	await user.save();
 	return user;
 }
 
-function logoutUser(user) {
+async function logoutUser(user) {
 	user.token = "";
-	user.save();
+	await user.save();
 }
 
 async function deleteUser(userId) {
@@ -73,7 +68,7 @@ async function deleteUser(userId) {
 	return status.deletedCount;
 }
 
-function resetPassword(user) {
+async function resetPassword(user) {
 	const tempPassword = generator.generate({
 		length: 15,
 		numbers: true,
@@ -81,30 +76,29 @@ function resetPassword(user) {
 		strict: true,
 	});
 
-	// temporary password will be issued
-	mailerService.sendForgotPasswordEmail(user.email, tempPassword);
 	user.token = userAuth.createSignUpToken(user.email);
 	user.password = userAuth.hashPassword(tempPassword);
-	user.save();
+	await user.save();
+	// temporary password will be issued
+	await mailerService.sendForgotPasswordEmail(user.email, tempPassword);
 }
 
-function resendEmail(user) {
+async function resendEmail(user) {
 	user.token = userAuth.createSignUpToken(user.email);
-	user.save();
-	mailerService.sendRegisterUserEmail(user.email, user.token);
+	await user.save();
+	await mailerService.sendRegisterUserEmail(user.email, user.token);
 }
 
-function loginUser(user) {
+async function loginUser(user) {
 	// Allow token access for a day
 	user.token = userAuth.createLoginToken(user._id);
-	user.save();
+	await user.save();
 	return user;
 }
 
 export default {
 	getAllUsers,
 	getUserByEmail,
-	getUserByToken,
 	getUserByID,
 	createUser,
 	updateUser,

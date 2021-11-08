@@ -17,7 +17,7 @@ function comparePassword(hashedPassword, inputPassword) {
 }
 
 function createSignUpToken(userEmail) {
-	// Create account sign up JWT token (valid for 15 mins)
+	// Create account sign up JWT token (valid for 15 min)
 	const token = jwt.sign({ email: userEmail }, JWT_ACCESS_TOKEN, {
 		expiresIn: "15m",
 	});
@@ -40,13 +40,14 @@ function getToken(header) {
 // For forgot password and new email sign ups
 function decodeTempToken(req, res, next) {
 	const token = req.params.token;
+	const returnMsg = {
+		success: "error",
+		msg: "Unauthorized to access data",
+	};
 
 	if (!token) {
 		// No token in req header
-		return res.status(401).json({
-			success: "error",
-			msg: "Unauthorized to access data",
-		});
+		return res.status(401).json(returnMsg);
 	}
 
 	try {
@@ -55,23 +56,21 @@ function decodeTempToken(req, res, next) {
 		return next();
 	} catch (error) {
 		// Invalid token detected in req header
-		return res.status(401).json({
-			success: "error",
-			msg: "Unauthorized to access data",
-		});
+		return res.status(401).json(returnMsg);
 	}
 }
 
 // For API routes after user has login
 function decodeAuthToken(req, res, next) {
 	const token = getToken(req.headers["authorization"]);
+	const returnMsg = {
+		success: "error",
+		msg: "Unauthorized to access data",
+	};
 
 	if (!token) {
 		// No token in req header
-		return res.status(401).json({
-			success: "error",
-			msg: "Unauthorized to access data",
-		});
+		return res.status(401).json(returnMsg);
 	}
 
 	try {
@@ -80,10 +79,7 @@ function decodeAuthToken(req, res, next) {
 		return next();
 	} catch (error) {
 		// Invalid token detected in req header
-		return res.status(401).json({
-			success: "error",
-			msg: "Unauthorized to access data",
-		});
+		return res.status(401).json(returnMsg);
 	}
 }
 

@@ -1,6 +1,6 @@
-.voteContainer {
-  width: 5% !important;
-  background-color: var(--WHITE) !important;
+.background {
+  background-color: var(--DULLGREY) !important;
+  height: 100%;
 }
 
 .upvoteButton {
@@ -9,4 +9,8 @@
 
 .downvoteButton {
   color: var(--RED) !important;
+}
+
+.voteColor {
+  color: var(--WHITE) !important;
 }

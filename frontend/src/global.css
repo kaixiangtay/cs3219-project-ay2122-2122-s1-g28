@@ -1,23 +1,27 @@
 :root {
   /* Colour Theme */
+  --NAVBAR: #27344d;
   --MIDBLUE: #415a77;
-  --DARKBLUE: #1b263b;
-  --LIGHTBLUE: #03a9f4;
   /* Button colours */
-  --PINK: #d288a2;
+  --PINK: #efafc6;
   --GREEN: #67ad5b;
   --RED: #e15241;
   --ORANGE: #f9ab55;
-  --DEEPBLUE: #0277bd;
   /* Text message */
   --GREY: #e7e7e7;
   --DEEPGREEN: #39c16c;
+  --CHATCONTAINER: #415a77;
   --WHITE: #ffffff;
+  /* URL Links */
+  --DEEPBLUE: #0277bd;
+  --LIGHTBLUE: #03a9f4;
+  /* FORUM */
+  --DULLGREY: #616161;
 }
 
 /* Alignment */
 .empty-navbar-gap {
-  margin-top: 5%;
+  margin-top: 10%;
 }
 
 .center-text {
@@ -64,6 +68,37 @@
   background-color: var(--LIGHTBLUE) !important;
   width: 250px !important;
   margin: 3% !important;
+}
+
+.sideDesignLeft {
+  position: absolute;
+  left: 0;
+  transform: scaleX(-1);
+  height: 90%;
+}
+
+.sideDesignRight {
+  position: absolute;
+  right: 0;
+  height: 90%;
+}
+
+/* Forum */
+.scrollable {
+  max-height: 60vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Side Design */
+@media screen and (max-width: 1550px) {
+  .sideDesignLeft {
+    display: none;
+  }
+
+  .sideDesignRight {
+    display: none;
+  }
 }
 
 /* Href Links */

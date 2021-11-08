@@ -2,16 +2,18 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description:
   A stack for deploying containerized applications onto a cluster of EC2
   hosts using Elastic Container Service. This stack runs containers on
-  hosts that are in a public VPC subnet, and includes a public facing load
-  balancer to register the services in.
+  hosts that are in a private VPC subnet. Outbound network traffic from the
+  hosts must go out through a NAT gateway. There is a load balancer
+  inside the public subnet, which can be used to send traffic to the
+  containers in the private subnet.
 Parameters:
   DesiredCapacity:
     Type: Number
-    Default: "2"
+    Default: "3"
     Description: Number of EC2 instances to launch in your ECS cluster.
   MaxSize:
     Type: Number
-    Default: "4"
+    Default: "5"
     Description: Maximum number of EC2 instances that can be launched in your ECS cluster.
   ECSAMI:
     Description: AMI ID
@@ -61,10 +63,12 @@ Mappings:
   # Hard values for the subnet masks. These masks define
   # the range of internal IP addresses that can be assigned.
   # The VPC can have all IP's from 10.0.0.0 to 10.0.255.255
-  # There are two subnets which cover the ranges:
+  # There are four subnets which cover the ranges:
   #
   # 10.0.0.0 - 10.0.0.255
   # 10.0.1.0 - 10.0.1.255
+  # 10.0.2.0 - 10.0.2.255
+  # 10.0.3.0 - 10.0.3.255
   #
   # If you need more IP addresses (perhaps you have so many
   # instances that you run out) then you can customize these
@@ -76,9 +80,13 @@ Mappings:
       CIDR: "10.0.0.0/24"
     PublicTwo:
       CIDR: "10.0.1.0/24"
+    PrivateOne:
+      CIDR: "10.0.2.0/24"
+    PrivateTwo:
+      CIDR: "10.0.3.0/24"
 Resources:
   # VPC in which containers will be networked.
-  # It has two public subnets
+  # It has two public subnets, and two private subnets.
   # We distribute the subnets across the first two available subnets
   # for the region, for high availability.
   VPC:
@@ -109,6 +117,28 @@ Resources:
       VpcId: !Ref "VPC"
       CidrBlock: !FindInMap ["SubnetConfig", "PublicTwo", "CIDR"]
       MapPublicIpOnLaunch: true
+
+  # Two private subnets where containers will only have private
+  # IP addresses, and will only be reachable by other members of the
+  # VPC
+  PrivateSubnetOne:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: { Ref: "AWS::Region" }
+      VpcId: !Ref "VPC"
+      CidrBlock: !FindInMap ["SubnetConfig", "PrivateOne", "CIDR"]
+  PrivateSubnetTwo:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: { Ref: "AWS::Region" }
+      VpcId: !Ref "VPC"
+      CidrBlock: !FindInMap ["SubnetConfig", "PrivateTwo", "CIDR"]
 
   # Setup networking resources for the public subnets. Containers
   # in the public subnets have public IP addresses and the routing table
@@ -142,6 +172,61 @@ Resources:
       SubnetId: !Ref PublicSubnetTwo
       RouteTableId: !Ref PublicRouteTable
 
+  # Setup networking resources for the private subnets. Containers
+  # in these subnets have only private IP addresses, and must use a NAT
+  # gateway to talk to the internet. We launch two NAT gateways, one for
+  # each private subnet.
+  NatGatewayOneAttachment:
+    Type: AWS::EC2::EIP
+    DependsOn: GatewayAttachement
+    Properties:
+      Domain: vpc
+  NatGatewayTwoAttachment:
+    Type: AWS::EC2::EIP
+    DependsOn: GatewayAttachement
+    Properties:
+      Domain: vpc
+  NatGatewayOne:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayOneAttachment.AllocationId
+      SubnetId: !Ref PublicSubnetOne
+  NatGatewayTwo:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayTwoAttachment.AllocationId
+      SubnetId: !Ref PublicSubnetTwo
+  PrivateRouteTableOne:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref "VPC"
+  PrivateRouteOne:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableOne
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGatewayOne
+  PrivateRouteTableOneAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableOne
+      SubnetId: !Ref PrivateSubnetOne
+  PrivateRouteTableTwo:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref "VPC"
+  PrivateRouteTwo:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableTwo
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGatewayTwo
+  PrivateRouteTableTwoAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableTwo
+      SubnetId: !Ref PrivateSubnetTwo
+
   # ECS Resources
   ECSCluster:
     Type: AWS::ECS::Cluster
@@ -150,10 +235,6 @@ Resources:
   # Two rules, allowing network traffic from a public facing load
   # balancer and from other hosts in the security group.
   #
-  # Remove any of the following ingress rules that are not needed.
-  # If you want to make direct requests to a container using its
-  # public IP address you'll need to add a security group rule
-  # to allow traffic from all IP addresses.
   EcsHostSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -166,13 +247,6 @@ Resources:
       GroupId: !Ref "EcsHostSecurityGroup"
       IpProtocol: -1
       SourceSecurityGroupId: !Ref "PublicLoadBalancerSG"
-  EcsSecurityGroupIngressFromSelf:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      Description: Ingress from other hosts in the same security group
-      GroupId: !Ref "EcsHostSecurityGroup"
-      IpProtocol: -1
-      SourceSecurityGroupId: !Ref "EcsHostSecurityGroup"
 
   # Autoscaling group. This launches the actual EC2 instances that will register
   # themselves as members of the cluster, and run the docker containers.
@@ -180,8 +254,8 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       VPCZoneIdentifier:
-        - !Ref PublicSubnetOne
-        - !Ref PublicSubnetTwo
+        - !Ref PrivateSubnetOne
+        - !Ref PrivateSubnetTwo
       LaunchConfigurationName: !Ref "ContainerInstances"
       MinSize: "1"
       MaxSize: !Ref "MaxSize"
@@ -267,7 +341,7 @@ Resources:
                 Resource: "*"
 
   # Load balancers for getting traffic to containers.
-  # This sample template creates one load balancer:
+  # This sample template creates two load balancers:
   #
   # - One public load balancer, hosted in public subnets that is accessible
   #   to the public, and is intended to route traffic to one or more public
@@ -320,9 +394,23 @@ Resources:
       DefaultActions:
         - TargetGroupArn: !Ref "DummyTargetGroupPublic"
           Type: "forward"
+      Certificates:
+        - CertificateArn: arn:aws:acm:ap-southeast-1:081744254661:certificate/821ba011-3b8f-40f8-b666-c5787f250ab0
       LoadBalancerArn: !Ref "PublicLoadBalancer"
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
+
+  myDNS:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: nusocialife.net.
+      Comment: Zone apex alias targeted to LoadBalancer.
+      RecordSets:
+        - Name: server.nusocialife.net.
+          Type: A
+          AliasTarget:
+            HostedZoneId: !GetAtt "PublicLoadBalancer.CanonicalHostedZoneID"
+            DNSName: !GetAtt "PublicLoadBalancer.DNSName"
 
   # This is an IAM role which authorizes ECS to manage resources on your
   # account on your behalf, such as updating your load balancer with the
@@ -374,7 +462,7 @@ Outputs:
       Name: !Join [":", [!Ref "AWS::StackName", "ClusterName"]]
   ExternalUrl:
     Description: The url of the external load balancer
-    Value: !Join ["", ["http://", !GetAtt "PublicLoadBalancer.DNSName"]]
+    Value: !Join ["", ["https://", !GetAtt "PublicLoadBalancer.DNSName"]]
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "ExternalUrl"]]
   ECSRole:
@@ -402,6 +490,16 @@ Outputs:
     Value: !Ref "PublicSubnetTwo"
     Export:
       Name: !Join [":", [!Ref "AWS::StackName", "PublicSubnetTwo"]]
+  PrivateSubnetOne:
+    Description: Private subnet one
+    Value: !Ref "PrivateSubnetOne"
+    Export:
+      Name: !Join [":", [!Ref "AWS::StackName", "PrivateSubnetOne"]]
+  PrivateSubnetTwo:
+    Description: Private subnet two
+    Value: !Ref "PrivateSubnetTwo"
+    Export:
+      Name: !Join [":", [!Ref "AWS::StackName", "PrivateSubnetTwo"]]
   EcsHostSecurityGroup:
     Description: A security group used to allow containers to receive traffic
     Value: !Ref "EcsHostSecurityGroup"
