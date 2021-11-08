@@ -149,7 +149,7 @@ Resources:
   ECSScalableTarget:
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
-      MaxCapacity: "5"
+      MaxCapacity: "4"
       MinCapacity: "1"
       RoleARN:
         Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
