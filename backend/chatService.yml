@@ -43,7 +43,7 @@ Parameters:
       assigned to different paths on the load ßbalancer.
   DesiredCount:
     Type: Number
-    Default: 2
+    Default: 1
     Description: How many copies of the service task to run
   Role:
     Type: String
@@ -149,8 +149,8 @@ Resources:
   ECSScalableTarget:
     Type: AWS::ApplicationAutoScaling::ScalableTarget
     Properties:
-      MaxCapacity: "5"
-      MinCapacity: "2"
+      MaxCapacity: "4"
+      MinCapacity: "1"
       RoleARN:
         Fn::Sub: "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
       ServiceNamespace: ecs
