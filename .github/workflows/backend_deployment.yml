@@ -2,7 +2,7 @@ name: Backend Deployment (AWS EC2)
 
 on:
   push:
-    branches: [Sprint-6]
+    branches: [master]
   pull_request:
     branches: [master]
   workflow_dispatch:
