@@ -22,9 +22,9 @@ app.use(Router);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "https://nusocialife.net",
     methods: ["GET", "POST"],
-    // credentials: true,
+    credentials: true,
   },
   path: "/api/chat/socket.io",
 });

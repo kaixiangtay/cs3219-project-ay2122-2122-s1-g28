@@ -143,7 +143,7 @@ export let socket;
 export const initiateSocket = (roomId) => {
   socket = io(`${process.env.REACT_APP_API_URL_CHAT}`, {
     path: "/api/chat/socket.io",
-    // withCredentials: true,
+    withCredentials: true,
   });
 
   console.log(`Connecting socket...`);
