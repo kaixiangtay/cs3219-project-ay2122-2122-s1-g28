@@ -48,6 +48,12 @@ function SingleForumPost() {
   const downvoteCommentSuccess = useSelector(
     (state) => state.comment.downvoteCommentSuccess
   );
+  const upvotePostSuccess = useSelector(
+    (state) => state.post.upvotePostSuccess
+  );
+  const downvotePostSuccess = useSelector(
+    (state) => state.post.downvotePostSuccess
+  );
   const dispatch = useDispatch();
 
   const handleOnBack = () => {
@@ -67,13 +73,21 @@ function SingleForumPost() {
     // Default sort by latest comment
     if (upvoteCommentSuccess || downvoteCommentSuccess) {
       dispatch(handleSortComments(sortValue, post._id));
-    } else if (post.comments.length || createdComment) {
+    } else if (createdComment) {
       dispatch(handleSortComments("latest", post._id));
+    } else if (upvotePostSuccess || downvotePostSuccess) {
       dispatch(handleGetSinglePost(post._id));
     } else {
       return;
     }
-  }, [post, createdComment, upvoteCommentSuccess, downvoteCommentSuccess]);
+  }, [
+    post,
+    createdComment,
+    upvoteCommentSuccess,
+    downvoteCommentSuccess,
+    upvotePostSuccess,
+    downvotePostSuccess,
+  ]);
 
   return (
     <div>
