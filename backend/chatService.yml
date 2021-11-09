@@ -249,7 +249,7 @@ Resources:
             Fn::ImportValue: !Join [":", [!Ref "StackName", "ClusterName"]]
       Statistic: Average
       Period: 60
-      EvaluationPeriods: 2
+      EvaluationPeriods: 5
       Threshold: 40
       ComparisonOperator: LessThanOrEqualToThreshold
       AlarmActions:

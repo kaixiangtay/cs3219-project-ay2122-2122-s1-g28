@@ -14,4 +14,4 @@ We used Redux to reduce the complexity of passing around props into nested compo
 
 We set up the store using the Redux Persist library, which uses the localStorage for web applications. This allows us to store our Authentication token hashed by the Backend, into the Auth redux state. Subsequent API calls from our Frontend will retrieve this Auth Token to make API calls to the Backend.
 
-![Frontend Redux](../resources/frontend_redux.jpg)
+![Frontend Redux](../resources/frontend_redux.png)
